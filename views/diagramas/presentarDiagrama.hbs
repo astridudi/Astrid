@@ -1,0 +1,30 @@
+{{#if sesion}}
+    <h3>
+        <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
+        {{sesion.nombre}} |
+        <a href='/main/presentarSesion?id={{sesion.id}}'>Planteamiento</a> |
+        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}'>Chat</a> |
+        Diagrama |
+    </h3>
+    {{#if sesion.diagrama}}
+        <div align="center" style="background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
+            <img id="imagen" src="{{sesion.diagrama.tipoDiagrama.dibujar}}" width="1000" height="2000" usemap="#mapa" >
+            <map name="mapa">
+                {{#each sesion.diagrama.objetos}}
+                    {{#each areasEnlace}}
+                        <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/main/presentarArgumentacionSesion?idSesion={{../../sesion.id}}&idObjeto={{../id}}" />
+                    {{/each}}
+                {{/each}}
+            </map>
+        </div>
+        <br>
+        {{#each sesion.diagrama.tipoDiagrama.tiposObjeto}}
+            <a href='/main/registrarObjetoDiagramaSesion?idSesion={{../sesion.id}}&objetoTipoId={{id}}'>Objeto {{nombre}}</a>
+            |
+        {{/each}}
+        {{#each sesion.diagrama.tipoDiagrama.tiposRelacion}}
+            <a href='/main/registrarRelacionDiagramaSesion?idSesion={{../sesion.id}}&relacionTipoId={{id}}'>Relación {{nombre}}</a>
+            |
+        {{/each}}
+    {{/if}}
+{{/if}}

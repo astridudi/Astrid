@@ -1,0 +1,30 @@
+body {
+  padding: 10px;
+  font-family: "Open Sans", Helvetica, serif;
+  font-size: 14px;
+  color: #228848;
+  background-image: image("/images/Fondo-Astrid.jpg",);
+  background-size: cover;
+}
+
+hr.verdeAstrid3 {
+  border: 3px solid #228848;
+  border-radius: 2px;
+}
+
+hr.verdeAstrid1 {
+  border: 1px solid #228848;
+}
+
+hr.naranjaAstrid2 {
+  border: 2px solid #F1B434;
+  border-radius: 1px;
+}
+
+a {
+  color: #F1B434;
+}
+
+header {
+
+}

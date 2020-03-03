@@ -1,0 +1,24 @@
+{{#if sesion}}
+    <h3>
+        <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
+        {{sesion.nombre}} |
+        <a href='/main/presentarSesion?id={{sesion.id}}'>Planteamiento</a> |
+        Chat |
+        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}'>Diagrama</a> |
+    </h3>
+    {{#if sesion.chat}}
+        <div align="center" style="background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
+            <img id="imagen" src="{{sesion.chat.dibujar}}" width="1000" height="2000" usemap="#mapa" />
+            <map name="mapa">
+                {{#each sesion.chat.arregla}}
+                    {{#each areasEnlace}}
+                        <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/" />
+                    {{/each}}
+                {{/each}}
+            </map>
+        </div>
+        <br>
+        <a href='/main/registrarMensajeChatSesion?idSesion={{sesion.id}}'>Registrar mensaje</a> |
+    {{/if}}
+{{/if}}
+

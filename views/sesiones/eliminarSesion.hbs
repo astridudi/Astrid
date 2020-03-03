@@ -1,0 +1,12 @@
+<form method='POST' action='/main/eliminarSesion/confirmar'>
+    <hr/>
+    <h3>Eliminación</h3>
+    <input type='hidden' name='id' value='{{sesion.id}}'>
+    <p>Sesión: {{sesion.nombre}}</p>
+    <p><input type='hidden' name='inicio' value='{{sesion.inicio}}'/></p>
+    <input type='submit' value='Confirmar eliminación' />
+    <hr/>
+    <a href='/'>Inicio</a> |
+    <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
+    <a href="/main/presentarSesion?id={{sesion.id}}">{{sesion.nombre}}</a> |
+</form>

@@ -1,0 +1,15 @@
+{{#if sesion}}
+    <h3>
+        <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
+        {{sesion.nombre}} |
+        Planteamiento |
+        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}'>Chat</a> |
+        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}'>Diagrama</a> |
+    </h3>
+    <div align="center" style="background-color:#D9D9D6; height: 600px;overflow: scroll;border:1px solid #1B4F72;">
+    </div>
+    <br>
+    <a href='/main/eliminarSesion?id={{sesion.id}}'>Eliminar sesión</a> |
+    <a href='/main/editarSesion?id={{sesion.id}}'>Editar sesión</a> |
+{{/if}}
+

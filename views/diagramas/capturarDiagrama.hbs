@@ -1,0 +1,23 @@
+<form method='POST' action='/main/grabarDiagrama'>
+    <h3>Diagramas</h3>
+    {{#each conjuntoDiagramas.diagramas}}
+        <ul>
+            <li><a href="/main/presentarDiagrama?id={{id}}">{{@index}}</a> {{nombre}}</li>
+        </ul>
+    {{/each}}
+    <hr/>
+    <h3>Registrar diagrama</h3>
+    <p>Nombre: <input type='text' name='nombre' value=''/></p>
+    <p>Tipo:
+        <select name='tipoDiagrama' required>
+            <option></option>
+            {{#each conjuntoDiagramas.conjuntoTiposDiagrama.tiposDiagrama}}
+                <option value={{id}}>{{nombre}}</option>
+            {{/each}}
+        </select></p>
+    <input type='hidden' name='inicio' value=''/></p>
+    <input type='submit' value='Grabar' />
+    <hr/>
+    <a href='/'>Inicio</a> |
+    <a href='/main/consultarConjuntoDiagramas'>Diagramas</a> |
+</form>

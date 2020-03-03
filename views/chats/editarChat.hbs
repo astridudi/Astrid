@@ -1,0 +1,12 @@
+<form method='POST' action='/main/actualizarChat'>
+    <hr/>
+    <h3>Edición</h3>
+    <input type='hidden' name='id' value='{{chat.id}}'>
+    <p>Conversación: <input type='text' name='nombre' value='{{chat.nombre}}'/></p>
+    <p>Inicio: <input type='text' name='inicio' value='{{chat.inicio}}'/></p>
+    <input type='submit' value='Actualizar' />
+    <hr/>
+    <a href='/'>Inicio</a> |
+    <a href='/main/consultarConjuntoChats'>Conversaciones</a> |
+    <a href="/main/presentarChat?id={{chat.id}}">{{chat.nombre}}</a> |
+</form>

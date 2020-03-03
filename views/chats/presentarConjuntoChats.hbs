@@ -1,0 +1,12 @@
+{{#if conjuntoChats}}
+    <hr/>
+    <h3>Conversaciones</h3>
+    {{#each conjuntoChats.arreglo}}
+        <ul>
+            <li><a href="/main/presentarChat?id={{id}}">{{@index}}</a> {{nombre}}</li>
+        </ul>
+    {{/each}}
+    <hr/>
+    <a href='/'>Inicio</a> |
+    <a href='/main/registrarChat'>Registrar conversación</a>
+{{/if}}

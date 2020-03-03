@@ -1,0 +1,12 @@
+<form method='POST' action='/main/actualizarSesion'>
+    <hr/>
+    <h3>Edición</h3>
+    <input type='hidden' name='id' value='{{sesion.id}}'>
+    <p>Sesión: <input type='text' name='nombre' value='{{sesion.nombre}}'/></p>
+    <p><input type='hidden' name='inicio' value='{{sesion.inicio}}'/></p>
+    <input type='submit' value='Actualizar' />
+    <hr/>
+    <a href='/'>Inicio</a> |
+    <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
+    <a href="/main/presentarSesion?id={{sesion.id}}">{{sesion.nombre}}</a> |
+</form>

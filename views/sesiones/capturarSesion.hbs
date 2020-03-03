@@ -1,0 +1,25 @@
+<form method='POST' action='/main/grabarSesion'>
+    <hr/>
+    <h3>Sesiones</h3>
+    {{#each conjuntoSesiones.arreglo}}
+        <ul>
+            <li><a href="/main/presentarSesion?id={{id}}">{{@index}}</a> {{nombre}}</li>
+        </ul>
+    {{/each}}
+    <hr/>
+    <h3>Registrar sesión</h3>
+    <p>Nombre: <input type='text' name='nombre' value=''/></p>
+    <p>
+        Tipo:
+        <select name='tipoDiagrama' required>
+            <option></option>
+            {{#each conjuntoTiposDiagrama.tiposDiagrama}}
+                <option value={{id}}>{{nombre}}</option>
+            {{/each}}
+        </select>
+    </p>
+    <input type='hidden' name='inicio' value=''/></p>
+    <input type='submit' value='Grabar' />
+    <hr/>
+    <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
+</form>
