@@ -1,15 +1,17 @@
 {{#if sesion}}
     <h3>
-        <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
+        <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
         {{sesion.nombre}} |
         Planteamiento |
-        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}'>Chat</a> |
-        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}'>Diagrama</a> |
+        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
+        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Diagrama</a> |
     </h3>
     <div align="center" style="background-color:#D9D9D6; height: 600px;overflow: scroll;border:1px solid #1B4F72;">
+        <img id="imagen" src="/images/Documento.png" width="1000" usemap="#mapa" />
+
     </div>
     <br>
-    <a href='/main/eliminarSesion?id={{sesion.id}}'>Eliminar sesión</a> |
-    <a href='/main/editarSesion?id={{sesion.id}}'>Editar sesión</a> |
+    <a href='/main/eliminarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Eliminar sesión</a> |
+    <a href='/main/editarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Editar sesión</a> |
 {{/if}}
 

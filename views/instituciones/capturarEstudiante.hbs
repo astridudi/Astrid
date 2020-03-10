@@ -1,0 +1,26 @@
+<form method='POST' action='/main/grabarEstudiante'>
+    {{#if grupo}}
+        <h3>
+            <a href='/main/consultarConjuntoInstituciones'>Instituciones</a> |
+            <a href="/main/presentarInstitucion?id={{grupo.curso.programa.institucion.id}}">{{grupo.curso.programa.institucion.nombre}}</a> |
+            <a href="/main/presentarPrograma?id={{grupo.curso.programa.id}}">{{grupo.curso.programa.nombre}}</a> |
+            <a href="/main/presentarCurso?id={{grupo.curso.id}}">{{grupo.curso.nombre}}</a> |
+            <a href="/main/presentarGrupo?id={{grupo.id}}">{{grupo.nombre}}</a> |
+        </h3>
+        <h3>Estudiantes</h3>
+        {{#each grupo.estudiantes}}
+            <ul>
+                <li><a href="/main/presentarEstudiante?id={{id}}">{{identificacion}}</a> - {{nombres}} {{apellidos}} - {{correo}}</li>
+            </ul>
+        {{/each}}
+        <hr class="verdeAstrid1">
+        <h3>Registrar estudiante</h3>
+        <input type='hidden' name='grupoIdentificacion' value={{grupo.id}}>
+        <input type='hidden' name='estudianteIdentificacion' value={{estudianteIdentificacion}}>
+        <p>Identificación: {{estudianteIdentificacion}}</p>
+        <p>Nombres: <input type='text' name='estudianteNombres' value=''/></p>
+        <p>Apellidos: <input type='text' name='estudianteApellidos' value=''/></p>
+        <p>Correo electrónico: <input type='text' name='estudianteCorreoElectronico' value=''/></p>
+        <input type='submit' value='Grabar' />
+    {{/if}}
+</form>

@@ -67,6 +67,12 @@ module.exports = class ConjuntoTiposAporte {
         let {createCanvas} = require('canvas');
         let canvas = createCanvas(anchoCanvas, altoCanvas);
         let contexto = canvas.getContext("2d");
+
+        contexto.strokeStyle = "#FFFFFF";
+        contexto.fillStyle = "#FFFFFF";
+        contexto.lineWidth = 1;
+        contexto.fillRect(0,0,1000,2000);
+
         contexto.strokeStyle = "#1B4F72";
         contexto.fillStyle = "#D6EAF8";
         contexto.font = "14px Arial";
@@ -78,8 +84,12 @@ module.exports = class ConjuntoTiposAporte {
         let margen = 40;
         let curva = 0;
         let yIzquierda = margen;
+        let yIzquierdaIzquierda = margen;
+        let yIzquierdaCentro = margen;
         let yCentro = margen;
         let yDerecha = margen;
+        let yDerechaDerecha = margen;
+        let yDerechaCentro = margen;
         let alto = altoRenglon;
         let lineas = 0;
         let anchoCajaCentro = 3 * anchoCanvas / 4;
@@ -95,8 +105,8 @@ module.exports = class ConjuntoTiposAporte {
         let y = 0;
         let ancho = 0;
         let solapa = altoRenglon/2;
-        let strokes = ["#D68910","#0B5345","#CB4335","#85929E","#85929E","#229954","#85929E","#85929E","#85929E","#E74C3C","#85929E"];
-        let fills = ["#D68910","#0B5345","#CB4335","#85929E","#F9EBEA","#229954","#F4F6F6","#85929E","#EAFAF1","#E74C3C","#F4F6F6"];
+        let strokes = ["#F1B434","#228848","#F93822","#228848","#63666A","#228848","#63666A","#F93822","#63666A","#F93822","#63666A"];
+        let fills = ["#F1B434","#228848","#F93822","#228848","#63666A","#228848","#63666A","#F93822","#63666A","#F93822","#63666A"];
         let fills2 = ["#FCF3CF","#EAFAF1","#F9EBEA","#EAFAF1","#EAFAF1","#EAFAF1","#EAFAF1","#F9EBEA","#F9EBEA","#F9EBEA","#F9EBEA"];
         //let fills2 = ["#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF"];
         //let fills = ["#D68910","#0B5345","#CB4335","#85929E","#F9EBEA","#229954","#F4F6F6","#85929E","#EAFAF1","#E74C3C","#F4F6F6"];
@@ -158,49 +168,49 @@ module.exports = class ConjuntoTiposAporte {
                 }
                 case 3: {
                     x = xCajaIzquierda;
-                    y = yIzquierda;
+                    y = yIzquierdaIzquierda;
                     ancho = anchoCajaAuxiliar;
                     break;
                 }
                 case 4: {
-                    x = xCajaIzquierdaCentro;
-                    y = yIzquierda;
+                    x = xCajaIzquierda;
+                    y = yIzquierdaIzquierda;
                     ancho = anchoCajaAuxiliar;
                     break;
                 }
                 case 5: {
                     x = xCajaIzquierdaCentro;
-                    y = yIzquierda;
+                    y = yIzquierdaCentro;
                     ancho = anchoCajaAuxiliar;
                     break;
                 }
                 case 6: {
-                    x = xCajaIzquierda;
-                    y = yIzquierda;
+                    x = xCajaIzquierdaCentro;
+                    y = yIzquierdaCentro;
                     ancho = anchoCajaAuxiliar;
                     break;
                 }
                 case 7: {
                     x = xCajaDerechaCentro;
-                    y = yDerecha;
+                    y = yDerechaDerecha;
                     ancho = anchoCajaAuxiliar;
                     break;
                 }
                 case 8: {
-                    x = xCajaDerecha;
-                    y = yDerecha;
+                    x = xCajaDerechaCentro;
+                    y = yDerechaDerecha
                     ancho = anchoCajaAuxiliar;
                     break;
                 }
                 case 9: {
                     x = xCajaDerecha;
-                    y = yDerecha;
+                    y = yDerechaCentro;
                     ancho = anchoCajaAuxiliar;
                     break;
                 }
                 case 10: {
-                    x = xCajaDerechaCentro;
-                    y = yDerecha;
+                    x = xCajaDerecha;
+                    y = yDerechaCentro;
                     ancho = anchoCajaAuxiliar;
                     break;
                 }
@@ -321,27 +331,27 @@ module.exports = class ConjuntoTiposAporte {
             contexto.font = "12px Arial";
             contexto.lineWidth = 1;
             switch (this.argumentacion.aportes[i].tipoAporte.id) {
-                case 0:
+                case 0: {
+                    contexto.textAlign = "left";
+                    contexto.fillText(this.argumentacion.aportes[i].ordinal+' - '+this.argumentacion.aportes[i].tipoAporte.nombre, x, y - solapa, this.argumentacion.aportes[i].datoGrafico.ancho-8);
+                    break;
+                }
                 case 1:
+                case 2: {
+                    contexto.textAlign = "center";
+                    contexto.fillText(this.argumentacion.aportes[i].ordinal+' - '+this.argumentacion.aportes[i].tipoAporte.nombre, x + anchoCajaLateral / 2 , y - solapa, this.argumentacion.aportes[i].datoGrafico.ancho-8);
+                    break;
+                }
                 case 3:
                 case 4:
                 case 5:
-                case 6: {
-                    contexto.textAlign = "left";
-                    contexto.fillText((i+1)+' - '+this.argumentacion.aportes[i].tipoAporte.nombre, x, y - solapa, this.argumentacion.aportes[i].datoGrafico.ancho-8);
-                    break;
-                }
-                case 2: {
-                    contexto.textAlign = "right";
-                    contexto.fillText((i+1)+' - '+this.argumentacion.aportes[i].tipoAporte.nombre, x + anchoCajaLateral , y - solapa, this.argumentacion.aportes[i].datoGrafico.ancho-8);
-                    break;
-                }
+                case 6: 
                 case 7:
                 case 8:
                 case 9:
                 case 10: {
-                    contexto.textAlign = "right";
-                    contexto.fillText((i+1)+' - '+this.argumentacion.aportes[i].tipoAporte.nombre, x + anchoCajaAuxiliar , y - solapa, this.argumentacion.aportes[i].datoGrafico.ancho-8);
+                    contexto.textAlign = "center";
+                    contexto.fillText(this.argumentacion.aportes[i].ordinal+' - '+this.argumentacion.aportes[i].tipoAporte.nombre, x + anchoCajaAuxiliar / 2 , y - solapa, this.argumentacion.aportes[i].datoGrafico.ancho-8);
                     break;
                 }
             }
@@ -362,7 +372,7 @@ module.exports = class ConjuntoTiposAporte {
             contexto.closePath();
             contexto.stroke();
             contexto.fill();
-            contexto.strokeStyle = "#1B4F72";
+            contexto.strokeStyle = "#63666A";
             contexto.lineWidth = 2;
             switch (this.argumentacion.aportes[i].tipoAporte.id) {
                 case 0: {
@@ -373,8 +383,10 @@ module.exports = class ConjuntoTiposAporte {
                         contexto.stroke();
                     }
                     yCentro=yCentro+alto+altoRenglon;
-                    yIzquierda = yCentro;
-                    yDerecha = yCentro;
+                    yIzquierdaIzquierda=yCentro;
+                    yIzquierdaCentro=yCentro;
+                    yDerechaDerecha=yCentro;
+                    yDerechaCentro=yCentro;
                     break;
                 }
                 case 1: {
@@ -387,6 +399,8 @@ module.exports = class ConjuntoTiposAporte {
                     contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xIzquierda - solapa ,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa);
                     contexto.stroke();
                     yIzquierda=yIzquierda+alto+altoRenglon;
+                    yIzquierdaIzquierda=yIzquierda;
+                    yIzquierdaCentro=yIzquierda;
                     break;
                 }
                 case 2: {
@@ -399,6 +413,8 @@ module.exports = class ConjuntoTiposAporte {
                     contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xDerecha + solapa ,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
                     contexto.stroke();
                     yDerecha=yDerecha+alto+altoRenglon;
+                    yDerechaDerecha=yDerecha;
+                    yDerechaCentro=yDerecha;
                     break;
                 }
                 case 3: {
@@ -410,19 +426,17 @@ module.exports = class ConjuntoTiposAporte {
                     contexto.quadraticCurveTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenIzquierda(margen) ,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa ,this.argumentacion.aportes[i].datoGrafico.xMediaMargenIzquierda(margen) + solapa ,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa);
                     contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xIzquierda ,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
                     contexto.stroke();
-                    yIzquierda=yIzquierda+alto+altoRenglon;
+                    yIzquierdaIzquierda=yIzquierdaIzquierda+alto+altoRenglon;
                     break;
                 }
                 case 4: {
                     contexto.beginPath();
                     contexto.moveTo(this.argumentacion.aportes[i].aportePredecesor.datoGrafico.xDerecha + solapa , this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa );
-                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenIzquierda(margen) - solapa, this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa );
-                    contexto.quadraticCurveTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenIzquierda(margen), this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa, this.argumentacion.aportes[i].datoGrafico.xMediaMargenIzquierda(margen), this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo);
-                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenIzquierda(margen),this.argumentacion.aportes[i].datoGrafico.yArriba );
-                    contexto.quadraticCurveTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenIzquierda(margen), this.argumentacion.aportes[i].datoGrafico.yArriba + solapa, this.argumentacion.aportes[i].datoGrafico.xMediaMargenIzquierda(margen) + solapa, this.argumentacion.aportes[i].datoGrafico.yArriba + solapa);
-                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xIzquierda,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
+                    contexto.lineTo(this.argumentacion.aportes[i].aportePredecesor.datoGrafico.xDerecha + 2* solapa, this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa );
+                    contexto.lineTo(this.argumentacion.aportes[i].aportePredecesor.datoGrafico.xDerecha + 2* solapa, this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
+                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xDerecha,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
                     contexto.stroke();
-                    yIzquierda=yIzquierda+alto+altoRenglon;
+                    yIzquierdaIzquierda=yIzquierdaIzquierda+alto+altoRenglon;
                     break;
                 }
                 case 5: {
@@ -434,19 +448,17 @@ module.exports = class ConjuntoTiposAporte {
                     contexto.quadraticCurveTo(this.argumentacion.aportes[i].datoGrafico.xMargenDerecha(margen) ,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa ,this.argumentacion.aportes[i].datoGrafico.xMargenDerecha(margen) - solapa ,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa);
                     contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xDerecha,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
                     contexto.stroke();
-                    yIzquierda=yIzquierda+alto+altoRenglon;
+                    yIzquierdaCentro=yIzquierdaCentro+alto+altoRenglon;
                     break;
                 }
                 case 6: {
                     contexto.beginPath();
                     contexto.moveTo(this.argumentacion.aportes[i].aportePredecesor.datoGrafico.xIzquierda - solapa , this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa );
-                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenDerecha(margen) + solapa, this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa );
-                    contexto.quadraticCurveTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenDerecha(margen), this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa, this.argumentacion.aportes[i].datoGrafico.xMediaMargenDerecha(margen), this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo);
-                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenDerecha(margen),this.argumentacion.aportes[i].datoGrafico.yArriba );
-                    contexto.quadraticCurveTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenDerecha(margen), this.argumentacion.aportes[i].datoGrafico.yArriba + solapa , this.argumentacion.aportes[i].datoGrafico.xMediaMargenDerecha(margen) - solapa, this.argumentacion.aportes[i].datoGrafico.yArriba + solapa);
-                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xDerecha,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
+                    contexto.lineTo(this.argumentacion.aportes[i].aportePredecesor.datoGrafico.xIzquierda - 2 * solapa, this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa );
+                    contexto.lineTo(this.argumentacion.aportes[i].aportePredecesor.datoGrafico.xIzquierda - 2 * solapa, this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
+                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xIzquierda,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
                     contexto.stroke();
-                    yIzquierda=yIzquierda+alto+altoRenglon;
+                    yIzquierdaCentro=yIzquierdaCentro+alto+altoRenglon;
                     break;
                 }
                 case 7: {
@@ -458,19 +470,17 @@ module.exports = class ConjuntoTiposAporte {
                     contexto.quadraticCurveTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenDerecha(margen), this.argumentacion.aportes[i].datoGrafico.yArriba + solapa, this.argumentacion.aportes[i].datoGrafico.xDerecha + solapa, this.argumentacion.aportes[i].datoGrafico.yArriba + solapa);
                     contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xDerecha,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
                     contexto.stroke();
-                    yDerecha=yDerecha+alto+altoRenglon;
+                    yDerechaDerecha=yDerechaDerecha+alto+altoRenglon;
                     break;
                 }
                 case 8: {
                     contexto.beginPath();
                     contexto.moveTo(this.argumentacion.aportes[i].aportePredecesor.datoGrafico.xIzquierda - solapa , this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa );
-                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenDerecha(margen) + solapa, this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa );
-                    contexto.quadraticCurveTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenDerecha(margen), this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa, this.argumentacion.aportes[i].datoGrafico.xMediaMargenDerecha(margen), this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo);
-                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenDerecha(margen),this.argumentacion.aportes[i].datoGrafico.yArriba );
-                    contexto.quadraticCurveTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenDerecha(margen), this.argumentacion.aportes[i].datoGrafico.yArriba + solapa , this.argumentacion.aportes[i].datoGrafico.xMediaMargenDerecha(margen) - solapa, this.argumentacion.aportes[i].datoGrafico.yArriba + solapa);
-                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xDerecha,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
+                    contexto.lineTo(this.argumentacion.aportes[i].aportePredecesor.datoGrafico.xIzquierda - 2 * solapa, this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa );
+                    contexto.lineTo(this.argumentacion.aportes[i].aportePredecesor.datoGrafico.xIzquierda - 2 * solapa, this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
+                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xIzquierda,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
                     contexto.stroke();
-                    yDerecha=yDerecha+alto+altoRenglon;
+                    yDerechaDerecha=yDerechaDerecha+alto+altoRenglon;
                     break;
                 }
                 case 9: {
@@ -482,22 +492,23 @@ module.exports = class ConjuntoTiposAporte {
                     contexto.quadraticCurveTo(this.argumentacion.aportes[i].datoGrafico.xMargenIzquierda(margen), this.argumentacion.aportes[i].datoGrafico.yArriba + solapa , this.argumentacion.aportes[i].datoGrafico.xMargenIzquierda(margen) + solapa, this.argumentacion.aportes[i].datoGrafico.yArriba + solapa);
                     contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xIzquierda,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
                     contexto.stroke();
-                    yDerecha=yDerecha+alto+altoRenglon;
+                    yDerechaCentro=yDerechaCentro+alto+altoRenglon;
                     break;
                 }
                 case 10: {
                     contexto.beginPath();
                     contexto.moveTo(this.argumentacion.aportes[i].aportePredecesor.datoGrafico.xDerecha + solapa , this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa );
-                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenIzquierda(margen) - solapa, this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa );
-                    contexto.quadraticCurveTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenIzquierda(margen), this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa, this.argumentacion.aportes[i].datoGrafico.xMediaMargenIzquierda(margen), this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo);
-                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenIzquierda(margen),this.argumentacion.aportes[i].datoGrafico.yArriba );
-                    contexto.quadraticCurveTo(this.argumentacion.aportes[i].datoGrafico.xMediaMargenIzquierda(margen), this.argumentacion.aportes[i].datoGrafico.yArriba + solapa, this.argumentacion.aportes[i].datoGrafico.xMediaMargenIzquierda(margen) + solapa, this.argumentacion.aportes[i].datoGrafico.yArriba + solapa);
-                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xIzquierda,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
+                    contexto.lineTo(this.argumentacion.aportes[i].aportePredecesor.datoGrafico.xDerecha + 2 * solapa, this.argumentacion.aportes[i].aportePredecesor.datoGrafico.yAbajo - solapa );
+                    contexto.lineTo(this.argumentacion.aportes[i].aportePredecesor.datoGrafico.xDerecha + 2 * solapa, this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
+                    contexto.lineTo(this.argumentacion.aportes[i].datoGrafico.xDerecha,this.argumentacion.aportes[i].datoGrafico.yArriba + solapa );
                     contexto.stroke();
-                    yDerecha=yDerecha+alto+altoRenglon;
+                    yDerechaCentro=yDerechaCentro+alto+altoRenglon;
                     break;
                 }
             }
+            yIzquierda = Math.max(yIzquierda, yIzquierdaIzquierda, yIzquierdaCentro);
+            yDerecha = Math.max(yDerecha, yDerechaDerecha, yDerechaCentro);
+            yCentro = Math.max(yIzquierda, yDerecha, yCentro);
             contexto.fillStyle = "#000000";
             contexto.textAlign = "center";
             contexto.lineWidth = 1;

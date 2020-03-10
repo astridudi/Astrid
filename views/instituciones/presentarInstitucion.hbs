@@ -1,0 +1,20 @@
+{{#if institucion}}
+    <h3>
+        <a href='/main/consultarConjuntoInstituciones?nombreUsuario={{nombreUsuario}}'>Instituciones</a> |
+        {{institucion.nombre}} |
+    </h3>
+    <p>Identificacion (SNIES) : {{institucion.identificacion}}</p>
+    <p>Nombre: {{institucion.nombre}}</p>
+    <p>Sigla: {{institucion.sigla}}</p>
+    <hr class="verdeAstrid1">
+    <h3>Programas</h3>
+    {{#each institucion.programas}}
+        <ul>
+            <li><a href="/main/presentarPrograma?id={{id}}&nombreUsuario={{../nombreUsuario}}">{{identificacion}}</a> {{nombre}}</li>
+        </ul>
+    {{/each}}
+    <hr class="verdeAstrid1">
+    <a href='/main/eliminarInstitucion?id={{institucion.id}}&nombreUsuario={{nombreUsuario}}'>Eliminar institución</a> |
+    <a href='/main/editarInstitucion?id={{institucion.id}}&nombreUsuario={{nombreUsuario}}'>Editar institución</a> |
+    <a href='/main/registrarPrograma?id={{institucion.id}}&nombreUsuario={{nombreUsuario}}'>Registrar programa</a>
+{{/if}}

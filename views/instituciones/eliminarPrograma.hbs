@@ -1,0 +1,12 @@
+<form method='POST' action='/main/eliminarPrograma/confirmar'>
+    <h3>
+        <a href='/main/consultarConjuntoInstituciones?nombreUsuario={{nombreUsuario}}'>Instituciones</a> |
+        <a href="/main/presentarInstitucion?id={{institucion.id}}&nombreUsuario={{nombreUsuario}}">{{programa.institucion.nombre}}</a> |
+        <a href="/main/presentarPrograma?id={{programa.id}}&nombreUsuario={{nombreUsuario}}">{{programa.nombre}}</a> |
+    </h3>
+    <input type="hidden" name="nombreUsuario" value="{{nombreUsuario}}">
+    <input type='hidden' name='id' value='{{programa.id}}'>
+    <p>Identificación (SNIES): {{programa.identificacion}}</p>
+    <p>Nombre: {{programa.nombre}}</p>
+    <input type='submit' value='Confirmar eliminación' />
+</form>

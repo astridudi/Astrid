@@ -1,7 +1,7 @@
 const DatoGrafico = require('../argumentaciones/DatoGrafico');
 
 module.exports = class Mensaje {
-    constructor(id,contenido,tiempo) {
+    constructor(id,contenido,tiempo,nombreUsuario) {
         this._id = id;
         this._contenido = contenido;
         if (tiempo.length==0){
@@ -9,6 +9,7 @@ module.exports = class Mensaje {
         } else {
             this._tiempo = tiempo;
         }
+        this._nombreUsuario = nombreUsuario;
         this._datoGrafico = undefined;
         this._areasEnlace = [];
     }
@@ -21,6 +22,9 @@ module.exports = class Mensaje {
     set tiempo(pTiempo) {
         this._tiempo = pTiempo;
     }
+    set nombreUsuario(pNombreUsuario) {
+        this._nombreUsuario = pNombreUsuario;
+    }
     get id() {
         return this._id;
     }
@@ -29,6 +33,9 @@ module.exports = class Mensaje {
     }
     get tiempo() {
         return this._tiempo;
+    }
+    get nombreUsuario() {
+        return this._nombreUsuario;
     }
     get datoGrafico() {
         return this._datoGrafico;

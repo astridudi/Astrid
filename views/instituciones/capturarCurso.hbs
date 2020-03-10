@@ -1,0 +1,23 @@
+<form method='POST' action='/main/grabarCurso'>
+    {{#if programa}}
+        <h3>
+            <a href='/main/consultarConjuntoInstituciones?nombreUsuario={{nombreUsuario}}'>Instituciones</a> |
+            <a href="/main/presentarInstitucion?id={{programa.institucion.id}}&nombreUsuario={{nombreUsuario}}">{{programa.institucion.nombre}}</a> |
+            <a href="/main/presentarPrograma?id={{programa.id}}&nombreUsuario={{nombreUsuario}}">{{programa.nombre}}</a> |
+        </h3>
+        <hr class="verdeAstrid1">
+        <h3>Cursos</h3>
+        {{#each programa.cursos}}
+            <ul>
+                <li><a href="/main/presentarCurso?id={{id}}?nombreUsuario={{../nombreUsuario}}">{{identificacion}}</a> {{nombre}}</li>
+            </ul>
+        {{/each}}
+        <hr class="verdeAstrid1">
+        <h3>Registrar curso</h3>
+        <input type="hidden" name="nombreUsuario" value="{{nombreUsuario}}">
+        <input type='hidden' name='id' value={{programa.id}}>
+        <p>Identificación: <input type='text' name='cursoIdentificacion' value=''/></p>
+        <p>Curso: <input type='text' name='cursoNombre' value=''/></p>
+        <input type='submit' value='Grabar' />
+    {{/if}}
+</form>

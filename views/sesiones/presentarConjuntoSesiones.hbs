@@ -2,9 +2,9 @@
     <h3>Sesiones</h3>
     {{#each conjuntoSesiones.arreglo}}
         <ul>
-            <li><a href="/main/presentarSesion?id={{id}}">{{@index}}</a> {{nombre}}</li>
+            <li><a href="/main/presentarSesion?id={{id}}&nombreUsuario={{../nombreUsuario}}">{{@index}}</a> {{nombre}}</li>
         </ul>
     {{/each}}
     <hr class="verdeAstrid1">
-    <a href='/main/registrarSesion'>Registrar sesión</a>
+    <a href='/main/registrarSesion?nombreUsuario={{nombreUsuario}}'>Registrar sesión</a>
 {{/if}}

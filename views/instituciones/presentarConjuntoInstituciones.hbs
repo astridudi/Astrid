@@ -1,0 +1,10 @@
+{{#if conjuntoInstituciones}}
+    <h3>Instituciones</h3>
+    {{#each conjuntoInstituciones.arreglo}}
+        <ul>
+            <li><a href="/main/presentarInstitucion?id={{id}}&nombreUsuario={{../nombreUsuario}}">{{identificacion}}</a> {{nombre}} - {{sigla}}</li>
+        </ul>
+    {{/each}}
+    <hr class="verdeAstrid1">
+    <a href='/main/registrarInstitucion?nombreUsuario={{nombreUsuario}}'>Registrar institución</a>
+{{/if}}

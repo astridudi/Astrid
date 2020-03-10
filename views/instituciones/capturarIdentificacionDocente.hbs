@@ -1,0 +1,20 @@
+<form method='POST' action='/main/grabarVinculoDocente'>
+    {{#if grupo}}
+        <h3>
+            <a href='/main/consultarConjuntoInstituciones?nombreUsuario={{nombreUsuario}}'>Instituciones</a> |
+            <a href="/main/presentarInstitucion?id={{grupo.curso.programa.institucion.id}}&nombreUsuario={{nombreUsuario}}">{{grupo.curso.programa.institucion.nombre}}</a> |
+            <a href="/main/presentarPrograma?id={{grupo.curso.programa.id}}&nombreUsuario={{nombreUsuario}}">{{grupo.curso.programa.nombre}}</a> |
+            <a href="/main/presentarCurso?id={{grupo.curso.id}}&nombreUsuario={{nombreUsuario}}">{{grupo.curso.nombre}}</a> |
+            <a href="/main/presentarGrupo?id={{grupo.id}}&nombreUsuario={{nombreUsuario}}">{{grupo.nombre}}</a> |
+        </h3>
+        <h3>Docentes</h3>
+        <li><a href="/main/presentarDocente?id={{id}}&nombreUsuario={{nombreUsuario}}">{{grupo.docente.identificacion}}</a> - {{grupo.docente.nombres}} {{grupo.docente.apellidos}} - {{grupo.docente.correo}}</li>
+        <hr class="verdeAstrid1">
+        <h3>Registrar docente</h3>
+        <input type="hidden" name="nombreUsuario" value="{{nombreUsuario}}">
+        <input type='hidden' name='cursoIdentificacion' value={{grupo.curso.id}}>
+        <input type='hidden' name='grupoIdentificacion' value={{grupo.id}}>
+        <p>Identificación: <input type='text' name='docenteIdentificacion' value=''/></p>
+        <input type='submit' value='Continuar' />
+    {{/if}}
+</form>

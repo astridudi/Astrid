@@ -128,6 +128,9 @@ module.exports = class Aporte {
     get tienePredecesor() {
         return (this._aportePredecesor!=undefined);
     }
+    get ordinal() {
+        return (this._argumentacion.ordinal(this));
+    }
     siguienteSucesor(pId) {
         if (pId = this.pId) {
             return this._aportesSucesores[0];
@@ -141,8 +144,19 @@ module.exports = class Aporte {
         return (this._aportesSucesores[pIndice]);
     }
     incluirSucesor(pSucesor) {
-        let i = this._aportesSucesores.length;
-        this._aportesSucesores[i] = pSucesor;
+        let j = this._aportesSucesores.length;
+        if (j>0) {
+            let a = this._aportesSucesores[j-1].tipoAporte.id;
+            let b = pSucesor.tipoAporte.id;
+            a = a + b;
+            b = a + b;
+        }
+        while ((j>0) && (this._aportesSucesores[j-1].tipoAporte.id < pSucesor.tipoAporte.id)) {
+            this._aportesSucesores[j] = this._aportesSucesores[j-1];
+            j = j - 1;
+        }
+        this._aportesSucesores[j] = pSucesor;
+//        this._aportesSucesores[this._aportesSucesores.length] = pSucesor;
     }
     incluirDatoGrafico(pX,pY,pAncho,pAlto,pLineas) {
         this._datoGrafico = new DatoGrafico(pX,pY,pAncho,pAlto,pLineas);

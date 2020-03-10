@@ -62,13 +62,13 @@ module.exports = class Argumentacion {
         let i = this._aportes.length;
         this._aportes[i] = pAporte;
     }
-    ordenar() {
+/*    ordenar() {
         let argumentacionOrdenada = new Argumentacion(this._id, this._nombre, this._inicio);
         if (this.total>0) {
             argumentacionOrdenada.incluirAporte(this._aportes[0]);
 
         }
-    }
+    }*/
     aporte(pAporteId) {
         let i = 0;
         while ((i<this.total) && (this._aportes[i]._id!=pAporteId)) {
@@ -86,6 +86,17 @@ module.exports = class Argumentacion {
             i++;
         }
         return (i<this.total);
+    }
+    ordinal(pAporte) {
+        let i = 0;
+        let rOrdinal = 0;
+        while (i<this.total) {
+            if (this._aportes[i].tiempo <= pAporte.tiempo) {
+                rOrdinal++;
+            }
+            i++;
+        }
+        return rOrdinal;
     }
     ordenar() {
         if (this.total>1) {

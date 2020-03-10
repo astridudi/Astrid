@@ -1,0 +1,28 @@
+{{#if curso}}
+    <h3>
+        <a href='/main/consultarConjuntoInstituciones?nombreUsuario={{nombreUsuario}}'>Instituciones</a> |
+        <a href="/main/presentarInstitucion?id={{curso.programa.institucion.id}}&nombreUsuario={{nombreUsuario}}">{{curso.programa.institucion.nombre}}</a> |
+        <a href="/main/presentarPrograma?id={{curso.programa.id}}&nombreUsuario={{nombreUsuario}}">{{curso.programa.nombre}}</a> |
+        {{curso.nombre}} |
+    </h3>
+    <p>Identificación: {{curso.identificacion}}</p>
+    <p>Nombre: {{curso.nombre}}</p>
+    <hr class="verdeAstrid1">
+    <h3>Docentes</h3>
+    {{#each curso.docentes}}
+        <ul>
+            <li><a href="/main/presentarDocente?id={{id}}&nombreUsuario={{../nombreUsuario}}">{{identificacion}}</a> - {{nombres}} {{apellidos}} - {{correo}}</li>
+        </ul>
+    {{/each}}
+    <hr class="verdeAstrid1">
+    <h3>Grupos</h3>
+    {{#each curso.grupos}}
+        <ul>
+            <li><a href="/main/presentarGrupo?id={{id}}&nombreUsuario={{../nombreUsuario}}">{{@index}}</a> {{nombre}}</li>
+        </ul>
+    {{/each}}
+    <hr class="verdeAstrid1">
+    <a href='/main/eliminarCurso?id={{curso.id}}&nombreUsuario={{nombreUsuario}}'>Eliminar curso</a> |
+    <a href='/main/editarCurso?id={{curso.id}}&nombreUsuario={{nombreUsuario}}'>Editar curso</a> |
+    <a href='/main/registrarGrupo?id={{curso.id}}&nombreUsuario={{nombreUsuario}}'>Registrar grupo</a>
+{{/if}}

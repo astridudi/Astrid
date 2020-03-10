@@ -1,0 +1,12 @@
+<form method='POST' action='/main/eliminarInstitucion/confirmar'>
+    <h3>
+        <a href='/main/consultarConjuntoInstituciones?nombreUsuario={{nombreUsuario}}'>Instituciones</a> |
+        <a href="/main/presentarInstitucion?id={{institucion.id}}&nombreUsuario={{nombreUsuario}}">{{institucion.nombre}}</a> |
+    </h3>
+    <input type="hidden" name="nombreUsuario" value="{{nombreUsuario}}">
+    <input type='hidden' name='id' value='{{institucion.id}}'>
+    <p>Identificación (SNIES): {{institucion.identificacion}}</p>
+    <p>Nombre: {{institucion.nombre}}</p>
+    <p>Sigla: {{institucion.sigla}}</p>
+    <input type='submit' value='Confirmar eliminación' />
+</form>
