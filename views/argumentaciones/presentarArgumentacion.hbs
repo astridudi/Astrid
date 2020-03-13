@@ -25,7 +25,7 @@
 {{/if}}
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var socket = io.connect('http://localhost:3000');
+    var socket = io.connect('http://34.69.82.100:3000');
     socket.on("actualizacionArgumentacion", (data)=>{
         console.log("Evento: "+data);
         location.reload();
