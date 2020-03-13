@@ -1,17 +1,16 @@
 <form method='POST' action='/main/grabarRelacionDiagramaSesion'>
     {{#if sesion}}
         <h3>
-            <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
+            <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
             {{sesion.nombre}} |
-            <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
-            <a href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
+            <a href='/main/presentarSesion?id={{sesion.id}}'>Planteamiento</a> |
+            <a href='/main/presentarChatSesion?idSesion={{sesion.id}}'>Chat</a> |
             Diagrama |
         </h3>
         {{#if sesion.diagrama}}
             <div align="center" style="background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
                 <img id="imagen" src="{{sesion.diagrama.tipoDiagrama.dibujar}}" width="1000" height="2000">
             </div>
-            <input type="hidden" name="nombreUsuario" value={{nombreUsuario}}>
             <input type='hidden' name='idSesion' value={{sesion.id}}>
             <input type='hidden' name='id' value={{sesion.diagrama.id}}>
             <input type='hidden' name='tipoDiagrama' value={{sesion.diagrama.tipoDiagrama.id}}>

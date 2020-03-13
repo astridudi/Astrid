@@ -9,7 +9,6 @@ module.exports = class Sesion {
         }
         this._chat = require('../chats/Chat');
         this._diagrama = require('../diagramas/Diagrama');
-        this._nombreUsuario = '';
     }
     set id(pId) {
         this._id = pId;
@@ -26,9 +25,6 @@ module.exports = class Sesion {
     set diagrama(pDiagrama) {
         this._diagrama = pDiagrama;
     }
-    set nombreUsuario(pNombreUsuario) {
-        this._nombreUsuario = pNombreUsuario;
-    }
     get id() {
         return this._id;
     }
@@ -43,9 +39,6 @@ module.exports = class Sesion {
     }
     get diagrama() {
         return this._diagrama;
-    }
-    get nombreUsuario() {
-        return this._nombreUsuario;
     }
     get validez() {
         var rValidez;

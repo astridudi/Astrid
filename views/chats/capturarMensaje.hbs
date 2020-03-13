@@ -1,11 +1,11 @@
 <form method='POST' action='/main/grabarMensajeChatSesion'>
     {{#if sesion}}
         <h3>
-            <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
+            <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
             {{sesion.nombre}} |
-            <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
+            <a href='/main/presentarSesion?id={{sesion.id}}'>Planteamiento</a> |
             Chat |
-            <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Diagrama</a> |
+            <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}'>Diagrama</a> |
         </h3>
         {{#if sesion.chat}}
             <div align="center" style="background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
@@ -19,7 +19,6 @@
                 </map>
             </div>
             <hr class="verdeAstrid1">
-            <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
             <input type='hidden' name='idSesion' value={{sesion.id}}>
             <input type='hidden' name='id' value={{sesion.chat.id}}>
             <input type='hidden' name='mensajeTiempo' value=''/></p>

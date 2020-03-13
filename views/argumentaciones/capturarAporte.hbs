@@ -1,11 +1,11 @@
 <form method='POST' action='/main/grabarAporteSesion'>
 {{#if sesion}}
     <h3>
-        <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
+        <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
         {{sesion.nombre}} |
-        <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
-        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
-        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Diagrama</a> |
+        <a href='/main/presentarSesion?id={{sesion.id}}'>Planteamiento</a> |
+        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}'>Chat</a> |
+        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}'>Diagrama</a> |
         Argumentación |
     </h3>
     {{#if argumentacion}}
@@ -14,13 +14,12 @@
             <map name="mapa">
                 {{#each argumentacion.aportes}}
                     {{#each areasEnlace}}
-                        <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/main/registrarAporteSesion?idSesion={{../../sesion.id}}&idObjeto={{../../idObjeto}}&aportePredecesorId={{../id}}&aportePredecesorTipo={{../tipoAporte.nombre}}&aportePredecesorContenido={{../contenido}}&aporteTipoId={{tipoSucesor.id}}&aporteTipo={{tipoSucesor.nombre}}&nombreUsuario={{../../nombreUsuario}}" />
+                        <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/main/registrarAporteSesion?idSesion={{../../sesion.id}}&idObjeto={{../../idObjeto}}&aportePredecesorId={{../id}}&aportePredecesorTipo={{../tipoAporte.nombre}}&aportePredecesorContenido={{../contenido}}&aporteTipoId={{tipoSucesor.id}}&aporteTipo={{tipoSucesor.nombre}}" />
                     {{/each}}
                 {{/each}}
             </map>
         </div>
         <hr class="verdeAstrid1">
-        <input type="hidden" name="nombreUsuario" value="{{nombreUsuario}}">
         <input type='hidden' name='idSesion' value={{sesion.id}}>
         <input type='hidden' name='id' value={{argumentacion.id}}>
         <input type='hidden' name='idObjeto' value={{idObjeto}}>
