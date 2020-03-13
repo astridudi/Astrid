@@ -23,15 +23,21 @@
         </div>
     {{/if}}
 {{/if}}
+<script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var socket = io.connect('http://34.69.82.100:3000');
-    socket.on("actualizacionArgumentacion", (data)=>{
-        console.log("Evento: "+data);
-        location.reload();
-    })
-    socket.on('connection', function (data) {
-        console.log(data);
+    $(document).ready(()=>{
+        let socket = io.connect('http://34.69.82.100:3000');
+        socket.on("actualizacionArgumentacion", (data)=>{
+            console.log("Evento: "+data);
+            location.reload();
+        });
+        socket.on('connection', function (data) {
+            console.log(data);
+        });
     });
 </script>
 

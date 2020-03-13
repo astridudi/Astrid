@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="16a71e2f-24bf-4e07-86b4-092e2f1677fa" name="Default Changelist" comment="SE redirecciona el puerto al 80">
+    <list default="true" id="16a71e2f-24bf-4e07-86b4-092e2f1677fa" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Astrid-5-02.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Astrid-5-02.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/argumentaciones/capturarAporte.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/argumentaciones/capturarAporte.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/argumentaciones/presentarArgumentacion.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/argumentaciones/presentarArgumentacion.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/chats/capturarMensaje.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/chats/capturarMensaje.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/chats/presentarChat.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/chats/presentarChat.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/diagramas/capturarObjeto.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/diagramas/capturarObjeto.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/diagramas/capturarRelacion.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/diagramas/capturarRelacion.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/diagramas/presentarDiagrama.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/diagramas/presentarDiagrama.hbs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,6 +42,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -158,6 +167,8 @@
       <workItem from="1583870515851" duration="781000" />
       <workItem from="1583874370619" duration="557000" />
       <workItem from="1584116302478" duration="40000" />
+      <workItem from="1584119433909" duration="736000" />
+      <workItem from="1584129576201" duration="3205000" />
     </task>
     <task id="LOCAL-00001" summary="SE agrega la carpeta bin y el archivo www">
       <created>1583438963937</created>
@@ -194,7 +205,21 @@
       <option name="project" value="LOCAL" />
       <updated>1583874455995</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Se actualiza a la última versión del 12 de Marzo de 2020 versión 5-04">
+      <created>1584119518732</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1584119518732</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Se modifica el socket por la ip del servidor">
+      <created>1584130684647</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1584130684647</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -219,7 +244,9 @@
     <MESSAGE value="SE redirecciona el puerto al 80" />
     <MESSAGE value="Se actualiza el puerto al 3000" />
     <MESSAGE value="Se actualiza el proyecto a la versión 5-04" />
-    <option name="LAST_COMMIT_MESSAGE" value="Se actualiza el proyecto a la versión 5-04" />
+    <MESSAGE value="Se actualiza a la última versión del 12 de Marzo de 2020 versión 5-04" />
+    <MESSAGE value="Se modifica el socket por la ip del servidor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Se modifica el socket por la ip del servidor" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="201" key="#Inspections" timestamp="1582672971409">
