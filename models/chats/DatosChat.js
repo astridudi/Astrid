@@ -28,7 +28,8 @@ module.exports = class Datos extends Conexion {
                 this._firebase.firestore().collection(this._coleccionMensajes).add({
                     chatId: pChatId,
                     contenido: pMensajeChat.contenido,
-                    tiempo: pMensajeChat.tiempo
+                    tiempo: pMensajeChat.tiempo,
+                    nombreUsuario: pMensajeChat.nombreUsuario
                 });
             } catch (e) {
                 console.log(e.message);
@@ -75,7 +76,8 @@ module.exports = class Datos extends Conexion {
                     tMensajeChat = new Mensaje(
                         document.id,
                         document.data().contenido,
-                        document.data().tiempo);
+                        document.data().tiempo,
+                        document.data().nombreUsuario);
                     rChat.incluirMensaje(tMensajeChat);
                 });
             })
@@ -107,7 +109,8 @@ module.exports = class Datos extends Conexion {
                     tMensajeChat = new Mensaje(
                         document.id,
                         document.data().contenido,
-                        document.data().tiempo);
+                        document.data().tiempo,
+                        document.data().nombreUsuario);
                     rChat.incluirMensaje(tMensajeChat);
                 });
             })

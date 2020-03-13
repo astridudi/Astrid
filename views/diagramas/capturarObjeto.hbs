@@ -1,16 +1,17 @@
 <form method='POST' action='/main/grabarObjetoDiagramaSesion'>
     {{#if sesion}}
         <h3>
-            <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
+            <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
             {{sesion.nombre}} |
-            <a href='/main/presentarSesion?id={{sesion.id}}'>Planteamiento</a> |
-            <a href='/main/presentarChatSesion?idSesion={{sesion.id}}'>Chat</a> |
+            <a href='/main/presentarSesion?id={{sesion.id}}?nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
+            <a href='/main/presentarChatSesion?idSesion={{sesion.id}}?nombreUsuario={{nombreUsuario}}'>Chat</a> |
             Diagrama |
         </h3>
         {{#if sesion.diagrama}}
             <div align="center" style="background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
                 <img id="imagen" src="{{sesion.diagrama.tipoDiagrama.dibujar}}" width="1000" height="2000">
             </div>
+            <input type="hidden" name="nombreUsuario" value={{nombreUsuario}}>
             <input type='hidden' name='idSesion' value={{sesion.id}}>
             <input type='hidden' name='id' value={{sesion.diagrama.id}}>
             <input type='hidden' name='tipoDiagrama' value={{sesion.diagrama.tipoDiagrama.id}}>
@@ -21,7 +22,17 @@
                 <p>{{nombre}}: <input type='text' name='valor{{nombre}}' value=''/></p>
             {{/each}}
             <input type='hidden' name='aporteTiempo' value=''/></p>
-            <input type='submit' value='Grabar' />
+            <input type='submit' onclick="objeto()" value='Grabar' />
         {{/if}}
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost:3000');
+            socket.on('connection', function (data) {
+                console.log(data);
+            });
+            function objeto(){
+                socket.emit("objetoDiagrama", {msg:'Cliente pulsó'});
+            }
+        </script>
     {{/if}}
 </form>

@@ -1,11 +1,11 @@
 <form method='POST' action='/main/grabarAporteSesion'>
 {{#if sesion}}
     <h3>
-        <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
+        <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
         {{sesion.nombre}} |
-        <a href='/main/presentarSesion?id={{sesion.id}}'>Planteamiento</a> |
-        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}'>Chat</a> |
-        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}'>Diagrama</a> |
+        <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
+        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
+        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Diagrama</a> |
         Argumentación |
     </h3>
     {{#if argumentacion}}
@@ -14,12 +14,13 @@
             <map name="mapa">
                 {{#each argumentacion.aportes}}
                     {{#each areasEnlace}}
-                        <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/main/registrarAporteSesion?idSesion={{../../sesion.id}}&idObjeto={{../../idObjeto}}&aportePredecesorId={{../id}}&aportePredecesorTipo={{../tipoAporte.nombre}}&aportePredecesorContenido={{../contenido}}&aporteTipoId={{tipoSucesor.id}}&aporteTipo={{tipoSucesor.nombre}}" />
+                        <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/main/registrarAporteSesion?idSesion={{../../sesion.id}}&idObjeto={{../../idObjeto}}&aportePredecesorId={{../id}}&aportePredecesorTipo={{../tipoAporte.nombre}}&aportePredecesorContenido={{../contenido}}&aporteTipoId={{tipoSucesor.id}}&aporteTipo={{tipoSucesor.nombre}}&nombreUsuario={{../../nombreUsuario}}" />
                     {{/each}}
                 {{/each}}
             </map>
         </div>
         <hr class="verdeAstrid1">
+        <input type="hidden" name="nombreUsuario" value="{{nombreUsuario}}">
         <input type='hidden' name='idSesion' value={{sesion.id}}>
         <input type='hidden' name='id' value={{argumentacion.id}}>
         <input type='hidden' name='idObjeto' value={{idObjeto}}>
@@ -29,7 +30,17 @@
         <p><b>{{aportePredecesorTipo}}</b> - {{aportePredecesorContenido}}</p>
         <p><b>{{aporteTipo}}:</b> <input type='text' name='aporteContenido' value='' autofocus/></p>
         <input type='hidden' name='aporteTiempo' value=''/></p>
-        <input type='submit' value='Grabar' />
+        <input type='submit' onclick="aporte()" value='Grabar' />
     {{/if}}
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://localhost:3000');
+        socket.on('connection', function (data) {
+            console.log(data);
+        });
+        function aporte(){
+            socket.emit("aporteArgumentacion", {msg:'Cliente pulsó'});
+        }
+    </script>
 {{/if}}
 </form>

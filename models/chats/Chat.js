@@ -61,6 +61,12 @@ module.exports = class Chat {
         let {createCanvas} = require('canvas');
         let canvas = createCanvas(anchoCanvas, altoCanvas);
         let contexto = canvas.getContext("2d");
+
+        contexto.strokeStyle = "#FFFFFF";
+        contexto.fillStyle = "#FFFFFF";
+        contexto.lineWidth = 1;
+        contexto.fillRect(0,0,1000,2000);
+
         contexto.strokeStyle = "#0B5345";
         contexto.fillStyle = "#EAFAF1";
         contexto.font = "14px Arial";
@@ -93,26 +99,11 @@ module.exports = class Chat {
         x = xCajaDerecha;
         for (i=0; i<this.sesion.chat.total; i++) {
             t = this.sesion.chat.arreglo[i].contenido;
-/*            switch (i) {
-                case 0:
-                case 6: {
-                    tipoCaja = 0;
-                    break;
-                }
-                case 1:
-                case 2:
-                case 4:
-                case 5:
-                case 8:
-                case 9:
-                case 11: {
-                    tipoCaja = 1;
-                    break;
-                }
-                default: {
-                    tipoCaja = 2;
-                    break;
-                }
+            if (this.sesion.chat.arreglo[i].nombreUsuario == this.sesion.nombreUsuario) {
+                tipoCaja=2;
+            }
+            else {
+                tipoCaja=1;
             }
             switch (tipoCaja) {
                 case 0: {
@@ -127,7 +118,7 @@ module.exports = class Chat {
                     x = xCajaDerecha;
                     break;
                 }
-            }*/
+            }
             contexto.strokeStyle = strokes[tipoCaja];
             contexto.fillStyle = fills[tipoCaja];
             y = yCentro;
@@ -176,6 +167,13 @@ module.exports = class Chat {
             contexto.textAlign = "center";
             contexto.lineWidth = 1;
             let n = 0;
+            if (tipoCaja==1) {
+                contexto.font = "12px Arial";
+                contexto.textAlign = "left";
+                contexto.fillText(this.sesion.chat.arreglo[i].nombreUsuario , this.sesion.chat.arreglo[i].datoGrafico.x - ancho / 2 - 2 * curva,this.sesion.chat.arreglo[i].datoGrafico.y - alto/2 - (altoRenglon / 2), this.sesion.chat.arreglo[i].datoGrafico.ancho-8);
+                contexto.font = "14px Arial";
+                contexto.textAlign = "center";
+            }
             if (lineas>1) {
                 n = 0;
                 for (j=0; j<lineas-1; j++) {

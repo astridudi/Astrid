@@ -1,9 +1,9 @@
 {{#if sesion}}
     <h3>
-        <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
+        <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
         {{sesion.nombre}} |
-        <a href='/main/presentarSesion?id={{sesion.id}}'>Planteamiento</a> |
-        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}'>Chat</a> |
+        <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
+        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
         Diagrama |
     </h3>
     {{#if sesion.diagrama}}
@@ -12,19 +12,33 @@
             <map name="mapa">
                 {{#each sesion.diagrama.objetos}}
                     {{#each areasEnlace}}
-                        <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/main/presentarArgumentacionSesion?idSesion={{../../sesion.id}}&idObjeto={{../id}}" />
+                        <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/main/presentarArgumentacionSesion?idSesion={{../../sesion.id}}&idObjeto={{../id}}&nombreUsuario={{../../nombreUsuario}}" />
                     {{/each}}
                 {{/each}}
             </map>
         </div>
         <br>
+        <b>Objetos:</b>
         {{#each sesion.diagrama.tipoDiagrama.tiposObjeto}}
-            <a href='/main/registrarObjetoDiagramaSesion?idSesion={{../sesion.id}}&objetoTipoId={{id}}'>Objeto {{nombre}}</a>
+            <a href='/main/registrarObjetoDiagramaSesion?idSesion={{../sesion.id}}&objetoTipoId={{id}}&nombreUsuario={{../nombreUsuario}}'>{{nombre}}</a>
             |
         {{/each}}
+        |
+        <b>Relaciones:</b>
         {{#each sesion.diagrama.tipoDiagrama.tiposRelacion}}
-            <a href='/main/registrarRelacionDiagramaSesion?idSesion={{../sesion.id}}&relacionTipoId={{id}}'>Relación {{nombre}}</a>
+            <a href='/main/registrarRelacionDiagramaSesion?idSesion={{../sesion.id}}&relacionTipoId={{id}}&nombreUsuario={{../nombreUsuario}}'>{{nombre}}</a>
             |
         {{/each}}
     {{/if}}
 {{/if}}
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io.connect('http://localhost:3000');
+    socket.on("actualizacionDiagrama", (data)=>{
+        console.log("Evento: "+data);
+        location.reload();
+    })
+    socket.on('connection', function (data) {
+        console.log(data);
+    });
+</script>

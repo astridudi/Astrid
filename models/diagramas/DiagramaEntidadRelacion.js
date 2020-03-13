@@ -97,17 +97,74 @@ module.exports = class DiagramaEntidadRelacion extends TipoDiagrama {
         let {createCanvas} = require('canvas');
         let canvas = createCanvas(1000, 2000);
         let contexto = canvas.getContext("2d");
+        let x = 0;
+        let y = 0;
+        contexto.strokeStyle = "#FFFFFF";
+        contexto.fillStyle = "#FFFFFF";
+        contexto.lineWidth = 1;
+        contexto.fillRect(0,0,1000,2000);
+        contexto.strokeStyle = "#F6F6F6";
+        contexto.fillStyle = "#D5D5D5";
+        contexto.setLineDash([2,4]);
+        contexto.font = "10px Arial";
+        contexto.textAlign = "center";
+        while (x<=1000) {
+            if (x%100==0) {
+                contexto.strokeStyle = "#D5D5D5";
+            }
+            contexto.beginPath();
+            contexto.moveTo(x,y);
+            contexto.lineTo(x,2000);
+            contexto.closePath();
+            contexto.stroke();
+            if (x%100==0) {
+                if (x%1000>0) {
+                    contexto.fillStyle = "#63666A";
+                    contexto.textBaseline = "top";
+                    contexto.fillText(x, x,y, );
+                    contexto.textBaseline = "bottom";
+                    contexto.fillText(x, x,2000, );
+                }
+                contexto.strokeStyle = "#F6F6F6";
+            }
+            x=x+10;
+        }
+        x = 0;
+        y = 0;
+        contexto.textBaseline = "middle";
+        while (y<=2000) {
+            if (y%100==0) {
+                contexto.strokeStyle = "#D5D5D5";
+            }
+            contexto.beginPath();
+            contexto.moveTo(x,y);
+            contexto.lineTo(1000,y);
+            contexto.closePath();
+            contexto.stroke();
+            if (y%100==0) {
+                if (y%2000>0) {
+                    contexto.fillStyle = "#63666A";
+                    contexto.textAlign = "left";
+                    contexto.fillText(y, x,y, );
+                    contexto.textAlign = "right";
+                    contexto.fillText(y, 1000,y, );
+                }
+                contexto.strokeStyle = "#F6F6F6";
+            }
+            y=y+10;
+        }
+        contexto.setLineDash([]);
         let i = 0;
         let d = 40;
-        let we = 150;
-        let he = 50;
-        let wr = 150;
-        let hr = 50;
-        let wa = 150;
-        let ha = 50;
+        let we = 160;
+        let he = 60;
+        let wr = 160;
+        let hr = 60;
+        let wa = 160;
+        let ha = 60;
         let r = 4;
-        let x = d;
-        let y = d;
+        x = d;
+        y = d;
         let lw = 1;
         let t = '';
         contexto.strokeStyle = "#1B4F72";

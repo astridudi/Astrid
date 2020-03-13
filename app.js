@@ -1,3 +1,7 @@
+var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -8,8 +12,6 @@ const indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const hbs = require('hbs');
 const main = require('./routes/main');
-
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,6 +42,27 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/views/index');
+//  res.render('index');
+});
+
+server.listen(3000);
+io.on('connection', function (socket) {
+  socket.on("aporteArgumentacion", (data)=>{
+    io.emit("actualizacionArgumentacion",data.msg);
+    console.log("Evento: "+data.msg)
+  });
+  socket.on("mensajeChat", (data)=>{
+    io.emit("actualizacionChat",data.msg);
+    console.log("Evento: "+data.msg)
+  });
+  socket.on("objetoDiagrama", (data)=>{
+    io.emit("actualizacionDiagrama",data.msg);
+    console.log("Evento: "+data.msg)
+  });
 });
 
 module.exports = app;

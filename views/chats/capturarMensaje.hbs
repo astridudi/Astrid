@@ -1,11 +1,11 @@
 <form method='POST' action='/main/grabarMensajeChatSesion'>
     {{#if sesion}}
         <h3>
-            <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
+            <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
             {{sesion.nombre}} |
-            <a href='/main/presentarSesion?id={{sesion.id}}'>Planteamiento</a> |
+            <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
             Chat |
-            <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}'>Diagrama</a> |
+            <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Diagrama</a> |
         </h3>
         {{#if sesion.chat}}
             <div align="center" style="background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
@@ -19,11 +19,22 @@
                 </map>
             </div>
             <hr class="verdeAstrid1">
+            <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
             <input type='hidden' name='idSesion' value={{sesion.id}}>
             <input type='hidden' name='id' value={{sesion.chat.id}}>
             <input type='hidden' name='mensajeTiempo' value=''/></p>
             <p>Mensaje: <input type='text' name='mensajeContenido' value=''/></p>
-            <input type='submit' value='Grabar' />
+            <input type='submit' onclick="mensaje()" value='Grabar' />
         {{/if}}
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost:3000');
+            socket.on('connection', function (data) {
+                console.log(data);
+            });
+            function mensaje(){
+                socket.emit("mensajeChat", {msg:'Cliente pulsó'});
+            }
+        </script>
     {{/if}}
 </form>

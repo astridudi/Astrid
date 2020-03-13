@@ -1,6 +1,10 @@
 <div class='navbar'>
     <h3>
-        <a href='/main/consultarConjuntoSesiones'>Institucional</a> |
-        <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
+        {{#if nombreUsuario}}
+            <a href='/main/consultarConjuntoInstituciones?nombreUsuario={{nombreUsuario}}'>Instituciones</a> |
+            <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
+        {{else}}
+            <a href='/main/ingresar'>Ingreso</a> |
+        {{/if}}
     </h3>
 </div>
