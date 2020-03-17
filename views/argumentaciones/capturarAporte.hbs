@@ -1,53 +1,59 @@
 <form method='POST' action='/main/grabarAporteSesion'>
-    {{#if sesion}}
-        <h3>
-            <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
-            {{sesion.nombre}} |
-            <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
-            <a href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
-            <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Diagrama</a> |
-            Argumentación |
-        </h3>
-        {{#if argumentacion}}
-            <div align="center" style="background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
-                <img id="imagen" src="{{argumentacion.tiposAporte.dibujar}}" width="1000" height="2000" usemap="#mapa" />
-                <map name="mapa">
-                    {{#each argumentacion.aportes}}
-                        {{#each areasEnlace}}
-                            <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/main/registrarAporteSesion?idSesion={{../../sesion.id}}&idObjeto={{../../idObjeto}}&aportePredecesorId={{../id}}&aportePredecesorTipo={{../tipoAporte.nombre}}&aportePredecesorContenido={{../contenido}}&aporteTipoId={{tipoSucesor.id}}&aporteTipo={{tipoSucesor.nombre}}&nombreUsuario={{../../nombreUsuario}}" />
-                        {{/each}}
+{{#if sesion}}
+    <h3>
+        <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
+        {{sesion.nombre}} |
+        <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
+        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
+        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Diagrama</a> |
+        Argumentación |
+    </h3>
+    {{#if argumentacion}}
+        <div align="center" style="background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
+            <img id="imagen" src="{{argumentacion.tiposAporte.dibujar}}" width="1000" height="2000" usemap="#mapa" />
+            <map name="mapa">
+                {{#each argumentacion.aportes}}
+                    {{#each areasEnlace}}
+                        <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/main/registrarAporteSesion?idSesion={{../../sesion.id}}&idObjeto={{../../idObjeto}}&aportePredecesorId={{../id}}&aportePredecesorTipo={{../tipoAporte.nombre}}&aportePredecesorContenido={{../contenido}}&aporteTipoId={{tipoSucesor.id}}&aporteTipo={{tipoSucesor.nombre}}&nombreUsuario={{../../nombreUsuario}}" />
                     {{/each}}
-                </map>
-            </div>
-            <hr class="verdeAstrid1">
-            <input type="hidden" name="nombreUsuario" value="{{nombreUsuario}}">
-            <input type='hidden' name='idSesion' value={{sesion.id}}>
-            <input type='hidden' name='id' value={{argumentacion.id}}>
-            <input type='hidden' name='idObjeto' value={{idObjeto}}>
-            <input type='hidden' name='aporteTipoId' value={{aporteTipoId}}>
-            <input type='hidden' name='aporteTipo' value={{aporteTipo}}>
-            <input type='hidden' name='aportePredecesorId' value={{aportePredecesorId}}>
-            <p><b>{{aportePredecesorTipo}}</b> - {{aportePredecesorContenido}}</p>
-            <p><b>{{aporteTipo}}:</b> <input type='text' name='aporteContenido' value='' autofocus/></p>
-            <input type='hidden' name='aporteTiempo' value=''/></p>
-            <input type='submit' onclick="aporte()" value='Grabar' />
-        {{/if}}
-        <script
-                src="https://code.jquery.com/jquery-3.4.1.js"
-                integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-                crossorigin="anonymous"></script>
-        <script src="/socket.io/socket.io.js"></script>
-        <script>
-            let socket;
-            $(document).ready(()=>{
-                socket = io.connect('http://34.69.82.100:3000');
-                socket.on('connection', function (data) {
-                    console.log(data);
-                });
-            });
-            function aporte(){
-                socket.emit("aporteArgumentacion", {msg:'Cliente pulsó'});
-            }
-        </script>
+                {{/each}}
+            </map>
+        </div>
+        <hr class="verdeAstrid1">
+        <input type="hidden" name="nombreUsuario" value="{{nombreUsuario}}">
+        <input type='hidden' name='idSesion' value={{sesion.id}}>
+        <input type='hidden' name='id' value={{argumentacion.id}}>
+        <input type='hidden' name='idObjeto' value={{idObjeto}}>
+        <input type='hidden' name='aporteTipoId' value={{aporteTipoId}}>
+        <input type='hidden' name='aporteTipo' value={{aporteTipo}}>
+        <input type='hidden' name='aportePredecesorId' value={{aportePredecesorId}}>
+        <p><b>{{aportePredecesorTipo}}</b> - {{aportePredecesorContenido}}</p>
+        <p><b>{{aporteTipo}}:</b> <input type='text' name='aporteContenido' value='' autofocus/></p>
+        <input type='hidden' name='aporteTiempo' value=''/></p>
+        <input type='submit' onclick="confirmacionAporte()" value='Grabar' />
     {{/if}}
+     <script
+             src="https://code.jquery.com/jquery-3.4.1.js"
+             integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+             crossorigin="anonymous"></script>
+     <script src="/socket.io/socket.io.js"></script>
+     <script>
+         let socket;
+         $(document).ready(()=>{
+             //socket = io.connect('http://34.69.82.100:3000');
+             socket = io.connect('http://localhost:3000');
+             socket.on('connection', function (data) {
+                 console.log(data);
+             });
+         });
+         function confirmacionAporte(pTipoAporte){
+             if (pTipoAporte === undefined) {
+                 pTipoAporte="";
+             } else {
+                 pTipoAporte="de tipo "+pTipoAporte+" ";
+             }
+             socket.emit("confirmacionAporte", {msg:'Se hizo un nuevo aporte '+pTipoAporte+'en la argumentación | {{nombreUsuario}}'});
+         }
+     </script>
+{{/if}}
 </form>

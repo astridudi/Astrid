@@ -13,31 +13,100 @@
             <map name="mapa">
                 {{#each argumentacion.aportes}}
                     {{#each areasEnlace}}
-                        <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/main/registrarAporteSesion?idSesion={{../../sesion.id}}&idObjeto={{../../idObjeto}}&aportePredecesorId={{../id}}&aportePredecesorTipo={{../tipoAporte.nombre}}&aportePredecesorContenido={{../contenido}}&aporteTipoId={{tipoSucesor.id}}&aporteTipo={{tipoSucesor.nombre}}&nombreUsuario={{../../nombreUsuario}}" title="{{tipoSucesor.nombre}}"/>
+                        <area onclick="inicioCapturaAporte('{{tipoSucesor.id}}','{{../id}}','{{../tipoAporte.nombre}}','{{../contenido}}','{{tipoSucesor.nombre}}','{{../argumentacion.nombre}}')" shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="#" title="{{tipoSucesor.nombre}}"/>
                     {{/each}}
                 {{/each}}
                 {{#if argumentacion.vacio}}
-                    <area shape="rect" coords="0,0,1000,800" href="/main/registrarAporteSesion?idSesion={{sesion.id}}&idObjeto={{idObjeto}}&aportePredecesorId=&aporteTipoId={{argumentacion.tiposAporte.tipoAporteInicio.id}}&aporteTipo={{argumentacion.tiposAporte.tipoAporteInicio.nombre}}&nombreUsuario={{nombreUsuario}}" />
+                    <area onclick="inicioCapturaAporte('{{argumentacion.tiposAporte.tipoAporteInicio.id}}','','','','{{argumentacion.tiposAporte.tipoAporteInicio.nombre}}','{{argumentacion.nombre}}')" shape="rect" coords="0,0,1000,800" href="#" title="{{tipoSucesor.nombre}}"/>
                 {{/if}}
             </map>
         </div>
+        <div id="capturarAporte" style="display:none;">
+            <form method='POST' action='/main/grabarAporteSesion'>
+                <hr class="verdeAstrid1">
+                <input type="hidden" name="nombreUsuario" value="{{nombreUsuario}}">
+                <input type='hidden' name='idSesion' value={{sesion.id}}>
+                <input type='hidden' name='id' value={{argumentacion.id}}>
+                <input type='hidden' name='idObjeto' value={{idObjeto}}>
+                <input id="aporteTipoId" type='hidden' name='aporteTipoId' value={{aporteTipoId}}>
+                <input id="aporteTipo" type='hidden' name='aporteTipo' value={{aporteTipo}}>
+                <input id="aportePredecesorId" type='hidden' name='aportePredecesorId' value=''/>
+                <p><b id="aportePredecesor"></b></p>
+                <p><b id="aporteSucesorTipo"></b><b>: </b> <input id="aporteContenido" type='text' name='aporteContenido' value='' autofocus/></p>
+                <input id="aporteTiempo" type='hidden' name='aporteTiempo' value=''/></p>
+                <input type='submit' onclick="confirmacionAporte()" value='Grabar' /> |
+                <a onclick="desistimientoAporte()">Desistir</a> |
+            </form>
+        </div>
+
+        <script
+                src="https://code.jquery.com/jquery-3.4.1.js"
+                integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+                crossorigin="anonymous"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            let socket;
+            $(document).ready(()=>{
+                socket = io.connect('http://34.69.82.100:3000');
+//                socket = io.connect('http://localhost:3000');
+                socket.on("actualizacionArgumentacion", (data)=>{
+                    console.log("Evento: "+data);
+                    location.reload();
+                });
+                socket.on('atencion', function (data) {
+                    $('#alerta').html(data);
+                });
+                socket.on('connection', function (data) {
+                    console.log(data);
+                });
+            });
+            function inicioCapturaAporte(pAporteTipoId,pAportePredecesorId,pAportePredecesorTipo,pAportePredecesorContenido,pAporteSucesorTipo,pArgumentacionNombre){
+                document.getElementById('aporteTipoId').value=pAporteTipoId;
+                document.getElementById('aportePredecesorId').value=pAportePredecesorId;
+                document.getElementById('aportePredecesor').innerHTML=pAportePredecesorTipo+' - '+pAportePredecesorContenido;
+                document.getElementById('aporteSucesorTipo').innerHTML=pAporteSucesorTipo;
+                document.getElementById('aporteContenido').value='';
+                document.getElementById('aporteTiempo').value='';
+                document.getElementById('capturarAporte').style.display='block';
+                document.getElementById('aporteContenido').focus();
+                alertaAporte(pAporteSucesorTipo,pArgumentacionNombre);
+            }
+            function alertaAporte(pTipoAporte,pNombre){
+                if (pTipoAporte === undefined) {
+                    pTipoAporte="";
+                } else {
+                    pTipoAporte="de tipo "+pTipoAporte+" ";
+                }
+                if (pNombre === undefined) {
+                    pNombre="";
+                } else {
+                    pNombre=pNombre+" ";
+                }
+                socket.emit("preparacion", {msg:'Se prepara un nuevo aporte '+pTipoAporte+'en la argumentación '+pNombre+'| {{nombreUsuario}}'});
+            }
+            function desistimientoAporte(pNombre){
+                if (pNombre === undefined) {
+                    pNombre="";
+                } else {
+                    pNombre=pNombre+" ";
+                }
+                document.getElementById("capturarAporte").style.display='none';
+                socket.emit("desistimientoMensaje", {msg:'Se desistió de la inclusión de un aporte en la argumentación '+pNombre+'| {{nombreUsuario}}'});
+            }
+            function confirmacionAporte(pTipoAporte,pNombre){
+                if (pTipoAporte === undefined) {
+                    pTipoAporte="";
+                } else {
+                    pTipoAporte="de tipo "+pTipoAporte+" ";
+                }
+                if (pNombre === undefined) {
+                    pNombre="";
+                } else {
+                    pNombre=pNombre+" ";
+                }
+                socket.emit("confirmacionAporte", {msg:'Se hizo un nuevo aporte '+pTipoAporte+'en la argumentación '+pNombre+'| {{nombreUsuario}}'});
+            }
+        </script>
+
     {{/if}}
 {{/if}}
-<script
-        src="https://code.jquery.com/jquery-3.4.1.js"
-        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-        crossorigin="anonymous"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    $(document).ready(()=>{
-        let socket = io.connect('http://34.69.82.100:3000');
-        socket.on("actualizacionArgumentacion", (data)=>{
-            console.log("Evento: "+data);
-            location.reload();
-        });
-        socket.on('connection', function (data) {
-            console.log(data);
-        });
-    });
-</script>
-

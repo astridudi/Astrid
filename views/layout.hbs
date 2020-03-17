@@ -9,7 +9,7 @@
 <header>
     {{#if nombreUsuario}}
         <a href="/?nombreUsuario={{nombreUsuario}}">
-            <img src="/images/Logo_Astrid.png" alt="Astrid 1.0 (Versión alfa)" height="100px"  title="Inicio">
+        <img src="/images/Logo_Astrid.png" alt="Astrid 1.0 (Versión alfa)" height="100px"  title="Inicio">
         </a>
     {{else}}
         <a href="/">
@@ -22,9 +22,20 @@
 </body>
 <hr class="naranjaAstrid2">
 {{#if nombreUsuario}}
-    <p align="right">
-        {{nombreUsuario}} |
-        <a href="/">Salir</a>
-    </p>
+    <table style="width:100%">
+        <tr>
+            <th>
+                <p align="left" id="alerta">
+                    ...
+                </p>
+            </th>
+            <th>
+                <p align="right">
+                    {{nombreUsuario}} |
+                    <a href="/">Salir</a>
+                </p>
+            </th>
+        </tr>
+    </table>
 {{/if}}
 </html>

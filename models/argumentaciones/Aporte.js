@@ -2,7 +2,7 @@ const Argumentacion = require('../argumentaciones/Argumentacion');
 const DatoGrafico = require('../argumentaciones/DatoGrafico');
 
 module.exports = class Aporte {
-    constructor(id,tipoAporteId,contenido,tiempo) {
+    constructor(id,tipoAporteId,contenido,tiempo,nombreUsuario) {
         this._id = id;
         this._argumentacion = new Argumentacion('','','');
         this._aportePredecesor = undefined;
@@ -14,6 +14,7 @@ module.exports = class Aporte {
         } else {
             this._tiempo = tiempo;
         }
+        this._nombreUsuario = nombreUsuario;
         this._datoGrafico = undefined;
         this._areasEnlace = [];
     }
@@ -38,6 +39,9 @@ module.exports = class Aporte {
     set tiempo(pTiempo) {
         this._tiempo = pTiempo;
     }
+    set nombreUsuario(pNombreUsuario) {
+        this._nombreUsuario = pNombreUsuario;
+    }
     get id() {
         return this._id;
     }
@@ -58,6 +62,9 @@ module.exports = class Aporte {
     }
     get tiempo() {
         return this._tiempo;
+    }
+    get nombreUsuario() {
+        return this._nombreUsuario;
     }
     get tiposSucesores() {
         return this._argumentacion.aporte(this._tipoAporteId).tiposSucesores;
