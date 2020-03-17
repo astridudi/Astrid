@@ -51,12 +51,35 @@ app.get('/', function (req, res) {
 
 server.listen(3000);
 io.on('connection', function (socket) {
-  socket.on("aporteArgumentacion", (data)=>{
+  socket.on("confirmacionIngreso", (data)=>{
+    io.emit("atencion",data.msg);
+    console.log("Evento: "+data.msg)
+  });
+  socket.on("preparacion", (data)=>{
+    io.emit("atencion",data.msg);
+    console.log("Evento: "+data.msg)
+  });
+  socket.on("esperaAporte", (data)=>{
+    io.emit("atencion",data.msg);
+    console.log("Evento: "+data.msg)
+  });
+  socket.on("confirmacionAporte", (data)=>{
+    io.emit("atencion",data.msg);
     io.emit("actualizacionArgumentacion",data.msg);
     console.log("Evento: "+data.msg)
   });
-  socket.on("mensajeChat", (data)=>{
+  socket.on("confirmacionElemento", (data)=>{
+    io.emit("actualizacionDiagrama",data.msg);
+    io.emit("atencion",data.msg);
+    console.log("Evento: "+data.msg)
+  });
+  socket.on("confirmacionMensaje", (data)=>{
+    io.emit("atencion",data.msg);
     io.emit("actualizacionChat",data.msg);
+    console.log("Evento: "+data.msg)
+  });
+  socket.on("desistimientoMensaje", (data)=>{
+    io.emit("atencion",data.msg);
     console.log("Evento: "+data.msg)
   });
   socket.on("objetoDiagrama", (data)=>{

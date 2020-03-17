@@ -101,6 +101,7 @@ module.exports = class ConjuntoTiposAporte {
         let xCajaIzquierdaCentro = xCajaIzquierda + anchoCajaLateral - anchoCajaAuxiliar;
         let xCajaDerechaCentro = xCajaDerecha + anchoCajaLateral - anchoCajaAuxiliar;
         let t = '';
+        let r = '';
         let x = 0;
         let y = 0;
         let ancho = 0;
@@ -330,16 +331,17 @@ module.exports = class ConjuntoTiposAporte {
             contexto.fillStyle = "#000000";
             contexto.font = "12px Arial";
             contexto.lineWidth = 1;
+            r = this.argumentacion.aportes[i].ordinal+'. '+this.argumentacion.aportes[i].tipoAporte.nombre+' - '+this.argumentacion.aportes[i].nombreUsuario;
             switch (this.argumentacion.aportes[i].tipoAporte.id) {
                 case 0: {
                     contexto.textAlign = "left";
-                    contexto.fillText(this.argumentacion.aportes[i].ordinal+' - '+this.argumentacion.aportes[i].tipoAporte.nombre, x, y - solapa, this.argumentacion.aportes[i].datoGrafico.ancho-8);
+                    contexto.fillText(r, x, y - solapa, this.argumentacion.aportes[i].datoGrafico.ancho-8);
                     break;
                 }
                 case 1:
                 case 2: {
                     contexto.textAlign = "center";
-                    contexto.fillText(this.argumentacion.aportes[i].ordinal+' - '+this.argumentacion.aportes[i].tipoAporte.nombre, x + anchoCajaLateral / 2 , y - solapa, this.argumentacion.aportes[i].datoGrafico.ancho-8);
+                    contexto.fillText(r, x + anchoCajaLateral / 2 , y - solapa, this.argumentacion.aportes[i].datoGrafico.ancho-8);
                     break;
                 }
                 case 3:
@@ -351,7 +353,7 @@ module.exports = class ConjuntoTiposAporte {
                 case 9:
                 case 10: {
                     contexto.textAlign = "center";
-                    contexto.fillText(this.argumentacion.aportes[i].ordinal+' - '+this.argumentacion.aportes[i].tipoAporte.nombre, x + anchoCajaAuxiliar / 2 , y - solapa, this.argumentacion.aportes[i].datoGrafico.ancho-8);
+                    contexto.fillText(r, x + anchoCajaAuxiliar / 2 , y - solapa, this.argumentacion.aportes[i].datoGrafico.ancho-8);
                     break;
                 }
             }

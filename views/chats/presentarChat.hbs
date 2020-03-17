@@ -18,9 +18,27 @@
             </map>
         </div>
         <br>
-        <a href='/main/registrarMensajeChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Registrar mensaje</a> |
+        <!--
+            <a onclick="alertaMensaje()" href='/main/registrarMensajeChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Registrar mensaje</a> |
+            -->
+        <a onclick="alertaMensaje()">Registrar mensaje</a> |
+        <div id="capturarMensaje" style="display:none">
+            <form method='POST' action='/main/grabarMensajeChatSesion'>
+                <hr class="verdeAstrid1">
+                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
+                <input type='hidden' name='idSesion' value={{sesion.id}}>
+                <input type='hidden' name='id' value={{sesion.chat.id}}>
+                <input type='hidden' name='mensajeTiempo' value=''/></p>
+                <p>Mensaje: <input id='mensajeContenido' type='text' name='mensajeContenido' value=''/></p>
+                <input type='submit' onclick="confirmacionMensaje()" value='Grabar' /> |
+                <a onclick="desistimientoMensaje()">Desistir</a> |
+            </form>
+        </div>
     {{/if}}
 {{/if}}
+
+
+
 <script
         src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -30,12 +48,28 @@
     let socket;
     $(document).ready(()=>{
         socket = io.connect('http://34.69.82.100:3000');
+//        socket = io.connect('http://localhost:3000');
         socket.on("actualizacionChat", (data)=>{
             console.log("Evento: "+data);
             location.reload();
+        });
+        socket.on('atencion', function (data) {
+            $('#alerta').html(data);
         });
         socket.on('connection', function (data) {
             console.log(data);
         });
     });
+    function alertaMensaje(){
+        socket.emit("preparacion", {msg:'Se prepara un nuevo mensaje en el chat | {{nombreUsuario}}'});
+        document.getElementById("mensajeContenido").value='';
+        document.getElementById("capturarMensaje").style.display='block';
+    }
+    function desistimientoMensaje(){
+        socket.emit("desistimientoMensaje", {msg:'Se desistió de la emisión de un mensaje en el chat | {{nombreUsuario}}'});
+        document.getElementById("capturarMensaje").style.display='none';
+    }
+    function confirmacionMensaje(){
+        socket.emit("confirmacionMensaje", {msg:'Se emitió un nuevo mensaje en el chat | {{nombreUsuario}}'});
+    }
 </script>

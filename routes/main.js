@@ -1,5 +1,6 @@
 const util = require('util');
 const express = require('express');
+
 const router = express.Router();
 const Institucion = require('../models/instituciones/Institucion');
 const Programa = require('../models/instituciones/Programa');
@@ -390,7 +391,7 @@ router.post('/grabarMensajeChatSesion', async (req, res, next) => {
     var datosChat = new DatosChat();
     await datosChat.grabarMensaje(req.body.id,
         new Mensaje('',req.body.mensajeContenido, req.body.mensajeTiempo, req.body.nombreUsuario));
-    res.redirect('/main/presentarChatSesion?idSesion='+ req.body.idSesion + '&nombreUsuario=' + req.body.nombreUsuario);
+//    res.redirect('/main/presentarChatSesion?idSesion='+ req.body.idSesion + '&nombreUsuario=' + req.body.nombreUsuario);
 });
 router.get('/presentarDiagramaSesion', async (req, res, next) => {
     datosDiagrama = new DatosDiagrama();
@@ -487,8 +488,8 @@ router.get('/registrarAporteSesion', async (req, res, next) => {
 router.post('/grabarAporteSesion', async (req, res, next) => {
     var datosArgumentacion = new DatosArgumentacion();
     await datosArgumentacion.grabarAporte(req.body.id,req.body.aportePredecesorId,
-        new Aporte('',req.body.aporteTipoId,req.body.aporteContenido, req.body.aporteTiempo));
-    res.redirect('/main/presentarArgumentacionSesion?idSesion='+ req.body.idSesion+'&idObjeto='+ req.body.idObjeto + '&nombreUsuario=' + req.body.nombreUsuario);
+        new Aporte('',req.body.aporteTipoId,req.body.aporteContenido, req.body.aporteTiempo, req.body.nombreUsuario));
+//    res.redirect('/main/presentarArgumentacionSesion?idSesion='+ req.body.idSesion+'&idObjeto='+ req.body.idObjeto + '&nombreUsuario=' + req.body.nombreUsuario);
 });
 router.post('/permitirIngreso', async (req, res, next) => {
     res.redirect('/?nombreUsuario='+ req.body.nombreUsuario);

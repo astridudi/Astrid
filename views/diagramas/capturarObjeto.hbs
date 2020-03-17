@@ -22,7 +22,7 @@
                 <p>{{nombre}}: <input type='text' name='valor{{nombre}}' value=''/></p>
             {{/each}}
             <input type='hidden' name='aporteTiempo' value=''/></p>
-            <input type='submit' onclick="objeto()" value='Grabar' />
+            <input type='submit' onclick="confirmacionElemento()" value='Grabar' />
         {{/if}}
         <script
                 src="https://code.jquery.com/jquery-3.4.1.js"
@@ -33,12 +33,18 @@
             let socket;
             $(document).ready(()=>{
                 socket = io.connect('http://34.69.82.100:3000');
+                //socket = io.connect('http://localhost:3000');
                 socket.on('connection', function (data) {
                     console.log(data);
                 });
             });
-            function objeto(){
-                socket.emit("objetoDiagrama", {msg:'Cliente pulsó'});
+            function confirmacionElemento(pTipoElemento){
+                if (pTipoElemento === undefined) {
+                    pTipoElemento="";
+                } else {
+                    pTipoElemento="de tipo "+pTipoElemento+" ";
+                }
+                socket.emit("confirmacionElemento", {msg:'Se incluyó un nuevo elemento '+pTipoElemento+'en el diagrama | {{nombreUsuario}}'});
             }
         </script>
     {{/if}}

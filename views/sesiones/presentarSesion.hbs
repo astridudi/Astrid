@@ -14,4 +14,22 @@
     <a href='/main/eliminarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Eliminar sesión</a> |
     <a href='/main/editarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Editar sesión</a> |
 {{/if}}
+<script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    let socket;
+    $(document).ready(()=>{
+        socket = io.connect('http://34.69.82.100:3000');
+//        socket = io.connect('http://localhost:3000');
+        socket.on('atencion', function (data) {
+            $('#alerta').html(data);
+        });
+        socket.on('connection', function (data) {
+            console.log(data);
+        });
+    });
+</script>
 

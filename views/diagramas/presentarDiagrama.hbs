@@ -20,13 +20,13 @@
         <br>
         <b>Objetos:</b>
         {{#each sesion.diagrama.tipoDiagrama.tiposObjeto}}
-            <a href='/main/registrarObjetoDiagramaSesion?idSesion={{../sesion.id}}&objetoTipoId={{id}}&nombreUsuario={{../nombreUsuario}}'>{{nombre}}</a>
+            <a onclick="alertaElemento('{{nombre}}')" href='/main/registrarObjetoDiagramaSesion?idSesion={{../sesion.id}}&objetoTipoId={{id}}&nombreUsuario={{../nombreUsuario}}&sesionCompleta={{../sesion}}'>{{nombre}}</a>
             |
         {{/each}}
         |
         <b>Relaciones:</b>
         {{#each sesion.diagrama.tipoDiagrama.tiposRelacion}}
-            <a href='/main/registrarRelacionDiagramaSesion?idSesion={{../sesion.id}}&relacionTipoId={{id}}&nombreUsuario={{../nombreUsuario}}'>{{nombre}}</a>
+            <a onclick="alertaElemento('{{nombre}}')" href='/main/registrarRelacionDiagramaSesion?idSesion={{../sesion.id}}&relacionTipoId={{id}}&nombreUsuario={{../nombreUsuario}}'>{{nombre}}</a>
             |
         {{/each}}
     {{/if}}
@@ -37,14 +37,27 @@
         crossorigin="anonymous"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
+    let socket;
     $(document).ready(()=>{
-        let socket = io.connect('http://34.69.82.100:3000');
+        socket = io.connect('http://34.69.82.100:3000');
+//        socket = io.connect('http://localhost:3000');
         socket.on("actualizacionDiagrama", (data)=>{
             console.log("Evento: "+data);
             location.reload();
+        });
+        socket.on('atencion', function (data) {
+            $('#alerta').html(data);
         });
         socket.on('connection', function (data) {
             console.log(data);
         });
     });
+    function alertaElemento(pTipoElemento){
+        if (pTipoElemento === undefined) {
+            pTipoElemento="";
+        } else {
+            pTipoElemento="de tipo "+pTipoElemento+" ";
+        }
+        socket.emit("preparacion", {msg:'Se prepara un nuevo elemento '+pTipoElemento+'en el diagrama | {{nombreUsuario}}'});
+    }
 </script>
