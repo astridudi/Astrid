@@ -7,20 +7,17 @@
         <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Diagrama</a> |
     </h3>
     {{#if sesion.chat}}
-        <div align="center" style="background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
-            <img id="imagen" src="{{sesion.chat.dibujar}}" width="1000" height="2000" usemap="#mapa" />
-            <map name="mapa">
-                {{#each sesion.chat.arregla}}
-                    {{#each areasEnlace}}
-                        <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/" />
-                    {{/each}}
-                {{/each}}
+        <div align="center" style="position:relative; background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
+            <canvas id="canvasDibujo" width="1000" height="2000"></canvas>
+            <img id="imagenMapa" width="1000" height="2000" usemap="#mapa" style="position:absolute;"/>
+            <map id="mapa" name="mapa">
             </map>
+            <script src="../javascripts/dibujarChat.js"></script>
+            <script type="text/javascript">
+                dibujarChat("canvasDibujo","{{sesion.chat.mensajesToJson}}","{{nombreUsuario}}");
+            </script>
         </div>
         <br>
-        <!--
-            <a onclick="alertaMensaje()" href='/main/registrarMensajeChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Registrar mensaje</a> |
-            -->
         <a onclick="alertaMensaje()">Registrar mensaje</a> |
         <div id="capturarMensaje" style="display:none">
             <form method='POST' action='/main/grabarMensajeChatSesion'>
@@ -37,8 +34,6 @@
     {{/if}}
 {{/if}}
 
-
-
 <script
         src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -48,7 +43,7 @@
     let socket;
     $(document).ready(()=>{
         socket = io.connect('http://34.69.82.100:3000');
-//        socket = io.connect('http://localhost:3000');
+        //socket = io.connect('http://localhost:3000');
         socket.on("actualizacionChat", (data)=>{
             console.log("Evento: "+data);
             location.reload();

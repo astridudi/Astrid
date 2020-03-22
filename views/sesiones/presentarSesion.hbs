@@ -23,7 +23,7 @@
     let socket;
     $(document).ready(()=>{
         socket = io.connect('http://34.69.82.100:3000');
-//        socket = io.connect('http://localhost:3000');
+        //socket = io.connect('http://localhost:3000');
         socket.on('atencion', function (data) {
             $('#alerta').html(data);
         });

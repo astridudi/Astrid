@@ -10,8 +10,9 @@ module.exports = class Mensaje {
             this._tiempo = tiempo;
         }
         this._nombreUsuario = nombreUsuario;
-        this._datoGrafico = undefined;
+        this._datoGrafico = new DatoGrafico(0,0,0,0,0);
         this._areasEnlace = [];
+        this._areasEnlace[0] = new DatoGrafico(0,0,0,0,0);
     }
     set id(pId) {
         this._id = pId;
