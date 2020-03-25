@@ -25,9 +25,9 @@
                 <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
                 <input type='hidden' name='idSesion' value={{sesion.id}}>
                 <input type='hidden' name='id' value={{sesion.chat.id}}>
-                <input type='hidden' name='mensajeTiempo' value=''/></p>
+                <input type='hidden' name='mensajeTiempo' value=''/>
                 <p>Mensaje: <input id='mensajeContenido' type='text' name='mensajeContenido' value=''/></p>
-                <input type='submit' onclick="confirmacionMensaje()" value='Grabar' /> |
+                <input type='submit' value='Grabar' /> |
                 <a onclick="desistimientoMensaje()">Desistir</a> |
             </form>
         </div>
@@ -64,7 +64,9 @@
         socket.emit("desistimientoMensaje", {msg:'Se desistió de la emisión de un mensaje en el chat | {{nombreUsuario}}'});
         document.getElementById("capturarMensaje").style.display='none';
     }
+    /*
     function confirmacionMensaje(){
         socket.emit("confirmacionMensaje", {msg:'Se emitió un nuevo mensaje en el chat | {{nombreUsuario}}'});
     }
+    */
 </script>
