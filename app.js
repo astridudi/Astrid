@@ -13,6 +13,8 @@ var usersRouter = require('./routes/users');
 const hbs = require('hbs');
 const main = require('./routes/main');
 
+const events=require("./models/chats/Emiter")
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -49,6 +51,13 @@ app.get('/', function (req, res) {
 //  res.render('index');
 });
 
+/**
+ * Se configura el receptor
+ */
+events.on("confirmacionMensaje", (data)=>{
+  console.log(data)
+  emitToAllSockets("actualizacionChat", data)
+});
 server.listen(3000);
 io.on('connection', function (socket) {
   socket.on("confirmacionIngreso", (data)=>{
@@ -73,19 +82,31 @@ io.on('connection', function (socket) {
     io.emit("atencion",data.msg);
     console.log("Evento: "+data.msg)
   });
-  socket.on("confirmacionMensaje", (data)=>{
+  /*socket.on("confirmacionMensaje", (data)=>{
     io.emit("atencion",data.msg);
     io.emit("actualizacionChat",data.msg);
     console.log("Evento: "+data.msg)
-  });
+  });*/
   socket.on("desistimientoMensaje", (data)=>{
     io.emit("atencion",data.msg);
     console.log("Evento: "+data.msg)
   });
   socket.on("objetoDiagrama", (data)=>{
-    io.emit("actualizacionDiagrama",data.msg);
-    console.log("Evento: "+data.msg)
+    emitToAllSockets("actualizacionDiagrama", data.msg)
   });
 });
+
+/**
+ * Function which allow you to
+ * emit a custom event to all current
+ * connected sockets
+ */
+
+function emitToAllSockets(eventName, eventData){
+  if (typeof io !== undefined && eventName!==undefined && eventData!==undefined){
+    io.emit(eventName, eventData);
+    console.log("Nombre del evento => " +eventName+" Datos => "+eventData)
+  }
+}
 
 module.exports = app;

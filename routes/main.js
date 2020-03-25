@@ -1,5 +1,6 @@
 const util = require('util');
 const express = require('express');
+const eventEmitter=require("../models/chats/Emiter");
 
 const router = express.Router();
 const Institucion = require('../models/instituciones/Institucion');
@@ -391,6 +392,10 @@ router.post('/grabarMensajeChatSesion', async (req, res, next) => {
     var datosChat = new DatosChat();
     await datosChat.grabarMensaje(req.body.id,
         new Mensaje('',req.body.mensajeContenido, req.body.mensajeTiempo, req.body.nombreUsuario));
+    /**
+     * Se configura el emisor
+     */
+    eventEmitter.emit("confirmacionMensaje", req.body.mensajeContenido)
 //    res.redirect('/main/presentarChatSesion?idSesion='+ req.body.idSesion + '&nombreUsuario=' + req.body.nombreUsuario);
 });
 router.get('/presentarDiagramaSesion', async (req, res, next) => {
