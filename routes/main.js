@@ -392,8 +392,9 @@ router.post('/grabarMensajeChatSesion', async (req, res, next) => {
     var datosChat = new DatosChat();
     await datosChat.grabarMensaje(req.body.id,
         new Mensaje('',req.body.mensajeContenido, req.body.mensajeTiempo, req.body.nombreUsuario));
-    eventEmitter.emit('confirmacionMensaje', req.body.nombreUsuario);
-//    res.redirect('/main/presentarChatSesion?idSesion='+ req.body.idSesion + '&nombreUsuario=' + req.body.nombreUsuario);
+    let chatRecuperado = await datosChat.recuperarChatPorSesion(req.body.idSesion);
+    eventEmitter.emit('confirmacionMensaje', {mensaje: 'Se emitió un nuevo mensaje en el chat | '+req.body.nombreUsuario, chatRecuperado: chatRecuperado.mensajesToJson});
+    res.redirect('back');
 });
 router.get('/presentarDiagramaSesion', async (req, res, next) => {
     datosDiagrama = new DatosDiagrama();

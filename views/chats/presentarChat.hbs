@@ -26,7 +26,7 @@
                 <input type='hidden' name='idSesion' value={{sesion.id}}>
                 <input type='hidden' name='id' value={{sesion.chat.id}}>
                 <input type='hidden' name='mensajeTiempo' value=''/>
-                <p>Mensaje: <input id='mensajeContenido' type='text' name='mensajeContenido' value=''/></p>
+                <p>Mensaje: <input id='mensajeContenido' type='text' name='mensajeContenido' value='' autofocus/></p>
                 <input type='submit' value='Grabar' /> |
                 <a onclick="desistimientoMensaje()">Desistir</a> |
             </form>
@@ -46,7 +46,9 @@
         //socket = io.connect('http://localhost:3000');
         socket.on("actualizacionChat", (data)=>{
             console.log("Evento: "+data);
-            location.reload();
+            dibujarChat("canvasDibujo", data.chatRecuperado, "{{nombreUsuario}}");
+            $('#alerta').html(data.mensaje);
+            //location.reload();
         });
         socket.on('atencion', function (data) {
             $('#alerta').html(data);
@@ -59,6 +61,7 @@
         socket.emit("preparacion", {msg:'Se prepara un nuevo mensaje en el chat | {{nombreUsuario}}'});
         document.getElementById("mensajeContenido").value='';
         document.getElementById("capturarMensaje").style.display='block';
+        document.getElementById('mensajeContenido').focus();
     }
     function desistimientoMensaje(){
         socket.emit("desistimientoMensaje", {msg:'Se desistió de la emisión de un mensaje en el chat | {{nombreUsuario}}'});

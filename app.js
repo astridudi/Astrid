@@ -51,7 +51,7 @@ app.get('/', function (req, res) {
 });
 
 events.on("confirmacionMensaje", (data)=>{
-  io.emit("actualizacionChat",data.msg);
+  io.emit("actualizacionChat", (data));
 })
 
 server.listen(3000);
