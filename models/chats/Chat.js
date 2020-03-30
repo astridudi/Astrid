@@ -51,9 +51,9 @@ module.exports = class Chat {
         rValidez = (1*this._nombre.length>0);
         return rValidez;
     }
-    get mensajesToJson() {
-        let rMensajesToJson = JSON.stringify(this);
-        return rMensajesToJson;
+    get chatJson() {
+        let rChatJson = JSON.stringify(this);
+        return rChatJson;
     }
     incluirMensaje(pMensajeChat) {
         let i = this._arreglo.length;

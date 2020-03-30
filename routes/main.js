@@ -393,7 +393,7 @@ router.post('/grabarMensajeChatSesion', async (req, res, next) => {
     await datosChat.grabarMensaje(req.body.id,
         new Mensaje('',req.body.mensajeContenido, req.body.mensajeTiempo, req.body.nombreUsuario));
     let chatRecuperado = await datosChat.recuperarChatPorSesion(req.body.idSesion);
-    eventEmitter.emit('confirmacionMensaje', {mensaje: 'Se emitió un nuevo mensaje en el chat | '+req.body.nombreUsuario, chatRecuperado: chatRecuperado.mensajesToJson});
+    eventEmitter.emit('confirmacionMensaje', {mensaje: 'Se emitió un nuevo mensaje en el chat | '+req.body.nombreUsuario, chatRecuperado: chatRecuperado.chatJson});
     res.redirect('back');
 });
 router.get('/presentarDiagramaSesion', async (req, res, next) => {
@@ -470,6 +470,7 @@ router.get('/presentarArgumentacionSesion', async (req, res, next) => {
         idObjeto: req.query.idObjeto
     });
 });
+/*
 router.get('/registrarAporteSesion', async (req, res, next) => {
     datosArgumentacion = new DatosArgumentacion();
     datos = new DatosSesion();
@@ -488,11 +489,15 @@ router.get('/registrarAporteSesion', async (req, res, next) => {
         idObjeto: req.query.idObjeto
     });
 });
+ */
 router.post('/grabarAporteSesion', async (req, res, next) => {
     var datosArgumentacion = new DatosArgumentacion();
     await datosArgumentacion.grabarAporte(req.body.id,req.body.aportePredecesorId,
         new Aporte('',req.body.aporteTipoId,req.body.aporteContenido, req.body.aporteTiempo, req.body.nombreUsuario));
-//    res.redirect('/main/presentarArgumentacionSesion?idSesion='+ req.body.idSesion+'&idObjeto='+ req.body.idObjeto + '&nombreUsuario=' + req.body.nombreUsuario);
+    let argumentacionRecuperada = await datosArgumentacion.recuperarArgumentacionPorObjeto(req.body.idObjeto);
+    argumentacionRecuperada.ordenar();
+    eventEmitter.emit('confirmacionAporte', {mensaje: 'Se agregó un nuevo aporte en la argumentación | '+req.body.nombreUsuario, argumentacionRecuperada: argumentacionRecuperada.argumentacionJson});
+    res.redirect('back');
 });
 router.post('/permitirIngreso', async (req, res, next) => {
     res.redirect('/?nombreUsuario='+ req.body.nombreUsuario);

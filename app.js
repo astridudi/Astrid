@@ -53,6 +53,9 @@ app.get('/', function (req, res) {
 events.on("confirmacionMensaje", (data)=>{
   io.emit("actualizacionChat", (data));
 })
+events.on("confirmacionAporte", (data)=>{
+  io.emit("actualizacionArgumentacion", (data));
+})
 
 server.listen(3000);
 io.on('connection', function (socket) {
@@ -68,23 +71,18 @@ io.on('connection', function (socket) {
     io.emit("atencion",data.msg);
     console.log("Evento: "+data.msg)
   });
+  /*
   socket.on("confirmacionAporte", (data)=>{
     io.emit("atencion",data.msg);
     io.emit("actualizacionArgumentacion",data.msg);
     console.log("Evento: "+data.msg)
   });
+   */
   socket.on("confirmacionElemento", (data)=>{
     io.emit("actualizacionDiagrama",data.msg);
     io.emit("atencion",data.msg);
     console.log("Evento: "+data.msg)
   });
-  /*
-  socket.on("confirmacionMensaje", (data)=>{
-    io.emit("atencion",data.msg);
-    io.emit("actualizacionChat",data.msg);
-    console.log("Evento: "+data.msg)
-  });
-   */
   socket.on("desistimientoMensaje", (data)=>{
     io.emit("atencion",data.msg);
     console.log("Evento: "+data.msg)

@@ -8,18 +8,15 @@
         Argumentación |
     </h3>
     {{#if argumentacion}}
-        <div align="center" style="background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
-            <img id="imagen" src="{{argumentacion.tiposAporte.dibujar}}" width="1000" height="2000" usemap="#mapa" />
-            <map name="mapa">
-                {{#each argumentacion.aportes}}
-                    {{#each areasEnlace}}
-                        <area onclick="inicioCapturaAporte('{{tipoSucesor.id}}','{{../id}}','{{../tipoAporte.nombre}}','{{../contenido}}','{{tipoSucesor.nombre}}','{{../argumentacion.nombre}}')" shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="#" title="{{tipoSucesor.nombre}}"/>
-                    {{/each}}
-                {{/each}}
-                {{#if argumentacion.vacio}}
-                    <area onclick="inicioCapturaAporte('{{argumentacion.tiposAporte.tipoAporteInicio.id}}','','','','{{argumentacion.tiposAporte.tipoAporteInicio.nombre}}','{{argumentacion.nombre}}')" shape="rect" coords="0,0,1000,800" href="#" title="{{tipoSucesor.nombre}}"/>
-                {{/if}}
+        <div align="center" style="position:relative; background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
+            <canvas id="canvasDibujo" width="1000" height="2000"></canvas>
+            <img id="imagenMapa" width="1000" height="2000" usemap="#mapa" style="position:absolute;"/>
+            <map id="mapa" name="mapa">
             </map>
+            <script src="../javascripts/dibujarArgumentacion.js"></script>
+            <script type="text/javascript">
+                dibujarArgumentacion("canvasDibujo","{{argumentacion.argumentacionJson}}");
+            </script>
         </div>
         <div id="capturarAporte" style="display:none;">
             <form method='POST' action='/main/grabarAporteSesion'>
@@ -34,7 +31,7 @@
                 <p><b id="aportePredecesor"></b></p>
                 <p><b id="aporteSucesorTipo"></b><b>: </b> <input id="aporteContenido" type='text' name='aporteContenido' value='' autofocus/></p>
                 <input id="aporteTiempo" type='hidden' name='aporteTiempo' value=''/></p>
-                <input type='submit' onclick="confirmacionAporte()" value='Grabar' /> |
+                <input type='submit' value='Grabar' /> |
                 <a onclick="desistimientoAporte()">Desistir</a> |
             </form>
         </div>
@@ -48,10 +45,11 @@
             let socket;
             $(document).ready(()=>{
                 socket = io.connect('http://34.69.82.100:3000');
-//                socket = io.connect('http://localhost:3000');
+                //socket = io.connect('http://localhost:3000');
                 socket.on("actualizacionArgumentacion", (data)=>{
                     console.log("Evento: "+data);
-                    location.reload();
+                    dibujarArgumentacion("canvasDibujo", data.argumentacionRecuperada);
+                    $('#alerta').html(data.mensaje);
                 });
                 socket.on('atencion', function (data) {
                     $('#alerta').html(data);
@@ -92,19 +90,6 @@
                 }
                 document.getElementById("capturarAporte").style.display='none';
                 socket.emit("desistimientoMensaje", {msg:'Se desistió de la inclusión de un aporte en la argumentación '+pNombre+'| {{nombreUsuario}}'});
-            }
-            function confirmacionAporte(pTipoAporte,pNombre){
-                if (pTipoAporte === undefined) {
-                    pTipoAporte="";
-                } else {
-                    pTipoAporte="de tipo "+pTipoAporte+" ";
-                }
-                if (pNombre === undefined) {
-                    pNombre="";
-                } else {
-                    pNombre=pNombre+" ";
-                }
-                socket.emit("confirmacionAporte", {msg:'Se hizo un nuevo aporte '+pTipoAporte+'en la argumentación '+pNombre+'| {{nombreUsuario}}'});
             }
         </script>
 

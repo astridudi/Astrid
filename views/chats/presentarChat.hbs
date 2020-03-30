@@ -14,7 +14,7 @@
             </map>
             <script src="../javascripts/dibujarChat.js"></script>
             <script type="text/javascript">
-                dibujarChat("canvasDibujo","{{sesion.chat.mensajesToJson}}","{{nombreUsuario}}");
+                dibujarChat("canvasDibujo","{{sesion.chat.chatJson}}","{{nombreUsuario}}");
             </script>
         </div>
         <br>
@@ -48,7 +48,6 @@
             console.log("Evento: "+data);
             dibujarChat("canvasDibujo", data.chatRecuperado, "{{nombreUsuario}}");
             $('#alerta').html(data.mensaje);
-            //location.reload();
         });
         socket.on('atencion', function (data) {
             $('#alerta').html(data);
@@ -67,9 +66,4 @@
         socket.emit("desistimientoMensaje", {msg:'Se desistió de la emisión de un mensaje en el chat | {{nombreUsuario}}'});
         document.getElementById("capturarMensaje").style.display='none';
     }
-    /*
-    function confirmacionMensaje(){
-        socket.emit("confirmacionMensaje", {msg:'Se emitió un nuevo mensaje en el chat | {{nombreUsuario}}'});
-    }
-    */
 </script>

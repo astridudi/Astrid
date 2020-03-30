@@ -7,7 +7,7 @@ module.exports = class Aporte {
         this._argumentacion = new Argumentacion('','','');
         this._aportePredecesor = undefined;
         this._aportesSucesores = [];
-        this._tipoAporte = this._argumentacion.tiposAporte.tipoAporte(tipoAporteId);
+        this._tipoAporte = this._argumentacion._conjuntoTiposAporte.tipoAporte(tipoAporteId);
         this._contenido = contenido;
         if (tiempo.length==0){
             this._tiempo = new Date();
@@ -15,8 +15,13 @@ module.exports = class Aporte {
             this._tiempo = tiempo;
         }
         this._nombreUsuario = nombreUsuario;
-        this._datoGrafico = undefined;
+        this._datoGrafico = new DatoGrafico(0,0,0,0,0);
         this._areasEnlace = [];
+        this._areasEnlace[0] = new DatoGrafico(0,0,0,0,0);
+        this._areasEnlace[1] = new DatoGrafico(0,0,0,0,0);
+        this._areasEnlace[2] = new DatoGrafico(0,0,0,0,0);
+        this._ordinalEstructura = 0;
+        this._ordinalCronologia = 0;
     }
     set id(pId) {
         this._id = pId;
@@ -42,6 +47,12 @@ module.exports = class Aporte {
     set nombreUsuario(pNombreUsuario) {
         this._nombreUsuario = pNombreUsuario;
     }
+    set ordinalEstructura(pOrdinalEstructura) {
+        this._ordinalEstructura = pOrdinalEstructura;
+    }
+    set ordinalCronologia(pOrdinalCronologia) {
+        this._ordinalCronologia = pOrdinalCronologia;
+    }
     get id() {
         return this._id;
     }
@@ -65,6 +76,12 @@ module.exports = class Aporte {
     }
     get nombreUsuario() {
         return this._nombreUsuario;
+    }
+    get ordinalEstructura() {
+        return this._ordinalEstructura;
+    }
+    get ordinalCronologia() {
+        return this._ordinalCronologia;
     }
     get tiposSucesores() {
         return this._argumentacion.aporte(this._tipoAporteId).tiposSucesores;
@@ -135,9 +152,6 @@ module.exports = class Aporte {
     get tienePredecesor() {
         return (this._aportePredecesor!=undefined);
     }
-    get ordinal() {
-        return (this._argumentacion.ordinal(this));
-    }
     siguienteSucesor(pId) {
         if (pId = this.pId) {
             return this._aportesSucesores[0];
@@ -163,7 +177,6 @@ module.exports = class Aporte {
             j = j - 1;
         }
         this._aportesSucesores[j] = pSucesor;
-//        this._aportesSucesores[this._aportesSucesores.length] = pSucesor;
     }
     incluirDatoGrafico(pX,pY,pAncho,pAlto,pLineas) {
         this._datoGrafico = new DatoGrafico(pX,pY,pAncho,pAlto,pLineas);

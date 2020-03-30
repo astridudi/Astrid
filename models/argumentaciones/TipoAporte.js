@@ -3,6 +3,7 @@ module.exports = class TipoAporte {
         this._id = id;
         this._nombre = nombre;
         this._habilitadoInicio = habilitadoInicio;
+        this._idTiposSucesores = [];
         this._tiposSucesores = [];
         this._tiposAntecesores = [];
     }
@@ -24,6 +25,9 @@ module.exports = class TipoAporte {
     get habilitadoInicio() {
         return this._habilitadoInicio;
     }
+    get idTiposSucesores() {
+        return this._tiposSucesores
+    }
     get tiposSucesores() {
         return this._tiposSucesores
     }
@@ -33,6 +37,7 @@ module.exports = class TipoAporte {
     incluirTipoSucesor(pTipoSucesor) {
         let i = this._tiposSucesores.length;
         this._tiposSucesores[i] = pTipoSucesor;
+        this._idTiposSucesores[i] = pTipoSucesor._id;
         pTipoSucesor.incluirTipoAntecesor(this);
     }
     incluirTipoAntecesor(pTipoAntecesor) {
