@@ -79,10 +79,6 @@
             dibujarDiagrama("canvasDibujo", data.diagramaRecuperado);
             $('#alerta').html(data.mensaje);
         });
-        socket.on("actualizacionDiagrama", (data)=>{
-            console.log("Evento: "+data);
-            location.reload();
-        });
         socket.on('atencion', function (data) {
             $('#alerta').html(data);
         });
