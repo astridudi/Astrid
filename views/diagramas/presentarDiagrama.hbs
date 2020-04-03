@@ -7,28 +7,61 @@
         Diagrama |
     </h3>
     {{#if sesion.diagrama}}
-        <div align="center" style="background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
-            <img id="imagen" src="{{sesion.diagrama.tipoDiagrama.dibujar}}" width="1000" height="2000" usemap="#mapa" >
-            <map name="mapa">
-                {{#each sesion.diagrama.objetos}}
-                    {{#each areasEnlace}}
-                        <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/main/presentarArgumentacionSesion?idSesion={{../../sesion.id}}&idObjeto={{../id}}&nombreUsuario={{../../nombreUsuario}}" />
-                    {{/each}}
-                {{/each}}
+        <div align="center" style="position:relative; background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
+            <canvas id="canvasDibujo" width="1000" height="2000"></canvas>
+            <img id="imagenMapa" width="1000" height="2000" usemap="#mapa" style="position:absolute;"/>
+            <map id="mapa" name="mapa">
             </map>
+            <script src="../javascripts/dibujarDiagramaEntidadRelacion.js"></script>
+            <script type="text/javascript">
+                dibujarDiagrama("canvasDibujo","{{sesion.diagrama.diagramaJson}}","/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
+            </script>
         </div>
         <br>
         <b>Objetos:</b>
         {{#each sesion.diagrama.tipoDiagrama.tiposObjeto}}
-            <a onclick="alertaElemento('{{nombre}}')" href='/main/registrarObjetoDiagramaSesion?idSesion={{../sesion.id}}&objetoTipoId={{id}}&nombreUsuario={{../nombreUsuario}}&sesionCompleta={{../sesion}}'>{{nombre}}</a>
+            <a onclick="inicioCapturaObjeto('{{id}}','{{nombre}}','{{tiposPropiedadJson}}')" >{{nombre}}</a>
             |
         {{/each}}
         |
         <b>Relaciones:</b>
         {{#each sesion.diagrama.tipoDiagrama.tiposRelacion}}
-            <a onclick="alertaElemento('{{nombre}}')" href='/main/registrarRelacionDiagramaSesion?idSesion={{../sesion.id}}&relacionTipoId={{id}}&nombreUsuario={{../nombreUsuario}}'>{{nombre}}</a>
+            <a onclick="inicioCapturaRelacion('{{id}}','{{nombre}}')" >{{nombre}}</a>
             |
         {{/each}}
+        <div id="capturarObjeto" style="display:none;">
+            <form id='formGrabarObjetoDiagramaSesion' method='POST' action='/main/grabarObjetoDiagramaSesion'>
+                <hr class="verdeAstrid1">
+                <input type="hidden" name="nombreUsuario" value={{nombreUsuario}}>
+                <input type='hidden' name='idSesion' value={{sesion.id}}>
+                <input type='hidden' name='id' value={{sesion.diagrama.id}}>
+                <input type='hidden' name='tipoDiagrama' value={{sesion.diagrama.tipoDiagrama.id}}>
+                <input id="tipoObjeto" name='tipoObjeto' type='hidden' >
+                <input type='hidden' name='objetoTiempo' value=''/></p>
+                <b><p id="objetoTipo" >: </p></b>
+
+                <script src="../javascripts/iniciarFormularioCapturaObjeto.js"></script>
+                <script type="text/javascript">
+                    inicioFormularioCapturaObjeto();
+                </script>
+            </form>
+        </div>
+        <div id="capturarRelacion" style="display:none;">
+            <form method='POST' action='/main/grabarRelacionDiagramaSesion'>
+                <hr class="verdeAstrid1">
+                <input type="hidden" name="nombreUsuario" value={{nombreUsuario}}>
+                <input type='hidden' name='idSesion' value={{sesion.id}}>
+                <input type='hidden' name='id' value={{sesion.diagrama.id}}>
+                <input type='hidden' name='tipoDiagrama' value={{sesion.diagrama.tipoDiagrama.id}}>
+                <input id="tipoRelacion" name='tipoRelacion' type='hidden' >
+                <b><p id="relacionTipo" >: </p></b>
+
+                <script src="../javascripts/iniciarFormularioCapturaRelacion.js"></script>
+                <script type="text/javascript">
+                    inicioFormularioCapturaRelacion();
+                </script>
+            </form>
+        </div>
     {{/if}}
 {{/if}}
 <script
@@ -43,6 +76,11 @@
         //socket = io.connect('http://localhost:3000');
         socket.on("actualizacionDiagrama", (data)=>{
             console.log("Evento: "+data);
+            dibujarDiagrama("canvasDibujo", data.diagramaRecuperado);
+            $('#alerta').html(data.mensaje);
+        });
+        socket.on("actualizacionDiagrama", (data)=>{
+            console.log("Evento: "+data);
             location.reload();
         });
         socket.on('atencion', function (data) {
@@ -52,6 +90,33 @@
             console.log(data);
         });
     });
+    function inicioCapturaObjeto(pObjetoTipoId, pObjetoTipo, pTiposPropiedadJson){
+        document.getElementById('tipoObjeto').value=pObjetoTipoId;
+        document.getElementById('objetoTipo').innerHTML=pObjetoTipo+": ";
+        document.getElementById('capturarObjeto').style.display='block';
+
+        let cadenaTiposPropiedad = pTiposPropiedadJson.replace(/&quot;/g, "'");
+        cadenaTiposPropiedad = cadenaTiposPropiedad.replace(/'/g, '"');
+        let pTiposPropiedad = JSON.parse(cadenaTiposPropiedad);
+
+        let i = 0;
+        for (i=0; i<pTiposPropiedad.length; i++) {
+            document.getElementById('divPropiedadObjeto'+i).style.display = "block";
+            document.getElementById('nombrePropiedadObjeto'+i).innerHTML = pTiposPropiedad[i]._nombre+": ";
+            document.getElementById('valorPropiedadObjeto'+i).name = 'valorPropiedadObjeto'+i;
+        }
+        for (i=pTiposPropiedad.length; i<5; i++) {
+            document.getElementById('divPropiedadObjeto'+i).style.display = "none";
+        }
+        document.getElementById('objetosCantidad').value = pTiposPropiedad.length;
+        alertaElemento(pObjetoTipo);
+    }
+    function inicioCapturaRelacion(pRelacionTipoId, pRelacionTipo){
+        document.getElementById('tipoRelacion').value=pRelacionTipoId;
+        document.getElementById('relacionTipo').innerHTML=pRelacionTipo+": ";
+        document.getElementById('capturarRelacion').style.display='block';
+        alertaElemento(pRelacionTipo);
+    }
     function alertaElemento(pTipoElemento){
         if (pTipoElemento === undefined) {
             pTipoElemento="";
@@ -59,5 +124,15 @@
             pTipoElemento="de tipo "+pTipoElemento+" ";
         }
         socket.emit("preparacion", {msg:'Se prepara un nuevo elemento '+pTipoElemento+'en el diagrama | {{nombreUsuario}}'});
+    }
+    function desistimientoElemento(pNombre){
+        if (pNombre === undefined) {
+            pNombre="";
+        } else {
+            pNombre=pNombre+" ";
+        }
+        document.getElementById("capturarObjeto").style.display='none';
+        document.getElementById("capturarRelacion").style.display='none';
+        socket.emit("desistimientoElemento", {msg:'Se desistió de la inclusión de un elemento en el diagrama '+pNombre+'| {{nombreUsuario}}'});
     }
 </script>

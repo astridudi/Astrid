@@ -423,13 +423,15 @@ router.post('/grabarObjetoDiagramaSesion', async (req, res, next) => {
     var datosDiagrama = new DatosDiagrama();
     let i = 0;
     let indice = '';
-    objeto = new Objeto('', req.body.tipoDiagrama, req.body.tipoObjeto, req.body.aporteTiempo);
+    objeto = new Objeto('', req.body.tipoDiagrama, req.body.tipoObjeto, req.body.objetoTiempo);
     for (i=0; i<objeto.tipoObjeto.tiposPropiedad.length; i++) {
-        indice = 'valor'+objeto.tipoObjeto.tiposPropiedad[i].nombre;
+        indice = 'valorPropiedadObjeto'+i;
         objeto.incluirValorPropiedad(req.body[indice]);
     }
     await datosDiagrama.grabarObjeto(req.body.id,objeto);
-    res.redirect('/main/presentarDiagramaSesion?idSesion='+ req.body.idSesion+ '&nombreUsuario=' + req.body.nombreUsuario);
+    let diagramaRecuperado = await datosDiagrama.recuperarDiagramaPorSesion(req.body.idSesion);
+    eventEmitter.emit('confirmacionElemento', {mensaje: 'Se agregó un nuevo elemento en el diagrama | '+req.body.nombreUsuario, diagramaRecuperado: diagramaRecuperado.diagramaJson});
+    res.redirect('back');
 });
 router.get('/registrarRelacionDiagramaSesion', async (req, res, next) => {
     datosDiagrama = new DatosDiagrama();

@@ -268,7 +268,7 @@ function dibujarArgumentacion(pCanvasId,pArgumentacionJson) {
     contexto.strokeStyle = "#F6F6F6";
     contexto.fillStyle = "#D5D5D5";
     contexto.setLineDash([2, 4]);
-    while (p <= 1000) {
+    while (p <= anchoCanvas) {
         if (p % 100 == 0) {
             contexto.strokeStyle = "#D5D5D5";
         }
@@ -290,7 +290,7 @@ function dibujarArgumentacion(pCanvasId,pArgumentacionJson) {
         }
         contexto.beginPath();
         contexto.moveTo(p, q);
-        contexto.lineTo(1000, q);
+        contexto.lineTo(anchoCanvas, q);
         contexto.closePath();
         contexto.stroke();
         if (q % 100 == 0) {

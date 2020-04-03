@@ -53,6 +53,9 @@ app.get('/', function (req, res) {
 events.on("confirmacionMensaje", (data)=>{
   io.emit("actualizacionChat", (data));
 })
+events.on("confirmacionElemento", (data)=>{
+  io.emit("actualizacionDiagrama", (data));
+})
 events.on("confirmacionAporte", (data)=>{
   io.emit("actualizacionArgumentacion", (data));
 })
@@ -71,13 +74,6 @@ io.on('connection', function (socket) {
     io.emit("atencion",data.msg);
     console.log("Evento: "+data.msg)
   });
-  /*
-  socket.on("confirmacionAporte", (data)=>{
-    io.emit("atencion",data.msg);
-    io.emit("actualizacionArgumentacion",data.msg);
-    console.log("Evento: "+data.msg)
-  });
-   */
   socket.on("confirmacionElemento", (data)=>{
     io.emit("actualizacionDiagrama",data.msg);
     io.emit("atencion",data.msg);
@@ -89,6 +85,10 @@ io.on('connection', function (socket) {
   });
   socket.on("objetoDiagrama", (data)=>{
     io.emit("actualizacionDiagrama",data.msg);
+    console.log("Evento: "+data.msg)
+  });
+  socket.on("desistimientoElemento", (data)=>{
+    io.emit("atencion",data.msg);
     console.log("Evento: "+data.msg)
   });
 });

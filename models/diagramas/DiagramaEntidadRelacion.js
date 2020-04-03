@@ -93,6 +93,7 @@ module.exports = class DiagramaEntidadRelacion extends TipoDiagrama {
         this.incluirTipoRelacion(relacionDescripcionEntidad);
         this.incluirTipoRelacion(relacionDescripcionRelacion);
     }
+    /*
     dibujar() {
         let {createCanvas} = require('canvas');
         let canvas = createCanvas(1000, 2000);
@@ -264,4 +265,5 @@ module.exports = class DiagramaEntidadRelacion extends TipoDiagrama {
         let canvasUrl = canvas.toDataURL();
         return canvasUrl;
     }
+     */
 }

@@ -17,7 +17,9 @@ module.exports = class Objeto {
             this._tiempo = tiempo;
         }
         this._contador = 0;
+        this._datoGrafico = new DatoGrafico(0,0,0,0,0);
         this._areasEnlace = [];
+        this._areasEnlace[0] = new DatoGrafico(0,0,0,0,0);
     }
     set id(pId) {
         this._id = pId;
@@ -48,6 +50,12 @@ module.exports = class Objeto {
     }
     get tiempo() {
         return this._tiempo;
+    }
+    get areasEnlace() {
+        return this._areasEnlace;
+    }
+    get datoGrafico() {
+        return this._datoGrafico;
     }
     get areasEnlace() {
         return this._areasEnlace;

@@ -64,6 +64,10 @@ module.exports = class Diagrama {
     get validez() {
         return true;
     }
+    get diagramaJson() {
+        let rDiagramaJson = JSON.stringify(this, ['_id', '_nombre', '_objetos', '_tipoObjeto', '_valoresPropiedades', '_datoGrafico', '_areasEnlace']);
+        return rDiagramaJson;
+    }
     objetoPorId(pObjetoId) {
         let rObjeto = undefined;
         let rObjetoHallado = false;

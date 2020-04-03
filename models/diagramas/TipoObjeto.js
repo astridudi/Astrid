@@ -30,6 +30,10 @@ module.exports = class TipoObjeto {
     get tiposPuerto() {
         return this._tiposPuerto;
     }
+    get tiposPropiedadJson() {
+        let rTiposPropiedadJson = JSON.stringify(this._tiposPropiedad);
+        return rTiposPropiedadJson;
+    }
     incluirTipoPropiedad(pTipoPropiedad) {
         let i = this._tiposPropiedad.length;
         this._tiposPropiedad[i] = pTipoPropiedad;
