@@ -1,8 +1,8 @@
 const Diagrama = require('../diagramas/Diagrama');
-const DatoGrafico = require('../argumentaciones/DatoGrafico');
+const DatoGrafico = require('../DatoGrafico');
 
 module.exports = class Objeto {
-    constructor(id,tipoDiagramaId,tipoObjetoId,tiempo) {
+    constructor(id,tipoDiagramaId,tipoObjetoId,tiempo,nombreUsuario) {
         this._id = id;
         this._diagrama = new Diagrama('',tipoDiagramaId,'','');
         if (tipoObjetoId.toString().length>0) {
@@ -16,6 +16,7 @@ module.exports = class Objeto {
         } else {
             this._tiempo = tiempo;
         }
+        this._nombreUsuario = nombreUsuario;
         this._contador = 0;
         this._datoGrafico = new DatoGrafico(0,0,0,0,0);
         this._areasEnlace = [];
@@ -36,6 +37,9 @@ module.exports = class Objeto {
     set tiempo(pTiempo) {
         this._tiempo = pTiempo;
     }
+    set nombreUsuario(pNombreUsuario) {
+        this._nombreUsuario = pNombreUsuario;
+    }
     get id() {
         return this._id;
     }
@@ -50,6 +54,9 @@ module.exports = class Objeto {
     }
     get tiempo() {
         return this._tiempo;
+    }
+    get nombreUsuario() {
+        return this._nombreUsuario;
     }
     get areasEnlace() {
         return this._areasEnlace;

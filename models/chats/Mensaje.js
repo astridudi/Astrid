@@ -1,4 +1,4 @@
-const DatoGrafico = require('../argumentaciones/DatoGrafico');
+const DatoGrafico = require('../DatoGrafico');
 
 module.exports = class Mensaje {
     constructor(id,contenido,tiempo,nombreUsuario) {

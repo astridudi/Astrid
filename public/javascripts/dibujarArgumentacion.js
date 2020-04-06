@@ -343,7 +343,7 @@ function dibujarArgumentacion(pCanvasId,pArgumentacionJson) {
             "','"+
             "','"+
             pArgumentacion._conjuntoTiposAporte._tipoAporteInicio._nombre+"','"+
-            pArgumentacion._nombre[0]+
+            pArgumentacion._nombre+
             "')"
         );
         areas[areas.length-1].title=pArgumentacion._conjuntoTiposAporte._tipoAporteInicio._nombre;
@@ -462,7 +462,7 @@ function dibujarArgumentacion(pCanvasId,pArgumentacionJson) {
                     pArgumentacion._aportes[i]._tipoAporte._nombre+"','"+
                     pArgumentacion._aportes[i]._contenido+"','"+
                     pArgumentacion._conjuntoTiposAporte._tiposAporte[pArgumentacion._conjuntoTiposAporte._tiposAporte[pArgumentacion._aportes[i]._tipoAporte._id]._idTiposSucesores[j]]._nombre+"','"+
-                    pArgumentacion._nombre[0]+
+                    pArgumentacion._nombre+
                 "')"
             );
             areas[areas.length-1].title=pArgumentacion._conjuntoTiposAporte._tiposAporte[pArgumentacion._conjuntoTiposAporte._tiposAporte[pArgumentacion._aportes[i]._tipoAporte._id]._idTiposSucesores[j]]._nombre;

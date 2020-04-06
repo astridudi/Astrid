@@ -30,17 +30,18 @@ module.exports = class Datos extends Conexion {
     async grabarObjeto(pDiagramaId, pObjeto) {
         var datosArgumentacion = new DatosArgumentacion();
         if (pObjeto.validez) {
-            var nArgumentacion = new Argumentacion('',pObjeto.valoresPropiedades,pObjeto.tiempo);
+            var nArgumentacion = new Argumentacion('',pObjeto.tipoObjeto.nombre+': '+pObjeto.valoresPropiedades[0],pObjeto.tiempo);
             try {
                 this._firebase.firestore().collection(this._coleccionObjetos).add({
                     diagramaId: pDiagramaId,
                     tipoObjetoId: pObjeto.tipoObjeto.id,
                     valoresPropiedades: pObjeto.valoresPropiedades,
-                    tiempo: pObjeto.tiempo
+                    tiempo: pObjeto.tiempo,
+                    nombreUsuario: pObjeto.nombreUsuario
                 }). then(ref => {
                     pObjeto.id = ref.id;
                     nArgumentacion.objeto = pObjeto;
-                    datosArgumentacion.grabarArgumentacion(nArgumentacion);
+                    datosArgumentacion.grabarArgumentacion(nArgumentacion,nArgumentacion.nombre,pObjeto.nombreUsuario);
                 }) ;
             } catch (e) {
                 console.log(e.message);
@@ -108,7 +109,8 @@ module.exports = class Datos extends Conexion {
                         document.id,
                         rDiagrama.tipoDiagrama.id,
                         document.data().tipoObjetoId,
-                        document.data().tiempo);
+                        document.data().tiempo,
+                        document.data().nombreUsuario);
                     for (i=0; i<document.data().valoresPropiedades.length; i++) {
                         tObjeto.incluirValorPropiedad(document.data().valoresPropiedades[i])
                     }
@@ -169,7 +171,8 @@ module.exports = class Datos extends Conexion {
                         document.id,
                         rDiagrama.tipoDiagrama.id,
                         document.data().tipoObjetoId,
-                        document.data().tiempo);
+                        document.data().tiempo,
+                        document.data().nombreUsuario);
                     for (i=0; i<document.data().valoresPropiedades.length; i++) {
                         tObjeto.incluirValorPropiedad(document.data().valoresPropiedades[i])
                     }

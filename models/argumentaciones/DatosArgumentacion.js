@@ -9,13 +9,18 @@ module.exports = class Datos extends Conexion {
         this._coleccionArgumentaciones = 'argumentaciones';
         this._coleccionAportes = 'aportes';
     }
-    async grabarArgumentacion(pArgumentacion) {
+    async grabarArgumentacion(pArgumentacion,pContenidoInicial,pNombreUsuarioInicial) {
         if (pArgumentacion.validez) {
+            var nAporte = new Aporte('','0',pContenidoInicial,'',pNombreUsuarioInicial);
             try {
                 this._firebase.firestore().collection(this._coleccionArgumentaciones).add({
                     objetoId: pArgumentacion.objeto.id,
                     nombre: pArgumentacion.nombre,
                     inicio: pArgumentacion.inicio
+                }).then(ref => {
+                    pArgumentacion.id = ref.id;
+                    nAporte.argumentacion = pArgumentacion;
+                    this.grabarAporte(pArgumentacion.id,'',nAporte);
                 });
             } catch (e) {
                 console.log(e.message);

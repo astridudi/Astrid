@@ -192,12 +192,17 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
             }
         }
         areas[areas.length] = document.createElement("area");
+        areas[areas.length-1].draggable=true;
         areas[areas.length-1].shape="rect";
         areas[areas.length-1].coords=+pDiagrama._objetos[i]._areasEnlace[0]._x+","+pDiagrama._objetos[i]._areasEnlace[0]._y+","+(pDiagrama._objetos[i]._areasEnlace[0]._x+pDiagrama._objetos[i]._areasEnlace[0]._ancho)+","+(pDiagrama._objetos[i]._areasEnlace[0]._y+pDiagrama._objetos[i]._areasEnlace[0]._alto);
         areas[areas.length-1].href=pHRef+pDiagrama._objetos[i]._id;
+        areas[areas.length-1].setAttribute(
+            "ondragstart",
+            "drag(event)"
+        );
         /*
         areas[areas.length-1].setAttribute(
-            "onclick",
+            "ondragstart",
             "inicioCapturaAporte('"+
             pArgumentacion._conjuntoTiposAporte._tiposAporte[pDiagrama._objetos[i]._tipoAporte._id]._idTiposSucesores[j]+"','"+
             pDiagrama._objetos[i]._id+"','"+

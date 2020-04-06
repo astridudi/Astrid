@@ -377,17 +377,6 @@ router.get('/presentarChatSesion', async (req, res, next) => {
         sesion: sesionRecuperada
     });
 });
-router.get('/registrarMensajeChatSesion', async (req, res, next) => {
-    datosChat = new DatosChat();
-    datos = new DatosSesion();
-    sesionRecuperada = await datos.recuperarSesion(req.query.idSesion);
-    sesionRecuperada.chat = await datosChat.recuperarChatPorSesion(req.query.idSesion);
-    sesionRecuperada.nombreUsuario = req.query.nombreUsuario;
-    res.render('chats/capturarMensaje', {
-        nombreUsuario: req.query.nombreUsuario,
-        sesion: sesionRecuperada
-    });
-});
 router.post('/grabarMensajeChatSesion', async (req, res, next) => {
     var datosChat = new DatosChat();
     await datosChat.grabarMensaje(req.body.id,
@@ -407,28 +396,20 @@ router.get('/presentarDiagramaSesion', async (req, res, next) => {
         sesion: sesionRecuperada
     });
 });
-router.get('/registrarObjetoDiagramaSesion', async (req, res, next) => {
-    datosDiagrama = new DatosDiagrama();
-    datos = new DatosSesion();
-    sesionRecuperada = await datos.recuperarSesion(req.query.idSesion);
-    sesionRecuperada.diagrama = await datosDiagrama.recuperarDiagramaPorSesion(req.query.idSesion);
-    sesionRecuperada.nombreUsuario = req.query.nombreUsuario;
-    res.render('diagramas/capturarObjeto', {
-        nombreUsuario: req.query.nombreUsuario,
-        sesion: sesionRecuperada,
-        objeto: new Objeto('',sesionRecuperada.diagrama.tipoDiagrama.id,req.query.objetoTipoId,'')
-    });
-});
 router.post('/grabarObjetoDiagramaSesion', async (req, res, next) => {
     var datosDiagrama = new DatosDiagrama();
+    var datosArgumentacion = new DatosArgumentacion();
     let i = 0;
     let indice = '';
-    objeto = new Objeto('', req.body.tipoDiagrama, req.body.tipoObjeto, req.body.objetoTiempo);
+    objeto = new Objeto('', req.body.tipoDiagrama, req.body.tipoObjeto, req.body.objetoTiempo, req.body.nombreUsuario);
     for (i=0; i<objeto.tipoObjeto.tiposPropiedad.length; i++) {
         indice = 'valorPropiedadObjeto'+i;
         objeto.incluirValorPropiedad(req.body[indice]);
     }
-    await datosDiagrama.grabarObjeto(req.body.id,objeto);
+    objeto.id = await datosDiagrama.grabarObjeto(req.body.id,objeto);
+    let argumentacion = new Argumentacion('',objeto.valoresPropiedades[0],'');
+    argumentacion.objeto = objeto;
+    await datosArgumentacion.grabarArgumentacion(argumentacion);
     let diagramaRecuperado = await datosDiagrama.recuperarDiagramaPorSesion(req.body.idSesion);
     eventEmitter.emit('confirmacionElemento', {mensaje: 'Se agregó un nuevo elemento en el diagrama | '+req.body.nombreUsuario, diagramaRecuperado: diagramaRecuperado.diagramaJson});
     res.redirect('back');
@@ -472,26 +453,6 @@ router.get('/presentarArgumentacionSesion', async (req, res, next) => {
         idObjeto: req.query.idObjeto
     });
 });
-/*
-router.get('/registrarAporteSesion', async (req, res, next) => {
-    datosArgumentacion = new DatosArgumentacion();
-    datos = new DatosSesion();
-    sesionRecuperada = await datos.recuperarSesion(req.query.idSesion);
-    argumentacionRecuperada = await datosArgumentacion.recuperarArgumentacionPorObjeto(req.query.idObjeto);
-    argumentacionRecuperada.ordenar();
-    res.render('argumentaciones/capturarAporte', {
-        nombreUsuario: req.query.nombreUsuario,
-        aporteTipoId: req.query.aporteTipoId,
-        aporteTipo: req.query.aporteTipo,
-        aportePredecesorId: req.query.aportePredecesorId,
-        aportePredecesorTipo: req.query.aportePredecesorTipo,
-        aportePredecesorContenido: req.query.aportePredecesorContenido,
-        argumentacion: argumentacionRecuperada,
-        sesion: sesionRecuperada,
-        idObjeto: req.query.idObjeto
-    });
-});
- */
 router.post('/grabarAporteSesion', async (req, res, next) => {
     var datosArgumentacion = new DatosArgumentacion();
     await datosArgumentacion.grabarAporte(req.body.id,req.body.aportePredecesorId,

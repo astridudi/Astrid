@@ -1,5 +1,5 @@
 const Argumentacion = require('../argumentaciones/Argumentacion');
-const DatoGrafico = require('../argumentaciones/DatoGrafico');
+const DatoGrafico = require('../DatoGrafico');
 
 module.exports = class Aporte {
     constructor(id,tipoAporteId,contenido,tiempo,nombreUsuario) {

@@ -7,9 +7,24 @@
         Diagrama |
     </h3>
     {{#if sesion.diagrama}}
+        <script>
+            function allowDrop(ev) {
+                ev.preventDefault();
+            }
+
+            function drag(ev) {
+                ev.dataTransfer.setData("text", ev.target.id);
+            }
+
+            function drop(ev) {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("text");
+            }
+        </script>
+
         <div align="center" style="position:relative; background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
             <canvas id="canvasDibujo" width="1000" height="2000"></canvas>
-            <img id="imagenMapa" width="1000" height="2000" usemap="#mapa" style="position:absolute;"/>
+            <img id="imagenMapa"  ondrop="drop(event)" ondragover="allowDrop(event)" width="1000" height="2000" usemap="#mapa" style="position:absolute;"/>
             <map id="mapa" name="mapa">
             </map>
             <script src="../javascripts/dibujarDiagramaEntidadRelacion.js"></script>
@@ -76,7 +91,7 @@
         //socket = io.connect('http://localhost:3000');
         socket.on("actualizacionDiagrama", (data)=>{
             console.log("Evento: "+data);
-            dibujarDiagrama("canvasDibujo", data.diagramaRecuperado);
+            dibujarDiagrama("canvasDibujo", data.diagramaRecuperado,"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
             $('#alerta').html(data.mensaje);
         });
         socket.on('atencion', function (data) {
