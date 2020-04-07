@@ -7,6 +7,7 @@ module.exports = class TipoDiagrama {
         this._tiposObjeto = [];
         this._tiposRelacion = [];
         this._diagrama = require('../diagramas/Diagrama');
+        this._scriptDibujo = '';
     }
     set id(pId) {
         this._id = pId;
@@ -16,6 +17,9 @@ module.exports = class TipoDiagrama {
     }
     set diagrama(pDiagrama) {
         this._diagrama = pDiagrama;
+    }
+    set scriptDibujo(pScriptDibujo) {
+        this._scriptDibujo = pScriptDibujo;
     }
     get id() {
         return this._id;
@@ -31,6 +35,9 @@ module.exports = class TipoDiagrama {
     }
     get diagrama() {
         return this._diagrama;
+    }
+    get scriptDibujo() {
+        return this._scriptDibujo;
     }
     tipoObjeto(pIdTipoObjeto) {
         return this._tiposObjeto[pIdTipoObjeto];

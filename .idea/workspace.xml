@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="16a71e2f-24bf-4e07-86b4-092e2f1677fa" name="Default Changelist" comment="Se actualiza a la versión 5-06">
+    <list default="true" id="16a71e2f-24bf-4e07-86b4-092e2f1677fa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -197,6 +197,7 @@
       <workItem from="1585229902090" duration="80000" />
       <workItem from="1585580141647" duration="717000" />
       <workItem from="1585919299332" duration="88000" />
+      <workItem from="1586178887629" duration="736000" />
     </task>
     <task id="LOCAL-00001" summary="SE agrega la carpeta bin y el archivo www">
       <created>1583438963937</created>
@@ -324,7 +325,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585919342192</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Se actualiza a la versión 5-07">
+      <created>1586179010622</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1586179010622</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -344,6 +352,8 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="SE agrega la carpeta bin y el archivo www" />
     <MESSAGE value="SE redirecciona el puerto al 80" />
@@ -362,6 +372,7 @@
     <MESSAGE value="Se actualiza a la versión 5-06 marzo 30 de 2020" />
     <MESSAGE value="Se actualiza a la versión 5-07" />
     <option name="LAST_COMMIT_MESSAGE" value="Se actualiza a la versión 5-07" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="201" key="#Inspections" timestamp="1582672971409">
@@ -380,10 +391,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="634" y="242" width="642" height="620" key="#watch-ts/0.27.1920.1053@0.27.1920.1053" timestamp="1585092736405" />
-    <state x="476" y="97" width="958" height="912" key="CommitChangelistDialog2" timestamp="1586178997547">
+    <state x="476" y="97" width="958" height="912" key="CommitChangelistDialog2" timestamp="1586179010318">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="476" y="97" width="958" height="912" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1586178997547" />
+    <state x="476" y="97" width="958" height="912" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1586179010318" />
     <state width="991" height="466" key="DebuggerActiveHint" timestamp="1582660370540">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -484,10 +495,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="449" y="187" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1585092614932" />
-    <state x="555" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1585922634112">
+    <state x="555" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1586179023575">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="555" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1585922634112" />
+    <state x="555" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1586179023575" />
     <state x="728" y="473" width="454" height="160" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1584484917573">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
@@ -515,7 +526,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/routes/main.js</url>
-          <line>395</line>
+          <line>384</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">

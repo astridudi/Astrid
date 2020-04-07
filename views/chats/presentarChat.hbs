@@ -4,7 +4,7 @@
         {{sesion.nombre}} |
         <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
         Chat |
-        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Diagrama</a> |
+        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>{{sesion.nombreTipoDiagrama}}</a> |
     </h3>
     {{#if sesion.chat}}
         <div align="center" style="position:relative; background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">

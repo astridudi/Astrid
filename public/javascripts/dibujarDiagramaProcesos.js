@@ -17,20 +17,18 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
     let sangria = Math.ceil(0.3 * (Math.abs(contexto.measureText('X').actualBoundingBoxAscent) + Math.abs(contexto.measureText('X').actualBoundingBoxDescent)));
     let margen = 40;
     let altoRenglon = Math.ceil(1.4 * (Math.abs(contexto.measureText('X').actualBoundingBoxAscent) + Math.abs(contexto.measureText('X').actualBoundingBoxDescent)));
-    let anchoEntidad = 160;
-    let altoEntidad = 60;
-    let anchoRelacion = 160;
-    let altoRelacion = 60;
-    let radioAtributo = 4;
-    let anchoAtributo = 2 * radioAtributo;
-    let altoAtributo = 2 * radioAtributo;
-    let wa = 160;
-    let ha = 60;
+    let anchoAccionInicial = 160;
+    let altoAccionInicial = 60;
+    let anchoAccion = 160;
+    let altoAccion = 60;
+    let anchoDecision = 160;
+    let altoDecision = 60;
+    let anchoAccionFinal = 160;
+    let altoAccionFinal = 60;
     let izquierda = 0;
     let arriba = 0;
     let ancho = 0;
     let alto = 0;
-    let lw = 1;
     let texto = '';
     let i = 0;
     let p = 0;
@@ -45,18 +43,23 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
         texto = pDiagrama._objetos[i]._valoresPropiedades[0];
         switch (pDiagrama._objetos[i]._tipoObjeto._id) {
             case 0: {
-                ancho = anchoEntidad;
-                alto = altoEntidad;
+                ancho = anchoAccionInicial;
+                alto = altoAccionInicial;
                 break;
             }
             case 1: {
-                ancho = anchoRelacion;
-                alto = altoRelacion;
+                ancho = anchoAccion;
+                alto = altoAccion;
                 break;
             }
             case 2: {
-                ancho = anchoAtributo + radioAtributo + contexto.measureText(texto).width;
-                alto = altoAtributo;
+                ancho = anchoDecision;
+                alto = altoDecision;
+                break;
+            }
+            case 3: {
+                ancho = anchoAccionFinal;
+                alto = altoAccionFinal;
                 break;
             }
         }
@@ -82,9 +85,9 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
         pDiagrama._objetos[i]._areasEnlace[0]._curva = 0;
 
         x = x + ancho + margen;
-        if (x > (anchoCanvas - Math.max(anchoEntidad,anchoRelacion,anchoAtributo) - margen )) {
+        if (x > (anchoCanvas - Math.max(anchoAccionInicial,anchoAccion,anchoDecision,anchoAccionFinal) - margen )) {
             x = margen;
-            y = y + Math.max(altoEntidad,altoRelacion,altoAtributo) + margen;
+            y = y + Math.max(altoAccionInicial,altoAccion,altoDecision,altoAccionFinal) + margen;
         }
 
     }
@@ -93,7 +96,7 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
     contexto.fillStyle = "#FFFFFF";
     contexto.lineWidth = 1;
     if (x > margen) {
-        y = y + Math.max(altoEntidad,altoRelacion,altoAtributo) + margen;
+        y = y + Math.max(altoAccionInicial,altoAccion,altoDecision,altoAccionFinal) + margen;
     }
 
     imagenMapa.style.position = "absolute";
@@ -165,12 +168,21 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
         switch (pDiagrama._objetos[i]._tipoObjeto._id) {
             case 0: {
                 contexto.lineWidth = 3;
+                contexto.beginPath();
+                contexto.moveTo(pDiagrama._objetos[i]._datoGrafico._x + pDiagrama._objetos[i]._datoGrafico._ancho / 2,pDiagrama._objetos[i]._datoGrafico._y + pDiagrama._objetos[i]._datoGrafico._alto / 2);
+                contexto.ellipse(pDiagrama._objetos[i]._datoGrafico._x + pDiagrama._objetos[i]._datoGrafico._ancho / 2,pDiagrama._objetos[i]._datoGrafico._y + pDiagrama._objetos[i]._datoGrafico._alto / 2, pDiagrama._objetos[i]._datoGrafico._ancho / 2, pDiagrama._objetos[i]._datoGrafico._alto / 2, 0, 0, 2*Math.PI );
+                contexto.stroke();
+                contexto.fill();
+                break;
+            }
+            case 1: {
+                contexto.lineWidth = 3;
                 contexto.moveTo(pDiagrama._objetos[i]._datoGrafico._x, pDiagrama._objetos[i]._datoGrafico._y);
                 contexto.strokeRect(pDiagrama._objetos[i]._datoGrafico._x, pDiagrama._objetos[i]._datoGrafico._y, pDiagrama._objetos[i]._datoGrafico._ancho, pDiagrama._objetos[i]._datoGrafico._alto);
                 contexto.fillRect(pDiagrama._objetos[i]._datoGrafico._x, pDiagrama._objetos[i]._datoGrafico._y, pDiagrama._objetos[i]._datoGrafico._ancho, pDiagrama._objetos[i]._datoGrafico._alto);
                 break;
             }
-            case 1: {
+            case 2: {
                 contexto.lineWidth = 3;
                 contexto.beginPath();
                 contexto.moveTo(pDiagrama._objetos[i]._datoGrafico._x,pDiagrama._objetos[i]._datoGrafico._y +(pDiagrama._objetos[i]._datoGrafico._alto/2));
@@ -182,11 +194,11 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
                 contexto.fill();
                 break;
             }
-            case 2: {
+            case 3: {
                 contexto.lineWidth = 3;
                 contexto.beginPath();
-                contexto.moveTo(pDiagrama._objetos[i]._datoGrafico._x + radioAtributo,pDiagrama._objetos[i]._datoGrafico._y + radioAtributo);
-                contexto.arc(pDiagrama._objetos[i]._datoGrafico._x + radioAtributo,pDiagrama._objetos[i]._datoGrafico._y + radioAtributo, radioAtributo, 0, 2*Math.PI );
+                contexto.moveTo(pDiagrama._objetos[i]._datoGrafico._x + pDiagrama._objetos[i]._datoGrafico._ancho / 2,pDiagrama._objetos[i]._datoGrafico._y + pDiagrama._objetos[i]._datoGrafico._alto / 2);
+                contexto.ellipse(pDiagrama._objetos[i]._datoGrafico._x + pDiagrama._objetos[i]._datoGrafico._ancho / 2,pDiagrama._objetos[i]._datoGrafico._y + pDiagrama._objetos[i]._datoGrafico._alto / 2, pDiagrama._objetos[i]._datoGrafico._ancho / 2, pDiagrama._objetos[i]._datoGrafico._alto / 2, 0, 0, 2*Math.PI );
                 contexto.stroke();
                 contexto.fill();
                 break;
@@ -217,7 +229,7 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
         areas[areas.length-1].title=pDiagrama._objetos[i]._valoresPropiedades[1];
         mapa.appendChild(areas[areas.length-1]);
     }
-    
+
     contexto.fillStyle = "#000000";
     contexto.lineWidth = 1;
     for (i=0; i<pDiagrama._objetos.length; i++) {
@@ -234,9 +246,13 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
                 break;
             }
             case 2: {
-                contexto.textAlign = "left";
-                contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + anchoAtributo + radioAtributo, pDiagrama._objetos[i]._datoGrafico._y );
-                contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y, pDiagrama._objetos[i]._datoGrafico._ancho - 8);
+                contexto.textAlign = "center";
+                contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
+                break;
+            }
+            case 3: {
+                contexto.textAlign = "center";
+                contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
                 break;
             }
         }

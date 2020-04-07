@@ -4,7 +4,7 @@
         {{sesion.nombre}} |
         <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
         <a href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
-        Diagrama |
+        {{sesion.nombreTipoDiagrama}} |
     </h3>
     {{#if sesion.diagrama}}
         <script>
@@ -27,7 +27,7 @@
             <img id="imagenMapa"  ondrop="drop(event)" ondragover="allowDrop(event)" width="1000" height="2000" usemap="#mapa" style="position:absolute;"/>
             <map id="mapa" name="mapa">
             </map>
-            <script src="../javascripts/dibujarDiagramaEntidadRelacion.js"></script>
+            <script src="../javascripts/{{sesion.diagrama.tipoDiagrama.scriptDibujo}}"></script>
             <script type="text/javascript">
                 dibujarDiagrama("canvasDibujo","{{sesion.diagrama.diagramaJson}}","/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
             </script>

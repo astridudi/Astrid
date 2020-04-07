@@ -7,15 +7,16 @@ const TipoPuerto = require('../diagramas/TipoPuerto');
 
 module.exports = class DiagramaEntidadRelacion extends TipoDiagrama {
     constructor() {
-        super(0,'Diagrama Entidad Relación');
+        super(1,'Diagrama Entidad Relación');
+        super.scriptDibujo = 'dibujarDiagramaEntidadRelacion.js';
         let objetoEntidad = new TipoObjeto(0,'Entidad',true);
         let objetoRelacion = new TipoObjeto(1,'Relación',true);
         let objetoAtributo = new TipoObjeto(2,'Atributo',true);
         let relacionParticipacion = new TipoRelacion(0,'Participación');
         let relacionDescripcionEntidad = new TipoRelacion(1,'Descripción de entidad');
         let relacionDescripcionRelacion = new TipoRelacion(2,'Descripción de relación');
-        let propiedadNombreObjeto = new TipoPropiedad(0,'Nombre');
-        let propiedadDescripcionObjeto = new TipoPropiedad(1,'Descripción');
+        let propiedadNombreEntidad = new TipoPropiedad(0,'Nombre');
+        let propiedadDescripcionEntidad = new TipoPropiedad(1,'Descripción');
         let propiedadNombreRelacion = new TipoPropiedad(2,'Nombre');
         let propiedadDescripcionRelacion = new TipoPropiedad(3,'Descripción');
         let propiedadNombreAtributo = new TipoPropiedad(4,'Nombre');
@@ -79,8 +80,8 @@ module.exports = class DiagramaEntidadRelacion extends TipoDiagrama {
         relacionParticipacion.incluirTipoPropiedad(propiedadDescripcionParticipacion);
         relacionParticipacion.incluirTipoPropiedad(propiedadCardinalidadParticipacion);
 
-        objetoEntidad.incluirTipoPropiedad(propiedadNombreObjeto);
-        objetoEntidad.incluirTipoPropiedad(propiedadDescripcionObjeto);
+        objetoEntidad.incluirTipoPropiedad(propiedadNombreEntidad);
+        objetoEntidad.incluirTipoPropiedad(propiedadDescripcionEntidad);
         objetoRelacion.incluirTipoPropiedad(propiedadNombreRelacion);
         objetoRelacion.incluirTipoPropiedad(propiedadDescripcionRelacion);
         objetoAtributo.incluirTipoPropiedad(propiedadNombreAtributo);

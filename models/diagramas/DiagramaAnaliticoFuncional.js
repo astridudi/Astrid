@@ -7,7 +7,8 @@ const TipoPuerto = require('../diagramas/TipoPuerto');
 
 module.exports = class DiagramaAnaliticoFuncional extends TipoDiagrama {
     constructor() {
-        super(2,'Diagrama analítico funcional');
+        super(12,'Diagrama analítico funcional');
+        super.scriptDibujo = 'dibujarDiagramaAnaliticoFuncional.js';
         let objetoVariableCausalInmodificable = new TipoObjeto(0,'Variable causal inmodificable',true);
         let objetoVariableCausal = new TipoObjeto(1,'Variable causal',true);
         let objetoProblema = new TipoObjeto(2,'Problema',true);
