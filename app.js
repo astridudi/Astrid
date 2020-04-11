@@ -51,44 +51,27 @@ app.get('/', function (req, res) {
 });
 
 events.on("confirmacionMensaje", (data)=>{
-  io.emit("actualizacionChat", (data));
+  io.to("room"+data.sesion).emit("actualizacionChat", (data));
+  io.to("room"+data.sesion).emit("atencion", (data.mensaje));
 })
 events.on("confirmacionElemento", (data)=>{
-  io.emit("actualizacionDiagrama", (data));
+  io.to("room"+data.sesion).emit("actualizacionDiagrama", (data));
+  io.to("room"+data.sesion).emit("atencion", (data.mensaje));
 })
 events.on("confirmacionAporte", (data)=>{
-  io.emit("actualizacionArgumentacion", (data));
+  io.to("room"+data.sesion).emit("actualizacionArgumentacion", (data));
+  io.to("room"+data.sesion).emit("atencion", (data.mensaje));
 })
 
 server.listen(3000);
 io.on('connection', function (socket) {
-  socket.on("confirmacionIngreso", (data)=>{
-    io.emit("atencion",data.msg);
-    console.log("Evento: "+data.msg)
+  socket.on("ingresoEquipo", (data)=>{
+    socket.join("room"+data.sesion);
+    io.to("room"+data.sesion).emit("atencion",data.msg);
+    console.log("Evento: "+data.msg);
   });
-  socket.on("preparacion", (data)=>{
-    io.emit("atencion",data.msg);
-    console.log("Evento: "+data.msg)
-  });
-  socket.on("esperaAporte", (data)=>{
-    io.emit("atencion",data.msg);
-    console.log("Evento: "+data.msg)
-  });
-  socket.on("confirmacionElemento", (data)=>{
-    io.emit("actualizacionDiagrama",data.msg);
-    io.emit("atencion",data.msg);
-    console.log("Evento: "+data.msg)
-  });
-  socket.on("desistimientoMensaje", (data)=>{
-    io.emit("atencion",data.msg);
-    console.log("Evento: "+data.msg)
-  });
-  socket.on("objetoDiagrama", (data)=>{
-    io.emit("actualizacionDiagrama",data.msg);
-    console.log("Evento: "+data.msg)
-  });
-  socket.on("desistimientoElemento", (data)=>{
-    io.emit("atencion",data.msg);
+  socket.on("notificacionEquipo", (data)=>{
+    io.to("room"+data.sesion).emit("atencion",data.msg);
     console.log("Evento: "+data.msg)
   });
 });

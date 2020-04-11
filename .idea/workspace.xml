@@ -198,6 +198,7 @@
       <workItem from="1585580141647" duration="717000" />
       <workItem from="1585919299332" duration="88000" />
       <workItem from="1586178887629" duration="736000" />
+      <workItem from="1586289910543" duration="86000" />
     </task>
     <task id="LOCAL-00001" summary="SE agrega la carpeta bin y el archivo www">
       <created>1583438963937</created>
@@ -332,7 +333,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586179010622</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Se actualiza a la versión 5-07">
+      <created>1586289950783</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1586289950783</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -391,10 +399,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="634" y="242" width="642" height="620" key="#watch-ts/0.27.1920.1053@0.27.1920.1053" timestamp="1585092736405" />
-    <state x="476" y="97" width="958" height="912" key="CommitChangelistDialog2" timestamp="1586179010318">
+    <state x="476" y="97" width="958" height="912" key="CommitChangelistDialog2" timestamp="1586289950384">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="476" y="97" width="958" height="912" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1586179010318" />
+    <state x="476" y="97" width="958" height="912" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1586289950384" />
     <state width="991" height="466" key="DebuggerActiveHint" timestamp="1582660370540">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -495,10 +503,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="449" y="187" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1585092614932" />
-    <state x="555" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1586179023575">
+    <state x="555" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1586289953559">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="555" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1586179023575" />
+    <state x="555" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1586289953559" />
     <state x="728" y="473" width="454" height="160" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1584484917573">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>

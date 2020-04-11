@@ -1,10 +1,18 @@
 {{#if sesion}}
     <h3>
-        <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
-        {{sesion.nombre}} |
-        <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
-        Chat |
-        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>{{sesion.nombreTipoDiagrama}}</a> |
+        <table style="width:100%">
+            <tr>
+                <th align="left">
+                    <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
+                    {{sesion.nombre}}
+                </th>
+                <th align="right">
+                    <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
+                    Chat |
+                    <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>{{sesion.nombreTipoDiagrama}}</a>
+                </th>
+            </tr>
+        </table>
     </h3>
     {{#if sesion.chat}}
         <div align="center" style="position:relative; background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
@@ -27,43 +35,55 @@
                 <input type='hidden' name='id' value={{sesion.chat.id}}>
                 <input type='hidden' name='mensajeTiempo' value=''/>
                 <p>Mensaje: <input id='mensajeContenido' type='text' name='mensajeContenido' value='' autofocus/></p>
-                <input type='submit' value='Grabar' /> |
+                <input onclick="emisionMensaje()" type='submit' value='Grabar' /> |
                 <a onclick="desistimientoMensaje()">Desistir</a> |
             </form>
         </div>
     {{/if}}
-{{/if}}
 
-<script
-        src="https://code.jquery.com/jquery-3.4.1.js"
-        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-        crossorigin="anonymous"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    let socket;
-    $(document).ready(()=>{
-        socket = io.connect('http://34.69.82.100:3000');
-        //socket = io.connect('http://localhost:3000');
-        socket.on("actualizacionChat", (data)=>{
-            console.log("Evento: "+data);
-            dibujarChat("canvasDibujo", data.chatRecuperado, "{{nombreUsuario}}");
-            $('#alerta').html(data.mensaje);
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        let socket;
+        $(document).ready(()=>{
+            socket = io.connect('http://34.69.82.100:3000');
+            //socket = io.connect('http://localhost:3000');
+            socket.on("actualizacionChat", (data)=>{
+                console.log("Evento: "+data);
+                dibujarChat("canvasDibujo", data.chatRecuperado, "{{nombreUsuario}}");
+            });
+            socket.on('atencion', function (data) {
+                $('#alerta').html(data);
+                document.getElementById('alerta').style='color:#F1B434';
+                document.getElementById('alerta').style.background='#228848';
+                setTimeout(() => {
+                    document.getElementById('alerta').style.background='#FFFFFF';
+                }, 1000);
+                setTimeout(() => {
+                    document.getElementById('alerta').style='color:#228848';
+                }, 1000);
+            });
+            socket.on('connection', function (data) {
+                console.log(data);
+            });
+            socket.emit("ingresoEquipo", {msg:'{{nombreUsuario}} ingresó al chat', sesion:'{{sesion.id}}'});
         });
-        socket.on('atencion', function (data) {
-            $('#alerta').html(data);
-        });
-        socket.on('connection', function (data) {
-            console.log(data);
-        });
-    });
-    function alertaMensaje(){
-        socket.emit("preparacion", {msg:'Se prepara un nuevo mensaje en el chat | {{nombreUsuario}}'});
-        document.getElementById("mensajeContenido").value='';
-        document.getElementById("capturarMensaje").style.display='block';
-        document.getElementById('mensajeContenido').focus();
-    }
-    function desistimientoMensaje(){
-        socket.emit("desistimientoMensaje", {msg:'Se desistió de la emisión de un mensaje en el chat | {{nombreUsuario}}'});
-        document.getElementById("capturarMensaje").style.display='none';
-    }
-</script>
+        function alertaMensaje(){
+            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} prepara un mensaje en el chat', sesion:'{{sesion.id}}'});
+            document.getElementById("mensajeContenido").value='';
+            document.getElementById("capturarMensaje").style.display='block';
+            document.getElementById('mensajeContenido').focus();
+        }
+        function emisionMensaje(){
+            document.getElementById("capturarMensaje").style.display='none';
+        }
+        function desistimientoMensaje(){
+            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió un mensaje en el chat', sesion:'{{sesion.id}}'});
+            document.getElementById("capturarMensaje").style.display='none';
+        }
+    </script>
+
+{{/if}}

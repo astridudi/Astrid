@@ -7,7 +7,7 @@ const TipoPuerto = require('../diagramas/TipoPuerto');
 
 module.exports = class DiagramaProcesos extends TipoDiagrama {
     constructor() {
-        super(10,'Diagrama de Procesos');
+        super(2,'Diagrama de Procesos');
         super.scriptDibujo = 'dibujarDiagramaProcesos.js';
         let objetoAccionInicial = new TipoObjeto(0,'Acción inicial',true);
         let objetoAccion = new TipoObjeto(1,'Acción',true);

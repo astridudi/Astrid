@@ -1,10 +1,18 @@
 {{#if sesion}}
     <h3>
-        <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
-        {{sesion.nombre}} |
-        <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
-        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
-        {{sesion.nombreTipoDiagrama}} |
+        <table style="width:100%">
+            <tr>
+                <th align="left">
+                    <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
+                    {{sesion.nombre}}
+                </th>
+                <th align="right">
+                    <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
+                    <a href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
+                    {{sesion.nombreTipoDiagrama}}
+                </th>
+            </tr>
+        </table>
     </h3>
     {{#if sesion.diagrama}}
         <script>
@@ -78,72 +86,85 @@
             </form>
         </div>
     {{/if}}
+
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        let socket;
+        $(document).ready(()=>{
+            socket = io.connect('http://34.69.82.100:3000');
+            //socket = io.connect('http://localhost:3000');
+            socket.on("actualizacionDiagrama", (data)=>{
+                console.log("Evento: "+data);
+                dibujarDiagrama("canvasDibujo", data.diagramaRecuperado,"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
+            });
+            socket.on('atencion', function (data) {
+                $('#alerta').html(data);
+                document.getElementById('alerta').style='color:#F1B434';
+                document.getElementById('alerta').style.background='#228848';
+                setTimeout(() => {
+                    document.getElementById('alerta').style.background='#FFFFFF';
+                }, 1000);
+                setTimeout(() => {
+                    document.getElementById('alerta').style='color:#228848';
+                }, 1000);
+            });
+            socket.on('connection', function (data) {
+                console.log(data);
+            });
+            socket.emit("ingresoEquipo", {msg:'{{nombreUsuario}} ingresó al {{sesion.nombreTipoDiagrama}}', sesion:'{{sesion.id}}'});
+        });
+        function inicioCapturaObjeto(pObjetoTipoId, pObjetoTipo, pTiposPropiedadJson){
+            document.getElementById('tipoObjeto').value=pObjetoTipoId;
+            document.getElementById('objetoTipo').innerHTML=pObjetoTipo+": ";
+            document.getElementById('capturarObjeto').style.display='block';
+
+            let cadenaTiposPropiedad = pTiposPropiedadJson.replace(/&quot;/g, "'");
+            cadenaTiposPropiedad = cadenaTiposPropiedad.replace(/'/g, '"');
+            let pTiposPropiedad = JSON.parse(cadenaTiposPropiedad);
+
+            let i = 0;
+            for (i=0; i<pTiposPropiedad.length; i++) {
+                document.getElementById('divPropiedadObjeto'+i).style.display = "block";
+                document.getElementById('nombrePropiedadObjeto'+i).innerHTML = pTiposPropiedad[i]._nombre+": ";
+                document.getElementById('valorPropiedadObjeto'+i).name = 'valorPropiedadObjeto'+i;
+            }
+            for (i=pTiposPropiedad.length; i<5; i++) {
+                document.getElementById('divPropiedadObjeto'+i).style.display = "none";
+            }
+            alertaElemento(pObjetoTipo);
+        }
+        function inicioCapturaRelacion(pRelacionTipoId, pRelacionTipo){
+            document.getElementById('tipoRelacion').value=pRelacionTipoId;
+            document.getElementById('relacionTipo').innerHTML=pRelacionTipo+": ";
+            document.getElementById('capturarRelacion').style.display='block';
+            alertaElemento(pRelacionTipo);
+        }
+        function alertaElemento(pTipoElemento){
+            if (pTipoElemento === undefined) {
+                pTipoElemento="";
+            } else {
+                pTipoElemento="de tipo "+pTipoElemento+" ";
+            }
+            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} prepara un nuevo elemento '+pTipoElemento+'en el diagrama', sesion:'{{sesion.id}}'});
+        }
+        function inclusionElemento(){
+            document.getElementById("capturarObjeto").style.display='none';
+            document.getElementById("capturarRelacion").style.display='none';
+        }
+        function desistimientoElemento(pTipoElemento){
+            if (pTipoElemento === undefined) {
+                pTipoElemento="";
+            } else {
+                pTipoElemento=pTipoElemento+" ";
+            }
+            document.getElementById("capturarObjeto").style.display='none';
+            document.getElementById("capturarRelacion").style.display='none';
+            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió incluir un elemento '+pTipoElemento+'en el diagrama', sesion:'{{sesion.id}}'});
+        }
+    </script>
+
 {{/if}}
-<script
-        src="https://code.jquery.com/jquery-3.4.1.js"
-        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-        crossorigin="anonymous"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    let socket;
-    $(document).ready(()=>{
-        socket = io.connect('http://34.69.82.100:3000');
-        //socket = io.connect('http://localhost:3000');
-        socket.on("actualizacionDiagrama", (data)=>{
-            console.log("Evento: "+data);
-            dibujarDiagrama("canvasDibujo", data.diagramaRecuperado,"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
-            $('#alerta').html(data.mensaje);
-        });
-        socket.on('atencion', function (data) {
-            $('#alerta').html(data);
-        });
-        socket.on('connection', function (data) {
-            console.log(data);
-        });
-    });
-    function inicioCapturaObjeto(pObjetoTipoId, pObjetoTipo, pTiposPropiedadJson){
-        document.getElementById('tipoObjeto').value=pObjetoTipoId;
-        document.getElementById('objetoTipo').innerHTML=pObjetoTipo+": ";
-        document.getElementById('capturarObjeto').style.display='block';
-
-        let cadenaTiposPropiedad = pTiposPropiedadJson.replace(/&quot;/g, "'");
-        cadenaTiposPropiedad = cadenaTiposPropiedad.replace(/'/g, '"');
-        let pTiposPropiedad = JSON.parse(cadenaTiposPropiedad);
-
-        let i = 0;
-        for (i=0; i<pTiposPropiedad.length; i++) {
-            document.getElementById('divPropiedadObjeto'+i).style.display = "block";
-            document.getElementById('nombrePropiedadObjeto'+i).innerHTML = pTiposPropiedad[i]._nombre+": ";
-            document.getElementById('valorPropiedadObjeto'+i).name = 'valorPropiedadObjeto'+i;
-        }
-        for (i=pTiposPropiedad.length; i<5; i++) {
-            document.getElementById('divPropiedadObjeto'+i).style.display = "none";
-        }
-        document.getElementById('objetosCantidad').value = pTiposPropiedad.length;
-        alertaElemento(pObjetoTipo);
-    }
-    function inicioCapturaRelacion(pRelacionTipoId, pRelacionTipo){
-        document.getElementById('tipoRelacion').value=pRelacionTipoId;
-        document.getElementById('relacionTipo').innerHTML=pRelacionTipo+": ";
-        document.getElementById('capturarRelacion').style.display='block';
-        alertaElemento(pRelacionTipo);
-    }
-    function alertaElemento(pTipoElemento){
-        if (pTipoElemento === undefined) {
-            pTipoElemento="";
-        } else {
-            pTipoElemento="de tipo "+pTipoElemento+" ";
-        }
-        socket.emit("preparacion", {msg:'Se prepara un nuevo elemento '+pTipoElemento+'en el diagrama | {{nombreUsuario}}'});
-    }
-    function desistimientoElemento(pNombre){
-        if (pNombre === undefined) {
-            pNombre="";
-        } else {
-            pNombre=pNombre+" ";
-        }
-        document.getElementById("capturarObjeto").style.display='none';
-        document.getElementById("capturarRelacion").style.display='none';
-        socket.emit("desistimientoElemento", {msg:'Se desistió de la inclusión de un elemento en el diagrama '+pNombre+'| {{nombreUsuario}}'});
-    }
-</script>

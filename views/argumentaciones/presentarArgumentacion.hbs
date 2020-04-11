@@ -1,11 +1,19 @@
 {{#if sesion}}
     <h3>
-        <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
-        {{sesion.nombre}} |
-        <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
-        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
-        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>{{sesion.nombreTipoDiagrama}}</a> |
-        Argumentación |
+        <table style="width:100%">
+            <tr>
+                <th align="left">
+                    <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
+                    {{sesion.nombre}}
+                </th>
+                <th align="right">
+                    <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
+                    <a href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
+                    <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>{{sesion.nombreTipoDiagrama}}</a> |
+                    Argumentación
+                </th>
+            </tr>
+        </table>
     </h3>
     {{#if argumentacion}}
         <div align="center" style="position:relative; background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
@@ -31,7 +39,7 @@
                 <p><b id="aportePredecesor"></b></p>
                 <p><b id="aporteSucesorTipo"></b><b>: </b> <input id="aporteContenido" type='text' name='aporteContenido' value='' autofocus/></p>
                 <input id="aporteTiempo" type='hidden' name='aporteTiempo' value=''/></p>
-                <input type='submit' value='Grabar' /> |
+                <input onclick="inclusionAporte()" type='submit' value='Grabar' /> |
                 <a onclick="desistimientoAporte('{{argumentacion.nombre}}')">Desistir</a> |
             </form>
         </div>
@@ -49,14 +57,22 @@
                 socket.on("actualizacionArgumentacion", (data)=>{
                     console.log("Evento: "+data);
                     dibujarArgumentacion("canvasDibujo", data.argumentacionRecuperada);
-                    $('#alerta').html(data.mensaje);
                 });
                 socket.on('atencion', function (data) {
                     $('#alerta').html(data);
+                    document.getElementById('alerta').style='color:#F1B434';
+                    document.getElementById('alerta').style.background='#228848';
+                    setTimeout(() => {
+                        document.getElementById('alerta').style.background='#FFFFFF';
+                    }, 1000);
+                    setTimeout(() => {
+                        document.getElementById('alerta').style='color:#228848';
+                    }, 1000);
                 });
                 socket.on('connection', function (data) {
                     console.log(data);
                 });
+                socket.emit("ingresoEquipo", {msg:'{{nombreUsuario}} ingresó a la argumentación {{argumentacion.nombre}}', sesion:'{{sesion.id}}'});
             });
             function inicioCapturaAporte(pAporteTipoId,pAportePredecesorId,pAportePredecesorTipo,pAportePredecesorContenido,pAporteSucesorTipo,pArgumentacionNombre){
                 document.getElementById('aporteTipoId').value=pAporteTipoId;
@@ -67,20 +83,18 @@
                 document.getElementById('aporteTiempo').value='';
                 document.getElementById('capturarAporte').style.display='block';
                 document.getElementById('aporteContenido').focus();
-                alertaAporte(pAporteSucesorTipo,pArgumentacionNombre);
+                alertaAporte(pArgumentacionNombre);
             }
-            function alertaAporte(pTipoAporte,pNombre){
-                if (pTipoAporte === undefined) {
-                    pTipoAporte="";
-                } else {
-                    pTipoAporte="de tipo "+pTipoAporte+" ";
-                }
+            function alertaAporte(pNombre){
                 if (pNombre === undefined) {
                     pNombre="";
                 } else {
                     pNombre=pNombre+" ";
                 }
-                socket.emit("preparacion", {msg:'Se prepara un nuevo aporte '+pTipoAporte+'en la argumentación '+pNombre+'| {{nombreUsuario}}'});
+                socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} prepara un nuevo aporte en la argumentación '+pNombre, sesion:'{{sesion.id}}'});
+            }
+            function inclusionAporte(){
+                document.getElementById("capturarAporte").style.display='none';
             }
             function desistimientoAporte(pNombre){
                 if (pNombre === undefined) {
@@ -89,7 +103,7 @@
                     pNombre=pNombre+" ";
                 }
                 document.getElementById("capturarAporte").style.display='none';
-                socket.emit("desistimientoMensaje", {msg:'Se desistió de la inclusión de un aporte en la argumentación '+pNombre+'| {{nombreUsuario}}'});
+                socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió incluir un nuevo aporte en la argumentación '+pNombre, sesion:'{{sesion.id}}'});
             }
         </script>
 

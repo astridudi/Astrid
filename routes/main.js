@@ -382,7 +382,7 @@ router.post('/grabarMensajeChatSesion', async (req, res, next) => {
     await datosChat.grabarMensaje(req.body.id,
         new Mensaje('',req.body.mensajeContenido, req.body.mensajeTiempo, req.body.nombreUsuario));
     let chatRecuperado = await datosChat.recuperarChatPorSesion(req.body.idSesion);
-    eventEmitter.emit('confirmacionMensaje', {mensaje: 'Se emitió un nuevo mensaje en el chat | '+req.body.nombreUsuario, chatRecuperado: chatRecuperado.chatJson});
+    eventEmitter.emit('confirmacionMensaje', {mensaje: req.body.nombreUsuario+' emitió un nuevo mensaje en el chat', chatRecuperado: chatRecuperado.chatJson, sesion: req.body.idSesion});
     res.redirect('back');
 });
 router.get('/presentarDiagramaSesion', async (req, res, next) => {
@@ -411,7 +411,7 @@ router.post('/grabarObjetoDiagramaSesion', async (req, res, next) => {
     argumentacion.objeto = objeto;
     await datosArgumentacion.grabarArgumentacion(argumentacion);
     let diagramaRecuperado = await datosDiagrama.recuperarDiagramaPorSesion(req.body.idSesion);
-    eventEmitter.emit('confirmacionElemento', {mensaje: 'Se agregó un nuevo elemento en el diagrama | '+req.body.nombreUsuario, diagramaRecuperado: diagramaRecuperado.diagramaJson});
+    eventEmitter.emit('confirmacionElemento', {mensaje: req.body.nombreUsuario+' agregó un nuevo elemento en el diagrama', diagramaRecuperado: diagramaRecuperado.diagramaJson, sesion: req.body.idSesion});
     res.redirect('back');
 });
 router.get('/registrarRelacionDiagramaSesion', async (req, res, next) => {
@@ -459,7 +459,7 @@ router.post('/grabarAporteSesion', async (req, res, next) => {
         new Aporte('',req.body.aporteTipoId,req.body.aporteContenido, req.body.aporteTiempo, req.body.nombreUsuario));
     let argumentacionRecuperada = await datosArgumentacion.recuperarArgumentacionPorObjeto(req.body.idObjeto);
     argumentacionRecuperada.ordenar();
-    eventEmitter.emit('confirmacionAporte', {mensaje: 'Se agregó un nuevo aporte en la argumentación | '+req.body.nombreUsuario, argumentacionRecuperada: argumentacionRecuperada.argumentacionJson});
+    eventEmitter.emit('confirmacionAporte', {mensaje: req.body.nombreUsuario+' agregó un nuevo aporte en la argumentación '+argumentacionRecuperada.nombre, argumentacionRecuperada: argumentacionRecuperada.argumentacionJson, sesion: req.body.idSesion});
     res.redirect('back');
 });
 router.post('/permitirIngreso', async (req, res, next) => {

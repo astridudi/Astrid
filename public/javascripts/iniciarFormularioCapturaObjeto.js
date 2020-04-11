@@ -28,6 +28,10 @@ function inicioFormularioCapturaObjeto() {
     let botonGrabar = document.createElement("input");
     botonGrabar.type = "submit";
     botonGrabar.value = "Grabar";
+    botonGrabar.setAttribute(
+        "onclick",
+        "inclusionElemento()"
+    );
     document.getElementById("formGrabarObjetoDiagramaSesion").appendChild(botonGrabar);
     let enlaceDesistir = document.createElement("a");
     enlaceDesistir.setAttribute(
