@@ -37,7 +37,9 @@ module.exports = class Datos extends Conexion {
                     tipoObjetoId: pObjeto.tipoObjeto.id,
                     valoresPropiedades: pObjeto.valoresPropiedades,
                     tiempo: pObjeto.tiempo,
-                    nombreUsuario: pObjeto.nombreUsuario
+                    nombreUsuario: pObjeto.nombreUsuario,
+                    x : pObjeto.datoGrafico.x,
+                    y : pObjeto.datoGrafico.y,
                 }). then(ref => {
                     pObjeto.id = ref.id;
                     nArgumentacion.objeto = pObjeto;
@@ -114,6 +116,8 @@ module.exports = class Datos extends Conexion {
                     for (i=0; i<document.data().valoresPropiedades.length; i++) {
                         tObjeto.incluirValorPropiedad(document.data().valoresPropiedades[i])
                     }
+                    tObjeto.datoGrafico.x = parseInt(document.data().x,10);
+                    tObjeto.datoGrafico.y = parseInt(document.data().y,10);
                     tObjeto.diagrama = rDiagrama;
                     rDiagrama.incluirObjeto(tObjeto);
                 });
@@ -176,6 +180,8 @@ module.exports = class Datos extends Conexion {
                     for (i=0; i<document.data().valoresPropiedades.length; i++) {
                         tObjeto.incluirValorPropiedad(document.data().valoresPropiedades[i])
                     }
+                    tObjeto.datoGrafico.x = parseInt(document.data().x,10);
+                    tObjeto.datoGrafico.y = parseInt(document.data().y,10);
                     tObjeto.diagrama = rDiagrama;
                     rDiagrama.incluirObjeto(tObjeto);
                 });
@@ -238,6 +244,15 @@ module.exports = class Datos extends Conexion {
             } catch (e) {
                 console.log(e.message);
             }
+        }
+    }
+    async actualizarObjeto(pIdObjeto,pX,pY) {
+        try {
+            this._firebase.firestore().collection(this._coleccionObjetos).doc(pIdObjeto).update({
+                x: pX,
+                y: pY});
+        } catch (e) {
+            console.log(e.message);
         }
     }
     async actualizarRelacion(pRelacion) {

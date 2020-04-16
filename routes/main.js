@@ -406,6 +406,8 @@ router.post('/grabarObjetoDiagramaSesion', async (req, res, next) => {
         indice = 'valorPropiedadObjeto'+i;
         objeto.incluirValorPropiedad(req.body[indice]);
     }
+    objeto.datoGrafico.x = req.body.xObjeto;
+    objeto.datoGrafico.y = req.body.yObjeto;
     objeto.id = await datosDiagrama.grabarObjeto(req.body.id,objeto);
     let argumentacion = new Argumentacion('',objeto.valoresPropiedades[0],'');
     argumentacion.objeto = objeto;
@@ -438,6 +440,22 @@ router.post('/grabarRelacionDiagramaSesion', async (req, res, next) => {
     }
     await datosDiagrama.grabarRelacion(req.body.id,relacion,req.body.objetoInicial,req.body.objetoFinal);
     res.redirect('/main/presentarDiagramaSesion?idSesion='+ req.body.idSesion+ '&nombreUsuario=' + req.body.nombreUsuario);
+});
+router.post('/grabarEdicionDiagramaSesion', async (req, res, next) => {
+    var datosDiagrama = new DatosDiagrama();
+    let i = 0;
+    let indice = '';
+    let cadenaDiagrama = req.body.diagramaJson.replace(/&quot;/g, "'");
+    cadenaDiagrama = cadenaDiagrama.replace(/'/g, '"');
+    let pDiagrama = JSON.parse(cadenaDiagrama);
+    for (i=0; i<pDiagrama._objetos.length; i++) {
+        if (pDiagrama._objetos[i]._tiempo == 0) {
+            await datosDiagrama.actualizarObjeto(pDiagrama._objetos[i]._id, pDiagrama._objetos[i]._datoGrafico._x, pDiagrama._objetos[i]._datoGrafico._y);
+        }
+    }
+    let diagramaRecuperado = await datosDiagrama.recuperarDiagramaPorSesion(req.body.idSesion);
+    eventEmitter.emit('confirmacionElemento', {mensaje: req.body.nombreUsuario+' editó el diagrama', diagramaRecuperado: diagramaRecuperado.diagramaJson, sesion: req.body.idSesion});
+    res.redirect('back');
 });
 router.get('/presentarArgumentacionSesion', async (req, res, next) => {
     datosArgumentacion = new DatosArgumentacion();

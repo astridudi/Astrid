@@ -15,43 +15,35 @@
         </table>
     </h3>
     {{#if sesion.diagrama}}
-        <script>
-            function allowDrop(ev) {
-                ev.preventDefault();
-            }
-
-            function drag(ev) {
-                ev.dataTransfer.setData("text", ev.target.id);
-            }
-
-            function drop(ev) {
-                ev.preventDefault();
-                var data = ev.dataTransfer.getData("text");
-            }
-        </script>
-
-        <div align="center" style="position:relative; background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
+        <div id="divDibujo" align="center" style="position:relative; background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
             <canvas id="canvasDibujo" width="1000" height="2000"></canvas>
-            <img id="imagenMapa"  ondrop="drop(event)" ondragover="allowDrop(event)" width="1000" height="2000" usemap="#mapa" style="position:absolute;"/>
+            <img id="imagenMapa" onmousedown="down(event)" ondrop="drop(event)" ondragover="allowDrop(event)" width="1000" height="2000" usemap="#mapa" style="position:absolute;"/>
             <map id="mapa" name="mapa">
             </map>
+            <input type='hidden' id="diagramaJsonCopia" name='diagramaJson' value="{{sesion.diagrama.diagramaJson}}" >
+            <input id="xNuevoObjeto" name='xNuevoObjeto' type='hidden' >
+            <input id="yNuevoObjeto" name='yNuevoObjeto' type='hidden' >
+            <script src="../javascripts/determinarObjeto.js"></script>
+            <script src="../javascripts/editarDiagrama.js"></script>
             <script src="../javascripts/{{sesion.diagrama.tipoDiagrama.scriptDibujo}}"></script>
             <script type="text/javascript">
                 dibujarDiagrama("canvasDibujo","{{sesion.diagrama.diagramaJson}}","/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
             </script>
         </div>
         <br>
-        <b>Objetos:</b>
-        {{#each sesion.diagrama.tipoDiagrama.tiposObjeto}}
-            <a onclick="inicioCapturaObjeto('{{id}}','{{nombre}}','{{tiposPropiedadJson}}')" >{{nombre}}</a>
+        <div id="controles">
+            <b>Objetos:</b>
+            {{#each sesion.diagrama.tipoDiagrama.tiposObjeto}}
+                <a onclick="inicioCapturaObjeto('{{id}}','{{nombre}}','{{tiposPropiedadJson}}')" >{{nombre}}</a>
+                |
+            {{/each}}
             |
-        {{/each}}
-        |
-        <b>Relaciones:</b>
-        {{#each sesion.diagrama.tipoDiagrama.tiposRelacion}}
-            <a onclick="inicioCapturaRelacion('{{id}}','{{nombre}}')" >{{nombre}}</a>
-            |
-        {{/each}}
+            <b>Relaciones:</b>
+            {{#each sesion.diagrama.tipoDiagrama.tiposRelacion}}
+                <a onclick="inicioCapturaRelacion('{{id}}','{{nombre}}')" >{{nombre}}</a>
+                |
+            {{/each}}
+        </div>
         <div id="capturarObjeto" style="display:none;">
             <form id='formGrabarObjetoDiagramaSesion' method='POST' action='/main/grabarObjetoDiagramaSesion'>
                 <hr class="verdeAstrid1">
@@ -60,9 +52,15 @@
                 <input type='hidden' name='id' value={{sesion.diagrama.id}}>
                 <input type='hidden' name='tipoDiagrama' value={{sesion.diagrama.tipoDiagrama.id}}>
                 <input id="tipoObjeto" name='tipoObjeto' type='hidden' >
-                <input type='hidden' name='objetoTiempo' value=''/></p>
+                <input type='hidden' name='objetoTiempo' value=''/>
+                <p>
+                    <b>
+                    Coordenadas :
+                    X= <input id="xObjeto" name='xObjeto' type='number' min="0" step="10" > |
+                    Y= <input id="yObjeto" name='yObjeto' type='number' min="0" step="10" />
+                    </b>
+                </p>
                 <b><p id="objetoTipo" >: </p></b>
-
                 <script src="../javascripts/iniciarFormularioCapturaObjeto.js"></script>
                 <script type="text/javascript">
                     inicioFormularioCapturaObjeto();
@@ -85,6 +83,30 @@
                 </script>
             </form>
         </div>
+        <div id="capturarMovimiento" style="display:none;">
+            <form id='formGrabarEdicionDiagramaSesion' method='POST' action='/main/grabarEdicionDiagramaSesion'>
+                <hr class="verdeAstrid1">
+                <input type='hidden' id="diagramaJson" name='diagramaJson' value="{{sesion.diagrama.diagramaJson}}" >
+                <input type="hidden" name="nombreUsuario" value={{nombreUsuario}}>
+                <input type='hidden' name='idSesion' value={{sesion.id}}>
+                <input type='hidden' name='id' value={{sesion.diagrama.id}}>
+                <input type='hidden' name='tipoDiagrama' value={{sesion.diagrama.tipoDiagrama.id}}>
+                <input type='hidden' id="indiceObjeto" name='indiceObjeto' value="" >
+                <input type='hidden' id="xInicioMovimiento" name='xInicioMovimiento' >
+                <input type='hidden' id="yInicioMovimiento" name='yInicioMovimiento' >
+                <p><b>Edición del diagrama</b></p>
+                <p>
+                    <b>
+                        Coordenadas :
+                        X= <input type='number' id="xFinMovimiento" name='xFinMovimiento' min="0" step="10" > |
+                        Y= <input type='number' id="yFinMovimiento" name='yFinMovimiento' min="0" step="10" > |
+                        <a onclick="probarDiagrama()">Probar</a> |
+                    </b>
+                </p>
+                <input id="grabarMovimiento" onclick="edicion()" type='submit' value='Grabar' /> |
+                <a onclick="desistimientoEdicion()">Desistir</a> |
+            </form>
+        </div>
     {{/if}}
 
     <script
@@ -99,6 +121,8 @@
             //socket = io.connect('http://localhost:3000');
             socket.on("actualizacionDiagrama", (data)=>{
                 console.log("Evento: "+data);
+                document.getElementById('diagramaJsonCopia').value = data.diagramaRecuperado;
+                document.getElementById('diagramaJson').value = data.diagramaRecuperado;
                 dibujarDiagrama("canvasDibujo", data.diagramaRecuperado,"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
             });
             socket.on('atencion', function (data) {
@@ -120,7 +144,10 @@
         function inicioCapturaObjeto(pObjetoTipoId, pObjetoTipo, pTiposPropiedadJson){
             document.getElementById('tipoObjeto').value=pObjetoTipoId;
             document.getElementById('objetoTipo').innerHTML=pObjetoTipo+": ";
+            document.getElementById('controles').style.display='none';
             document.getElementById('capturarObjeto').style.display='block';
+            document.getElementById('capturarRelacion').style.display='none';
+            document.getElementById('capturarMovimiento').style.display='none';
 
             let cadenaTiposPropiedad = pTiposPropiedadJson.replace(/&quot;/g, "'");
             cadenaTiposPropiedad = cadenaTiposPropiedad.replace(/'/g, '"');
@@ -138,10 +165,10 @@
             alertaElemento(pObjetoTipo);
         }
         function inicioCapturaRelacion(pRelacionTipoId, pRelacionTipo){
-            document.getElementById('tipoRelacion').value=pRelacionTipoId;
-            document.getElementById('relacionTipo').innerHTML=pRelacionTipo+": ";
+            document.getElementById('controles').style.display='none';
+            document.getElementById('capturarObjeto').style.display='none';
             document.getElementById('capturarRelacion').style.display='block';
-            alertaElemento(pRelacionTipo);
+            document.getElementById('capturarMovimiento').style.display='none';
         }
         function alertaElemento(pTipoElemento){
             if (pTipoElemento === undefined) {
@@ -152,8 +179,10 @@
             socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} prepara un nuevo elemento '+pTipoElemento+'en el diagrama', sesion:'{{sesion.id}}'});
         }
         function inclusionElemento(){
+            document.getElementById('controles').style.display='block';
             document.getElementById("capturarObjeto").style.display='none';
             document.getElementById("capturarRelacion").style.display='none';
+            document.getElementById('capturarMovimiento').style.display='none';
         }
         function desistimientoElemento(pTipoElemento){
             if (pTipoElemento === undefined) {
@@ -161,9 +190,56 @@
             } else {
                 pTipoElemento=pTipoElemento+" ";
             }
+            document.getElementById('controles').style.display='block';
             document.getElementById("capturarObjeto").style.display='none';
             document.getElementById("capturarRelacion").style.display='none';
+            document.getElementById('capturarMovimiento').style.display='none';
             socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió incluir un elemento '+pTipoElemento+'en el diagrama', sesion:'{{sesion.id}}'});
+        }
+        function alertaEdicion(){
+            document.getElementById('controles').style.display='none';
+            document.getElementById("capturarObjeto").style.display='none';
+            document.getElementById("capturarRelacion").style.display='none';
+            document.getElementById('capturarMovimiento').style.display='block';
+            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} está editando el diagrama', sesion:'{{sesion.id}}'});
+        }
+        function edicion(){
+            document.getElementById('controles').style.display='block';
+            document.getElementById("capturarMovimiento").style.display='none';
+        }
+        function desistimientoEdicion(pTipoElemento){
+            document.getElementById('controles').style.display='block';
+            document.getElementById("capturarMovimiento").style.display='none';
+            document.getElementById("diagramaJson").value = document.getElementById("diagramaJsonCopia").value;
+            dibujarDiagrama("canvasDibujo", document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
+            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió editar el diagrama', sesion:'{{sesion.id}}'});
+        }
+        function llamarReunion() {
+            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en el {{sesion.nombreTipoDiagrama}}', sesion:'{{sesion.id}}'});
+        }
+        function down(ev) {
+            document.getElementById('xObjeto').value=Math.round((ev.clientX-document.getElementById('divDibujo').offsetLeft-document.getElementById('canvasDibujo').offsetLeft)/10)*10;
+            document.getElementById('yObjeto').value=Math.round((ev.clientY-document.getElementById('divDibujo').offsetTop-document.getElementById('canvasDibujo').offsetTop)/10)*10;
+        }
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+            document.getElementById('xInicioMovimiento').value=ev.clientX-document.getElementById('divDibujo').offsetLeft-document.getElementById('canvasDibujo').offsetLeft;
+            document.getElementById('yInicioMovimiento').value=ev.clientY-document.getElementById('divDibujo').offsetTop-document.getElementById('canvasDibujo').offsetTop;
+        }
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            document.getElementById('xFinMovimiento').value=Math.round((ev.clientX-document.getElementById('divDibujo').offsetLeft-document.getElementById('canvasDibujo').offsetLeft)/10)*10;
+            document.getElementById('yFinMovimiento').value=Math.round((ev.clientY-document.getElementById('divDibujo').offsetTop-document.getElementById('canvasDibujo').offsetTop)/10)*10;
+            alertaEdicion();
+            document.getElementById("indiceObjeto").value = determinarObjeto(document.getElementById('diagramaJson').value,document.getElementById('xInicioMovimiento').value,document.getElementById('yInicioMovimiento').value);
+            dibujarDiagrama('canvasDibujo',editarDiagrama(document.getElementById('diagramaJson').value,document.getElementById('xInicioMovimiento').value,document.getElementById('yInicioMovimiento').value,document.getElementById('xFinMovimiento').value,document.getElementById('yFinMovimiento').value,document.getElementById("indiceObjeto").value),"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
+        }
+        function probarDiagrama() {
+            dibujarDiagrama('canvasDibujo',editarDiagrama(document.getElementById('diagramaJson').value,document.getElementById('xInicioMovimiento').value,document.getElementById('yInicioMovimiento').value,document.getElementById('xFinMovimiento').value,document.getElementById('yFinMovimiento').value,document.getElementById("indiceObjeto").value),"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
         }
     </script>
 

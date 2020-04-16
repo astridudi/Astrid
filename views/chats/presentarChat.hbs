@@ -84,6 +84,9 @@
             socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió un mensaje en el chat', sesion:'{{sesion.id}}'});
             document.getElementById("capturarMensaje").style.display='none';
         }
+        function llamarReunion() {
+            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en el chat', sesion:'{{sesion.id}}'});
+        }
     </script>
 
 {{/if}}

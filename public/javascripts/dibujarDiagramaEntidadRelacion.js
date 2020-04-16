@@ -66,8 +66,6 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
         pDiagrama._objetos[i]._datoGrafico._tipoCaja = pDiagrama._objetos[i]._tipoObjeto._id;
         pDiagrama._objetos[i]._datoGrafico._lineas = 1;
         pDiagrama._objetos[i]._datoGrafico._lineasNombreUsuario = 1;
-        pDiagrama._objetos[i]._datoGrafico._x = izquierda;
-        pDiagrama._objetos[i]._datoGrafico._y = arriba;
         pDiagrama._objetos[i]._datoGrafico._ancho = ancho;
         pDiagrama._objetos[i]._datoGrafico._alto = alto;
         pDiagrama._objetos[i]._datoGrafico._curva = 0;
@@ -75,19 +73,22 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
         pDiagrama._objetos[i]._areasEnlace[0]._tipoCaja = pDiagrama._objetos[i]._tipoObjeto._id;
         pDiagrama._objetos[i]._areasEnlace[0]._lineas = 1;
         pDiagrama._objetos[i]._areasEnlace[0]._lineasNombreUsuario = 1;
-        pDiagrama._objetos[i]._areasEnlace[0]._x = izquierda;
-        pDiagrama._objetos[i]._areasEnlace[0]._y = arriba;
+        pDiagrama._objetos[i]._areasEnlace[0]._x = pDiagrama._objetos[i]._datoGrafico._x;
+        pDiagrama._objetos[i]._areasEnlace[0]._y = pDiagrama._objetos[i]._datoGrafico._y;
         pDiagrama._objetos[i]._areasEnlace[0]._ancho = ancho;
         pDiagrama._objetos[i]._areasEnlace[0]._alto = alto;
         pDiagrama._objetos[i]._areasEnlace[0]._curva = 0;
 
-        x = x + ancho + margen;
-        if (x > (anchoCanvas - Math.max(anchoEntidad,anchoRelacion,anchoAtributo) - margen )) {
-            x = margen;
-            y = y + Math.max(altoEntidad,altoRelacion,altoAtributo) + margen;
-        }
-
+        x = Math.max( x, pDiagrama._objetos[i]._datoGrafico._x + ancho + margen );
+        y = Math.max( y, pDiagrama._objetos[i]._datoGrafico._y );
     }
+
+    if (x > (anchoCanvas - Math.max(anchoEntidad,anchoRelacion,anchoAtributo) - margen )) {
+        x = margen;
+        y = y + Math.max(altoEntidad,altoRelacion,altoAtributo) + margen;
+    }
+    document.getElementById('xNuevoObjeto').value = x;
+    document.getElementById('yNuevoObjeto').value = y;
 
     contexto.strokeStyle = "#FFFFFF";
     contexto.fillStyle = "#FFFFFF";
@@ -156,8 +157,8 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
     }
     contexto.setLineDash([]);
 
-    contexto.strokeStyle = "#1B4F72";
-    contexto.fillStyle = "#D6EAF8";
+    contexto.strokeStyle = "#0B5345";
+    contexto.fillStyle = "#EAFAF1";
     contexto.font = "14px Arial";
     contexto.textBaseline = "middle";
 
@@ -192,30 +193,22 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
                 break;
             }
         }
-        areas[areas.length] = document.createElement("area");
-        areas[areas.length-1].draggable=true;
-        areas[areas.length-1].shape="rect";
-        areas[areas.length-1].coords=+pDiagrama._objetos[i]._areasEnlace[0]._x+","+pDiagrama._objetos[i]._areasEnlace[0]._y+","+(pDiagrama._objetos[i]._areasEnlace[0]._x+pDiagrama._objetos[i]._areasEnlace[0]._ancho)+","+(pDiagrama._objetos[i]._areasEnlace[0]._y+pDiagrama._objetos[i]._areasEnlace[0]._alto);
-        areas[areas.length-1].href=pHRef+pDiagrama._objetos[i]._id;
-        areas[areas.length-1].setAttribute(
-            "ondragstart",
-            "drag(event)"
-        );
-        /*
-        areas[areas.length-1].setAttribute(
-            "ondragstart",
-            "inicioCapturaAporte('"+
-            pArgumentacion._conjuntoTiposAporte._tiposAporte[pDiagrama._objetos[i]._tipoAporte._id]._idTiposSucesores[j]+"','"+
-            pDiagrama._objetos[i]._id+"','"+
-            pDiagrama._objetos[i]._tipoAporte._nombre+"','"+
-            pDiagrama._objetos[i]._contenido+"','"+
-            pArgumentacion._conjuntoTiposAporte._tiposAporte[pArgumentacion._conjuntoTiposAporte._tiposAporte[pDiagrama._objetos[i]._tipoAporte._id]._idTiposSucesores[j]]._nombre+"','"+
-            pArgumentacion._nombre[0]+
-            "')"
-        );
-         */
-        areas[areas.length-1].title=pDiagrama._objetos[i]._valoresPropiedades[1];
-        mapa.appendChild(areas[areas.length-1]);
+        if (document.getElementById('area'+i) == undefined) {
+            areas[areas.length] = document.createElement("area");
+            areas[areas.length-1].id='area'+i;
+            areas[areas.length-1].draggable=true;
+            areas[areas.length-1].shape="rect";
+            areas[areas.length-1].coords=pDiagrama._objetos[i]._areasEnlace[0]._x+","+pDiagrama._objetos[i]._areasEnlace[0]._y+","+(pDiagrama._objetos[i]._areasEnlace[0]._x+pDiagrama._objetos[i]._areasEnlace[0]._ancho)+","+(pDiagrama._objetos[i]._areasEnlace[0]._y+pDiagrama._objetos[i]._areasEnlace[0]._alto);
+            areas[areas.length-1].href=pHRef+pDiagrama._objetos[i]._id;
+            areas[areas.length-1].setAttribute(
+                "ondragstart",
+                "drag(event)"
+            );
+            areas[areas.length-1].title=pDiagrama._objetos[i]._valoresPropiedades[1];
+            mapa.appendChild(areas[areas.length-1]);
+        } else {
+            document.getElementById('area'+i).coords=pDiagrama._objetos[i]._areasEnlace[0]._x+","+pDiagrama._objetos[i]._areasEnlace[0]._y+","+(pDiagrama._objetos[i]._areasEnlace[0]._x+pDiagrama._objetos[i]._areasEnlace[0]._ancho)+","+(pDiagrama._objetos[i]._areasEnlace[0]._y+pDiagrama._objetos[i]._areasEnlace[0]._alto);
+        }
     }
     
     contexto.fillStyle = "#000000";
@@ -234,12 +227,24 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
                 break;
             }
             case 2: {
-                contexto.textAlign = "left";
-                contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + anchoAtributo + radioAtributo, pDiagrama._objetos[i]._datoGrafico._y );
-                contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y, pDiagrama._objetos[i]._datoGrafico._ancho - 8);
+                contexto.textAlign = "right";
+                contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x - sangria , pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
                 break;
             }
         }
     }
+
+    /*
+    var imageData = contexto.getImageData(0, 0, anchoCanvas, y);
+    var newCan = document.createElement('canvas');
+    newCan.width = anchoCanvas;
+    newCan.height = y;
+    var newCtx = newCan.getContext('2d');
+    newCtx.putImageData(imageData, 0, 0);
+    imagenMapa.src = newCan.toDataURL();
+    if (areas.length > 0) {
+        areas[0].src = newCan.toDataURL();
+    }
+     */
 
 }

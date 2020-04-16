@@ -39,6 +39,7 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
     let ancho = 0;
     let alto = 0;
     let texto = '';
+    let fragmentos = [];
     let i = 0;
     let p = 0;
     let q = 0;
@@ -94,32 +95,34 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
         }
         izquierda = x;
         arriba = y;
+        lineas = Math.ceil(contexto.measureText(texto).width / ancho);
 
         pDiagrama._objetos[i]._datoGrafico._tipoCaja = pDiagrama._objetos[i]._tipoObjeto._id;
-        pDiagrama._objetos[i]._datoGrafico._lineas = 1;
+        pDiagrama._objetos[i]._datoGrafico._lineas = lineas;
         pDiagrama._objetos[i]._datoGrafico._lineasNombreUsuario = 1;
-        pDiagrama._objetos[i]._datoGrafico._x = izquierda;
-        pDiagrama._objetos[i]._datoGrafico._y = arriba;
         pDiagrama._objetos[i]._datoGrafico._ancho = ancho;
         pDiagrama._objetos[i]._datoGrafico._alto = alto;
         pDiagrama._objetos[i]._datoGrafico._curva = 0;
 
         pDiagrama._objetos[i]._areasEnlace[0]._tipoCaja = pDiagrama._objetos[i]._tipoObjeto._id;
-        pDiagrama._objetos[i]._areasEnlace[0]._lineas = 1;
+        pDiagrama._objetos[i]._areasEnlace[0]._lineas = lineas;
         pDiagrama._objetos[i]._areasEnlace[0]._lineasNombreUsuario = 1;
-        pDiagrama._objetos[i]._areasEnlace[0]._x = izquierda;
-        pDiagrama._objetos[i]._areasEnlace[0]._y = arriba;
+        pDiagrama._objetos[i]._areasEnlace[0]._x = pDiagrama._objetos[i]._datoGrafico._x;
+        pDiagrama._objetos[i]._areasEnlace[0]._y = pDiagrama._objetos[i]._datoGrafico._y;
         pDiagrama._objetos[i]._areasEnlace[0]._ancho = ancho;
         pDiagrama._objetos[i]._areasEnlace[0]._alto = alto;
         pDiagrama._objetos[i]._areasEnlace[0]._curva = 0;
 
-        x = x + ancho + margen;
-        if (x > (anchoCanvas - Math.max(anchoInicio,anchoEntrada,anchoProceso,anchoCondicional) - margen )) {
-            x = margen;
-            y = y + Math.max(altoInicio,altoEntrada,altoProceso,altoCondicional) + margen;
-        }
-
+        x = Math.max( x, pDiagrama._objetos[i]._datoGrafico._x + ancho + margen );
+        y = Math.max( y, pDiagrama._objetos[i]._datoGrafico._y );
     }
+
+    if (x > (anchoCanvas - Math.max(anchoInicio,anchoEntrada,anchoProceso,anchoCondicional) - margen )) {
+        x = margen;
+        y = y + Math.max(altoInicio,altoEntrada,altoProceso,altoCondicional) + margen;
+    }
+    document.getElementById('xNuevoObjeto').value = x;
+    document.getElementById('yNuevoObjeto').value = y;
 
     contexto.strokeStyle = "#FFFFFF";
     contexto.fillStyle = "#FFFFFF";
@@ -188,8 +191,8 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
     }
     contexto.setLineDash([]);
 
-    contexto.strokeStyle = "#1B4F72";
-    contexto.fillStyle = "#D6EAF8";
+    contexto.strokeStyle = "#0B5345";
+    contexto.fillStyle = "#EAFAF1";
     contexto.font = "14px Arial";
     contexto.textBaseline = "middle";
 
@@ -295,76 +298,145 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef) {
                 break;
             }
         }
-        areas[areas.length] = document.createElement("area");
-        areas[areas.length-1].draggable=true;
-        areas[areas.length-1].shape="rect";
-        areas[areas.length-1].coords=+pDiagrama._objetos[i]._areasEnlace[0]._x+","+pDiagrama._objetos[i]._areasEnlace[0]._y+","+(pDiagrama._objetos[i]._areasEnlace[0]._x+pDiagrama._objetos[i]._areasEnlace[0]._ancho)+","+(pDiagrama._objetos[i]._areasEnlace[0]._y+pDiagrama._objetos[i]._areasEnlace[0]._alto);
-        areas[areas.length-1].href=pHRef+pDiagrama._objetos[i]._id;
-        areas[areas.length-1].setAttribute(
-            "ondragstart",
-            "drag(event)"
-        );
-        /*
-        areas[areas.length-1].setAttribute(
-            "ondragstart",
-            "inicioCapturaAporte('"+
-            pArgumentacion._conjuntoTiposAporte._tiposAporte[pDiagrama._objetos[i]._tipoAporte._id]._idTiposSucesores[j]+"','"+
-            pDiagrama._objetos[i]._id+"','"+
-            pDiagrama._objetos[i]._tipoAporte._nombre+"','"+
-            pDiagrama._objetos[i]._contenido+"','"+
-            pArgumentacion._conjuntoTiposAporte._tiposAporte[pArgumentacion._conjuntoTiposAporte._tiposAporte[pDiagrama._objetos[i]._tipoAporte._id]._idTiposSucesores[j]]._nombre+"','"+
-            pArgumentacion._nombre[0]+
-            "')"
-        );
-         */
-        areas[areas.length-1].title=pDiagrama._objetos[i]._valoresPropiedades[1];
-        mapa.appendChild(areas[areas.length-1]);
+        if (document.getElementById('area'+i) == undefined) {
+            areas[areas.length] = document.createElement("area");
+            areas[areas.length-1].id='area'+i;
+            areas[areas.length-1].draggable=true;
+            areas[areas.length-1].shape="rect";
+            areas[areas.length-1].coords=pDiagrama._objetos[i]._areasEnlace[0]._x+","+pDiagrama._objetos[i]._areasEnlace[0]._y+","+(pDiagrama._objetos[i]._areasEnlace[0]._x+pDiagrama._objetos[i]._areasEnlace[0]._ancho)+","+(pDiagrama._objetos[i]._areasEnlace[0]._y+pDiagrama._objetos[i]._areasEnlace[0]._alto);
+            areas[areas.length-1].href=pHRef+pDiagrama._objetos[i]._id;
+            areas[areas.length-1].setAttribute(
+                "ondragstart",
+                "drag(event)"
+            );
+            areas[areas.length-1].title=pDiagrama._objetos[i]._valoresPropiedades[1];
+            mapa.appendChild(areas[areas.length-1]);
+        } else {
+            document.getElementById('area'+i).coords=pDiagrama._objetos[i]._areasEnlace[0]._x+","+pDiagrama._objetos[i]._areasEnlace[0]._y+","+(pDiagrama._objetos[i]._areasEnlace[0]._x+pDiagrama._objetos[i]._areasEnlace[0]._ancho)+","+(pDiagrama._objetos[i]._areasEnlace[0]._y+pDiagrama._objetos[i]._areasEnlace[0]._alto);
+        }
     }
 
     contexto.fillStyle = "#000000";
     contexto.lineWidth = 1;
     for (i=0; i<pDiagrama._objetos.length; i++) {
         texto = pDiagrama._objetos[i]._valoresPropiedades[0];
-        switch (pDiagrama._objetos[i]._tipoObjeto._id) {
-            case 0: {
-                contexto.textAlign = "center";
-                contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
-                break;
+        if (pDiagrama._objetos[i]._datoGrafico._lineas > 1) {
+            r = 0;
+            for (j=0; j<pDiagrama._objetos[i]._datoGrafico._lineas-1; j++) {
+                p = (texto.length / pDiagrama._objetos[i]._datoGrafico._lineas) * (j+1);
+                q = 0;
+                while ((texto.substring(p-q,p-q+1)!=" ") && (q<(texto.length / pDiagrama._objetos[i]._datoGrafico._lineas))) {
+                    q++;
+                }
+                fragmentos[j] = texto.substring(r,p-q+1);
+                r = p-q+1;
             }
-            case 1: {
-                contexto.textAlign = "center";
-                contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
-                break;
+            fragmentos[j] = texto.substring(r,texto.length);
+            sangria = Math.ceil((pDiagrama._objetos[i]._datoGrafico._alto - pDiagrama._objetos[i]._datoGrafico._lineas * altoRenglon) / 2);
+            contexto.textBaseline = "top";
+
+            switch (pDiagrama._objetos[i]._tipoObjeto._id) {
+                case 0: {
+                    contexto.textAlign = "center";
+                    for (j=0; j<pDiagrama._objetos[i]._datoGrafico._lineas; j++) {
+                        contexto.fillText(fragmentos[j], pDiagrama._objetos[i]._datoGrafico._x + pDiagrama._objetos[i]._datoGrafico._ancho / 2,pDiagrama._objetos[i]._datoGrafico._y + sangria + altoRenglon * j, pDiagrama._objetos[i]._datoGrafico._ancho-8);
+                    }
+                    break;
+                }
+                case 1: {
+                    contexto.textAlign = "center";
+                    for (j=0; j<pDiagrama._objetos[i]._datoGrafico._lineas; j++) {
+                        contexto.fillText(fragmentos[j], pDiagrama._objetos[i]._datoGrafico._x + pDiagrama._objetos[i]._datoGrafico._ancho / 2,pDiagrama._objetos[i]._datoGrafico._y + sangria + altoRenglon * j, pDiagrama._objetos[i]._datoGrafico._ancho-8);
+                    }
+                    break;
+                }
+                case 2: {
+                    contexto.textAlign = "center";
+                    for (j=0; j<pDiagrama._objetos[i]._datoGrafico._lineas; j++) {
+                        contexto.fillText(fragmentos[j], pDiagrama._objetos[i]._datoGrafico._x + pDiagrama._objetos[i]._datoGrafico._ancho / 2,pDiagrama._objetos[i]._datoGrafico._y + sangria + altoRenglon * j, pDiagrama._objetos[i]._datoGrafico._ancho-8);
+                    }
+                    break;
+                }
+                case 3: {
+                    contexto.textAlign = "center";
+                    for (j=0; j<pDiagrama._objetos[i]._datoGrafico._lineas; j++) {
+                        contexto.fillText(fragmentos[j], pDiagrama._objetos[i]._datoGrafico._x + pDiagrama._objetos[i]._datoGrafico._ancho / 2,pDiagrama._objetos[i]._datoGrafico._y + sangria + altoRenglon * j, pDiagrama._objetos[i]._datoGrafico._ancho-8);
+                    }
+                    break;
+                }
+                case 4: {
+                    contexto.textAlign = "center";
+                    for (j=0; j<pDiagrama._objetos[i]._datoGrafico._lineas; j++) {
+                        contexto.fillText(fragmentos[j], pDiagrama._objetos[i]._datoGrafico._x + pDiagrama._objetos[i]._datoGrafico._ancho / 2,pDiagrama._objetos[i]._datoGrafico._y + sangria + altoRenglon * j, pDiagrama._objetos[i]._datoGrafico._ancho-8);
+                    }
+                    break;
+                }
+                case 5: {
+                    contexto.textAlign = "center";
+                    for (j=0; j<pDiagrama._objetos[i]._datoGrafico._lineas; j++) {
+                        contexto.fillText(fragmentos[j], pDiagrama._objetos[i]._datoGrafico._x + pDiagrama._objetos[i]._datoGrafico._ancho / 2,pDiagrama._objetos[i]._datoGrafico._y + sangria + altoRenglon * j, pDiagrama._objetos[i]._datoGrafico._ancho-8);
+                    }
+                    break;
+                }
+                case 6: {
+                    contexto.textAlign = "center";
+                    for (j=0; j<pDiagrama._objetos[i]._datoGrafico._lineas; j++) {
+                        contexto.fillText(fragmentos[j], pDiagrama._objetos[i]._datoGrafico._x + pDiagrama._objetos[i]._datoGrafico._ancho / 2,pDiagrama._objetos[i]._datoGrafico._y + sangria + altoRenglon * j, pDiagrama._objetos[i]._datoGrafico._ancho-8);
+                    }
+                    break;
+                }
+                case 7: {
+                    contexto.textAlign = "center";
+                    for (j=0; j<pDiagrama._objetos[i]._datoGrafico._lineas; j++) {
+                        contexto.fillText(fragmentos[j], pDiagrama._objetos[i]._datoGrafico._x + pDiagrama._objetos[i]._datoGrafico._ancho / 2,pDiagrama._objetos[i]._datoGrafico._y + sangria + altoRenglon * j, pDiagrama._objetos[i]._datoGrafico._ancho-8);
+                    }
+                    break;
+                }
             }
-            case 2: {
-                contexto.textAlign = "center";
-                contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
-                break;
-            }
-            case 3: {
-                contexto.textAlign = "center";
-                contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
-                break;
-            }
-            case 4: {
-                contexto.textAlign = "center";
-                contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
-                break;
-            }
-            case 5: {
-                contexto.textAlign = "center";
-                contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
-                break;
-            }
-            case 6: {
-                contexto.textAlign = "center";
-                contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
-                break;
-            }
-            case 7: {
-                contexto.textAlign = "center";
-                contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
-                break;
+        }
+        else {
+            contexto.textBaseline = "middle";
+            switch (pDiagrama._objetos[i]._tipoObjeto._id) {
+                case 0: {
+                    contexto.textAlign = "center";
+                    contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
+                    break;
+                }
+                case 1: {
+                    contexto.textAlign = "center";
+                    contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
+                    break;
+                }
+                case 2: {
+                    contexto.textAlign = "center";
+                    contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
+                    break;
+                }
+                case 3: {
+                    contexto.textAlign = "center";
+                    contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
+                    break;
+                }
+                case 4: {
+                    contexto.textAlign = "center";
+                    contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
+                    break;
+                }
+                case 5: {
+                    contexto.textAlign = "center";
+                    contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
+                    break;
+                }
+                case 6: {
+                    contexto.textAlign = "center";
+                    contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
+                    break;
+                }
+                case 7: {
+                    contexto.textAlign = "center";
+                    contexto.fillText(texto, pDiagrama._objetos[i]._datoGrafico._x + Math.ceil(pDiagrama._objetos[i]._datoGrafico._ancho / 2),pDiagrama._objetos[i]._datoGrafico._y + Math.ceil(pDiagrama._objetos[i]._datoGrafico._alto / 2), pDiagrama._objetos[i]._datoGrafico._ancho - 8);
+                    break;
+                }
             }
         }
     }
