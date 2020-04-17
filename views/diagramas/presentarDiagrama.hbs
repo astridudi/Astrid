@@ -40,7 +40,7 @@
             |
             <b>Relaciones:</b>
             {{#each sesion.diagrama.tipoDiagrama.tiposRelacion}}
-                <a onclick="inicioCapturaRelacion('{{id}}','{{nombre}}')" >{{nombre}}</a>
+                <a onclick="inicioCapturaRelacion('{{id}}','{{nombre}}','{{tiposPropiedadJson}}')" >{{nombre}}</a>
                 |
             {{/each}}
         </div>
@@ -68,7 +68,7 @@
             </form>
         </div>
         <div id="capturarRelacion" style="display:none;">
-            <form method='POST' action='/main/grabarRelacionDiagramaSesion'>
+            <form id='formGrabarRelacionDiagramaSesion' method='POST' action='/main/grabarRelacionDiagramaSesion'>
                 <hr class="verdeAstrid1">
                 <input type="hidden" name="nombreUsuario" value={{nombreUsuario}}>
                 <input type='hidden' name='idSesion' value={{sesion.id}}>
@@ -76,7 +76,6 @@
                 <input type='hidden' name='tipoDiagrama' value={{sesion.diagrama.tipoDiagrama.id}}>
                 <input id="tipoRelacion" name='tipoRelacion' type='hidden' >
                 <b><p id="relacionTipo" >: </p></b>
-
                 <script src="../javascripts/iniciarFormularioCapturaRelacion.js"></script>
                 <script type="text/javascript">
                     inicioFormularioCapturaRelacion();
@@ -136,6 +135,9 @@
                     document.getElementById('alerta').style='color:#228848';
                 }, 1000);
             });
+            socket.on('reunion', function (data) {
+                alert(data);
+            });
             socket.on('connection', function (data) {
                 console.log(data);
             });
@@ -164,11 +166,30 @@
             }
             alertaElemento(pObjetoTipo);
         }
-        function inicioCapturaRelacion(pRelacionTipoId, pRelacionTipo){
+        function inicioCapturaRelacion(pRelacionTipoId, pRelacionTipo, pTiposPropiedadJson){
+            document.getElementById('tipoRelacion').value=pRelacionTipoId;
+            document.getElementById('relacionTipo').innerHTML=pRelacionTipo+": ";
             document.getElementById('controles').style.display='none';
             document.getElementById('capturarObjeto').style.display='none';
             document.getElementById('capturarRelacion').style.display='block';
             document.getElementById('capturarMovimiento').style.display='none';
+
+            let cadenaTiposPropiedad = pTiposPropiedadJson.replace(/&quot;/g, "'");
+            cadenaTiposPropiedad = cadenaTiposPropiedad.replace(/'/g, '"');
+            let i = 0;
+            if (cadenaTiposPropiedad.length > 0) {
+                let pTiposPropiedad = JSON.parse(cadenaTiposPropiedad);
+                for (i=0; i<pTiposPropiedad.length; i++) {
+                    document.getElementById('divPropiedadRelacion'+i).style.display = "block";
+                    document.getElementById('nombrePropiedadRelacion'+i).innerHTML = pTiposPropiedad[i]._nombre+": ";
+                    document.getElementById('valorPropiedadRelacion'+i).name = 'valorPropiedadRelacion'+i;
+                }
+            }
+            while (i<5) {
+                document.getElementById('divPropiedadRelacion'+i).style.display = "none";
+                i=i+1;
+            }
+            alertaElemento(pRelacionTipo);
         }
         function alertaElemento(pTipoElemento){
             if (pTipoElemento === undefined) {
@@ -215,7 +236,7 @@
             socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió editar el diagrama', sesion:'{{sesion.id}}'});
         }
         function llamarReunion() {
-            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en el {{sesion.nombreTipoDiagrama}}', sesion:'{{sesion.id}}'});
+            socket.emit("reunionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en el {{sesion.nombreTipoDiagrama}}', sesion:'{{sesion.id}}'});
         }
         function down(ev) {
             document.getElementById('xObjeto').value=Math.round((ev.clientX-document.getElementById('divDibujo').offsetLeft-document.getElementById('canvasDibujo').offsetLeft)/10)*10;

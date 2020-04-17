@@ -44,6 +44,9 @@
                     document.getElementById('alerta').style='color:#228848';
                     }, 1000);
             });
+            socket.on('reunion', function (data) {
+                alert(data);
+            });
             socket.on('connection', function (data) {
                 console.log(data);
             });

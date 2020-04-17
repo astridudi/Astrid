@@ -74,6 +74,11 @@ io.on('connection', function (socket) {
     io.to("room"+data.sesion).emit("atencion",data.msg);
     console.log("Evento: "+data.msg)
   });
+  socket.on("reunionEquipo", (data)=>{
+    io.to("room"+data.sesion).emit("atencion",data.msg);
+    io.to("room"+data.sesion).emit("reunion",data.msg);
+    console.log("Evento: "+data.msg)
+  });
 });
 
 module.exports = app;
