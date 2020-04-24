@@ -84,7 +84,7 @@
             document.getElementById("capturarMensaje").style.display='none';
         }
         function desistimientoMensaje(){
-            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió un mensaje en el chat', sesion:'{{sesion.id}}'});
+            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió de enviar un mensaje en el chat', sesion:'{{sesion.id}}'});
             document.getElementById("capturarMensaje").style.display='none';
         }
         function llamarReunion() {

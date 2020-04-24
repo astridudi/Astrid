@@ -25,46 +25,58 @@ module.exports = class DiagramaProcesos extends TipoDiagrama {
         let propiedadDescripcionAccionFinal = new TipoPropiedad(7,'Descripción');
         let propiedadDescripcionFlujo = new TipoPropiedad(8,'Descripción');
         let propiedadDecisionFlujoCondicional = new TipoPropiedad(9,'Decisión');
-        let propiedadDescripcionFlujoCondicional = new TipoPropiedad(10,'Cardinalidad');
         let rolElementoAnterior = new TipoRol(0,'Elemento anterior');
         let rolElementoAnteriorCondicional = new TipoRol(1,'Elemento anterior condicional');
         let rolElementoSiguiente = new TipoRol(2,'Elemento siguiente');
+        let rolInhabilitado = new TipoRol(4,'Rol inhabilitado');
         let puertoElementoAnterior = new TipoPuerto(0, 'Elemento anterior');
         let puertoElementoAnteriorCondicional = new TipoPuerto(1, 'Elemento anterior condicional');
         let puertoElementoSiguiente = new TipoPuerto(2, 'Elemento siguiente');
-
-        rolElementoAnterior.tipoObjeto=objetoAccion;
-        rolElementoSiguiente.tipoObjeto=objetoAccionInicial;
-        rolElementoAnteriorCondicional.tipoObjeto=objetoAccionInicial;
+        let puertoInhabilitado = new TipoPuerto(5, 'Inhabilitado');
 
         puertoElementoAnterior.incluirTipoRol(rolElementoAnterior);
         puertoElementoAnteriorCondicional.incluirTipoRol(rolElementoAnteriorCondicional);
         puertoElementoSiguiente.incluirTipoRol(rolElementoSiguiente);
 
-        relacionFlujo.tipoRolInicio=rolElementoAnterior;
-        relacionFlujo.tipoRolFinal=rolElementoSiguiente;
-        relacionFlujoCondicionado.tipoRolInicio=rolElementoAnteriorCondicional;
-        relacionFlujoCondicionado.tipoRolFinal=rolElementoSiguiente;
-
+        objetoAccionInicial.incluirTipoPropiedad(propiedadNombreAccionInicial);
+        objetoAccionInicial.incluirTipoPropiedad(propiedadDescripcionAccionInicial);
         objetoAccionInicial.incluirTipoPuerto(puertoElementoAnterior);
+        objetoAccionInicial.incluirTipoPuerto(puertoElementoAnterior);
+        objetoAccionInicial.incluirTipoPuerto(puertoElementoAnterior);
+        objetoAccionInicial.incluirTipoPuerto(puertoElementoAnterior);
+
+        objetoAccion.incluirTipoPropiedad(propiedadNombreAccion);
+        objetoAccion.incluirTipoPropiedad(propiedadDescripcionAccion);
         objetoAccion.incluirTipoPuerto(puertoElementoAnterior);
         objetoAccion.incluirTipoPuerto(puertoElementoSiguiente);
-        objetoDecision.incluirTipoPuerto(puertoElementoAnteriorCondicional);
+        objetoAccion.incluirTipoPuerto(puertoElementoAnterior);
+        objetoAccion.incluirTipoPuerto(puertoElementoSiguiente);
+        objetoAccion.incluirTipoPuerto(puertoElementoAnterior);
+        objetoAccion.incluirTipoPuerto(puertoElementoSiguiente);
+        objetoAccion.incluirTipoPuerto(puertoElementoAnterior);
+        objetoAccion.incluirTipoPuerto(puertoElementoSiguiente);
+
+        objetoDecision.incluirTipoPropiedad(propiedadNombreCondicion);
+        objetoDecision.incluirTipoPropiedad(propiedadDescripcionCondicion);
         objetoDecision.incluirTipoPuerto(puertoElementoSiguiente);
+        objetoDecision.incluirTipoPuerto(puertoElementoAnteriorCondicional);
+        objetoDecision.incluirTipoPuerto(puertoElementoAnteriorCondicional);
+        objetoDecision.incluirTipoPuerto(puertoElementoAnteriorCondicional);
+
+        objetoAccionFinal.incluirTipoPropiedad(propiedadNombreAccionFinal);
+        objetoAccionFinal.incluirTipoPropiedad(propiedadDescripcionAccionFinal);
+        objetoAccionFinal.incluirTipoPuerto(puertoElementoSiguiente);
+        objetoAccionFinal.incluirTipoPuerto(puertoElementoSiguiente);
+        objetoAccionFinal.incluirTipoPuerto(puertoElementoSiguiente);
         objetoAccionFinal.incluirTipoPuerto(puertoElementoSiguiente);
 
         relacionFlujo.incluirTipoPropiedad(propiedadDescripcionFlujo);
-        relacionFlujoCondicionado.incluirTipoPropiedad(propiedadDecisionFlujoCondicional);
-        relacionFlujoCondicionado.incluirTipoPropiedad(propiedadDescripcionFlujoCondicional);
+        relacionFlujo.tipoRolInicio=rolElementoAnterior;
+        relacionFlujo.tipoRolFinal=rolElementoSiguiente;
 
-        objetoAccionInicial.incluirTipoPropiedad(propiedadNombreAccionInicial);
-        objetoAccionInicial.incluirTipoPropiedad(propiedadDescripcionAccionInicial);
-        objetoAccion.incluirTipoPropiedad(propiedadNombreAccion);
-        objetoAccion.incluirTipoPropiedad(propiedadDescripcionAccion);
-        objetoDecision.incluirTipoPropiedad(propiedadNombreCondicion);
-        objetoDecision.incluirTipoPropiedad(propiedadDescripcionCondicion);
-        objetoAccionFinal.incluirTipoPropiedad(propiedadNombreAccionFinal);
-        objetoAccionFinal.incluirTipoPropiedad(propiedadDescripcionAccionFinal);
+        relacionFlujoCondicionado.incluirTipoPropiedad(propiedadDecisionFlujoCondicional);
+        relacionFlujoCondicionado.tipoRolInicio=rolElementoAnteriorCondicional;
+        relacionFlujoCondicionado.tipoRolFinal=rolElementoSiguiente;
 
         this.incluirTipoObjeto(objetoAccionInicial);
         this.incluirTipoObjeto(objetoAccion);

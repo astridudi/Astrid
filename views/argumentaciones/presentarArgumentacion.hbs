@@ -106,7 +106,7 @@
                     pNombre=pNombre+" ";
                 }
                 document.getElementById("capturarAporte").style.display='none';
-                socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió incluir un nuevo aporte en la argumentación '+pNombre, sesion:'{{sesion.id}}'});
+                socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió de incluir un nuevo aporte en la argumentación '+pNombre, sesion:'{{sesion.id}}'});
             }
             function llamarReunion() {
                 socket.emit("reunionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en la argumentación {{argumentacion.nombre}}', sesion:'{{sesion.id}}'});

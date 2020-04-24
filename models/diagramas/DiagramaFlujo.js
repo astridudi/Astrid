@@ -18,9 +18,10 @@ module.exports = class DiagramaFlujo extends TipoDiagrama {
         let objetoSalida = new TipoObjeto(6,'Salida',true);
         let objetoFin = new TipoObjeto(7,'Fin',false);
         let relacionFlujo = new TipoRelacion(0,'Flujo');
-        let relacionInicioCiclo = new TipoRelacion(1,'Inicio ciclo');
-        let relacionFinCiclo = new TipoRelacion(2,'Fin ciclo');
-
+        let relacionFlujoSi = new TipoRelacion(1,'Flujo Sí');
+        let relacionFlujoNo = new TipoRelacion(2,'Flujo No');
+        let relacionInicioCiclo = new TipoRelacion(3,'Inicio ciclo');
+        let relacionFinCiclo = new TipoRelacion(4,'Fin ciclo');
         let propiedadNombreInicio = new TipoPropiedad(0,'Nombre');
         let propiedadNombreEntrada = new TipoPropiedad(1,'Nombre');
         let propiedadDescripcionEntrada = new TipoPropiedad(2,'Descripción');
@@ -35,49 +36,81 @@ module.exports = class DiagramaFlujo extends TipoDiagrama {
         let propiedadNombreSalida = new TipoPropiedad(11,'Nombre');
         let propiedadDescripcionSalida = new TipoPropiedad(12,'Descripción');
         let propiedadNombreFin = new TipoPropiedad(13,'Nombre');
-
         let rolElementoAnterior = new TipoRol(0,'Elemento anterior');
         let rolElementoSiguiente = new TipoRol(1,'Elemento siguiente');
-
+        let rolElementoAnteriorSi = new TipoRol(2,'Elemento anterior sí');
+        let rolElementoAnteriorNo = new TipoRol(3,'Elemento anterior no');
+        let rolInicioCiclo = new TipoRol(4,'Inicio ciclo');
+        let rolFinCiclo = new TipoRol(5,'Fin ciclo');
         let puertoElementoAnterior = new TipoPuerto(0, 'Elemento anterior');
         let puertoElementoSiguiente = new TipoPuerto(1, 'Elemento siguiente');
-
-        rolElementoAnterior.tipoObjeto=objetoCondicional;
-        rolElementoSiguiente.tipoObjeto=objetoProceso;
+        let puertoElementoAnteriorSi = new TipoPuerto(2, 'Elemento anterior sí');
+        let puertoElementoAnteriorNo = new TipoPuerto(3, 'Elemento anterior no');
+        let puertoInicioCiclo = new TipoPuerto(4, 'Inicio ciclo');
+        let puertoFinCiclo = new TipoPuerto(5, 'Fin ciclo');
 
         puertoElementoAnterior.incluirTipoRol(rolElementoAnterior);
         puertoElementoSiguiente.incluirTipoRol(rolElementoSiguiente);
+        puertoInicioCiclo.incluirTipoRol(rolInicioCiclo);
+        puertoFinCiclo.incluirTipoRol(rolFinCiclo);
+        puertoElementoAnteriorSi.incluirTipoRol(rolElementoAnteriorSi);
+        puertoElementoAnteriorNo.incluirTipoRol(rolElementoAnteriorNo);
+
+        objetoInicio.incluirTipoPropiedad(propiedadNombreInicio);
+        objetoInicio.incluirTipoPuerto(puertoElementoAnterior);
+
+        objetoEntrada.incluirTipoPropiedad(propiedadNombreEntrada);
+        objetoEntrada.incluirTipoPropiedad(propiedadDescripcionEntrada);
+        objetoEntrada.incluirTipoPuerto(puertoElementoSiguiente);
+        objetoEntrada.incluirTipoPuerto(puertoElementoAnterior);
+
+        objetoProceso.incluirTipoPropiedad(propiedadNombreProceso);
+        objetoProceso.incluirTipoPropiedad(propiedadDescripcionProceso);
+        objetoProceso.incluirTipoPuerto(puertoElementoSiguiente);
+        objetoProceso.incluirTipoPuerto(puertoElementoAnterior);
+
+        objetoCondicional.incluirTipoPropiedad(propiedadNombreCondicional);
+        objetoCondicional.incluirTipoPropiedad(propiedadDescripcionCondicional);
+        objetoCondicional.incluirTipoPuerto(puertoElementoSiguiente);
+        objetoCondicional.incluirTipoPuerto(puertoElementoAnteriorNo);
+        objetoCondicional.incluirTipoPuerto(puertoElementoAnteriorSi);
+
+        objetoPara.incluirTipoPropiedad(propiedadNombrePara);
+        objetoPara.incluirTipoPropiedad(propiedadDescripcionPara);
+        objetoPara.incluirTipoPuerto(puertoElementoSiguiente);
+        objetoPara.incluirTipoPuerto(puertoElementoAnterior);
+        objetoPara.incluirTipoPuerto(puertoInicioCiclo);
+        objetoPara.incluirTipoPuerto(puertoFinCiclo);
+
+        objetoMientras.incluirTipoPropiedad(propiedadNombreMientras);
+        objetoMientras.incluirTipoPropiedad(propiedadDescripcionMientras);
+        objetoMientras.incluirTipoPuerto(puertoElementoSiguiente);
+        objetoMientras.incluirTipoPuerto(puertoElementoAnterior);
+        objetoMientras.incluirTipoPuerto(puertoInicioCiclo);
+        objetoMientras.incluirTipoPuerto(puertoFinCiclo);
+
+        objetoSalida.incluirTipoPropiedad(propiedadNombreSalida);
+        objetoSalida.incluirTipoPropiedad(propiedadDescripcionSalida);
+        objetoSalida.incluirTipoPuerto(puertoElementoSiguiente);
+        objetoSalida.incluirTipoPuerto(puertoElementoAnterior);
+
+        objetoFin.incluirTipoPropiedad(propiedadNombreFin);
+        objetoFin.incluirTipoPuerto(puertoElementoSiguiente);
 
         relacionFlujo.tipoRolInicio=rolElementoAnterior;
         relacionFlujo.tipoRolFinal=rolElementoSiguiente;
-        relacionInicioCiclo.tipoRolInicio=rolElementoAnterior;
+
+        relacionFlujoSi.tipoRolInicio=rolElementoAnteriorSi;
+        relacionFlujoSi.tipoRolFinal=rolElementoSiguiente;
+
+        relacionFlujoNo.tipoRolInicio=rolElementoAnteriorNo;
+        relacionFlujoNo.tipoRolFinal=rolElementoSiguiente;
+
+        relacionInicioCiclo.tipoRolInicio=rolInicioCiclo;
         relacionInicioCiclo.tipoRolFinal=rolElementoSiguiente;
+
         relacionFinCiclo.tipoRolInicio=rolElementoAnterior;
-        relacionFinCiclo.tipoRolFinal=rolElementoSiguiente;
-
-        objetoProceso.incluirTipoPuerto(puertoElementoAnterior);
-        objetoCondicional.incluirTipoPuerto(puertoElementoAnterior);
-        objetoCondicional.incluirTipoPuerto(puertoElementoSiguiente);
-        objetoPara.incluirTipoPuerto(puertoElementoAnterior);
-        objetoPara.incluirTipoPuerto(puertoElementoSiguiente);
-
-        relacionFlujo.incluirTipoPropiedad(propiedadNombreMientras);
-        relacionFlujo.incluirTipoPropiedad(propiedadDescripcionMientras);
-
-        objetoInicio.incluirTipoPropiedad(propiedadNombreInicio);
-        objetoEntrada.incluirTipoPropiedad(propiedadNombreEntrada);
-        objetoEntrada.incluirTipoPropiedad(propiedadDescripcionEntrada);
-        objetoProceso.incluirTipoPropiedad(propiedadNombreProceso);
-        objetoProceso.incluirTipoPropiedad(propiedadDescripcionProceso);
-        objetoCondicional.incluirTipoPropiedad(propiedadNombreCondicional);
-        objetoCondicional.incluirTipoPropiedad(propiedadDescripcionCondicional);
-        objetoPara.incluirTipoPropiedad(propiedadNombrePara);
-        objetoPara.incluirTipoPropiedad(propiedadDescripcionPara);
-        objetoMientras.incluirTipoPropiedad(propiedadNombreMientras);
-        objetoMientras.incluirTipoPropiedad(propiedadDescripcionMientras);
-        objetoSalida.incluirTipoPropiedad(propiedadNombreSalida);
-        objetoSalida.incluirTipoPropiedad(propiedadDescripcionSalida);
-        objetoFin.incluirTipoPropiedad(propiedadNombreFin);
+        relacionFinCiclo.tipoRolFinal=rolFinCiclo;
 
         this.incluirTipoObjeto(objetoInicio);
         this.incluirTipoObjeto(objetoEntrada);
@@ -88,5 +121,9 @@ module.exports = class DiagramaFlujo extends TipoDiagrama {
         this.incluirTipoObjeto(objetoSalida);
         this.incluirTipoObjeto(objetoFin);
         this.incluirTipoRelacion(relacionFlujo);
+        this.incluirTipoRelacion(relacionFlujoSi);
+        this.incluirTipoRelacion(relacionFlujoNo);
+        this.incluirTipoRelacion(relacionInicioCiclo);
+        this.incluirTipoRelacion(relacionFinCiclo);
     }
 }

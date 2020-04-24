@@ -15,6 +15,7 @@ function inicioFormularioCapturaObjeto() {
             rotulos[i].id = "nombrePropiedadObjeto"+i;
             rotulos[i].innerHTML = "nombrePropiedad"+i+": ";
             valores[i].id = "valorPropiedadObjeto"+i;
+            valores[i].autofocus = true;
             saltosA[i] = document.createElement("br");
             saltosA[i].id = "salto"+i;
             saltosB[i] = document.createElement("br");

@@ -23,69 +23,75 @@ module.exports = class DiagramaEntidadRelacion extends TipoDiagrama {
         let propiedadDescripcionAtributo = new TipoPropiedad(5,'Descripción');
         let propiedadDescripcionParticipacion = new TipoPropiedad(6,'Descripción');
         let propiedadCardinalidadParticipacion = new TipoPropiedad(7,'Cardinalidad');
-        let rolRelacionVinculante = new TipoRol(0,'Relación vinculante');
-        let rolEntidadParticipante = new TipoRol(1,'Entidad participante');
-        let rolEntidadDescrita = new TipoRol(2,'Entidad descrita');
-        let rolDescriptorEntidad = new TipoRol(3,'Descriptor entidad');
-        let rolRelacionDescrita = new TipoRol(4,'Relación descrita');
-        let rolDescriptorRelacion = new TipoRol(5,'Descriptor relación');
+        let rolEntidadParticipante = new TipoRol(0,'Entidad participante');
+        let rolEntidadDescrita = new TipoRol(1,'Entidad descrita');
+        let rolRelacionVinculante = new TipoRol(2,'Relación vinculante');
+        let rolRelacionDescrita = new TipoRol(3,'Relación descrita');
+        let rolAtributoDescriptor = new TipoRol(4,'Atributo descriptor');
+        let rolInhabilitado = new TipoRol(5,'Rol inhabilitado');
         let puertoEntidadParticipante = new TipoPuerto(0, 'Entidad participante');
         let puertoEntidadDescrita = new TipoPuerto(1, 'Entidad descrita');
         let puertoRelacionVinculante = new TipoPuerto(2, 'Relación vinculante');
         let puertoRelacionDescrita = new TipoPuerto(3, 'Relación descrita');
-        let puertoAtributoDescriptor = new TipoPuerto(4, 'Descriptor');
+        let puertoAtributoDescriptor = new TipoPuerto(4, 'Atributo descriptor');
+        let puertoInhabilitado = new TipoPuerto(5, 'Inhabilitado');
 
+        /*
         rolRelacionVinculante.tipoObjeto=objetoRelacion;
         rolEntidadParticipante.tipoObjeto=objetoEntidad;
         rolEntidadDescrita.tipoObjeto=objetoEntidad;
         rolDescriptorEntidad.tipoObjeto=objetoAtributo;
         rolRelacionDescrita.tipoObjeto=objetoRelacion;
         rolDescriptorRelacion.tipoObjeto=objetoAtributo;
+         */
 
         puertoEntidadParticipante.incluirTipoRol(rolEntidadParticipante);
         puertoEntidadDescrita.incluirTipoRol(rolEntidadDescrita);
         puertoRelacionVinculante.incluirTipoRol(rolRelacionVinculante);
         puertoRelacionDescrita.incluirTipoRol(rolRelacionDescrita);
-        puertoAtributoDescriptor.incluirTipoRol(rolDescriptorEntidad);
-        puertoAtributoDescriptor.incluirTipoRol(rolDescriptorRelacion);
+        puertoAtributoDescriptor.incluirTipoRol(rolAtributoDescriptor);
+        puertoInhabilitado.incluirTipoRol(rolInhabilitado);
 
-        relacionParticipacion.tipoRolInicio=rolRelacionVinculante;
-        relacionParticipacion.tipoRolFinal=rolEntidadParticipante;
-        relacionDescripcionEntidad.tipoRolInicio=rolEntidadDescrita;
-        relacionDescripcionEntidad.tipoRolFinal=rolDescriptorEntidad;
-        relacionDescripcionRelacion.tipoRolInicio=rolRelacionDescrita;
-        relacionDescripcionRelacion.tipoRolFinal=rolDescriptorRelacion;
+        objetoEntidad.incluirTipoPropiedad(propiedadNombreEntidad);
+        objetoEntidad.incluirTipoPropiedad(propiedadDescripcionEntidad);
+        objetoEntidad.incluirTipoPuerto(puertoEntidadParticipante);
+        objetoEntidad.incluirTipoPuerto(puertoInhabilitado);
+        objetoEntidad.incluirTipoPuerto(puertoEntidadParticipante);
+        objetoEntidad.incluirTipoPuerto(puertoEntidadParticipante);
+        objetoEntidad.incluirTipoPuerto(puertoEntidadParticipante);
+        objetoEntidad.incluirTipoPuerto(puertoEntidadParticipante);
+        objetoEntidad.incluirTipoPuerto(puertoEntidadParticipante);
+        objetoEntidad.incluirTipoPuerto(puertoEntidadParticipante);
+        objetoEntidad.incluirTipoPuerto(puertoEntidadParticipante);
+        objetoEntidad.incluirTipoPuerto(puertoEntidadParticipante);
+        objetoEntidad.incluirTipoPuerto(puertoEntidadParticipante);
+        objetoEntidad.incluirTipoPuerto(puertoEntidadDescrita);
 
-        objetoEntidad.incluirTipoPuerto(puertoEntidadParticipante);
-        objetoEntidad.incluirTipoPuerto(puertoEntidadDescrita);
-        objetoEntidad.incluirTipoPuerto(puertoEntidadDescrita);
-        objetoEntidad.incluirTipoPuerto(puertoEntidadParticipante);
-        objetoEntidad.incluirTipoPuerto(puertoEntidadDescrita);
-        objetoEntidad.incluirTipoPuerto(puertoEntidadDescrita);
-        objetoEntidad.incluirTipoPuerto(puertoEntidadParticipante);
-        objetoEntidad.incluirTipoPuerto(puertoEntidadDescrita);
-        objetoEntidad.incluirTipoPuerto(puertoEntidadDescrita);
-        objetoEntidad.incluirTipoPuerto(puertoEntidadParticipante);
-        objetoEntidad.incluirTipoPuerto(puertoEntidadDescrita);
-        objetoEntidad.incluirTipoPuerto(puertoEntidadDescrita);
+        objetoRelacion.incluirTipoPropiedad(propiedadNombreRelacion);
+        objetoRelacion.incluirTipoPropiedad(propiedadDescripcionRelacion);
+        objetoRelacion.incluirTipoPuerto(puertoRelacionVinculante);
+        objetoRelacion.incluirTipoPuerto(puertoInhabilitado);
+        objetoRelacion.incluirTipoPuerto(puertoRelacionVinculante);
+        objetoRelacion.incluirTipoPuerto(puertoInhabilitado);
+        objetoRelacion.incluirTipoPuerto(puertoRelacionVinculante);
+        objetoRelacion.incluirTipoPuerto(puertoInhabilitado);
         objetoRelacion.incluirTipoPuerto(puertoRelacionVinculante);
         objetoRelacion.incluirTipoPuerto(puertoRelacionDescrita);
-        objetoRelacion.incluirTipoPuerto(puertoRelacionVinculante);
-        objetoRelacion.incluirTipoPuerto(puertoRelacionDescrita);
-        objetoRelacion.incluirTipoPuerto(puertoRelacionVinculante);
-        objetoRelacion.incluirTipoPuerto(puertoRelacionDescrita);
-        objetoAtributo.incluirTipoPuerto(puertoAtributoDescriptor);
+
+        objetoAtributo.incluirTipoPropiedad(propiedadNombreAtributo);
+        objetoAtributo.incluirTipoPropiedad(propiedadDescripcionAtributo);
         objetoAtributo.incluirTipoPuerto(puertoAtributoDescriptor);
 
         relacionParticipacion.incluirTipoPropiedad(propiedadDescripcionParticipacion);
         relacionParticipacion.incluirTipoPropiedad(propiedadCardinalidadParticipacion);
+        relacionParticipacion.tipoRolInicio=rolEntidadParticipante;
+        relacionParticipacion.tipoRolFinal=rolRelacionVinculante;
 
-        objetoEntidad.incluirTipoPropiedad(propiedadNombreEntidad);
-        objetoEntidad.incluirTipoPropiedad(propiedadDescripcionEntidad);
-        objetoRelacion.incluirTipoPropiedad(propiedadNombreRelacion);
-        objetoRelacion.incluirTipoPropiedad(propiedadDescripcionRelacion);
-        objetoAtributo.incluirTipoPropiedad(propiedadNombreAtributo);
-        objetoAtributo.incluirTipoPropiedad(propiedadDescripcionAtributo);
+        relacionDescripcionEntidad.tipoRolInicio=rolEntidadDescrita;
+        relacionDescripcionEntidad.tipoRolFinal=rolAtributoDescriptor;
+
+        relacionDescripcionRelacion.tipoRolInicio=rolRelacionDescrita;
+        relacionDescripcionRelacion.tipoRolFinal=rolAtributoDescriptor;
 
         this.incluirTipoObjeto(objetoEntidad);
         this.incluirTipoObjeto(objetoRelacion);

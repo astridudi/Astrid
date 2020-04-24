@@ -15,6 +15,7 @@ function inicioFormularioCapturaRelacion() {
             rotulos[i].id = "nombrePropiedadRelacion" + i;
             rotulos[i].innerHTML = "nombreRelacion" + i + ": ";
             valores[i].id = "valorPropiedadRelacion" + i;
+            valores[i].autofocus = true;
             saltosA[i] = document.createElement("br");
             saltosA[i].id = "salto" + i;
             saltosB[i] = document.createElement("br");

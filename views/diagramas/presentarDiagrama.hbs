@@ -24,6 +24,9 @@
             <input id="xNuevoObjeto" name='xNuevoObjeto' type='hidden' >
             <input id="yNuevoObjeto" name='yNuevoObjeto' type='hidden' >
             <script src="../javascripts/determinarObjeto.js"></script>
+            <script src="../javascripts/determinarIdObjeto.js"></script>
+            <script src="../javascripts/determinarNombreObjeto.js"></script>
+            <script src="../javascripts/determinarNumeroPuerto.js"></script>
             <script src="../javascripts/editarDiagrama.js"></script>
             <script src="../javascripts/{{sesion.diagrama.tipoDiagrama.scriptDibujo}}"></script>
             <script type="text/javascript">
@@ -40,7 +43,7 @@
             |
             <b>Relaciones:</b>
             {{#each sesion.diagrama.tipoDiagrama.tiposRelacion}}
-                <a onclick="inicioCapturaRelacion('{{id}}','{{nombre}}','{{tiposPropiedadJson}}')" >{{nombre}}</a>
+                <a onclick="capturaRelacion('1','{{id}}','{{nombre}}','{{tiposPropiedadJson}}')" >{{nombre}}</a>
                 |
             {{/each}}
         </div>
@@ -55,7 +58,7 @@
                 <input type='hidden' name='objetoTiempo' value=''/>
                 <p>
                     <b>
-                    Coordenadas :
+                    Coordenadas:
                     X= <input id="xObjeto" name='xObjeto' type='number' min="0" step="10" > |
                     Y= <input id="yObjeto" name='yObjeto' type='number' min="0" step="10" />
                     </b>
@@ -75,7 +78,32 @@
                 <input type='hidden' name='id' value={{sesion.diagrama.id}}>
                 <input type='hidden' name='tipoDiagrama' value={{sesion.diagrama.tipoDiagrama.id}}>
                 <input id="tipoRelacion" name='tipoRelacion' type='hidden' >
+                <input type='hidden' name='relacionTiempo' value=''/>
                 <b><p id="relacionTipo" >: </p></b>
+                <div id="divCapturarObjetoInicial" style="display: none;">
+                    <p>
+                        <b>
+                            Objeto inicial:
+                            <input id="indiceObjetoInicial" name='indiceObjetoInicial' type='hidden' >
+                            <input id="idObjetoInicial" name='idObjetoInicial' type='hidden' >
+                            <input id="nombreObjetoInicial" name='nombreObjetoInicial' type='text' > |
+                            Puerto:
+                            <input id="numeroPuertoObjetoInicial" name='numeroPuertoObjetoInicial' type='text' >
+                        </b>
+                    </p>
+                </div>
+                <div id="divCapturarObjetoFinal" style="display: none;">
+                    <p>
+                        <b>
+                            Objeto final:
+                            <input id="indiceObjetoFinal" name='indiceObjetoFinal' type='hidden' >
+                            <input id="idObjetoFinal" name='idObjetoFinal' type='hidden' >
+                            <input id="nombreObjetoFinal" name='nombreObjetoFinal' type='text' > |
+                            Puerto:
+                            <input id="numeroPuertoObjetoFinal" name='numeroPuertoObjetoFinal' type='text' >
+                        </b>
+                    </p>
+                </div>
                 <script src="../javascripts/iniciarFormularioCapturaRelacion.js"></script>
                 <script type="text/javascript">
                     inicioFormularioCapturaRelacion();
@@ -91,12 +119,13 @@
                 <input type='hidden' name='id' value={{sesion.diagrama.id}}>
                 <input type='hidden' name='tipoDiagrama' value={{sesion.diagrama.tipoDiagrama.id}}>
                 <input type='hidden' id="indiceObjeto" name='indiceObjeto' value="" >
+                <input type='hidden' id="pasoCaptura" name='pasoCaptura' value="0" >
                 <input type='hidden' id="xInicioMovimiento" name='xInicioMovimiento' >
                 <input type='hidden' id="yInicioMovimiento" name='yInicioMovimiento' >
                 <p><b>Edición del diagrama</b></p>
                 <p>
                     <b>
-                        Coordenadas :
+                        Coordenadas:
                         X= <input type='number' id="xFinMovimiento" name='xFinMovimiento' min="0" step="10" > |
                         Y= <input type='number' id="yFinMovimiento" name='yFinMovimiento' min="0" step="10" > |
                         <a onclick="probarDiagrama()">Probar</a> |
@@ -156,40 +185,87 @@
             let pTiposPropiedad = JSON.parse(cadenaTiposPropiedad);
 
             let i = 0;
-            for (i=0; i<pTiposPropiedad.length; i++) {
-                document.getElementById('divPropiedadObjeto'+i).style.display = "block";
-                document.getElementById('nombrePropiedadObjeto'+i).innerHTML = pTiposPropiedad[i]._nombre+": ";
-                document.getElementById('valorPropiedadObjeto'+i).name = 'valorPropiedadObjeto'+i;
-            }
-            for (i=pTiposPropiedad.length; i<5; i++) {
-                document.getElementById('divPropiedadObjeto'+i).style.display = "none";
-            }
-            alertaElemento(pObjetoTipo);
-        }
-        function inicioCapturaRelacion(pRelacionTipoId, pRelacionTipo, pTiposPropiedadJson){
-            document.getElementById('tipoRelacion').value=pRelacionTipoId;
-            document.getElementById('relacionTipo').innerHTML=pRelacionTipo+": ";
-            document.getElementById('controles').style.display='none';
-            document.getElementById('capturarObjeto').style.display='none';
-            document.getElementById('capturarRelacion').style.display='block';
-            document.getElementById('capturarMovimiento').style.display='none';
-
-            let cadenaTiposPropiedad = pTiposPropiedadJson.replace(/&quot;/g, "'");
-            cadenaTiposPropiedad = cadenaTiposPropiedad.replace(/'/g, '"');
-            let i = 0;
             if (cadenaTiposPropiedad.length > 0) {
-                let pTiposPropiedad = JSON.parse(cadenaTiposPropiedad);
                 for (i=0; i<pTiposPropiedad.length; i++) {
-                    document.getElementById('divPropiedadRelacion'+i).style.display = "block";
-                    document.getElementById('nombrePropiedadRelacion'+i).innerHTML = pTiposPropiedad[i]._nombre+": ";
-                    document.getElementById('valorPropiedadRelacion'+i).name = 'valorPropiedadRelacion'+i;
+                    document.getElementById('divPropiedadObjeto'+i).style.display = "block";
+                    document.getElementById('nombrePropiedadObjeto'+i).innerHTML = pTiposPropiedad[i]._nombre+": ";
+                    document.getElementById('nombrePropiedadObjeto'+i).autofocus = true;
+                    document.getElementById('valorPropiedadObjeto'+i).name = 'valorPropiedadObjeto'+i;
+                    if (i == 0) {
+                        document.getElementById('valorPropiedadObjeto'+i).focus();
+                    }
                 }
             }
             while (i<5) {
-                document.getElementById('divPropiedadRelacion'+i).style.display = "none";
-                i=i+1;
+                document.getElementById('divPropiedadObjeto'+i).style.display = "none";
+                i = i+1;
             }
-            alertaElemento(pRelacionTipo);
+            i = 0;
+            while (document.getElementById('area'+i) != undefined) {
+                document.getElementById('area'+i).href="#";
+                i = i + 1;
+            }
+            alertaElemento(pObjetoTipo);
+        }
+        function capturaRelacion(pPaso,pRelacionTipoId,pRelacionTipo,pTiposPropiedadJson){
+            let i = 0;
+            if (pPaso==1) {
+                document.getElementById('pasoCaptura').value=pPaso;
+                document.getElementById('tipoRelacion').value=pRelacionTipoId;
+                document.getElementById('relacionTipo').innerHTML=pRelacionTipo+": ";
+                document.getElementById('controles').style.display='none';
+                document.getElementById('capturarObjeto').style.display='none';
+                document.getElementById('capturarRelacion').style.display='block';
+                document.getElementById('capturarMovimiento').style.display='none';
+
+                let cadenaTiposPropiedad = pTiposPropiedadJson.replace(/&quot;/g, "'");
+                cadenaTiposPropiedad = cadenaTiposPropiedad.replace(/'/g, '"');
+
+                i = 0;
+                if (cadenaTiposPropiedad.length > 0) {
+                    let pTiposPropiedad = JSON.parse(cadenaTiposPropiedad);
+                    for (i=0; i<pTiposPropiedad.length; i++) {
+                        document.getElementById('divPropiedadRelacion'+i).style.display = "none";
+                        document.getElementById('nombrePropiedadRelacion'+i).innerHTML = pTiposPropiedad[i]._nombre+": ";
+                        document.getElementById('nombrePropiedadRelacion'+i).autofocus = true;
+                        document.getElementById('valorPropiedadRelacion'+i).name = 'valorPropiedadRelacion'+i;
+                    }
+                }
+                while (i<5) {
+                    document.getElementById('divPropiedadRelacion'+i).style.display = "none";
+                    document.getElementById('valorPropiedadRelacion'+i).name = 'none';
+                    i = i+1;
+                }
+                i = 0;
+                while (document.getElementById('area'+i) != undefined) {
+                    document.getElementById('area'+i).href="#";
+                    i = i + 1;
+                }
+                document.getElementById('indiceObjetoInicial').value='';
+                document.getElementById('idObjetoInicial').value='';
+                document.getElementById('nombreObjetoInicial').value='';
+                document.getElementById('indiceObjetoFinal').value='';
+                document.getElementById('idObjetoFinal').value='';
+                document.getElementById('nombreObjetoFinal').value='';
+                document.getElementById('divCapturarObjetoInicial').style.display='block';
+                document.getElementById('nombreObjetoInicial').focus();
+                dibujarDiagrama("canvasDibujo", document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",pPaso);
+                alertaElemento(pRelacionTipo);
+            }
+            if (pPaso==3) {
+                document.getElementById('divCapturarObjetoFinal').style.display='block';
+                document.getElementById('nombreObjetoFinal').focus();
+                dibujarDiagrama("canvasDibujo", document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",pPaso);
+            }
+            if (pPaso==5) {
+                i = 0;
+                while (i<5) {
+                    if (document.getElementById('valorPropiedadRelacion'+i).name != 'none') {
+                        document.getElementById('divPropiedadRelacion'+i).style.display = "block";
+                    }
+                    i = i+1;
+                }
+            }
         }
         function alertaElemento(pTipoElemento){
             if (pTipoElemento === undefined) {
@@ -215,7 +291,8 @@
             document.getElementById("capturarObjeto").style.display='none';
             document.getElementById("capturarRelacion").style.display='none';
             document.getElementById('capturarMovimiento').style.display='none';
-            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió incluir un elemento '+pTipoElemento+'en el diagrama', sesion:'{{sesion.id}}'});
+            dibujarDiagrama("canvasDibujo", document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
+            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió de incluir un elemento '+pTipoElemento+'en el diagrama', sesion:'{{sesion.id}}'});
         }
         function alertaEdicion(){
             document.getElementById('controles').style.display='none';
@@ -233,28 +310,50 @@
             document.getElementById("capturarMovimiento").style.display='none';
             document.getElementById("diagramaJson").value = document.getElementById("diagramaJsonCopia").value;
             dibujarDiagrama("canvasDibujo", document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
-            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió editar el diagrama', sesion:'{{sesion.id}}'});
+            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió de editar el diagrama', sesion:'{{sesion.id}}'});
         }
         function llamarReunion() {
             socket.emit("reunionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en el {{sesion.nombreTipoDiagrama}}', sesion:'{{sesion.id}}'});
         }
         function down(ev) {
-            document.getElementById('xObjeto').value=Math.round((ev.clientX-document.getElementById('divDibujo').offsetLeft-document.getElementById('canvasDibujo').offsetLeft)/10)*10;
-            document.getElementById('yObjeto').value=Math.round((ev.clientY-document.getElementById('divDibujo').offsetTop-document.getElementById('canvasDibujo').offsetTop)/10)*10;
+            document.getElementById('xObjeto').value=Math.round((ev.clientX-document.getElementById('divDibujo').offsetLeft-document.getElementById('canvasDibujo').offsetLeft+document.getElementById('divDibujo').scrollLeft)/10)*10;
+            document.getElementById('yObjeto').value=Math.round((ev.clientY-document.getElementById('divDibujo').offsetTop-document.getElementById('canvasDibujo').offsetTop+document.getElementById('divDibujo').scrollTop)/10)*10;
+        }
+        function downObjetoInicial(ev,pIndice,pId,pNombre) {
+            document.getElementById("indiceObjetoInicial").value = pIndice;
+            document.getElementById("idObjetoInicial").value = pId;
+            document.getElementById("nombreObjetoInicial").value = pNombre;
+            dibujarDiagrama("canvasDibujo", document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",2);
+        }
+        function downPuertoInicial(ev,pNumero) {
+            document.getElementById("numeroPuertoObjetoInicial").value = pNumero;
+            dibujarDiagrama("canvasDibujo", document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",3);
+            capturaRelacion(3,'','','');
+        }
+        function downObjetoFinal(ev,pIndice,pId,pNombre) {
+            document.getElementById("indiceObjetoFinal").value = pIndice;
+            document.getElementById("idObjetoFinal").value = pId;
+            document.getElementById("nombreObjetoFinal").value = pNombre;
+            dibujarDiagrama("canvasDibujo", document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",4);
+        }
+        function downPuertoFinal(ev,pNumero) {
+            document.getElementById("numeroPuertoObjetoFinal").value = pNumero;
+            dibujarDiagrama("canvasDibujo", document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",5);
+            capturaRelacion(5,'','','');
         }
         function allowDrop(ev) {
             ev.preventDefault();
         }
         function drag(ev) {
             ev.dataTransfer.setData("text", ev.target.id);
-            document.getElementById('xInicioMovimiento').value=ev.clientX-document.getElementById('divDibujo').offsetLeft-document.getElementById('canvasDibujo').offsetLeft;
-            document.getElementById('yInicioMovimiento').value=ev.clientY-document.getElementById('divDibujo').offsetTop-document.getElementById('canvasDibujo').offsetTop;
+            document.getElementById('xInicioMovimiento').value=ev.clientX-document.getElementById('divDibujo').offsetLeft-document.getElementById('canvasDibujo').offsetLeft+document.getElementById('divDibujo').scrollLeft;
+            document.getElementById('yInicioMovimiento').value=ev.clientY-document.getElementById('divDibujo').offsetTop-document.getElementById('canvasDibujo').offsetTop+document.getElementById('divDibujo').scrollTop;
         }
         function drop(ev) {
             ev.preventDefault();
             var data = ev.dataTransfer.getData("text");
-            document.getElementById('xFinMovimiento').value=Math.round((ev.clientX-document.getElementById('divDibujo').offsetLeft-document.getElementById('canvasDibujo').offsetLeft)/10)*10;
-            document.getElementById('yFinMovimiento').value=Math.round((ev.clientY-document.getElementById('divDibujo').offsetTop-document.getElementById('canvasDibujo').offsetTop)/10)*10;
+            document.getElementById('xFinMovimiento').value=Math.round((ev.clientX-document.getElementById('divDibujo').offsetLeft-document.getElementById('canvasDibujo').offsetLeft+document.getElementById('divDibujo').scrollLeft)/10)*10;
+            document.getElementById('yFinMovimiento').value=Math.round((ev.clientY-document.getElementById('divDibujo').offsetTop-document.getElementById('canvasDibujo').offsetTop+document.getElementById('divDibujo').scrollTop)/10)*10;
             alertaEdicion();
             document.getElementById("indiceObjeto").value = determinarObjeto(document.getElementById('diagramaJson').value,document.getElementById('xInicioMovimiento').value,document.getElementById('yInicioMovimiento').value);
             dibujarDiagrama('canvasDibujo',editarDiagrama(document.getElementById('diagramaJson').value,document.getElementById('xInicioMovimiento').value,document.getElementById('yInicioMovimiento').value,document.getElementById('xFinMovimiento').value,document.getElementById('yFinMovimiento').value,document.getElementById("indiceObjeto").value),"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");

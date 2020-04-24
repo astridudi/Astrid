@@ -416,30 +416,19 @@ router.post('/grabarObjetoDiagramaSesion', async (req, res, next) => {
     eventEmitter.emit('confirmacionElemento', {mensaje: req.body.nombreUsuario+' agregó un nuevo elemento en el diagrama', diagramaRecuperado: diagramaRecuperado.diagramaJson, sesion: req.body.idSesion});
     res.redirect('back');
 });
-router.get('/registrarRelacionDiagramaSesion', async (req, res, next) => {
-    datosDiagrama = new DatosDiagrama();
-    datos = new DatosSesion();
-    sesionRecuperada = await datos.recuperarSesion(req.query.idSesion);
-    sesionRecuperada.diagrama = await datosDiagrama.recuperarDiagramaPorSesion(req.query.idSesion);
-    relacionNueva = new Relacion('',sesionRecuperada.diagrama.tipoDiagrama.id,req.query.relacionTipoId,'');
-    relacionNueva.diagrama = sesionRecuperada.diagrama;
-    res.render('diagramas/capturarRelacion', {
-        nombreUsuario: req.query.nombreUsuario,
-        sesion: sesionRecuperada,
-        relacion: relacionNueva
-    });
-});
 router.post('/grabarRelacionDiagramaSesion', async (req, res, next) => {
     var datosDiagrama = new DatosDiagrama();
     let i = 0;
     let indice = '';
-    relacion = new Relacion('', req.body.tipoDiagrama, req.body.tipoRelacion, req.body.aporteTiempo);
+    relacion = new Relacion('', req.body.tipoDiagrama, req.body.tipoRelacion, req.body.relacionTiempo, req.body.nombreUsuario);
     for (i=0; i<relacion.tipoRelacion.tiposPropiedad.length; i++) {
-        indice = 'valor'+relacion.tipoRelacion.tiposPropiedad[i].nombre;
+        indice = 'valorPropiedadRelacion'+i;
         relacion.incluirValorPropiedad(req.body[indice]);
     }
-    await datosDiagrama.grabarRelacion(req.body.id,relacion,req.body.objetoInicial,req.body.objetoFinal);
-    res.redirect('/main/presentarDiagramaSesion?idSesion='+ req.body.idSesion+ '&nombreUsuario=' + req.body.nombreUsuario);
+    await datosDiagrama.grabarRelacion(req.body.id,relacion,req.body.idObjetoInicial,req.body.numeroPuertoObjetoInicial,req.body.idObjetoFinal,req.body.numeroPuertoObjetoFinal);
+    let diagramaRecuperado = await datosDiagrama.recuperarDiagramaPorSesion(req.body.idSesion);
+    eventEmitter.emit('confirmacionElemento', {mensaje: req.body.nombreUsuario+' agregó un nuevo elemento en el diagrama', diagramaRecuperado: diagramaRecuperado.diagramaJson, sesion: req.body.idSesion});
+    res.redirect('back');
 });
 router.post('/grabarEdicionDiagramaSesion', async (req, res, next) => {
     var datosDiagrama = new DatosDiagrama();
