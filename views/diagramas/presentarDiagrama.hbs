@@ -3,12 +3,12 @@
         <table style="width:100%">
             <tr>
                 <th align="left">
-                    <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
+                    <a onclick="salir()" href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
                     {{sesion.nombre}}
                 </th>
                 <th align="right">
-                    <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
-                    <a href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
+                    <a onclick="salir()" href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
+                    <a onclick="salir()" href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
                     {{sesion.nombreTipoDiagrama}}
                 </th>
             </tr>
@@ -46,6 +46,9 @@
                 <a onclick="capturaRelacion('1','{{id}}','{{nombre}}','{{tiposPropiedadJson}}')" >{{nombre}}</a>
                 |
             {{/each}}
+        </div>
+        <div id="bloquearControles" style="display: none;">
+            <b id="reserva" style="color: #F1B434">...</b>
         </div>
         <div id="capturarObjeto" style="display:none;">
             <form id='formGrabarObjetoDiagramaSesion' method='POST' action='/main/grabarObjetoDiagramaSesion'>
@@ -167,6 +170,44 @@
             socket.on('reunion', function (data) {
                 alert(data);
             });
+            socket.on('reserva', function (data) {
+                if (data.usuario != '{{nombreUsuario}}') {
+                    if (document.getElementById("banderaReserva").value == "") {
+                        document.getElementById("controles").style.display = "none";
+                        document.getElementById("capturarObjeto").style.display = "none";
+                        document.getElementById("capturarRelacion").style.display = "none";
+                        document.getElementById("capturarMovimiento").style.display = "none";
+                        document.getElementById("bloquearControles").style.display = "block";
+                        $('#reserva').html(data.msg);
+                    } else {
+                        socket.emit("reservaAnterior", {msg:'{{nombreUsuario}} continúa preparando un elemento en el diagrama', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
+                    }
+                } else {
+                    document.getElementById("banderaReserva").value="X";
+                }
+            });
+            socket.on('reservaAnterior', function (data) {
+                if (data.usuario != '{{nombreUsuario}}') {
+                    document.getElementById("controles").style.display = "none";
+                    document.getElementById("capturarObjeto").style.display = "none";
+                    document.getElementById("capturarRelacion").style.display = "none";
+                    document.getElementById("capturarMovimiento").style.display = "none";
+                    document.getElementById("bloquearControles").style.display = "block";
+                    document.getElementById("banderaReserva").value = "";
+                    $('#reserva').html(data.msg);
+                }
+            });
+            socket.on('levantamientoReserva', function (data) {
+                if (data.usuario != '{{nombreUsuario}}') {
+                    document.getElementById("controles").style.display = "block";
+                    document.getElementById("capturarObjeto").style.display = "none";
+                    document.getElementById("capturarRelacion").style.display = "none";
+                    document.getElementById("capturarMovimiento").style.display = "none";
+                    document.getElementById("bloquearControles").style.display = "none";
+                    document.getElementById("banderaReserva").value="";
+                    $('#reserva').html(data.msg);
+                }
+            });
             socket.on('connection', function (data) {
                 console.log(data);
             });
@@ -274,12 +315,14 @@
                 pTipoElemento="de tipo "+pTipoElemento+" ";
             }
             socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} prepara un nuevo elemento '+pTipoElemento+'en el diagrama', sesion:'{{sesion.id}}'});
+            socket.emit("reserva", {msg:'{{nombreUsuario}} prepara un elemento en el diagrama', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
         }
         function inclusionElemento(){
             document.getElementById('controles').style.display='block';
             document.getElementById("capturarObjeto").style.display='none';
             document.getElementById("capturarRelacion").style.display='none';
             document.getElementById('capturarMovimiento').style.display='none';
+            socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} incluyó un elemento en el diagrama', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
         }
         function desistimientoElemento(pTipoElemento){
             if (pTipoElemento === undefined) {
@@ -293,6 +336,8 @@
             document.getElementById('capturarMovimiento').style.display='none';
             dibujarDiagrama("canvasDibujo", document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
             socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió de incluir un elemento '+pTipoElemento+'en el diagrama', sesion:'{{sesion.id}}'});
+            socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} desistió de incluir un elemento en el diagrama', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
+            document.getElementById("banderaReserva").value='';
         }
         function alertaEdicion(){
             document.getElementById('controles').style.display='none';
@@ -300,10 +345,12 @@
             document.getElementById("capturarRelacion").style.display='none';
             document.getElementById('capturarMovimiento').style.display='block';
             socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} está editando el diagrama', sesion:'{{sesion.id}}'});
+            socket.emit("reserva", {msg:'{{nombreUsuario}} está editando el diagrama', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
         }
         function edicion(){
             document.getElementById('controles').style.display='block';
             document.getElementById("capturarMovimiento").style.display='none';
+            socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} editó el diagrama', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
         }
         function desistimientoEdicion(pTipoElemento){
             document.getElementById('controles').style.display='block';
@@ -311,6 +358,8 @@
             document.getElementById("diagramaJson").value = document.getElementById("diagramaJsonCopia").value;
             dibujarDiagrama("canvasDibujo", document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
             socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió de editar el diagrama', sesion:'{{sesion.id}}'});
+            socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} desistió de editar el diagrama', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
+            document.getElementById("banderaReserva").value='';
         }
         function llamarReunion() {
             socket.emit("reunionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en el {{sesion.nombreTipoDiagrama}}', sesion:'{{sesion.id}}'});

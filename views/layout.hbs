@@ -12,7 +12,7 @@
             <th>
                 {{#if nombreUsuario}}
                     <a align="left" href="/?nombreUsuario={{nombreUsuario}}">
-                    <img align="left" src="/images/Logo_Astrid.png" alt="Astrid 1.0 (Versión alfa)" height="100px"  title="Inicio">
+                    <img onclick="salir()" align="left" src="/images/Logo_Astrid.png" alt="Astrid 1.0 (Versión alfa)" height="100px"  title="Inicio">
                     </a>
                 {{else}}
                     <a align="left" href="/">
@@ -25,9 +25,10 @@
                     <p align="right">
                         Usuario: {{nombreUsuario}} |
                         <b onclick="llamarReunion()" style="color:#F1B434">Llamar</b> |
-                        <a href="/">Salir</a>
+                        <a onclick="salir()" href="/">Salir</a>
                     </p>
                     <p align="right" id="alerta">...</p>
+                    <div style="display: none;"><input id="banderaReserva" type="hidden" value=""></div>
                 {{/if}}
             </th>
         </tr>

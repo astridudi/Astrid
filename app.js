@@ -79,6 +79,18 @@ io.on('connection', function (socket) {
     io.to("room"+data.sesion).emit("reunion",data.msg);
     console.log("Evento: "+data.msg)
   });
+  socket.on("reserva", (data)=>{
+    io.to("room"+data.sesion).emit("reserva",data);
+    console.log("Reserva: "+data.msg)
+  });
+  socket.on("reservaAnterior", (data)=>{
+    io.to("room"+data.sesion).emit("reservaAnterior",data);
+    console.log("Reserva anterior: "+data.msg)
+  });
+  socket.on("levantamientoReserva", (data)=>{
+    io.to("room"+data.sesion).emit("levantamientoReserva",data);
+    console.log("Reserva: "+data.msg)
+  });
 });
 
 module.exports = app;

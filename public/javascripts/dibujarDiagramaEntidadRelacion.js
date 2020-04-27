@@ -64,6 +64,7 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef,pTipoDibujo) {
     let arriba = 0;
     let ancho = 0;
     let alto = 0;
+    let solapa = altoRenglon;
     let texto = '';
     let i = 0;
     let j = 0;
@@ -71,6 +72,18 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef,pTipoDibujo) {
     let q = 0;
     let x = margen;
     let y = margen;
+    let x1 = 0;
+    let x2 = 0;
+    let x3 = 0;
+    let x4 = 0;
+    let x5 = 0;
+    let x6 = 0;
+    let y1 = 0;
+    let y2 = 0;
+    let y3 = 0;
+    let y4 = 0;
+    let y5 = 0;
+    let y6 = 0;
     let strokes = ["#F1B434", "#228848", "#F93822", "#228848", "#63666A", "#228848", "#63666A", "#F93822", "#63666A", "#F93822", "#63666A"];
     let fills = ["#F1B434", "#228848", "#F93822", "#228848", "#63666A", "#228848", "#63666A", "#F93822", "#63666A", "#F93822", "#63666A"];
     let fills2 = ["#FCF3CF", "#EAFAF1", "#F9EBEA", "#EAFAF1", "#EAFAF1", "#EAFAF1", "#EAFAF1", "#F9EBEA", "#F9EBEA", "#F9EBEA", "#F9EBEA"];
@@ -484,12 +497,92 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef,pTipoDibujo) {
         }
         q = pDiagrama._relaciones[i]._numeroPuertoObjetoFinal;
         contexto.beginPath();
-        contexto.moveTo(pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._x, pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._y);
+        if (pDiagrama._relaciones[i]._tipoRelacion._id == 0) {
+            x1 = pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._x;
+            y1 = pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._y;
+            x6 = pDiagrama._objetos[p]._tipoObjeto._puertos[q]._datoGrafico._x;
+            y6 = pDiagrama._objetos[p]._tipoObjeto._puertos[q]._datoGrafico._y;
+            switch (y) {
+                case 0 : {
+                    x2 = x1;
+                    y2 = y1 - solapa;
+                    break;
+                }
+                case 2 :
+                case 3 :
+                case 4 : {
+                    x2 = x1 + solapa;
+                    y2 = y1;
+                    break;
+                }
+                case 5 :
+                case 6 :
+                case 7 : {
+                    x2 = x1;
+                    y2 = y1 + solapa;
+                    break;
+                }
+                case 8 :
+                case 9 :
+                case 10 : {
+                    x2 = x1 - solapa;
+                    y2 = y1;
+                    break;
+                }
+            }
+            switch (q) {
+                case 0 : {
+                    x5 = x6;
+                    y5 = y6 - solapa;
+                    break;
+                }
+                case 2 : {
+                    x5 = x6 + solapa;
+                    y5 = y6;
+                    break;
+                }
+                case 4 : {
+                    x5 = x6;
+                    y5 = y6 + solapa;
+                    break;
+                }
+                case 6 : {
+                    x5 = x6 - solapa;
+                    y5 = y6;
+                    break;
+                }
+            }
+            switch (q) {
+                case 0 :
+                case 4 : {
+                    x3 = x2;
+                    y3 = y5;
+                    x4 = x2;
+                    y4 = y5;
+                    break;
+                }
+                case 2 :
+                case 6 : {
+                    x3 = Math.ceil((x5 + x2)/2);
+                    y3 = y2;
+                    y4 = y5;
+                    x4 = Math.ceil((x5 + x2)/2);
+                    break;
+                }
+            }
+            contexto.moveTo(x1,y1);
+            contexto.lineTo(x2,y2);
+            contexto.lineTo(x3,y3);
+            contexto.lineTo(x4,y4);
+            contexto.lineTo(x5,y5);
+            contexto.lineTo(x6,y6);
+        }
         if ((pDiagrama._relaciones[i]._tipoRelacion._id == 1) || (pDiagrama._relaciones[i]._tipoRelacion._id == 2)) {
+            contexto.moveTo(pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._x, pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._y);
             contexto.lineTo(pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._x, pDiagrama._objetos[p]._tipoObjeto._puertos[q]._datoGrafico._y + sangria);
             contexto.quadraticCurveTo(pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._x, pDiagrama._objetos[p]._tipoObjeto._puertos[q]._datoGrafico._y, pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._x - sangria, pDiagrama._objetos[p]._tipoObjeto._puertos[q]._datoGrafico._y);
+            contexto.lineTo(pDiagrama._objetos[p]._tipoObjeto._puertos[q]._datoGrafico._x, pDiagrama._objetos[p]._tipoObjeto._puertos[q]._datoGrafico._y);
         }
-        contexto.lineTo(pDiagrama._objetos[p]._tipoObjeto._puertos[q]._datoGrafico._x, pDiagrama._objetos[p]._tipoObjeto._puertos[q]._datoGrafico._y);
         contexto.stroke();
     }
 

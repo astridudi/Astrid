@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="16a71e2f-24bf-4e07-86b4-092e2f1677fa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="16a71e2f-24bf-4e07-86b4-092e2f1677fa" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,6 +35,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -203,6 +202,7 @@
       <workItem from="1587053692373" duration="735000" />
       <workItem from="1587138241797" duration="717000" />
       <workItem from="1587240522575" duration="674000" />
+      <workItem from="1587757443624" duration="499000" />
     </task>
     <task id="LOCAL-00001" summary="SE agrega la carpeta bin y el archivo www">
       <created>1583438963937</created>
@@ -365,7 +365,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587138350432</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Se actualiza a la versión 5-07">
+      <created>1587757467269</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1587757467269</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -423,9 +430,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="634" y="242" width="642" height="620" key="#watch-ts/0.27.1920.1053@0.27.1920.1053" timestamp="1585092736405" />
-    <state x="0" y="144" width="958" height="912" key="CommitChangelistDialog2" timestamp="1587138350090">
+    <state x="0" y="144" width="958" height="912" key="CommitChangelistDialog2" timestamp="1587757466863">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
+    <state x="0" y="144" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1280.720@0.27.1920.1053" timestamp="1587757466863" />
     <state x="0" y="144" width="958" height="912" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1587138350090" />
     <state width="991" height="466" key="DebuggerActiveHint" timestamp="1582660370540">
       <screen x="0" y="0" width="1920" height="1080" />
@@ -527,9 +535,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="449" y="187" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1585092614932" />
-    <state x="555" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1587138358246">
+    <state x="555" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1587757471857">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
+    <state x="555" y="289" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1280.720@0.27.1920.1053" timestamp="1587757471857" />
     <state x="555" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1587138358246" />
     <state x="728" y="473" width="454" height="160" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1584484917573">
       <screen x="0" y="27" width="1920" height="1053" />

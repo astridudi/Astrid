@@ -3,13 +3,13 @@
         <table style="width:100%">
             <tr>
                 <th align="left">
-                    <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
+                    <a onclick="salir()" href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
                     {{sesion.nombre}}
                 </th>
                 <th align="right">
-                    <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
+                    <a onclick="salir()" href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
                     Chat |
-                    <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>{{sesion.nombreTipoDiagrama}}</a>
+                    <a onclick="salir()" href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>{{sesion.nombreTipoDiagrama}}</a>
                 </th>
             </tr>
         </table>
@@ -26,17 +26,26 @@
             </script>
         </div>
         <br>
-        <a onclick="alertaMensaje()">Registrar mensaje</a> |
+        <div id="registrarMensaje" style="display: block;">
+            <a onclick="alertaMensaje()">Registrar mensaje</a> |
+        </div>
+        <div id="bloquearRegistrarMensaje" style="display: none;">
+            <b id="reserva" style="color: #F1B434">...</b>
+        </div>
         <div id="capturarMensaje" style="display:none">
             <form method='POST' action='/main/grabarMensajeChatSesion'>
-                <hr class="verdeAstrid1">
-                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
-                <input type='hidden' name='idSesion' value={{sesion.id}}>
-                <input type='hidden' name='id' value={{sesion.chat.id}}>
-                <input type='hidden' name='mensajeTiempo' value=''/>
-                <p>Mensaje: <input id='mensajeContenido' type='text' name='mensajeContenido' value='' autofocus/></p>
-                <input onclick="emisionMensaje()" type='submit' value='Grabar' /> |
-                <a onclick="desistimientoMensaje()">Desistir</a> |
+                <div id="construirMensaje" style="display: block;">
+                    <hr class="verdeAstrid1">
+                    <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
+                    <input type='hidden' name='idSesion' value={{sesion.id}}>
+                    <input type='hidden' name='id' value={{sesion.chat.id}}>
+                    <input type='hidden' name='mensajeTiempo' value=''/>
+                </div>
+                <div id="grabarMensaje" style="display: block;">
+                    <p>Mensaje: <input id='mensajeContenido' type='text' name='mensajeContenido' value='' autofocus/></p>
+                    <input onkeypress="continuacionMensaje()" onclick="emisionMensaje()" type='submit' value='Grabar' /> |
+                    <a onclick="desistimientoMensaje()">Desistir</a> |
+                </div>
             </form>
         </div>
     {{/if}}
@@ -69,26 +78,74 @@
             socket.on('reunion', function (data) {
                 alert(data);
             });
+            socket.on('reserva', function (data) {
+                if (data.usuario != '{{nombreUsuario}}') {
+                    if (document.getElementById("banderaReserva").value == "") {
+                        document.getElementById("registrarMensaje").style.display = "none";
+                        document.getElementById("grabarMensaje").style.display = "none";
+                        document.getElementById("bloquearRegistrarMensaje").style.display = "block";
+                        $('#reserva').html(data.msg);
+                    } else {
+                        socket.emit("reservaAnterior", {msg:'{{nombreUsuario}} continúa preparando un mensaje en el chat', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
+                    }
+                } else {
+                    document.getElementById("banderaReserva").value="X";
+                }
+            });
+            socket.on('reservaAnterior', function (data) {
+                if (data.usuario != '{{nombreUsuario}}') {
+                    document.getElementById("registrarMensaje").style.display = "none";
+                    document.getElementById("construirMensaje").style.display = "none";
+                    document.getElementById("grabarMensaje").style.display = "none";
+                    document.getElementById("bloquearRegistrarMensaje").style.display = "block";
+                    document.getElementById("banderaReserva").value = "";
+                    $('#reserva').html(data.msg);
+                }
+            });
+            socket.on('levantamientoReserva', function (data) {
+                if (data.usuario != '{{nombreUsuario}}') {
+                    document.getElementById("registrarMensaje").style.display = "block";
+                    document.getElementById("construirMensaje").style.display = "none";
+                    document.getElementById("grabarMensaje").style.display = "none";
+                    document.getElementById("bloquearRegistrarMensaje").style.display = "none";
+                    document.getElementById("banderaReserva").value="";
+                    $('#reserva').html(data.msg);
+                }
+            });
             socket.on('connection', function (data) {
                 console.log(data);
             });
             socket.emit("ingresoEquipo", {msg:'{{nombreUsuario}} ingresó al chat', sesion:'{{sesion.id}}'});
         });
         function alertaMensaje(){
-            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} prepara un mensaje en el chat', sesion:'{{sesion.id}}'});
+            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} prepara un mensaje en el chat', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
+            socket.emit("reserva", {msg:'{{nombreUsuario}} prepara un mensaje en el chat', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
             document.getElementById("mensajeContenido").value='';
             document.getElementById("capturarMensaje").style.display='block';
+            document.getElementById("construirMensaje").style.display='block';
+            document.getElementById("grabarMensaje").style.display='block';
             document.getElementById('mensajeContenido').focus();
+        }
+        function continuacionMensaje(){
+            socket.emit("reserva", {msg:'{{nombreUsuario}} continúa preparando un mensaje en el chat', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
         }
         function emisionMensaje(){
             document.getElementById("capturarMensaje").style.display='none';
+            socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} envió un mensaje en el chat', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
         }
         function desistimientoMensaje(){
-            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió de enviar un mensaje en el chat', sesion:'{{sesion.id}}'});
+            socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió de enviar un mensaje en el chat', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
+            socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} desistió de enviar un mensaje en el chat', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
+            document.getElementById("banderaReserva").value='';
             document.getElementById("capturarMensaje").style.display='none';
         }
         function llamarReunion() {
             socket.emit("reunionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en el chat', sesion:'{{sesion.id}}'});
+        }
+        function salir(){
+            if (document.getElementById("banderaReserva").value=='X') {
+                socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} desistió de la reserva', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
+            }
         }
     </script>
 

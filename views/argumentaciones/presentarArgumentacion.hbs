@@ -3,13 +3,13 @@
         <table style="width:100%">
             <tr>
                 <th align="left">
-                    <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
+                    <a onclick="salir()" href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
                     {{sesion.nombre}}
                 </th>
                 <th align="right">
-                    <a href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
-                    <a href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
-                    <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>{{sesion.nombreTipoDiagrama}}</a> |
+                    <a onclick="salir()" href='/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Planteamiento</a> |
+                    <a onclick="salir()" href='/main/presentarChatSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>Chat</a> |
+                    <a onclick="salir()" href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}'>{{sesion.nombreTipoDiagrama}}</a> |
                     Argumentación
                 </th>
             </tr>
@@ -25,6 +25,10 @@
             <script type="text/javascript">
                 dibujarArgumentacion("canvasDibujo","{{argumentacion.argumentacionJson}}");
             </script>
+        </div>
+        <br>
+        <div id="bloquearCapturaAporte" style="display: none;">
+            <b id="reserva" style="color: #F1B434">...</b>
         </div>
         <div id="capturarAporte" style="display:none;">
             <form method='POST' action='/main/grabarAporteSesion'>
@@ -72,6 +76,33 @@
                 socket.on('reunion', function (data) {
                     alert(data);
                 });
+                socket.on('reserva', function (data) {
+                    if (data.usuario != '{{nombreUsuario}}') {
+                        if (document.getElementById("banderaReserva").value == "") {
+                            document.getElementById("bloquearCapturaAporte").style.display = "block";
+                            $('#reserva').html(data.msg);
+                        } else {
+                            socket.emit("reservaAnterior", {msg:'{{nombreUsuario}} continúa preparando un aporte en la argumentación', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
+                        }
+                    } else {
+                        document.getElementById("banderaReserva").value="X";
+                    }
+                });
+                socket.on('reservaAnterior', function (data) {
+                    if (data.usuario != '{{nombreUsuario}}') {
+                        document.getElementById("bloquearCapturaAporte").style.display = "block";
+                        document.getElementById("capturarAporte").style.display = "none";
+                        document.getElementById("banderaReserva").value = "";
+                        $('#reserva').html(data.msg);
+                    }
+                });
+                socket.on('levantamientoReserva', function (data) {
+                    if (data.usuario != '{{nombreUsuario}}') {
+                        document.getElementById("bloquearCapturaAporte").style.display = "none";
+                        document.getElementById("banderaReserva").value="";
+                        $('#reserva').html(data.msg);
+                    }
+                });
                 socket.on('connection', function (data) {
                     console.log(data);
                 });
@@ -95,9 +126,11 @@
                     pNombre=pNombre+" ";
                 }
                 socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} prepara un nuevo aporte en la argumentación '+pNombre, sesion:'{{sesion.id}}'});
+                socket.emit("reserva", {msg:'{{nombreUsuario}} prepara un nuevo aporte en la argumentación '+pNombre, sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
             }
             function inclusionAporte(){
                 document.getElementById("capturarAporte").style.display='none';
+                socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} incluyó un nuevo aporte en la argumentación '+pNombre, sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
             }
             function desistimientoAporte(pNombre){
                 if (pNombre === undefined) {
@@ -107,6 +140,9 @@
                 }
                 document.getElementById("capturarAporte").style.display='none';
                 socket.emit("notificacionEquipo", {msg:'{{nombreUsuario}} desistió de incluir un nuevo aporte en la argumentación '+pNombre, sesion:'{{sesion.id}}'});
+                socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} incluyó un nuevo aporte en la argumentación '+pNombre, sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
+                document.getElementById("banderaReserva").value='';
+                document.getElementById("capturarAporte").style.display='none';
             }
             function llamarReunion() {
                 socket.emit("reunionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en la argumentación {{argumentacion.nombre}}', sesion:'{{sesion.id}}'});
