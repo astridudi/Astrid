@@ -1,10 +1,17 @@
-{{#if conjuntoInstituciones}}
-    <h3>Instituciones</h3>
-    {{#each conjuntoInstituciones.arreglo}}
-        <ul>
-            <li><a href="/main/presentarInstitucion?id={{id}}&nombreUsuario={{../nombreUsuario}}">{{identificacion}}</a> {{nombre}} - {{sigla}}</li>
-        </ul>
-    {{/each}}
-    <hr class="verdeAstrid1">
-    <a href='/main/registrarInstitucion?nombreUsuario={{nombreUsuario}}'>Registrar institución</a>
-{{/if}}
+<div style="display: flex">
+    <div id="divPresentacionInstituciones" class="divPresentacion"></div>
+    <div id="divCapturaInstitucion" class="divEmergente">
+        <div id="divFormularioInstitucion" class="divFormulario">
+            <form method='POST' action='/main/grabarInstitucion'>
+                <div id="construirInstitucion" style="display: block;">
+                </div>
+                <div id="grabarInstitucion" style="display: block;">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="../javascripts/funcionesVistaConjuntoInstituciones.js"></script>
+<script src="../javascripts/inicializacionVistaConjuntoInstituciones.js"></script>
+<script type="text/javascript">inicializacionVistaConjuntoInstituciones('{{conjuntoInstituciones.institucionesJson}}');</script>

@@ -1,18 +1,30 @@
-function dibujarChat(pCanvasId,pChatJson,pNombreUsuario) {
-    var imagenMapa = document.getElementById("imagenMapa");
-    var mapa = document.getElementById("mapa");
-    var canvas = document.getElementById(pCanvasId);
-    var contexto = canvas.getContext("2d");
+function dibujarChat(pChatJson,pNombreUsuario) {
+    var divPresentacionChat = document.getElementById("divPresentacionChat");
+    var mapaChat = document.getElementById("mapaChat");
+    var canvasChat = document.getElementById("canvasChat");
+    var contexto = canvasChat.getContext("2d");
     var areas = [];
+    let pChat = cadenaJson(pChatJson);
 
-    let cadenaChat = pChatJson.replace(/&quot;/g,"'");
-    cadenaChat = cadenaChat.replace(/'/g,'"');
-    let pChat = JSON.parse(cadenaChat);
-
-    contexto.font = "14px Arial";
+    /*
+    Inicialización de parámetros gráficos globales de trazado
+     */
+    contexto.font = "15px Arial";
     contexto.textBaseline = "top";
+    let colorBlancoFondo = "#FFFFFF";
+    let colorTerceraPersona = "#F7931E";
+    let colorPrimeraPersona = "#1D8649";
+    let colorGrisLibre = "#F2F2F2";
+    let colorGrisResaltado = "#BDBDBD";
+    let colorTextoNormal = "#151515";
+    let strokes = [colorTerceraPersona,colorTerceraPersona,colorPrimeraPersona];
+    let fills = [colorGrisLibre,colorGrisLibre,colorGrisLibre];
 
-    let anchoCanvas = canvas.offsetWidth;
+    /*
+    Inicialización de parámetros numéricos de dibujo
+     */
+    let anchoCanvas = canvasChat.offsetWidth;
+    let altoCanvas = 0;
     let sangria = Math.ceil(0.3 * (Math.abs(contexto.measureText('X').actualBoundingBoxAscent) + Math.abs(contexto.measureText('X').actualBoundingBoxDescent)));
     let margen = 40;
     let altoRenglon = Math.ceil(1.4 * (Math.abs(contexto.measureText('X').actualBoundingBoxAscent) + Math.abs(contexto.measureText('X').actualBoundingBoxDescent)));
@@ -33,9 +45,10 @@ function dibujarChat(pCanvasId,pChatJson,pNombreUsuario) {
     let p = 0;
     let q = 0;
     let r = 0;
-    let strokes = ["#D68910","#D68910","#0B5345"];
-    let fills = ["#FCF3CF","#FCF3CF","#EAFAF1"];
 
+    /*
+    Determinación de dimensiones y coordenadas de cada caja de mensaje en el chat y en la interfaz.
+     */
     for (i=0; i<pChat._arreglo.length; i++) {
         texto = pChat._arreglo[i]._contenido;
         arriba = yCaja;
@@ -43,7 +56,7 @@ function dibujarChat(pCanvasId,pChatJson,pNombreUsuario) {
         if (lineas > 1) {
             ancho = Math.ceil(contexto.measureText(texto).width / lineas) +  margen;
         } else {
-            ancho = Math.ceil(contexto.measureText(texto).width) +  margen;
+            ancho = Math.max( Math.ceil(contexto.measureText(texto).width), Math.ceil(contexto.measureText(pChat._arreglo[i]._nombreUsuario).width)) +  margen;
         }
         if (pChat._arreglo[i]._nombreUsuario == pNombreUsuario) {
             tipoCaja = 2;
@@ -64,6 +77,9 @@ function dibujarChat(pCanvasId,pChatJson,pNombreUsuario) {
         alto = Math.ceil((lineas + lineasNombreUsuario + 0.2) * altoRenglon);
         curva = Math.ceil(alto / 8);
 
+        /*
+        Dimensiones de cada caja de mensaje
+         */
         pChat._arreglo[i]._datoGrafico._tipoCaja = tipoCaja;
         pChat._arreglo[i]._datoGrafico._lineas = lineas;
         pChat._arreglo[i]._datoGrafico._lineasNombreUsuario = lineasNombreUsuario;
@@ -75,33 +91,34 @@ function dibujarChat(pCanvasId,pChatJson,pNombreUsuario) {
 
         yCaja=Math.ceil(yCaja+alto+altoRenglon/2);
     }
+    altoCanvas = Math.ceil(yCaja-altoRenglon/2+margen)
 
-    imagenMapa.style.position = "absolute";
-    imagenMapa.style.left = (canvas.offsetLeft + 1) + "px";
-    imagenMapa.style.top = canvas.offsetTop + "px";
-    imagenMapa.style.height = (yCaja-altoRenglon/2+margen) + "px";
-
-    contexto.strokeStyle = "#FFFFFF";
-    contexto.fillStyle = "#FFFFFF";
+    /*
+    Trazado de la cuadrícula de fondo del diagrama
+     */
+    contexto.strokeStyle = colorBlancoFondo;
+    contexto.fillStyle = colorBlancoFondo;
     contexto.lineWidth = 1;
-    contexto.fillRect(0,0,anchoCanvas,Math.ceil(yCaja-altoRenglon/2+margen));
+    contexto.fillRect(0,0,anchoCanvas,altoCanvas);
 
     p = 0;
     q = 0;
-    contexto.strokeStyle = "#F6F6F6";
-    contexto.fillStyle = "#D5D5D5";
+    contexto.strokeStyle = colorGrisLibre;
+    contexto.fillStyle = colorGrisResaltado;
     contexto.setLineDash([2,4]);
     while (p<=anchoCanvas) {
         if (p%100==0) {
-            contexto.strokeStyle = "#D5D5D5";
+            contexto.strokeStyle = colorGrisResaltado;
         }
-        contexto.beginPath();
-        contexto.moveTo(p,q);
-        contexto.lineTo(p,yCaja-altoRenglon/2+margen);
-        contexto.closePath();
-        contexto.stroke();
+        if (p>0 && p<anchoCanvas) {
+            contexto.beginPath();
+            contexto.moveTo(p,q);
+            contexto.lineTo(p,yCaja-altoRenglon/2+margen);
+            contexto.closePath();
+            contexto.stroke();
+        }
         if (p%100==0) {
-            contexto.strokeStyle = "#F6F6F6";
+            contexto.strokeStyle = colorGrisLibre;
         }
         p=p+10;
     }
@@ -109,20 +126,29 @@ function dibujarChat(pCanvasId,pChatJson,pNombreUsuario) {
     q = 0;
     while (q<=yCaja-altoRenglon/2+margen) {
         if (q%100==0) {
-            contexto.strokeStyle = "#D5D5D5";
+            contexto.strokeStyle = colorGrisResaltado;
         }
-        contexto.beginPath();
-        contexto.moveTo(p,q);
-        contexto.lineTo(anchoCanvas,q);
-        contexto.closePath();
-        contexto.stroke();
+        if (q>0 && q<yCaja-altoRenglon/2+margen) {
+            contexto.beginPath();
+            contexto.moveTo(p,q);
+            contexto.lineTo(anchoCanvas,q);
+            contexto.closePath();
+            contexto.stroke();
+        }
         if (q%100==0) {
-            contexto.strokeStyle = "#F6F6F6";
+            contexto.strokeStyle = colorGrisLibre;
         }
         q=q+10;
     }
     contexto.setLineDash([]);
 
+    contexto.strokeStyle = colorGrisResaltado;
+    contexto.lineWidth = 1;
+    contexto.strokeRect(0,0,anchoCanvas,altoCanvas);
+
+    /*
+    Trazado de cada caja de mensaje del chat
+     */
     for (i=0; i<pChat._arreglo.length; i++) {
         contexto.strokeStyle = strokes[pChat._arreglo[i]._datoGrafico._tipoCaja];
         contexto.fillStyle = fills[pChat._arreglo[i]._datoGrafico._tipoCaja];
@@ -166,14 +192,24 @@ function dibujarChat(pCanvasId,pChatJson,pNombreUsuario) {
         contexto.stroke();
         contexto.fill();
 
+        /*
+        Creación de las áreas sensibles de la interfaz asociadas a las cajas de mensaje del chat.
+         */
         areas[i] = document.createElement("area");
         areas[i].shape="rect";
         areas[i].coords=+pChat._arreglo[i]._datoGrafico._x+","+pChat._arreglo[i]._datoGrafico._y+","+(pChat._arreglo[i]._datoGrafico._x+pChat._arreglo[i]._datoGrafico._ancho)+","+(pChat._arreglo[i]._datoGrafico._y+pChat._arreglo[i]._datoGrafico._alto);
         areas[i].href="#";
-        mapa.appendChild(areas[i]);
+        mapaChat.appendChild(areas[i]);
 
+        /*
+        Actualización de parámetros gráficos globales para rotulado de objetos
+         */
         contexto.fillStyle = strokes[pChat._arreglo[i]._datoGrafico._tipoCaja];
         contexto.lineWidth = 1;
+
+        /*
+        Trazado de mensaje de cada caja en el chat
+         */
         switch (pChat._arreglo[i]._datoGrafico._tipoCaja) {
             case 0: {
                 contexto.textAlign = "center";
@@ -196,7 +232,7 @@ function dibujarChat(pCanvasId,pChatJson,pNombreUsuario) {
                 break;
             }
         }
-        contexto.fillStyle = "#000000";
+        contexto.fillStyle = colorTextoNormal;
         texto = pChat._arreglo[i]._contenido;
         if (pChat._arreglo[i]._datoGrafico._lineas>1) {
             r = 0;
@@ -230,5 +266,28 @@ function dibujarChat(pCanvasId,pChatJson,pNombreUsuario) {
         else {
             contexto.fillText(texto, izquierda, pChat._arreglo[i]._datoGrafico._y + sangria + altoRenglon * pChat._arreglo[i]._datoGrafico._lineasNombreUsuario,pChat._arreglo[i]._datoGrafico._ancho-8);
         }
+    }
+
+    /*
+    Recortado de áreas sobrantes del redibujado
+     */
+    document.getElementById("imgChat").style.height = altoCanvas+"px";
+    var imagenDefinitiva = contexto.getImageData(0, 0, anchoCanvas, altoCanvas);
+    var canvasRecortado = document.createElement('canvas');
+    canvasRecortado.width = anchoCanvas;
+    canvasRecortado.height = altoCanvas;
+    var contextoRecortado = canvasRecortado.getContext('2d');
+    contextoRecortado.putImageData(imagenDefinitiva, 0, 0);
+
+    /*
+    Copiado del canvas definitivo
+     */
+    document.getElementById("imgChat").src = canvasRecortado.toDataURL();
+
+    /*
+    Posicionamiento del scroll
+     */
+    if (yCaja + margen > divPresentacionChat.offsetHeight) {
+        divPresentacionChat.scrollTop = yCaja + margen - divPresentacionChat.offsetHeight;
     }
 }

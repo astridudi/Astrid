@@ -24,10 +24,16 @@ const Argumentacion = require('../models/argumentaciones/Argumentacion');
 const Aporte = require('../models/argumentaciones/Aporte');
 const DatosArgumentacion = require('../models/argumentaciones/DatosArgumentacion');
 
+/*
+Recibe la petición de ingreso y despliega la vista para capturar los datos de ingreso del usuario
+ */
 router.get('/ingresar', async (req, res, next) => {
     res.render('capturarIngreso', {
     });
 });
+/*
+Recibe la petición y despliega la vista de instituciones
+ */
 router.get('/consultarConjuntoInstituciones', async (req, res, next) => {
     datos = new DatosInstitucion();
     res.render('instituciones/presentarConjuntoInstituciones', {
@@ -35,6 +41,56 @@ router.get('/consultarConjuntoInstituciones', async (req, res, next) => {
         conjuntoInstituciones: await datos.recuperarConjuntoInstituciones()
     });
 });
+/*
+Recibe la petición y despliega la vista de sesiones
+ */
+router.get('/consultarConjuntoSesiones', async (req, res, next) => {
+    datos = new DatosSesion();
+    res.render('sesiones/presentarConjuntoSesiones', {
+        nombreUsuario: req.query.nombreUsuario,
+        conjuntoSesiones: await datos.recuperarConjuntoSesiones()
+    });
+});
+/*
+Recibe la petición y despliega la vista de sesión
+ */
+router.get('/presentarSesion', async (req, res, next) => {
+    datos = new DatosSesion();
+    sesionRecuperada = await datos.recuperarSesion(req.query.idSesion);
+    res.render('sesiones/presentarSesion', {
+        nombreUsuario: req.query.nombreUsuario,
+        sesion: sesionRecuperada
+    });
+});
+/*
+Recibe la petición y despliega la vista de chat
+ */
+router.get('/presentarChatSesion', async (req, res, next) => {
+    datosChat = new DatosChat();
+    datos = new DatosSesion();
+    sesionRecuperada = await datos.recuperarSesion(req.query.idSesion);
+    sesionRecuperada.chat = await datosChat.recuperarChatPorSesion(req.query.idSesion);
+    sesionRecuperada.nombreUsuario = req.query.nombreUsuario;
+    res.render('chats/presentarChat', {
+        nombreUsuario: req.query.nombreUsuario,
+        sesion: sesionRecuperada
+    });
+});
+/*
+Recibe la petición y despliega la vista de diagrama
+ */
+router.get('/presentarDiagramaSesion', async (req, res, next) => {
+    datosDiagrama = new DatosDiagrama();
+    datos = new DatosSesion();
+    sesionRecuperada = await datos.recuperarSesion(req.query.idSesion);
+    sesionRecuperada.diagrama = await datosDiagrama.recuperarDiagramaPorSesion(req.query.idSesion);
+    sesionRecuperada.nombreUsuario = req.query.nombreUsuario;
+    res.render('diagramas/presentarDiagrama', {
+        nombreUsuario: req.query.nombreUsuario,
+        sesion: sesionRecuperada
+    });
+});
+
 router.get('/registrarInstitucion', async (req, res, next) => {
     datos = new DatosInstitucion();
     res.render('instituciones/capturarinstitucion', {
@@ -309,13 +365,6 @@ router.post('/grabarVinculoEstudiante', async (req, res, next) => {
         }
     }
 });
-router.get('/consultarConjuntoSesiones', async (req, res, next) => {
-    datos = new DatosSesion();
-    res.render('sesiones/presentarConjuntoSesiones', {
-        nombreUsuario: req.query.nombreUsuario,
-        conjuntoSesiones: await datos.recuperarConjuntoSesiones()
-    });
-});
 router.get('/registrarSesion', async (req, res, next) => {
     datos = new DatosSesion();
     res.render('sesiones/capturarSesion', {
@@ -323,14 +372,6 @@ router.get('/registrarSesion', async (req, res, next) => {
         conjuntoSesiones: await datos.recuperarConjuntoSesiones(),
         conjuntoTiposDiagrama: new ConjuntoTiposDiagrama(),
         sesion: undefined
-    });
-});
-router.get('/presentarSesion', async (req, res, next) => {
-    datos = new DatosSesion();
-    sesionRecuperada = await datos.recuperarSesion(req.query.id);
-    res.render('sesiones/presentarSesion', {
-        nombreUsuario: req.query.nombreUsuario,
-        sesion: sesionRecuperada
     });
 });
 router.get('/editarSesion', async (req, res, next) => {
@@ -366,17 +407,6 @@ router.post('/eliminarSesion/confirmar', async (req, res, next) => {
     await datos.eliminarSesion(req.body.id);
     res.redirect('/main/consultarConjuntoSesiones?nombreUsuario='+ req.body.nombreUsuario);
 });
-router.get('/presentarChatSesion', async (req, res, next) => {
-    datosChat = new DatosChat();
-    datos = new DatosSesion();
-    sesionRecuperada = await datos.recuperarSesion(req.query.idSesion);
-    sesionRecuperada.chat = await datosChat.recuperarChatPorSesion(req.query.idSesion);
-    sesionRecuperada.nombreUsuario = req.query.nombreUsuario;
-    res.render('chats/presentarChat', {
-        nombreUsuario: req.query.nombreUsuario,
-        sesion: sesionRecuperada
-    });
-});
 router.post('/grabarMensajeChatSesion', async (req, res, next) => {
     var datosChat = new DatosChat();
     await datosChat.grabarMensaje(req.body.id,
@@ -384,17 +414,6 @@ router.post('/grabarMensajeChatSesion', async (req, res, next) => {
     let chatRecuperado = await datosChat.recuperarChatPorSesion(req.body.idSesion);
     eventEmitter.emit('confirmacionMensaje', {mensaje: req.body.nombreUsuario+' emitió un nuevo mensaje en el chat', chatRecuperado: chatRecuperado.chatJson, sesion: req.body.idSesion});
     res.redirect('back');
-});
-router.get('/presentarDiagramaSesion', async (req, res, next) => {
-    datosDiagrama = new DatosDiagrama();
-    datos = new DatosSesion();
-    sesionRecuperada = await datos.recuperarSesion(req.query.idSesion);
-    sesionRecuperada.diagrama = await datosDiagrama.recuperarDiagramaPorSesion(req.query.idSesion);
-    sesionRecuperada.nombreUsuario = req.query.nombreUsuario;
-    res.render('diagramas/presentarDiagrama', {
-        nombreUsuario: req.query.nombreUsuario,
-        sesion: sesionRecuperada
-    });
 });
 router.post('/grabarObjetoDiagramaSesion', async (req, res, next) => {
     var datosDiagrama = new DatosDiagrama();
@@ -469,6 +488,10 @@ router.post('/grabarAporteSesion', async (req, res, next) => {
     eventEmitter.emit('confirmacionAporte', {mensaje: req.body.nombreUsuario+' agregó un nuevo aporte en la argumentación '+argumentacionRecuperada.nombre, argumentacionRecuperada: argumentacionRecuperada.argumentacionJson, sesion: req.body.idSesion});
     res.redirect('back');
 });
+
+/*
+Recibe los datos de ingreso del usuario y lo redirige a index
+ */
 router.post('/permitirIngreso', async (req, res, next) => {
     res.redirect('/?nombreUsuario='+ req.body.nombreUsuario);
 });

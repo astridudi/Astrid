@@ -65,7 +65,7 @@ module.exports = class Diagrama {
         return true;
     }
     get diagramaJson() {
-        let rDiagramaJson = JSON.stringify(this, ['_id', '_nombre', '_tipoDiagrama', '_tiposObjeto', '_tiposRelacion', '_tipoRolInicio', '_tipoRolFinal', '_objetos', '_tipoObjeto', '_puertos', '_tipoPuerto', '_tiposRol', '_valoresPropiedades', '_tiempo', '_nombreUsuario', '_datoGrafico', '_x', '_y', '_areasEnlace', '_relaciones', '_tipoRelacion', '_objetoInicial', '_numeroPuertoObjetoInicial', '_objetoFinal', '_numeroPuertoObjetoFinal']);
+        let rDiagramaJson = JSON.stringify(this, ['_id', '_nombre', '_tipoDiagrama', '_tiposObjeto', '_tiposRelacion', '_tiposPropiedad', '_tipoRolInicio', '_tipoRolFinal', '_objetos', '_tipoObjeto', '_puertos', '_tipoPuerto', '_tiposRol', '_valoresPropiedades', '_tiempo', '_nombreUsuario', '_datoGrafico', '_x', '_y', '_areasEnlace', '_relaciones', '_tipoRelacion', '_objetoInicial', '_numeroPuertoObjetoInicial', '_objetoFinal', '_numeroPuertoObjetoFinal']);
         return rDiagramaJson;
     }
     objetoPorId(pObjetoId) {

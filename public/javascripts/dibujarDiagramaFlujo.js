@@ -1,4 +1,4 @@
-function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef,pTipoDibujo) {
+function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
 
     /*
     pTipoDibujo es un parámetro numérico para determinar que:
@@ -21,34 +21,38 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef,pTipoDibujo) {
         Tomará el tipo de relación de document.getElementById('tipoRelacion').value.
      */
 
-    var imagenMapa = document.getElementById("imagenMapa");
-    var mapa = document.getElementById("mapa");
-    var canvas = document.getElementById(pCanvasId);
-    var contexto = canvas.getContext("2d");
+    var divPresentacionDiagrama = document.getElementById("divPresentacionDiagrama");
+    var mapaDiagrama = document.getElementById("mapaDiagrama");
+    var canvasDiagrama = document.getElementById("canvasDiagrama");
+    var contexto = canvasDiagrama.getContext("2d");
     var areas = [];
+    let pDiagrama = cadenaJson(pDiagramaJson);
 
     if (pTipoDibujo == undefined) {
         pTipoDibujo = 0;
     }
 
     /*
-    Procesamiento del objeto JSON que contiene los datos del diagrama
-     */
-    let cadenaDiagrama = pDiagramaJson.replace(/&quot;/g, "'");
-    cadenaDiagrama = cadenaDiagrama.replace(/'/g, '"');
-    let pDiagrama = JSON.parse(cadenaDiagrama);
-
-    /*
     Inicialización de parámetros gráficos globales de trazado
      */
-    contexto.font = "14px Arial";
+    contexto.font = "15px Arial";
     contexto.textBaseline = "top";
     contexto.textAlign = "center";
+    let colorBlancoFondo = "#FFFFFF";
+    let colorRelacion = "#F7931E";
+    let colorObjeto = "#1D8649";
+    let colorGrisLibre = "#F2F2F2";
+    let colorGrisResaltado = "#BDBDBD";
+    let colorGrisOscuro = "#808080";
+    let colorTextoNormal = "#151515";
+    let strokes = [colorRelacion,colorObjeto];
+    let fills = [colorGrisLibre,colorGrisLibre];
 
     /*
     Inicialización de parámetros numéricos de dibujo
      */
-    let anchoCanvas = canvas.offsetWidth;
+    let anchoCanvas = canvasDiagrama.offsetWidth;
+    let altoCanvas = 0;
     let sangria = Math.ceil(0.3 * (Math.abs(contexto.measureText('X').actualBoundingBoxAscent) + Math.abs(contexto.measureText('X').actualBoundingBoxDescent)));
     let margen = 40;
     let altoRenglon = Math.ceil(1.4 * (Math.abs(contexto.measureText('X').actualBoundingBoxAscent) + Math.abs(contexto.measureText('X').actualBoundingBoxDescent)));
@@ -101,10 +105,7 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef,pTipoDibujo) {
     let ap = 0;
     let bp = 0;
     let cp = 0;
-    let saeta = 10;
-    let strokes = ["#F1B434", "#228848", "#F93822", "#228848", "#63666A", "#228848", "#63666A", "#F93822", "#63666A", "#F93822", "#63666A"];
-    let fills = ["#F1B434", "#228848", "#F93822", "#228848", "#63666A", "#228848", "#63666A", "#F93822", "#63666A", "#F93822", "#63666A"];
-    let fills2 = ["#FCF3CF", "#EAFAF1", "#F9EBEA", "#EAFAF1", "#EAFAF1", "#EAFAF1", "#EAFAF1", "#F9EBEA", "#F9EBEA", "#F9EBEA", "#F9EBEA"];
+    let saeta = 20;
 
     /*
     Determinación de dimensiones y coordenadas de cada objeto en el diagrama y en la interfaz.
@@ -264,47 +265,53 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef,pTipoDibujo) {
     document.getElementById('xNuevoObjeto').value = x;
     document.getElementById('yNuevoObjeto').value = y;
 
-    /*
-    Trazado de la cuadrícula de fondo del diagrama
-     */
-    contexto.strokeStyle = "#FFFFFF";
-    contexto.fillStyle = "#FFFFFF";
-    contexto.lineWidth = 1;
     if (x > margen) {
         y = y + Math.max(altoInicio,altoEntrada,altoProceso,altoCondicional) + margen;
     }
+    altoCanvas = y;
 
-    imagenMapa.style.position = "absolute";
-    imagenMapa.style.left = (canvas.offsetLeft + 1) + "px";
-    imagenMapa.style.top = canvas.offsetTop + "px";
-    imagenMapa.style.height = y + "px";
+    /*
+    Reinicio del fondo del diagrama
+     */
+    contexto.strokeStyle = document.getElementById("divPresentacionDiagrama").style.backgroundColor;
+    contexto.fillStyle = document.getElementById("divPresentacionDiagrama").style.backgroundColor;
+    contexto.lineWidth = 1;
+    contexto.fillRect(0,0, anchoCanvas, altoCanvas);
 
-    contexto.fillRect(0,0, anchoCanvas, y);
+    /*
+    Trazado de la cuadrícula de fondo del diagrama
+     */
+    contexto.strokeStyle = colorBlancoFondo;
+    contexto.fillStyle = colorBlancoFondo;
+    contexto.lineWidth = 1;
+    contexto.fillRect(0,0, anchoCanvas, altoCanvas);
 
     p = 0;
     q = 0;
-    contexto.strokeStyle = "#F6F6F6";
-    contexto.fillStyle = "#D5D5D5";
+    contexto.strokeStyle = colorGrisLibre;
+    contexto.fillStyle = colorGrisResaltado;
     contexto.setLineDash([2,4]);
     contexto.font = "10px Arial";
     while (p<=anchoCanvas) {
         if (p % 100 == 0) {
-            contexto.strokeStyle = "#D5D5D5";
+            contexto.strokeStyle = colorGrisResaltado;
         }
-        contexto.beginPath();
-        contexto.moveTo(p, q);
-        contexto.lineTo(p, y);
-        contexto.closePath();
-        contexto.stroke();
+        if (p>0 && p<anchoCanvas) {
+            contexto.beginPath();
+            contexto.moveTo(p, q);
+            contexto.lineTo(p, y);
+            contexto.closePath();
+            contexto.stroke();
+        }
         if (p % 100 == 0) {
             if (p % 1000 > 0) {
-                contexto.fillStyle = "#63666A";
+                contexto.fillStyle = colorGrisOscuro;
                 contexto.textBaseline = "top";
                 contexto.fillText(p, p, q, );
                 contexto.textBaseline = "bottom";
                 contexto.fillText(p, p, y, );
             }
-            contexto.strokeStyle = "#F6F6F6";
+            contexto.strokeStyle = colorGrisLibre;
         }
         p=p+10;
     }
@@ -313,32 +320,38 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef,pTipoDibujo) {
     contexto.textBaseline = "middle";
     while (q <= y) {
         if (q % 100 == 0) {
-            contexto.strokeStyle = "#D5D5D5";
+            contexto.strokeStyle = colorGrisResaltado;
         }
-        contexto.beginPath();
-        contexto.moveTo(p, q);
-        contexto.lineTo(anchoCanvas, q);
-        contexto.closePath();
-        contexto.stroke();
+        if (q>0 && q<y) {
+            contexto.beginPath();
+            contexto.moveTo(p, q);
+            contexto.lineTo(anchoCanvas, q);
+            contexto.closePath();
+            contexto.stroke();
+        }
         if (q % 100 == 0) {
             if (q % 1000 > 0) {
-                contexto.fillStyle = "#63666A";
+                contexto.fillStyle = colorGrisOscuro;
                 contexto.textAlign = "left";
                 contexto.fillText(q, p, q, );
                 contexto.textAlign = "right";
                 contexto.fillText(q,anchoCanvas, q, );
             }
-            contexto.strokeStyle = "#F6F6F6";
+            contexto.strokeStyle = colorGrisLibre;
         }
         q = q + 10;
     }
     contexto.setLineDash([]);
 
+    contexto.strokeStyle = colorGrisResaltado;
+    contexto.lineWidth = 1;
+    contexto.strokeRect(0,0,anchoCanvas,altoCanvas);
+
     /*
     Actualización de parámetros gráficos globales para trazado de objetos
      */
-    contexto.strokeStyle = "#0B5345";
-    contexto.fillStyle = "#EAFAF1";
+    contexto.strokeStyle = strokes[1];
+    contexto.fillStyle = fills[1];
     contexto.font = "14px Arial";
     contexto.textBaseline = "middle";
 
@@ -458,7 +471,7 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef,pTipoDibujo) {
             areas[areas.length-1].shape="rect";
             areas[areas.length-1].coords=pDiagrama._objetos[i]._areasEnlace[0]._x+","+pDiagrama._objetos[i]._areasEnlace[0]._y+","+(pDiagrama._objetos[i]._areasEnlace[0]._x+pDiagrama._objetos[i]._areasEnlace[0]._ancho)+","+(pDiagrama._objetos[i]._areasEnlace[0]._y+pDiagrama._objetos[i]._areasEnlace[0]._alto);
             areas[areas.length-1].title=pDiagrama._objetos[i]._valoresPropiedades[1];
-            mapa.appendChild(areas[areas.length-1]);
+            mapaDiagrama.appendChild(areas[areas.length-1]);
         } else {
             document.getElementById('area'+i).coords=pDiagrama._objetos[i]._areasEnlace[0]._x+","+pDiagrama._objetos[i]._areasEnlace[0]._y+","+(pDiagrama._objetos[i]._areasEnlace[0]._x+pDiagrama._objetos[i]._areasEnlace[0]._ancho)+","+(pDiagrama._objetos[i]._areasEnlace[0]._y+pDiagrama._objetos[i]._areasEnlace[0]._alto);
         }
@@ -519,7 +532,7 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef,pTipoDibujo) {
                 areas[areas.length-1].href="#";
                 areas[areas.length-1].title="Puerto "+j+" - "+pDiagrama._objetos[i]._tipoObjeto._puertos[j]._tipoPuerto._tiposRol[0]._nombre;
                 areas[areas.length-1].style.display="none";
-                mapa.appendChild(areas[areas.length-1]);
+                mapaDiagrama.appendChild(areas[areas.length-1]);
             } else {
                 document.getElementById('area'+i+'-'+j).coords=(pDiagrama._objetos[i]._tipoObjeto._puertos[j]._datoGrafico._x-mitadAnchoPuerto)+","+(pDiagrama._objetos[i]._tipoObjeto._puertos[j]._datoGrafico._y-mitadAnchoPuerto)+","+(pDiagrama._objetos[i]._tipoObjeto._puertos[j]._datoGrafico._x+mitadAnchoPuerto)+","+(pDiagrama._objetos[i]._tipoObjeto._puertos[j]._datoGrafico._y+mitadAnchoPuerto);
                 document.getElementById('area'+i+'-'+j).style.display="none";
@@ -529,8 +542,8 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef,pTipoDibujo) {
         /*
         Trazado de puertos para el inicio de una relación y habilitación de sus áreas sensibles correspondientes
          */
-        contexto.strokeStyle = "#F1B434";
-        contexto.fillStyle = "#FCF3CF";
+        contexto.strokeStyle = strokes[0];
+        contexto.fillStyle = fills[0];
         if (pTipoDibujo == 2) {
             if (i == document.getElementById('indiceObjetoInicial').value) {
                 k = document.getElementById('tipoRelacion').value;
@@ -542,7 +555,7 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef,pTipoDibujo) {
                             "onmousedown",
                             "downPuertoInicial(event,"+j+")"
                         );
-                        document.getElementById('area'+i+'-'+j).style.display="block";
+                        document.getElementById('area'+i+'-'+j).style.display="inline-block";
                     }
                 }
             }
@@ -558,19 +571,19 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef,pTipoDibujo) {
                             "onmousedown",
                             "downPuertoFinal(event,"+j+")"
                         );
-                        document.getElementById('area'+i+'-'+j).style.display="block";
+                        document.getElementById('area'+i+'-'+j).style.display="inline-block";
                     }
                 }
             }
         }
-        contexto.strokeStyle = "#0B5345";
-        contexto.fillStyle = "#EAFAF1";
+        contexto.strokeStyle = strokes[1];
+        contexto.fillStyle = fills[1];
     }
 
     /*
     Actualización de parámetros gráficos globales para rotulado de objetos
      */
-    contexto.fillStyle = "#000000";
+    contexto.fillStyle = colorTextoNormal;
     contexto.lineWidth = 1;
 
     /*
@@ -702,9 +715,10 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef,pTipoDibujo) {
     /*
     Trazado de las relaciones
      */
-    contexto.strokeStyle = "#F1B434";
-    contexto.fillStyle = "#F1B434";
+    contexto.strokeStyle = strokes[0];
+    contexto.fillStyle = strokes[0];
 
+    sangria = Math.ceil(saeta / 6);
     for (i=0; i<pDiagrama._relaciones.length; i++) {
         j = 0;
         x = -1;
@@ -773,4 +787,26 @@ function dibujarDiagrama(pCanvasId,pDiagramaJson,pHRef,pTipoDibujo) {
         contexto.setLineDash([]);
     }
 
+    /*
+    Recortado de áreas sobrantes del redibujado
+     */
+    document.getElementById("imgDiagrama").style.height = altoCanvas+"px";
+    var imagenDefinitiva = contexto.getImageData(0, 0, anchoCanvas, altoCanvas);
+    var canvasRecortado = document.createElement('canvas');
+    canvasRecortado.width = anchoCanvas;
+    canvasRecortado.height = altoCanvas;
+    var contextoRecortado = canvasRecortado.getContext('2d');
+    contextoRecortado.putImageData(imagenDefinitiva, 0, 0);
+
+    /*
+    Copiado del canvas definitivo
+     */
+    document.getElementById("imgDiagrama").src = canvasRecortado.toDataURL();
+
+    /*
+    Posicionamiento del scroll
+     */
+    if (y > divPresentacionDiagrama.offsetHeight) {
+        divPresentacionDiagrama.scrollTop = y - divPresentacionDiagrama.offsetHeight;
+    }
 }

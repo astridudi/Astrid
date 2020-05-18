@@ -1,7 +1,14 @@
-<form method='POST' action='/main/permitirIngreso'>
-    <h3>
-        Ingreso |
-    </h3>
-    <p>Usuario: <input type='email' name='nombreUsuario' value=''/></p>
-    <input type='submit' value='Ingresar' />
-</form>
+<div id="divCapturaIngreso" class="divCaptura">
+    <form method='POST' action='/main/permitirIngreso'>
+        <p>
+            <b><label class="lblCaptura">Usuario: </label></b>
+            <input id="inpUsuario" class="w3-input w3-round" type='email' name='nombreUsuario' value=''/>
+            <br>
+            <button id="btnIngresoUsuario" type="submit" class="w3-button w3-round btnControl">Ingresar</button>
+        </p>
+    </form>
+</div>
+
+<script src="../javascripts/funcionesVistaCapturarIngreso.js"></script>
+<script src="../javascripts/inicializacionVistaCapturarIngreso.js"></script>
+<script type="text/javascript">inicializacionVistaCapturarIngreso();</script>

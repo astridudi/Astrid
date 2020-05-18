@@ -1,26 +1,40 @@
-function dibujarArgumentacion(pCanvasId,pArgumentacionJson) {
-    var imagenMapa = document.getElementById("imagenMapa");
-    var mapa = document.getElementById("mapa");
-    var canvas = document.getElementById(pCanvasId);
-    var contexto = canvas.getContext("2d");
+function dibujarArgumentacion(pArgumentacionJson) {
+    var divPresentacionArgumentacion = document.getElementById("divPresentacionArgumentacion");
+    var mapaArgumentacion = document.getElementById("mapaArgumentacion");
+    var canvasArgumentacion = document.getElementById("canvasArgumentacion");
+    var contexto = canvasArgumentacion.getContext("2d");
     var areas = [];
+    let pArgumentacion = cadenaJson(pArgumentacionJson);
 
-    let cadenaArgumentacion = pArgumentacionJson.replace(/&quot;/g, "'");
-    cadenaArgumentacion = cadenaArgumentacion.replace(/'/g, '"');
-    let pArgumentacion = JSON.parse(cadenaArgumentacion);
-
-    contexto.font = "14px Arial";
+    /*
+    Inicialización de parámetros gráficos globales de trazado
+     */
+    contexto.font = "15px Arial";
     contexto.textBaseline = "top";
     contexto.textAlign = "center";
+    let colorBlancoFondo = "#FFFFFF";
+    let colorProposicion = "#F7931E";
+    let colorApoyo = "#1D8649";
+    let colorRefutacion = "#D93025";
+    let colorGrisLibre = "#F2F2F2";
+    let colorGrisResaltado = "#BDBDBD";
+    let colorGrisOscuro = "#808080";
+    let colorTextoNormal = "#151515";
+    let strokes = [colorProposicion, colorApoyo, colorRefutacion, colorApoyo, colorGrisOscuro, colorApoyo, colorGrisOscuro, colorRefutacion, colorGrisOscuro, colorRefutacion, colorGrisOscuro];
+    let fills = [colorProposicion, colorApoyo, colorRefutacion, colorApoyo, colorGrisOscuro, colorApoyo, colorGrisOscuro, colorRefutacion, colorGrisOscuro, colorRefutacion, colorGrisOscuro];
 
-    let anchoCanvas = canvas.offsetWidth;
+    /*
+    Inicialización de parámetros numéricos de dibujo
+     */
+    let anchoCanvas = canvasArgumentacion.offsetWidth;
+    let altoCanvas = 0;
     let sangria = Math.ceil(0.3 * (Math.abs(contexto.measureText('X').actualBoundingBoxAscent) + Math.abs(contexto.measureText('X').actualBoundingBoxDescent)));
     let margen = 40;
     let altoRenglon = Math.ceil(1.4 * (Math.abs(contexto.measureText('X').actualBoundingBoxAscent) + Math.abs(contexto.measureText('X').actualBoundingBoxDescent)));
-    let anchoCajaCentro = Math.ceil(3 * anchoCanvas / 4);
+    let anchoCajaCentro = Math.ceil(anchoCanvas - 2 * margen);
     let anchoCajaLateral = Math.ceil((anchoCanvas / 2) - (2 * margen));
     let anchoCajaAuxiliar = Math.ceil((anchoCajaLateral - margen) / 2);
-    let curva = 0;
+    let curva = Math.ceil(altoRenglon / 3);
     let xCajaCentro = Math.ceil((anchoCanvas - anchoCajaCentro) / 2);
     let xCajaIzquierda = margen;
     let xCajaDerecha = anchoCanvas - margen - anchoCajaLateral;
@@ -47,10 +61,10 @@ function dibujarArgumentacion(pCanvasId,pArgumentacionJson) {
     let p = 0;
     let q = 0;
     let r = 0;
-    let strokes = ["#F1B434", "#228848", "#F93822", "#228848", "#63666A", "#228848", "#63666A", "#F93822", "#63666A", "#F93822", "#63666A"];
-    let fills = ["#F1B434", "#228848", "#F93822", "#228848", "#63666A", "#228848", "#63666A", "#F93822", "#63666A", "#F93822", "#63666A"];
-    let fills2 = ["#FCF3CF", "#EAFAF1", "#F9EBEA", "#EAFAF1", "#EAFAF1", "#EAFAF1", "#EAFAF1", "#F9EBEA", "#F9EBEA", "#F9EBEA", "#F9EBEA"];
 
+    /*
+    Determinación de dimensiones y coordenadas de cada caja de aporte en la argumentación y en la interfaz.
+     */
     for (i = 0; i < pArgumentacion._aportes.length; i++) {
         texto = pArgumentacion._aportes[i]._contenido;
         switch (pArgumentacion._aportes[i]._tipoAporte._id) {
@@ -103,8 +117,10 @@ function dibujarArgumentacion(pCanvasId,pArgumentacionJson) {
         }
         lineas = Math.ceil(contexto.measureText(texto).width / ancho);
         alto = Math.ceil((lineas + 1 + 0.2) * altoRenglon);
-        curva = Math.ceil(alto / 8);
 
+        /*
+        Dimensiones de cada caja de aporte
+         */
         pArgumentacion._aportes[i]._datoGrafico._tipoCaja = pArgumentacion._aportes[i]._tipoAporte._id;
         pArgumentacion._aportes[i]._datoGrafico._lineas = lineas;
         pArgumentacion._aportes[i]._datoGrafico._lineasNombreUsuario = 1;
@@ -114,97 +130,6 @@ function dibujarArgumentacion(pCanvasId,pArgumentacionJson) {
         pArgumentacion._aportes[i]._datoGrafico._alto = alto;
         pArgumentacion._aportes[i]._datoGrafico._curva = curva;
 
-        switch (pArgumentacion._aportes[i]._tipoAporte._id) {
-            case 0: {
-                pArgumentacion._aportes[i]._areasEnlace[0]._tipoCaja = pArgumentacion._aportes[i]._tipoAporte._id;
-                pArgumentacion._aportes[i]._areasEnlace[0]._lineas = lineas;
-                pArgumentacion._aportes[i]._areasEnlace[0]._lineasNombreUsuario = 1;
-                pArgumentacion._aportes[i]._areasEnlace[0]._x = izquierda - solapa;
-                pArgumentacion._aportes[i]._areasEnlace[0]._y = arriba;
-                pArgumentacion._aportes[i]._areasEnlace[0]._ancho = 2 * solapa;
-                pArgumentacion._aportes[i]._areasEnlace[0]._alto = alto;
-                pArgumentacion._aportes[i]._areasEnlace[0]._curva = curva;
-                pArgumentacion._aportes[i]._areasEnlace[1]._tipoCaja = pArgumentacion._aportes[i]._tipoAporte._id;
-                pArgumentacion._aportes[i]._areasEnlace[1]._lineas = lineas;
-                pArgumentacion._aportes[i]._areasEnlace[1]._lineasNombreUsuario = 1;
-                pArgumentacion._aportes[i]._areasEnlace[1]._x = izquierda + ancho - solapa;
-                pArgumentacion._aportes[i]._areasEnlace[1]._y = arriba;
-                pArgumentacion._aportes[i]._areasEnlace[1]._ancho = 2 * solapa;
-                pArgumentacion._aportes[i]._areasEnlace[1]._alto = alto;
-                pArgumentacion._aportes[i]._areasEnlace[1]._curva = curva;
-                pArgumentacion._aportes[i]._areasEnlace[2]._tipoCaja = pArgumentacion._aportes[i]._tipoAporte._id;
-                pArgumentacion._aportes[i]._areasEnlace[2]._lineas = lineas;
-                pArgumentacion._aportes[i]._areasEnlace[2]._lineasNombreUsuario = 1;
-                pArgumentacion._aportes[i]._areasEnlace[2]._x = Math.ceil(izquierda + ancho / 2 - solapa);
-                pArgumentacion._aportes[i]._areasEnlace[2]._y = Math.ceil(arriba + alto - solapa / 2);
-                pArgumentacion._aportes[i]._areasEnlace[2]._ancho = 2 * solapa;
-                pArgumentacion._aportes[i]._areasEnlace[2]._alto = 2 * solapa;
-                pArgumentacion._aportes[i]._areasEnlace[2]._curva = curva;
-                break;
-            }
-            case 1: {
-                pArgumentacion._aportes[i]._areasEnlace[0]._tipoCaja = pArgumentacion._aportes[i]._tipoAporte._id;
-                pArgumentacion._aportes[i]._areasEnlace[0]._lineas = lineas;
-                pArgumentacion._aportes[i]._areasEnlace[0]._lineasNombreUsuario = 1;
-                pArgumentacion._aportes[i]._areasEnlace[0]._x = izquierda - solapa;
-                pArgumentacion._aportes[i]._areasEnlace[0]._y = arriba;
-                pArgumentacion._aportes[i]._areasEnlace[0]._ancho = 2 * solapa;
-                pArgumentacion._aportes[i]._areasEnlace[0]._alto = alto;
-                pArgumentacion._aportes[i]._areasEnlace[0]._curva = curva;
-                pArgumentacion._aportes[i]._areasEnlace[1]._tipoCaja = pArgumentacion._aportes[i]._tipoAporte._id;
-                pArgumentacion._aportes[i]._areasEnlace[1]._lineas = lineas;
-                pArgumentacion._aportes[i]._areasEnlace[1]._lineasNombreUsuario = 1;
-                pArgumentacion._aportes[i]._areasEnlace[1]._x = izquierda + ancho - solapa;
-                pArgumentacion._aportes[i]._areasEnlace[1]._y = arriba;
-                pArgumentacion._aportes[i]._areasEnlace[1]._ancho = 2 * solapa;
-                pArgumentacion._aportes[i]._areasEnlace[1]._alto = alto;
-                pArgumentacion._aportes[i]._areasEnlace[1]._curva = curva;
-                break;
-            }
-            case 2: {
-                pArgumentacion._aportes[i]._areasEnlace[0]._tipoCaja = pArgumentacion._aportes[i]._tipoAporte._id;
-                pArgumentacion._aportes[i]._areasEnlace[0]._lineas = lineas;
-                pArgumentacion._aportes[i]._areasEnlace[0]._lineasNombreUsuario = 1;
-                pArgumentacion._aportes[i]._areasEnlace[0]._x = izquierda + ancho - solapa;
-                pArgumentacion._aportes[i]._areasEnlace[0]._y = arriba;
-                pArgumentacion._aportes[i]._areasEnlace[0]._ancho = 2 * solapa;
-                pArgumentacion._aportes[i]._areasEnlace[0]._alto = alto;
-                pArgumentacion._aportes[i]._areasEnlace[0]._curva = curva;
-                pArgumentacion._aportes[i]._areasEnlace[1]._tipoCaja = pArgumentacion._aportes[i]._tipoAporte._id;
-                pArgumentacion._aportes[i]._areasEnlace[1]._lineas = lineas;
-                pArgumentacion._aportes[i]._areasEnlace[1]._lineasNombreUsuario = 1;
-                pArgumentacion._aportes[i]._areasEnlace[1]._x = izquierda - solapa;
-                pArgumentacion._aportes[i]._areasEnlace[1]._y = arriba;
-                pArgumentacion._aportes[i]._areasEnlace[1]._ancho = 2 * solapa;
-                pArgumentacion._aportes[i]._areasEnlace[1]._alto = alto;
-                pArgumentacion._aportes[i]._areasEnlace[1]._curva = curva;
-                break;
-            }
-            case 3:
-            case 9: {
-                pArgumentacion._aportes[i]._areasEnlace[0]._tipoCaja = pArgumentacion._aportes[i]._tipoAporte._id;
-                pArgumentacion._aportes[i]._areasEnlace[0]._lineas = lineas;
-                pArgumentacion._aportes[i]._areasEnlace[0]._lineasNombreUsuario = 1;
-                pArgumentacion._aportes[i]._areasEnlace[0]._x = izquierda + ancho - solapa;
-                pArgumentacion._aportes[i]._areasEnlace[0]._y = arriba;
-                pArgumentacion._aportes[i]._areasEnlace[0]._ancho = 2 * solapa;
-                pArgumentacion._aportes[i]._areasEnlace[0]._alto = alto;
-                pArgumentacion._aportes[i]._areasEnlace[0]._curva = curva;
-                break;
-            }
-            case 5:
-            case 7: {
-                pArgumentacion._aportes[i]._areasEnlace[0]._tipoCaja = pArgumentacion._aportes[i]._tipoAporte._id;
-                pArgumentacion._aportes[i]._areasEnlace[0]._lineas = lineas;
-                pArgumentacion._aportes[i]._areasEnlace[0]._lineasNombreUsuario = 1;
-                pArgumentacion._aportes[i]._areasEnlace[0]._x = izquierda - solapa;
-                pArgumentacion._aportes[i]._areasEnlace[0]._y = arriba;
-                pArgumentacion._aportes[i]._areasEnlace[0]._ancho = 2 * solapa;
-                pArgumentacion._aportes[i]._areasEnlace[0]._alto = alto;
-                pArgumentacion._aportes[i]._areasEnlace[0]._curva = curva;
-                break;
-            }
-        }
         switch (pArgumentacion._aportes[i]._tipoAporte._id) {
             case 0: {
                 yCentro = Math.ceil(yCentro + alto + altoRenglon / 2);
@@ -248,248 +173,132 @@ function dibujarArgumentacion(pCanvasId,pArgumentacionJson) {
             }
         }
 
+        /*
+        Posicionamiento por defecto del siguiente objeto de la argumentación
+         */
         yIzquierda = Math.max(yIzquierda, yIzquierdaIzquierda, yIzquierdaCentro);
         yDerecha = Math.max(yDerecha, yDerechaDerecha, yDerechaCentro);
         yCentro = Math.max(yIzquierda, yDerecha, yCentro);
     }
+    altoCanvas = Math.ceil(yCentro - altoRenglon / 2 + margen)
 
-    imagenMapa.style.position = "absolute";
-    imagenMapa.style.left = (canvas.offsetLeft + 1) + "px";
-    imagenMapa.style.top = canvas.offsetTop + "px";
-    imagenMapa.style.height = (yCentro - altoRenglon / 2 + margen) + "px";
-
-    contexto.strokeStyle = "#FFFFFF";
-    contexto.fillStyle = "#FFFFFF";
+    /*
+    Reinicio del fondo del diagrama
+     */
+    contexto.strokeStyle = colorBlancoFondo;
+    contexto.fillStyle = colorBlancoFondo;
     contexto.lineWidth = 1;
-    contexto.fillRect(0, 0, anchoCanvas, Math.ceil(yCentro - altoRenglon / 2 + margen));
+    contexto.fillRect(0,0, anchoCanvas, altoCanvas);
 
+    /*
+    Trazado de la cuadrícula de fondo de la argumentación
+     */
     p = 0;
     q = 0;
-    contexto.strokeStyle = "#F6F6F6";
-    contexto.fillStyle = "#D5D5D5";
-    contexto.setLineDash([2, 4]);
-    while (p <= anchoCanvas) {
-        if (p % 100 == 0) {
-            contexto.strokeStyle = "#D5D5D5";
+    contexto.strokeStyle = colorGrisLibre;
+    contexto.fillStyle = colorGrisResaltado;
+    contexto.setLineDash([2,4]);
+    while (p<=anchoCanvas) {
+        if (p%100==0) {
+            contexto.strokeStyle = colorGrisResaltado;
         }
-        contexto.beginPath();
-        contexto.moveTo(p, q);
-        contexto.lineTo(p, yCentro - altoRenglon / 2 + margen);
-        contexto.closePath();
-        contexto.stroke();
-        if (p % 100 == 0) {
-            contexto.strokeStyle = "#F6F6F6";
+        if (p>0 && p<anchoCanvas) {
+            contexto.beginPath();
+            contexto.moveTo(p,q);
+            contexto.lineTo(p,yCentro - altoRenglon / 2 + margen);
+            contexto.closePath();
+            contexto.stroke();
         }
-        p = p + 10;
+        if (p%100==0) {
+            contexto.strokeStyle = colorGrisLibre;
+        }
+        p=p+10;
     }
     p = 0;
     q = 0;
-    while (q <= yCentro - altoRenglon / 2 + margen) {
-        if (q % 100 == 0) {
-            contexto.strokeStyle = "#D5D5D5";
+    while (q<=yCentro - altoRenglon / 2 + margen) {
+        if (q%100==0) {
+            contexto.strokeStyle = colorGrisResaltado;
         }
-        contexto.beginPath();
-        contexto.moveTo(p, q);
-        contexto.lineTo(anchoCanvas, q);
-        contexto.closePath();
-        contexto.stroke();
-        if (q % 100 == 0) {
-            contexto.strokeStyle = "#F6F6F6";
+        if (q>0 && q<yCentro - altoRenglon / 2 + margen) {
+            contexto.beginPath();
+            contexto.moveTo(p,q);
+            contexto.lineTo(anchoCanvas,q);
+            contexto.closePath();
+            contexto.stroke();
         }
-        q = q + 10;
+        if (q%100==0) {
+            contexto.strokeStyle = colorGrisLibre;
+        }
+        q=q+10;
     }
     contexto.setLineDash([]);
 
-    contexto.strokeStyle = "#1B4F72";
-    contexto.fillStyle = "#D6EAF8";
+    contexto.strokeStyle = colorGrisResaltado;
     contexto.lineWidth = 1;
+    contexto.strokeRect(0,0,anchoCanvas,altoCanvas);
 
-    if (pArgumentacion._aportes.length==0) {
-        texto = "Pulse para iniciar argumentación";
-        lineas = Math.ceil(contexto.measureText(texto).width / anchoCajaCentro);
-        alto = Math.ceil((lineas + 0.2) * altoRenglon);
-        contexto.strokeStyle = strokes[0];
-        contexto.fillStyle = fills2[0];
-        contexto.lineWidth = 4;
-        curva = Math.ceil(alto / 8);
-        izquierda = xCajaCentro;
-        arriba = yCentro;
-        ancho = anchoCajaCentro;
-        contexto.beginPath();
-        contexto.moveTo(izquierda, arriba + curva);
-        contexto.quadraticCurveTo(izquierda, arriba, izquierda + curva, arriba);
-        contexto.lineTo(izquierda + ancho - curva, arriba);
-        contexto.quadraticCurveTo(izquierda + ancho, arriba, izquierda + ancho, arriba + curva);
-        contexto.lineTo(izquierda + ancho, arriba + alto - curva);
-        contexto.quadraticCurveTo(izquierda + ancho, arriba + alto, izquierda + ancho - curva, arriba + alto);
-        contexto.lineTo(izquierda + curva, arriba + alto);
-        contexto.quadraticCurveTo(izquierda, arriba + alto, izquierda, arriba + alto - curva);
-        contexto.closePath();
-        contexto.stroke();
-        contexto.fill();
-        contexto.fillStyle = "#000000";
-        contexto.lineWidth = 1;
-        contexto.fillText(texto, Math.ceil(izquierda + ancho / 2), Math.ceil(arriba + sangria), ancho - 8);
-
-        areas[areas.length] = document.createElement("area");
-        areas[areas.length-1].shape="rect";
-        areas[areas.length-1].coords=+izquierda+","+arriba+","+(izquierda+ancho)+","+(arriba+alto);
-        areas[areas.length-1].href="#";
-        areas[areas.length-1].setAttribute(
-            "onclick",
-            "inicioCapturaAporte('"+
-            pArgumentacion._conjuntoTiposAporte._tipoAporteInicio._id+"','"+
-            "','"+
-            "','"+
-            "','"+
-            pArgumentacion._conjuntoTiposAporte._tipoAporteInicio._nombre+"','"+
-            pArgumentacion._nombre+
-            "')"
-        );
-        areas[areas.length-1].title=pArgumentacion._conjuntoTiposAporte._tipoAporteInicio._nombre;
-        mapa.appendChild(areas[areas.length-1]);
-    }
-
+    /*
+    Trazado de cada caja de aporte de la argumentación
+     */
     for (i = 0; i < pArgumentacion._aportes.length; i++) {
         contexto.strokeStyle = strokes[pArgumentacion._aportes[i]._tipoAporte._id];
         contexto.fillStyle = fills[pArgumentacion._aportes[i]._tipoAporte._id];
         contexto.lineWidth = 3;
         contexto.beginPath();
-        switch (pArgumentacion._aportes[i]._tipoAporte._id) {
-            case 0: {
-                contexto.moveTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y, pArgumentacion._aportes[i]._datoGrafico._x - solapa + pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y);
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa - pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto - pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa - pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa + pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto, pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto - pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.closePath();
-                contexto.stroke();
-                contexto.fill();
-                contexto.beginPath();
-                contexto.moveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho / 2 - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho / 2 + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho / 2 + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto + solapa, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho / 2 + solapa - pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto + solapa);
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho / 2 - solapa + pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto + solapa);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho / 2 - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto + solapa, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho / 2 - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto + solapa - pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.closePath();
-                contexto.stroke();
-                contexto.fill();
-                contexto.fillStyle = "#FCF3CF";
-                break;
-            }
-            case 1:
-            case 2: {
-                contexto.moveTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y, pArgumentacion._aportes[i]._datoGrafico._x - solapa + pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y);
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa - pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto - pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa - pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa + pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto, pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto - pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.closePath();
-                contexto.stroke();
-                contexto.fill();
-                contexto.fillStyle = "#EAFAF1";
-                break;
-            }
-            case 3:
-            case 9: {
-                contexto.moveTo(pArgumentacion._aportes[i]._datoGrafico._x, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x, pArgumentacion._aportes[i]._datoGrafico._y, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y);
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa - pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto - pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa - pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto, pArgumentacion._aportes[i]._datoGrafico._x, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto - pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.closePath();
-                contexto.stroke();
-                contexto.fill();
-                contexto.fillStyle = "#EAFAF1";
-                break;
-            }
-            case 5:
-            case 7: {
-                contexto.moveTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y, pArgumentacion._aportes[i]._datoGrafico._x - solapa + pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y);
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho - pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho, pArgumentacion._aportes[i]._datoGrafico._y, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto - pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho - pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa + pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto, pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto - pArgumentacion._aportes[i]._datoGrafico._curva);
-                contexto.closePath();
-                contexto.stroke();
-                contexto.fill();
-                contexto.fillStyle = "#F4F6F6";
-                break;
-            }
-        }
-
-        p = -1;
-        switch (pArgumentacion._aportes[i]._tipoAporte._id) {
-            case 0: {
-                p = 2;
-                break;
-            }
-            case 1:
-            case 2: {
-                p = 1;
-                break;
-            }
-            case 3:
-            case 5:
-            case 7:
-            case 9: {
-                p = 0;
-                break;
-            }
-        }
-        for (j=0; j<=p; j++) {
-            areas[areas.length] = document.createElement("area");
-            areas[areas.length-1].shape="rect";
-            areas[areas.length-1].coords=+pArgumentacion._aportes[i]._areasEnlace[j]._x+","+pArgumentacion._aportes[i]._areasEnlace[j]._y+","+(pArgumentacion._aportes[i]._areasEnlace[j]._x+pArgumentacion._aportes[i]._areasEnlace[j]._ancho)+","+(pArgumentacion._aportes[i]._areasEnlace[j]._y+pArgumentacion._aportes[i]._areasEnlace[j]._alto);
-            areas[areas.length-1].href="#";
-            areas[areas.length-1].setAttribute(
-                "onclick",
-                "inicioCapturaAporte('"+
-                    pArgumentacion._conjuntoTiposAporte._tiposAporte[pArgumentacion._aportes[i]._tipoAporte._id]._idTiposSucesores[j]+"','"+
-                    pArgumentacion._aportes[i]._id+"','"+
-                    pArgumentacion._aportes[i]._tipoAporte._nombre+"','"+
-                    pArgumentacion._aportes[i]._contenido+"','"+
-                    pArgumentacion._conjuntoTiposAporte._tiposAporte[pArgumentacion._conjuntoTiposAporte._tiposAporte[pArgumentacion._aportes[i]._tipoAporte._id]._idTiposSucesores[j]]._nombre+"','"+
-                    pArgumentacion._nombre+
-                "')"
-            );
-            areas[areas.length-1].title=pArgumentacion._conjuntoTiposAporte._tiposAporte[pArgumentacion._conjuntoTiposAporte._tiposAporte[pArgumentacion._aportes[i]._tipoAporte._id]._idTiposSucesores[j]]._nombre;
-            mapa.appendChild(areas[areas.length-1]);
-        }
-
-        contexto.lineWidth = 3;
-        contexto.fillStyle = fills2[pArgumentacion._aportes[i]._tipoAporte._id];
-        contexto.beginPath();
-        contexto.moveTo(pArgumentacion._aportes[i]._datoGrafico._x,pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._curva);
-        contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x, pArgumentacion._aportes[i]._datoGrafico._y, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y);
-        contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho - pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y);
-        contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho, pArgumentacion._aportes[i]._datoGrafico._y,pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._curva );
-        contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto - pArgumentacion._aportes[i]._datoGrafico._curva);
-        contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho - pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
-        contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
-        contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto, pArgumentacion._aportes[i]._datoGrafico._x, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto - pArgumentacion._aportes[i]._datoGrafico._curva);
+        contexto.moveTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._curva);
+        contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y, pArgumentacion._aportes[i]._datoGrafico._x - solapa + pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y);
+        contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa - pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y);
+        contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._curva);
+        contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto - pArgumentacion._aportes[i]._datoGrafico._curva);
+        contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa - pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
+        contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa + pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
+        contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto, pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto - pArgumentacion._aportes[i]._datoGrafico._curva);
         contexto.closePath();
         contexto.stroke();
         contexto.fill();
 
-        contexto.fillStyle = fills[pArgumentacion._aportes[i]._tipoAporte._id];
+        /*
+        Creación de las áreas sensibles de la interfaz asociadas a las cajas de aporte de la argumentación.
+         */
+        if (pArgumentacion._aportes[i]._tipoAporte._id != 4 && pArgumentacion._aportes[i]._tipoAporte._id != 6 && pArgumentacion._aportes[i]._tipoAporte._id != 8 && pArgumentacion._aportes[i]._tipoAporte._id != 10) {
+            areas[areas.length] = document.createElement("area");
+            areas[areas.length-1].shape="rect";
+            areas[areas.length-1].coords=+pArgumentacion._aportes[i]._datoGrafico._x+","+pArgumentacion._aportes[i]._datoGrafico._y+","+(pArgumentacion._aportes[i]._datoGrafico._x+pArgumentacion._aportes[i]._datoGrafico._ancho)+","+(pArgumentacion._aportes[i]._datoGrafico._y+pArgumentacion._aportes[i]._datoGrafico._alto);
+            areas[areas.length-1].href="#";
+            areas[areas.length-1].setAttribute(
+                "onclick",
+                "inicioCapturaAporte('"+
+                    pArgumentacion._aportes[i]._id+"','"+
+                    pArgumentacion._aportes[i]._tipoAporte._id+"','"+
+                    pArgumentacion._aportes[i]._tipoAporte._nombre+"','"+
+                    pArgumentacion._aportes[i]._contenido+"','"+
+                    pArgumentacion._nombre+
+                "')"
+            );
+            mapaArgumentacion.appendChild(areas[areas.length-1]);
+        }
+
+        contexto.lineWidth = 3;
+        contexto.fillStyle = colorBlancoFondo;
+        contexto.beginPath();
+
+        contexto.moveTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y + altoRenglon + 2);
+        contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y + altoRenglon + 2);
+        contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto - pArgumentacion._aportes[i]._datoGrafico._curva);
+        contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa - pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
+        contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa + pArgumentacion._aportes[i]._datoGrafico._curva, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto);
+        contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto, pArgumentacion._aportes[i]._datoGrafico._x - solapa, pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto - pArgumentacion._aportes[i]._datoGrafico._curva);
+        contexto.closePath();
+        contexto.stroke();
+        contexto.fill();
+
+        contexto.fillStyle = colorBlancoFondo;
         contexto.lineWidth = 1;
         rotuloAporte = pArgumentacion._aportes[i]._ordinalCronologia+'. '+pArgumentacion._aportes[i]._tipoAporte._nombre+' - '+pArgumentacion._aportes[i]._nombreUsuario;
         contexto.fillText(rotuloAporte, pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho / 2, pArgumentacion._aportes[i]._datoGrafico._y + sangria, pArgumentacion._aportes[i]._datoGrafico._ancho-8);
 
-        contexto.strokeStyle = "#63666A";
+        contexto.strokeStyle = colorGrisOscuro;
         contexto.lineWidth = 2;
 
         p = 1;
@@ -507,7 +316,7 @@ function dibujarArgumentacion(pCanvasId,pArgumentacionJson) {
             case 0: {
                 if (pArgumentacion._aportes[i]._aportePredecesor !== undefined) {
                     contexto.beginPath();
-                    contexto.moveTo(pArgumentacion._aportes[j]._datoGrafico._x + pArgumentacion._aportes[j]._datoGrafico._ancho / 2 , pArgumentacion._aportes[j]._datoGrafico._y + pArgumentacion._aportes[j]._datoGrafico._alto + solapa );
+                    contexto.moveTo(pArgumentacion._aportes[j]._datoGrafico._x + pArgumentacion._aportes[j]._datoGrafico._ancho / 2 , pArgumentacion._aportes[j]._datoGrafico._y + pArgumentacion._aportes[j]._datoGrafico._alto );
                     contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho / 2 , pArgumentacion._aportes[i]._datoGrafico._y );
                     contexto.stroke();
                 }
@@ -522,12 +331,8 @@ function dibujarArgumentacion(pCanvasId,pArgumentacionJson) {
                 contexto.moveTo(pArgumentacion._aportes[j]._datoGrafico._x - solapa , pArgumentacion._aportes[j]._datoGrafico._y + 2 * pArgumentacion._aportes[j]._datoGrafico._alto / 3 );
                 contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x - p * solapa , pArgumentacion._aportes[j]._datoGrafico._y + 2 * pArgumentacion._aportes[j]._datoGrafico._alto / 3 );
                 contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x - (p + q) * solapa ,pArgumentacion._aportes[j]._datoGrafico._y + 2 * pArgumentacion._aportes[j]._datoGrafico._alto / 3 , pArgumentacion._aportes[i]._datoGrafico._x - (p + q) * solapa , pArgumentacion._aportes[j]._datoGrafico._y + 2 * pArgumentacion._aportes[j]._datoGrafico._alto / 3 + solapa );
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x - (p + q) * solapa , pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto / 3 - solapa );
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x - (p + q) * solapa , pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto / 3 , pArgumentacion._aportes[i]._datoGrafico._x - p * solapa , pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto / 3 );
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x - solapa ,pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto / 3 );
-                if (pArgumentacion._aportes[i]._tipoAporte._id  > 1) {
-                    contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x ,pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto / 3 );
-                }
+                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x - (p + q) * solapa , pArgumentacion._aportes[i]._datoGrafico._y + altoRenglon - solapa );
+                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x - (p + q) * solapa , pArgumentacion._aportes[i]._datoGrafico._y + altoRenglon , pArgumentacion._aportes[i]._datoGrafico._x - p * solapa , pArgumentacion._aportes[i]._datoGrafico._y + altoRenglon );
                 contexto.stroke();
                 break;
             }
@@ -539,19 +344,18 @@ function dibujarArgumentacion(pCanvasId,pArgumentacionJson) {
                 contexto.beginPath();
                 contexto.moveTo(pArgumentacion._aportes[j]._datoGrafico._x + pArgumentacion._aportes[j]._datoGrafico._ancho + solapa , pArgumentacion._aportes[j]._datoGrafico._y + 2 * pArgumentacion._aportes[j]._datoGrafico._alto / 3 );
                 contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + p * solapa , pArgumentacion._aportes[j]._datoGrafico._y + 2 * pArgumentacion._aportes[j]._datoGrafico._alto / 3 );
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + (p + q) * solapa ,pArgumentacion._aportes[j]._datoGrafico._y + 2 * pArgumentacion._aportes[j]._datoGrafico._alto / 3 , pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + (p + q) * solapa , pArgumentacion._aportes[j]._datoGrafico._y + 2* pArgumentacion._aportes[j]._datoGrafico._alto / 3 + solapa );
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + (p + q) * solapa , pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto / 3 - solapa );
-                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + (p + q) * solapa , pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto / 3 , pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + p * solapa , pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto / 3 );
-                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + solapa ,pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto / 3 );
-                if (pArgumentacion._aportes[i]._tipoAporte._id  > 2) {
-                    contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho ,pArgumentacion._aportes[i]._datoGrafico._y + pArgumentacion._aportes[i]._datoGrafico._alto / 3 );
-                }
+                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + (p + q) * solapa ,pArgumentacion._aportes[j]._datoGrafico._y + 2 * pArgumentacion._aportes[j]._datoGrafico._alto / 3 , pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + (p + q) * solapa , pArgumentacion._aportes[j]._datoGrafico._y + 2 * pArgumentacion._aportes[j]._datoGrafico._alto / 3 + solapa );
+                contexto.lineTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + (p + q) * solapa , pArgumentacion._aportes[i]._datoGrafico._y + altoRenglon - solapa );
+                contexto.quadraticCurveTo(pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + (p + q) * solapa , pArgumentacion._aportes[i]._datoGrafico._y + altoRenglon , pArgumentacion._aportes[i]._datoGrafico._x + pArgumentacion._aportes[i]._datoGrafico._ancho + p * solapa , pArgumentacion._aportes[i]._datoGrafico._y + altoRenglon );
                 contexto.stroke();
                 break;
             }
         }
 
-        contexto.fillStyle = "#000000";
+        /*
+        Trazado de mensaje de cada caja de aporte en la argumentación
+         */
+        contexto.fillStyle = colorTextoNormal;
         texto = pArgumentacion._aportes[i]._contenido;
         if (pArgumentacion._aportes[i]._datoGrafico._lineas>1) {
             r = 0;
@@ -574,4 +378,26 @@ function dibujarArgumentacion(pCanvasId,pArgumentacionJson) {
         }
     }
 
+    /*
+    Recortado de áreas sobrantes del redibujado
+     */
+    document.getElementById("imgArgumentacion").style.height = altoCanvas+"px";
+    var imagenDefinitiva = contexto.getImageData(0, 0, anchoCanvas, altoCanvas);
+    var canvasRecortado = document.createElement('canvas');
+    canvasRecortado.width = anchoCanvas;
+    canvasRecortado.height = altoCanvas;
+    var contextoRecortado = canvasRecortado.getContext('2d');
+    contextoRecortado.putImageData(imagenDefinitiva, 0, 0);
+
+    /*
+    Copiado del canvas definitivo
+     */
+    document.getElementById("imgArgumentacion").src = canvasRecortado.toDataURL();
+
+    /*
+    Posicionamiento del scroll
+     */
+    if (yCentro + margen > divPresentacionArgumentacion.offsetHeight) {
+        divPresentacionArgumentacion.scrollTop = yCentro + margen - divPresentacionArgumentacion.offsetHeight;
+    }
 }

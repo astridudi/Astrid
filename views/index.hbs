@@ -1,10 +1,10 @@
-<div class='navbar'>
-    <h3>
-        {{#if nombreUsuario}}
-            <a href='/main/consultarConjuntoInstituciones?nombreUsuario={{nombreUsuario}}'>Instituciones</a> |
-            <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
-        {{else}}
-            <a href='/main/ingresar'>Ingreso</a> |
-        {{/if}}
-    </h3>
+<div id="divPresentacionInicial" class="divFondo">
+    <img id="imgPresentacionInicial" src="/images/imgFondo.png" style="width: 100%; background-size: cover">
+    <img id="imgBtnIngresar" class="w3-button w3-round imgBtnEncabezado" src="/images/imgIngresar.png" usemap="#mapBtnIngresar" style="display: " >
+    <map id="mapBtnIngresar" name="mapBtnIngresar"></map>
 </div>
+
+<script src="../javascripts/funcionesVistaIndex.js"></script>
+<script src="../javascripts/inicializacionVistaIndex.js"></script>
+<script type="text/javascript">inicializacionVistaIndex();</script>
+

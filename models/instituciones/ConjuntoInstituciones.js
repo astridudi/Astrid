@@ -15,4 +15,8 @@ module.exports = class ConjuntoInstituciones {
         let i = this._arreglo.length;
         this._arreglo[i] = pInstitucion;
     }
+    get institucionesJson() {
+        let rInstitucionesJson = JSON.stringify(this);
+        return rInstitucionesJson;
+    }
 }

@@ -66,4 +66,8 @@ module.exports = class Sesion {
         rValidez = (1*this._nombre.length>0);
         return rValidez;
     }
+    get sesionJson() {
+        let rSesionJson = JSON.stringify(this, ['_id', '_nombre', '_diagrama', '_tipoDiagrama']);
+        return rSesionJson;
+    }
 }
