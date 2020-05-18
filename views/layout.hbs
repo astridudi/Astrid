@@ -1,116 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Astrid 1.0 (Versión beta)</title>
-    <link rel="icon" href="/images/Icono_Astrid.png" type="image/png"/>
+    <link rel="icon"   href="/images/Icono_Astrid.png" type="image/png" />
+    <title>Astrid 1.0 (Versión alfa)</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
 <header>
-    <div style="display: none">
-        <b id="lblAplicacion" class="bEncabezado">Astrid 1.0</b>
-        <b id="urlServidor" style="display: none"></b>
-        <b id="alerta" ></b>
-        <b id="banderaReserva" ></b>
-    </div>
-    <div id="divEncabezado" class="divEncabezado">
-        <table class="tblEncabezado">
-            <tr>
-                <th>
-                    <div id="divAplicacion" style="display: flex; flex-direction: row;" align="left">
-                        <img id="imgBtnInicio" class="w3-button w3-round imgBtnEncabezado" src="/images/imgLogo.png" usemap="#mapBtnInicio" title="Astrid 1.0">
-                        <map id="mapBtnInicio" name="mapBtnInicio"></map>
-                        <b id="lblUbicacion" class="bEncabezado"></b>
-                    </div>
-                </th>
-                <th>
-                    <div id="divNavegacion" style="display: flex; flex-direction: row-reverse;">
-                        <img id="imgBtnSalir" class="w3-button w3-round imgBtnEncabezado" src="/images/imgSalir.png" usemap="#mapBtnSalir" title="Salir">
-                        <img id="imgBtnCreditos" class="w3-button w3-round imgBtnEncabezado" src="/images/imgLogo.png" usemap="#mapBtnCreditos" title="Créditos">
-                        <img id="imgBtnEstadisticas" class="w3-button w3-round imgBtnEncabezado" src="/images/imgLogo.png" usemap="#mapBtnEstadisticas" title="Estadísticas">
-                        <img id="imgBtnSesiones" class="w3-button w3-round imgBtnEncabezado" src="/images/imgSesiones.png" usemap="#mapBtnSesiones" title="Sesiones">
-                        <img id="imgBtnInstituciones" class="w3-button w3-round imgBtnEncabezado" src="/images/imgInstituciones.png" usemap="#mapBtnInstituciones" title="Instituciones">
-                        <img id="imgBtnIngresar" class="w3-button w3-round imgBtnEncabezado" src="/images/imgIngresar.png" usemap="#mapBtnIngresar" >
-                        <div id="divSeparadorUsuario" style="width: 20px"></div>
-                        <b id="lblUsuario" class="bEncabezado"></b>
-                        <map id="mapBtnSalir" name="mapBtnSalir"></map>
-                        <map id="mapBtnCreditos" name="mapBtnCreditos"></map>
-                        <map id="mapBtnEstadisticas" name="mapBtnEstadisticas"></map>
-                        <map id="mapBtnSesiones" name="mapBtnSesiones"></map>
-                        <map id="mapBtnInstituciones" name="mapBtnInstituciones"></map>
-                        <map id="mapBtnIngresar" name="mapBtnIngresar"></map>
-                    </div>
-                </th>
-            </tr>
-        </table>
-    </div>
-    <div id="divSeparadorEncabezado" class="divSeparadorEncabezado"></div>
-    <div id="divSesion" class="divSesion" align="left">
-        <table class="tblSesion">
-            <tr>
-                <th id="thSangriaIzquierda" class="tblSangriaIzquierda w3-round">
-                    <img id="imgBtnNada2" class="w3-button w3-round imgBtnEncabezado" src="/images/imgNada.png" style="display: inline-block">
-                </th>
-                <th id="thPlanteamiento" class="tblSesion w3-round">
-                    <img id="imgBtnPlanteamiento" class="w3-button w3-round imgBtnEncabezado" src="/images/imgPlanteamiento.png" usemap="#mapBtnPlanteamiento" style="display: inline-block" title="Planteamiento">
-                    <map id="mapBtnPlanteamiento" name="mapBtnPlanteamiento"></map>
-                    <a id="lblPlanteamiento" class="lblSesion">Planteamiento</a>
-                </th>
-                <th id="thChat" class="tblSesion w3-round">
-                    <img id="imgBtnChat" class="w3-button w3-round imgBtnEncabezado" src="/images/imgChat.png" usemap="#mapBtnChat" style="display: inline-block" title="Chat">
-                    <map id="mapBtnChat" name="mapBtnChat"></map>
-                    <a id="lblChat" class="lblSesion">Chat</a>
-                </th>
-                <th id="thDiagrama" class="tblSesion w3-round">
-                    <img id="imgBtnDiagrama" class="w3-button w3-round imgBtnEncabezado" src="/images/imgDiagrama.png" usemap="#mapBtnDiagrama" style="display: inline-block" title="Diagrama">
-                    <map id="mapBtnDiagrama" name="mapBtnDiagrama"></map>
-                    <a id="lblDiagrama" class="lblSesion">Diagrama</a>
-                </th>
-                <th id="thArgumentacion" class="tblSesion w3-round">
-                    <img id="imgBtnArgumentacion" class="w3-button w3-round imgBtnEncabezado" src="/images/imgArgumentacion.png" usemap="#mapBtnArgumentacion" style="display: inline-block" title="Argumentacion">
-                    <map id="mapBtnArgumentacion" name="mapBtnArgumentacion"></map>
-                    <a id="lblArgumentacion" class="lblSesion">Argumentación</a>
-                </th>
-                <th id="thSeparacion" class="tblSeparacion w3-round"></th>
-                <th id="thSangriaDerecha" class="tblSangriaDerecha w3-round">
-                    <img id="btnDesplegarCaptura" class="w3-button w3-round imgBtnEncabezado" src="/images/imgDesplegar.png" usemap="#mapBtnDesplegarCaptura" style="display: inline-block" title="Desplegar opciones">
-                    <map id="mapBtnBtnDesplegarCaptura" name="mapBtnDesplegarCaptura"></map>
-                    <label id="lblSangriaDerecha" class="lblSesionResaltado" style="display: none"></label>
-                </th>
-            </tr>
-        </table>
-    </div>
-    <div id="divListado" class="divSesion" align="left">
-        <table class="tblSesion">
-            <tr>
-                <th id="thSangriaIzquierdaListado" class="tblSangriaIzquierda w3-round">
-                    <img id="imgBtnNada" class="w3-button w3-round imgBtnEncabezado" src="/images/imgNada.png" style="display: inline-block">
-                </th>
-                <th id="thSeparacionListado" class="tblSeparacion w3-round"></th>
-                <th id="thSangriaDerechaListado" class="tblSangriaDerecha w3-round">
-                    <b><button id="btnDesplegarCapturaListado" class="w3-button w3-round">+</button></b>
-                </th>
-            </tr>
-        </table>
-    </div>
-    <!--
-    Cargue de scripts que se requieren en varias vistas de la aplicación
-    -->
-    <script src="../javascripts/extraccionCadenaJson.js"></script>
-    <script
-            src="https://code.jquery.com/jquery-3.4.1.js"
-            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-            crossorigin="anonymous"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <!--
-    Cargue de scripts de inicialización de la vista Layout
-    -->
-    <script src="../javascripts/funcionesVistaLayout.js"></script>
-    <script src="../javascripts/inicializacionVistaLayout.js"></script>
-    <script type="text/javascript">inicializacionVistaLayout();</script>
+    <a href="/">
+    <img src="/images/Logo_Astrid.png" alt="Astrid 1.0 (Versión alfa)" height="100px">
+    </a>
+    <hr class="verdeAstrid3">
 </header>
 {{{body}}}
 </body>
-
+<hr class="naranjaAstrid2">
 </html>

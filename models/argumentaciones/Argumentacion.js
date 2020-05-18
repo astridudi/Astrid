@@ -10,7 +10,8 @@ module.exports = class Argumentacion {
             this._inicio = inicio;
         }
         this._aportes = [];
-        this._conjuntoTiposAporte = new ConjuntoTiposAporte();
+        this._tiposAporte = new ConjuntoTiposAporte();
+        this._tiposAporte.argumentacion = this;
         this._objeto = require ('../diagramas/Objeto');
     }
     set id(pId) {
@@ -40,8 +41,8 @@ module.exports = class Argumentacion {
     get aportes() {
         return this._aportes;
     }
-    get conjuntoTiposAporte() {
-        return this._conjuntoTiposAporte;
+    get tiposAporte() {
+        return this._tiposAporte;
     }
     get total() {
         return 1*this._aportes.length;
@@ -57,26 +58,16 @@ module.exports = class Argumentacion {
         rValidez = (1*this._nombre.length>0);
         return rValidez;
     }
-    get argumentacionJson() {
-        let rArgumentacionJson = JSON.stringify(this, ['_id', '_nombre', '_conjuntoTiposAporte', '_tiposAporte', '_tipoAporteInicio', '_idTiposSucesores', '_aportes', '_ordinalEstructura', '_ordinalCronologia', '_contenido', '_tipoAporte', '_nombreUsuario', '_datoGrafico', '_areasEnlace', '_aportePredecesor']);
-        return rArgumentacionJson;
-    }
-    ordinal(pTiempo) {
-        let i = 0;
-        let rOrdinal = 0;
-        while (i<this.total) {
-            if (this._aportes[i].tiempo <= pTiempo) {
-                rOrdinal++;
-            }
-            i++;
-        }
-        return rOrdinal;
-    }
     incluirAporte(pAporte) {
         let i = this._aportes.length;
         this._aportes[i] = pAporte;
-        this._aportes[i]._ordinalEstructura = i+1;
-        this._aportes[i]._ordinalCronologia = i+1;
+    }
+    ordenar() {
+        let argumentacionOrdenada = new Argumentacion(this._id, this._nombre, this._inicio);
+        if (this.total>0) {
+            argumentacionOrdenada.incluirAporte(this._aportes[0]);
+
+        }
     }
     aporte(pAporteId) {
         let i = 0;
@@ -97,7 +88,6 @@ module.exports = class Argumentacion {
         return (i<this.total);
     }
     ordenar() {
-        let i = 0;
         if (this.total>1) {
             let argumentacionOrdenada = new Argumentacion(this._id, this._nombre, this._inicio);
             let aporteReferencia = undefined;
@@ -117,9 +107,6 @@ module.exports = class Argumentacion {
                 aporteReferencia = aporteReferencia.siguiente;
             }
             this._aportes = argumentacionOrdenada._aportes;
-            for (i=0; i<this.total; i++) {
-                this._aportes[i]._ordinalCronologia = this.ordinal(this._aportes[i]._tiempo);
-            }
         }
     }
 }

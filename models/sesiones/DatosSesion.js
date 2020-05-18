@@ -20,9 +20,7 @@ module.exports = class DatosSesion extends Conexion {
             try {
                 this._firebase.firestore().collection(this._coleccionSesiones).add({
                     nombre: pSesion.nombre,
-                    inicio: pSesion.inicio,
-                    idTipoDiagrama: nDiagrama.tipoDiagrama.id,
-                    nombreTipoDiagrama: nDiagrama.tipoDiagrama.nombre
+                    inicio: pSesion.inicio
                 }).then(ref => {
                     pSesion.id = ref.id;
                     nChat.sesion = pSesion;
@@ -63,8 +61,6 @@ module.exports = class DatosSesion extends Conexion {
                         documentSnapshot.id,
                         documentSnapshot.data().nombre,
                         documentSnapshot.data().inicio);
-                    rSesion.idTipoDiagrama = documentSnapshot.data().idTipoDiagrama;
-                    rSesion.nombreTipoDiagrama = documentSnapshot.data().nombreTipoDiagrama;
                 };
             })
             .catch(err => {

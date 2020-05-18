@@ -33,10 +33,6 @@ module.exports = class TipoRelacion {
     get tipoRolFinal() {
         return this._tipoRolFinal;
     }
-    get tiposPropiedadJson() {
-        let rTiposPropiedadJson = JSON.stringify(this._tiposPropiedad);
-        return rTiposPropiedadJson;
-    }
     incluirTipoPropiedad(pTipoPropiedad) {
         let i = this._tiposPropiedad.length;
         this._tiposPropiedad[i] = pTipoPropiedad;

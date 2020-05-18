@@ -7,8 +7,7 @@ const TipoPuerto = require('../diagramas/TipoPuerto');
 
 module.exports = class DiagramaArbolProblemas extends TipoDiagrama {
     constructor() {
-        super(11,'Arbol de problemas');
-        super.scriptDibujo = 'dibujarArbolProblemas.js';
+        super(1,'Arbol de problemas');
         let objetoProblema = new TipoObjeto(0,'Problema',true);
         let objetoCausa = new TipoObjeto(1,'Causa',true);
         let objetoEfecto = new TipoObjeto(2,'Efecto',true);

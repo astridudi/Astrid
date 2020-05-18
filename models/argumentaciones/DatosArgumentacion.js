@@ -9,18 +9,13 @@ module.exports = class Datos extends Conexion {
         this._coleccionArgumentaciones = 'argumentaciones';
         this._coleccionAportes = 'aportes';
     }
-    async grabarArgumentacion(pArgumentacion,pContenidoInicial,pNombreUsuarioInicial) {
+    async grabarArgumentacion(pArgumentacion) {
         if (pArgumentacion.validez) {
-            var nAporte = new Aporte('','0',pContenidoInicial,'',pNombreUsuarioInicial);
             try {
                 this._firebase.firestore().collection(this._coleccionArgumentaciones).add({
                     objetoId: pArgumentacion.objeto.id,
                     nombre: pArgumentacion.nombre,
                     inicio: pArgumentacion.inicio
-                }).then(ref => {
-                    pArgumentacion.id = ref.id;
-                    nAporte.argumentacion = pArgumentacion;
-                    this.grabarAporte(pArgumentacion.id,'',nAporte);
                 });
             } catch (e) {
                 console.log(e.message);
@@ -35,8 +30,7 @@ module.exports = class Datos extends Conexion {
                     aportePredecesorId : pAportePredecesorId,
                     tipoAporteId: pAporte.tipoAporte.id,
                     contenido: pAporte.contenido,
-                    tiempo: pAporte.tiempo,
-                    nombreUsuario: pAporte.nombreUsuario
+                    tiempo: pAporte.tiempo
                 });
             } catch (e) {
                 console.log(e.message);
@@ -84,8 +78,7 @@ module.exports = class Datos extends Conexion {
                         document.id,
                         document.data().tipoAporteId,
                         document.data().contenido,
-                        document.data().tiempo,
-                        document.data().nombreUsuario);
+                        document.data().tiempo);
                     tAporte.argumentacion = rArgumentacion;
                     tAporte.aportePredecesor = rArgumentacion.aporte(document.data().aportePredecesorId);
                     rArgumentacion.incluirAporte(tAporte);
@@ -120,8 +113,7 @@ module.exports = class Datos extends Conexion {
                         document.id,
                         document.data().tipoAporteId,
                         document.data().contenido,
-                        document.data().tiempo,
-                        document.data().nombreUsuario);
+                        document.data().tiempo);
                     tAporte.argumentacion = rArgumentacion;
                     tAporte.aportePredecesor = rArgumentacion.aporte(document.data().aportePredecesorId);
                     rArgumentacion.incluirAporte(tAporte);

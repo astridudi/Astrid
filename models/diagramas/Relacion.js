@@ -1,7 +1,7 @@
 const Diagrama = require('./Diagrama');
 
 module.exports = class Relacion {
-    constructor(id,tipoDiagramaId,tipoRelacionId,tiempo,nombreUsuario) {
+    constructor(id,tipoDiagramaId,tipoRelacionId,tiempo) {
         this._id = id;
         this._diagrama = new Diagrama('',tipoDiagramaId,'','');
         if (tipoRelacionId.toString().length>0) {
@@ -9,17 +9,14 @@ module.exports = class Relacion {
         } else {
             this._tipoRelacion = undefined;
         }
-        this._objetoInicial = undefined;
-        this._numeroPuertoObjetoInicial = undefined;
+        this._objetoInicio = undefined;
         this._objetoFinal = undefined;
-        this._numeroPuertoObjetoFinal = undefined;
         this._valoresPropiedades = [];
         if (tiempo.length==0){
             this._tiempo = new Date();
         } else {
             this._tiempo = tiempo;
         }
-        this._nombreUsuario = nombreUsuario;
         this._contador = 0;
     }
     set id(pId) {
@@ -31,26 +28,17 @@ module.exports = class Relacion {
     set tipoRelacion(pTipoRelacion) {
         this._tipoRelacion = pTipoRelacion;
     }
-    set objetoInicial(pObjetoInicial) {
-        this._objetoInicial = pObjetoInicial;
-    }
-    set numeroPuertoObjetoInicial(pNumeroPuertoObjetoInicial) {
-        this._numeroPuertoObjetoInicial = pNumeroPuertoObjetoInicial;
+    set objetoInicio(pObjetoInicio) {
+        this._objetoInicio = pObjetoInicio;
     }
     set objetoFinal(pObjetoFinal) {
         this._objetoFinal = pObjetoFinal;
-    }
-    set numeroPuertoObjetoFinal(pNumeroPuertoObjetoFinal) {
-        this._numeroPuertoObjetoFinal = pNumeroPuertoObjetoFinal;
     }
     set valoresPropiedades(pValoresPropiedades) {
         this._valoresPropiedades = pValoresPropiedades;
     }
     set tiempo(pTiempo) {
         this._tiempo = pTiempo;
-    }
-    set nombreUsuario(pNombreUsuario) {
-        this._nombreUsuario = pNombreUsuario;
     }
     get id() {
         return this._id;
@@ -61,17 +49,11 @@ module.exports = class Relacion {
     get tipoRelacion() {
         return this._tipoRelacion;
     }
-    get objetoInicial() {
-        return this._objetoInicial;
-    }
-    get numeroPuertoObjetoInicial() {
-        return this._numeroPuertoObjetoInicial;
+    get objetoInicio() {
+        return this._objetoInicio;
     }
     get objetoFinal() {
         return this._objetoFinal;
-    }
-    get numeroPuertoObjetoFinal() {
-        return this._numeroPuertoObjetoFinal;
     }
     get valoresPropiedades() {
         return this._valoresPropiedades;
@@ -79,16 +61,13 @@ module.exports = class Relacion {
     get tiempo() {
         return this._tiempo;
     }
-    get nombreUsuario() {
-        return this._nombreUsuario;
-    }
     get validez() {
         return true;
     }
     get cadenaPropiedades() {
         let i = 0;
         let rCadenaPropiedades = '';
-        rCadenaPropiedades = rCadenaPropiedades+this._objetoInicial.cadenaPropiedades+' - '+this._objetoFinal.cadenaPropiedades;
+        rCadenaPropiedades = rCadenaPropiedades+this._objetoInicio.cadenaPropiedades+' - '+this._objetoFinal.cadenaPropiedades;
         for (i=0; i<this._tipoRelacion._tiposPropiedad.length; i++) {
             rCadenaPropiedades = rCadenaPropiedades+' - ';
             rCadenaPropiedades = rCadenaPropiedades+this._tipoRelacion._tiposPropiedad[i]._nombre+': '+this._valoresPropiedades[i];

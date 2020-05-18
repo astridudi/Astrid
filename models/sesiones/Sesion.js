@@ -9,9 +9,6 @@ module.exports = class Sesion {
         }
         this._chat = require('../chats/Chat');
         this._diagrama = require('../diagramas/Diagrama');
-        this._idTipoDiagrama = '';
-        this._nombreTipoDiagrama = '';
-        this._nombreUsuario = '';
     }
     set id(pId) {
         this._id = pId;
@@ -28,15 +25,6 @@ module.exports = class Sesion {
     set diagrama(pDiagrama) {
         this._diagrama = pDiagrama;
     }
-    set idTipoDiagrama(pIdTipoDiagrama) {
-        this._idTipoDiagrama = pIdTipoDiagrama;
-    }
-    set nombreTipoDiagrama(pNombreTipoDiagrama) {
-        this._nombreTipoDiagrama = pNombreTipoDiagrama;
-    }
-    set nombreUsuario(pNombreUsuario) {
-        this._nombreUsuario = pNombreUsuario;
-    }
     get id() {
         return this._id;
     }
@@ -52,22 +40,9 @@ module.exports = class Sesion {
     get diagrama() {
         return this._diagrama;
     }
-    get idTipoDiagrama() {
-        return this._idTipoDiagrama;
-    }
-    get nombreTipoDiagrama() {
-        return this._nombreTipoDiagrama;
-    }
-    get nombreUsuario() {
-        return this._nombreUsuario;
-    }
     get validez() {
         var rValidez;
         rValidez = (1*this._nombre.length>0);
         return rValidez;
-    }
-    get sesionJson() {
-        let rSesionJson = JSON.stringify(this, ['_id', '_nombre', '_diagrama', '_tipoDiagrama']);
-        return rSesionJson;
     }
 }

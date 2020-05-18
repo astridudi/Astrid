@@ -1,7 +1,3 @@
-var app = require('express')();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -12,7 +8,8 @@ const indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const hbs = require('hbs');
 const main = require('./routes/main');
-const events = require('./models/Emitter');
+
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -43,57 +40,6 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
-});
-
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/views/index');
-//  res.render('index');
-});
-
-events.on("confirmacionMensaje", (data)=>{
-  io.to("room"+data.sesion).emit("actualizacionChat", (data));
-  io.to("room"+data.sesion).emit("atencion", (data.mensaje));
-})
-events.on("confirmacionElemento", (data)=>{
-  io.to("room"+data.sesion).emit("actualizacionDiagrama", (data));
-  io.to("room"+data.sesion).emit("atencion", (data.mensaje));
-})
-events.on("confirmacionAporte", (data)=>{
-  io.to("room"+data.sesion).emit("actualizacionArgumentacion", (data));
-  io.to("room"+data.sesion).emit("atencion", (data.mensaje));
-})
-
-server.listen(3000);
-io.on('connection', function (socket) {
-  socket.on("ingresoEquipo", (data)=>{
-    socket.join("room"+data.sesion);
-    io.to("room"+data.sesion).emit("ubicacion",data);
-    console.log("Evento: "+data.msg);
-  });
-  socket.on("respuestaUbicacion", (data)=>{
-    io.to("room"+data.sesion).emit("confirmacionUbicacion",data);
-  });
-  socket.on("notificacionEquipo", (data)=>{
-    io.to("room"+data.sesion).emit("atencion",data.msg);
-    console.log("Evento: "+data.msg)
-  });
-  socket.on("reunionEquipo", (data)=>{
-    io.to("room"+data.sesion).emit("atencion",data.msg);
-    io.to("room"+data.sesion).emit("reunion",data.msg);
-    console.log("Evento: "+data.msg)
-  });
-  socket.on("reserva", (data)=>{
-    io.to("room"+data.sesion).emit("reserva",data);
-    console.log("Reserva: "+data.msg)
-  });
-  socket.on("reservaAnterior", (data)=>{
-    io.to("room"+data.sesion).emit("reservaAnterior",data);
-    console.log("Reserva anterior: "+data.msg)
-  });
-  socket.on("levantamientoReserva", (data)=>{
-    io.to("room"+data.sesion).emit("levantamientoReserva",data);
-    console.log("Reserva: "+data.msg)
-  });
 });
 
 module.exports = app;
