@@ -67,8 +67,11 @@ server.listen(3000);
 io.on('connection', function (socket) {
   socket.on("ingresoEquipo", (data)=>{
     socket.join("room"+data.sesion);
-    io.to("room"+data.sesion).emit("atencion",data.msg);
+    io.to("room"+data.sesion).emit("ubicacion",data);
     console.log("Evento: "+data.msg);
+  });
+  socket.on("respuestaUbicacion", (data)=>{
+    io.to("room"+data.sesion).emit("confirmacionUbicacion",data);
   });
   socket.on("notificacionEquipo", (data)=>{
     io.to("room"+data.sesion).emit("atencion",data.msg);

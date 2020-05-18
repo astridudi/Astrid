@@ -13,7 +13,6 @@ function inicializacionVistaChat(pSesionJson) {
         document.getElementById("imgBtnInstituciones").style.display = "inline-block";
         document.getElementById("imgBtnSesiones").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";
-        ubicarUsuario(urlParametros.get("nombreUsuario"),"Chat");
         /*
         Inicialización de la altura máxima de dibujo
          */

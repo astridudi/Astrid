@@ -103,10 +103,14 @@ Inicialización sección de mensajería
             socket.emit('respuestaUbicacion', {sesion:'{{sesion.id}}', seccion:'Argumentacion', usuario:'{{nombreUsuario}}'});
         });
         socket.on('confirmacionUbicacion', function (data) {
-            ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
+            if (data.usuario != '{{nombreUsuario}}') {
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
+            }
         });
         socket.on('confirmacionAccion', function (data) {
-            ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
+            if (data.usuario != '{{nombreUsuario}}') {
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion, true);
+            }
         });
         socket.on('reunion', function (data) {
             alert(data);

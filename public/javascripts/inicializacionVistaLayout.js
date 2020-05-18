@@ -103,9 +103,6 @@ function inicializacionVistaLayout() {
             document.getElementById("mapBtnArgumentacion").appendChild(areaBtnArgumentacion);
             document.getElementById("lblArgumentacion").href = "#";
             /*
-            Botón para ubicación del usuario
-             */
-            ubicarUsuario(urlParametros.get("nombreUsuario"),urlParametros.get("nombreUsuario"));
         }
     }
 }
