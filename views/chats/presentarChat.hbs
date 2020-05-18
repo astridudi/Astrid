@@ -1,24 +1,126 @@
-{{#if sesion}}
-    <h3>
-        <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
-        {{sesion.nombre}} |
-        <a href='/main/presentarSesion?id={{sesion.id}}'>Planteamiento</a> |
-        Chat |
-        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}'>Diagrama</a> |
-    </h3>
-    {{#if sesion.chat}}
-        <div align="center" style="background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
-            <img id="imagen" src="{{sesion.chat.dibujar}}" width="1000" height="2000" usemap="#mapa" />
-            <map name="mapa">
-                {{#each sesion.chat.arregla}}
-                    {{#each areasEnlace}}
-                        <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/" />
-                    {{/each}}
-                {{/each}}
-            </map>
+<div style="display: flex">
+    <div id="divPresentacionChat" class="divDibujo">
+        <img id="imgChat" class="imgDibujo" usemap="#mapaChat">
+        <map id="mapaChat" name="mapaChat"></map>
+        <canvas id="canvasChat" width="1000" height="2000"></canvas>
+    </div>
+    <div id="divCapturaMensaje" class="divEmergente w3-round">
+        <div id="divFormularioMensaje" class="divFormulario">
+            <form method='POST' action='/main/grabarMensajeChatSesion'>
+                <div id="construirMensaje" style="display: block;">
+                    <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
+                    <input type='hidden' name='idSesion' value={{sesion.id}}>
+                    <input type='hidden' name='id' value={{sesion.chat.id}}>
+                    <input type='hidden' name='mensajeTiempo' value=''/>
+                </div>
+                <div id="grabarMensaje" style="display: block;">
+                    <p>
+                        <b><label class="lblCaptura" >Mensaje:</label></b>
+                        <textarea id="mensajeContenido" class="w3-input w3-round" type="text" name="mensajeContenido" style="resize: none" onchange="continuacionMensaje()"></textarea>
+                        <br>
+                        <button id="btnEnviarMensaje" type="submit" class="w3-button w3-round btnControl" onclick="emisionMensaje()">Enviar mensaje</button>
+                        <button id="btnDesistirMensaje" type="button" class="w3-button w3-round btnDesistir" onclick="desistimientoMensaje()">Desistir</button>
+                    </p>
+                </div>
+            </form>
         </div>
-        <br>
-        <a href='/main/registrarMensajeChatSesion?idSesion={{sesion.id}}'>Registrar mensaje</a> |
-    {{/if}}
-{{/if}}
+    </div>
+</div>
 
+<!--
+Cargue de scripts de inicialización de la vista Chat
+-->
+<script src="../javascripts/funcionesVistaChat.js"></script>
+<script src="../javascripts/inicializacionVistaChat.js"></script>
+<script type="text/javascript">inicializacionVistaChat('{{sesion.sesionJson}}');</script>
+<script src="../javascripts/dibujarChat.js"></script>
+<script type="text/javascript">dibujarChat("{{sesion.chat.chatJson}}","{{nombreUsuario}}");</script>
+<!--
+Inicialización sección de mensajería
+-->
+<script>
+    let socket;
+    $(document).ready(()=>{
+        socket = io.connect(document.getElementById("urlServidor").innerHTML);
+        socket.on("actualizacionChat", (data)=>{
+            console.log("Evento: "+data);
+            dibujarChat(data.chatRecuperado, "{{nombreUsuario}}");
+            restaurarDimensiones();
+        });
+        socket.on('ubicacion', function (data) {
+            ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
+            socket.emit('respuestaUbicacion', {sesion:'{{sesion.id}}', seccion:'Chat', usuario:'{{nombreUsuario}}'});
+        });
+        socket.on('confirmacionUbicacion', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
+            }
+        });
+        socket.on('confirmacionAccion', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion, true);
+            }
+        });
+        socket.on('reunion', function (data) {
+            alert(data);
+        });
+        socket.on('reserva', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                if (document.getElementById("banderaReserva").innerHTML == "") {
+                    ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
+                    document.getElementById("btnDesplegarCaptura").style.display = "none";
+                } else {
+                    socket.emit("reservaAnterior", {msg:'{{nombreUsuario}} continúa preparando un mensaje en el chat', sesion:'{{sesion.id}}', seccion:'Chat', usuario:'{{nombreUsuario}}'});
+                }
+            } else {
+                document.getElementById("banderaReserva").innerHTML="X";
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
+            }
+        });
+        socket.on('reservaAnterior', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                document.getElementById("btnDesplegarCaptura").style.display = "none";
+                document.getElementById("banderaReserva").innerHTML = "";
+                ubicarUsuario('{{nombreUsuario}}','{{nombreUsuario}}',"Chat");
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
+            }
+        });
+        socket.on('levantamientoReserva', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                document.getElementById("btnDesplegarCaptura").style.display = "inline-block";
+                document.getElementById("banderaReserva").innerHTML="";
+            }
+            ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
+        });
+        socket.on('connection', function (data) {
+            console.log(data);
+        });
+        socket.emit("ingresoEquipo", {msg:'{{nombreUsuario}} ingresó al chat', sesion:'{{sesion.id}}', seccion:'Chat', usuario:'{{nombreUsuario}}'});
+    });
+    function alertaMensaje(){
+        socket.emit("reserva", {msg:'{{nombreUsuario}} prepara un mensaje en el chat', sesion:'{{sesion.id}}', seccion:'Chat', usuario:'{{nombreUsuario}}'});
+    }
+    function continuacionMensaje(){
+        socket.emit("reserva", {msg:'{{nombreUsuario}} continúa preparando un mensaje en el chat', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
+        document.getElementById("btnEnviarMensaje").style.display="inline-block";
+        document.getElementById("btnEnviarMensaje").focus();
+    }
+    function emisionMensaje(){
+        restaurarDimensiones();
+        socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} envió un mensaje en el chat', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
+        document.getElementById("btnEnviarMensaje").style.display="none"
+    }
+    function desistimientoMensaje(){
+        restaurarDimensiones();
+        socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} desistió de enviar un mensaje en el chat', sesion:'{{sesion.id}}', seccion:'Chat', usuario:'{{nombreUsuario}}'});
+        document.getElementById("banderaReserva").innerHTML='';
+    }
+    function llamarReunion() {
+        socket.emit("reunionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en el chat', sesion:'{{sesion.id}}'});
+    }
+    function salir(){
+        if (document.getElementById("banderaReserva").innerHTML=='X') {
+            socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} desistió de la reserva', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
+        }
+    }
+</script>

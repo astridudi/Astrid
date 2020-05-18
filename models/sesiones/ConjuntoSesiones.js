@@ -15,4 +15,8 @@ module.exports = class ConjuntoSesiones {
         let i = this._arreglo.length;
         this._arreglo[i] = pSesion;
     }
+    get sesionesJson() {
+        let rSesionesJson = JSON.stringify(this);
+        return rSesionesJson;
+    }
 }

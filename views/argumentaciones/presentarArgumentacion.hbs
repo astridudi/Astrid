@@ -1,26 +1,169 @@
-{{#if sesion}}
-    <h3>
-        <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
-        {{sesion.nombre}} |
-        <a href='/main/presentarSesion?id={{sesion.id}}'>Planteamiento</a> |
-        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}'>Chat</a> |
-        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}'>Diagrama</a> |
-        Argumentación |
-    </h3>
-    {{#if argumentacion}}
-        <div align="center" style="background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
-            <img id="imagen" src="{{argumentacion.tiposAporte.dibujar}}" width="1000" height="2000" usemap="#mapa" />
-            <map name="mapa">
-                {{#each argumentacion.aportes}}
-                    {{#each areasEnlace}}
-                        <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/main/registrarAporteSesion?idSesion={{../../sesion.id}}&idObjeto={{../../idObjeto}}&aportePredecesorId={{../id}}&aportePredecesorTipo={{../tipoAporte.nombre}}&aportePredecesorContenido={{../contenido}}&aporteTipoId={{tipoSucesor.id}}&aporteTipo={{tipoSucesor.nombre}}" />
-                    {{/each}}
-                {{/each}}
-                {{#if argumentacion.vacio}}
-                    <area shape="rect" coords="0,0,1000,800" href="/main/registrarAporteSesion?idSesion={{sesion.id}}&idObjeto={{idObjeto}}&aportePredecesorId=&aporteTipoId={{argumentacion.tiposAporte.tipoAporteInicio.id}}&aporteTipo={{argumentacion.tiposAporte.tipoAporteInicio.nombre}}" />
-                {{/if}}
-            </map>
+<div style="display: flex">
+    <div id="divPresentacionArgumentacion" class="divDibujo">
+        <img id="imgArgumentacion" class="imgDibujo" usemap="#mapaArgumentacion"/>
+        <map id="mapaArgumentacion" name="mapaArgumentacion"></map>
+        <canvas id="canvasArgumentacion" width="1000" height="2000"></canvas>
+    </div>
+    <div id="divCapturaAporte" class="divEmergente w3-round">
+        <div id="divBtnCapturaAporte">
+            <button id="btnDesistirAporte" class="w3-button w3-round btnDesistir">Desistir</button>
         </div>
-    {{/if}}
-{{/if}}
+        <div id="divFormularioAporte" class="divFormulario">
+            <form id="formGrabarAporteSesion" method='POST' action='/main/grabarAporteSesion'>
+                <input id="id" name='id' type='hidden' value={{argumentacion.id}}>
+                <input id="aportePredecesorId" name='aportePredecesorId' type='hidden' value=''/>
+                <input id="aporteTipoId" name='aporteTipoId' type='hidden' value=''>
+                <input id="aporteTiempo" name='aporteTiempo' type='hidden' value=''/></p>
+                <input name="nombreUsuario" type="hidden" value="{{nombreUsuario}}">
+                <input name='idSesion' type="hidden" value={{sesion.id}}>
+                <input name='idObjeto' type="hidden" value={{idObjeto}}>
+                <div id="divAportePredecesor">
+                    <b><label id="lblAportePredecesorTipo" class="lblCaptura"></label></b><br>
+                    <label id="lblAportePredecesorContenido"></label><br><br>
+                </div>
+                <br>
+                <div id="divBtnAportes">
+                    <table class="tblSesion">
+                        <tr>
+                            <th id="thApoyo" class="tblAporte w3-round">
+                                <img id="imgBtnApoyo" class="w3-button w3-round imgBtnEncabezado" src="/images/imgApoyo.png" usemap="#mapBtnApoyo" title="Apoyar la proposición">
+                                <map id="mapBtnApoyo" name="mapBtnApoyo"></map>
+                                <lbl id="lblApoyo">Apoyo</lbl>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th id="thRefutacion" class="tblAporte w3-round">
+                                <img id="imgBtnRefutacion" class="w3-button w3-round imgBtnEncabezado" src="/images/imgRefutacion.png" usemap="#mapBtnRefutacion" title="Refutar la proposición">
+                                <map id="mapBtnRefutacion" name="mapBtnRefutacion"></map>
+                                <lbl id="lblRefutacion">Refutación</lbl>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th id="thProposicion" class="tblAporte w3-round">
+                                <img id="imgBtnProposicion" class="w3-button w3-round imgBtnEncabezado" src="/images/imgProposicion.png" usemap="#mapBtnProposicion" title="Presentar nueva proposición">
+                                <map id="mapBtnProposicion" name="mapBtnProposicion"></map>
+                                <lbl id="lblProposicion">Proposición</lbl>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th id="thEvidencia" class="tblAporte w3-round">
+                                <img id="imgBtnEvidencia" class="w3-button w3-round imgBtnEncabezado" src="/images/imgEvidencia.png" usemap="#mapBtnEvidencia" title="Aportar evidencia">
+                                <map id="mapBtnEvidencia" name="mapBtnEvidencia"></map>
+                                <lbl id="lblEvidencia">Evidencia</lbl>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th id="thPregunta" class="tblAporte w3-round">
+                                <img id="imgBtnPregunta" class="w3-button w3-round imgBtnEncabezado" src="/images/imgPregunta.png" usemap="#mapBtnPregunta" title="Preguntar">
+                                <map id="mapBtnPregunta" name="mapBtnPregunta"></map>
+                                <lbl id="lblPregunta">Pregunta</lbl>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <br>
+                <div id="divRedactarAporte" style="display: none">
+                    <p>
+                        <b><label id="lblAporteTipo" class="lblCaptura">Contenido:</label></b>
+                        <textarea id="aporteContenido" class="w3-input w3-round" type="text" name="aporteContenido" style="resize: none" onchange="continuacionAporte()"></textarea>
+                    </p>
+                </div>
+                <br>
+                <div id="divGrabarAporte" style="display: none">
+                    <p>
+                        <button id="btnGrabarAporte" class="w3-button w3-round btnControl" type="submit">Grabar aporte</button>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
+<!--
+Cargue de scripts de inicialización de la vista Diagrama
+-->
+<script src="../javascripts/funcionesVistaArgumentacion.js"></script>
+<script src="../javascripts/inicializacionVistaArgumentacion.js"></script>
+<script type="text/javascript">inicializacionVistaArgumentacion('{{sesion.sesionJson}}');</script>
+<script src="../javascripts/dibujarArgumentacion.js"></script>
+<script type="text/javascript">dibujarArgumentacion("{{argumentacion.argumentacionJson}}");</script>
+<!--
+Inicialización sección de mensajería
+-->
+<script>
+    let socket;
+    $(document).ready(()=>{
+        socket = io.connect(document.getElementById("urlServidor").innerHTML);
+        socket.on("actualizacionArgumentacion", (data)=>{
+            console.log("Evento: "+data);
+            dibujarArgumentacion("canvasDibujo", data.argumentacionRecuperada);
+        });
+        socket.on('ubicacion', function (data) {
+            ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
+            socket.emit('respuestaUbicacion', {sesion:'{{sesion.id}}', seccion:'Argumentacion', usuario:'{{nombreUsuario}}'});
+        });
+        socket.on('confirmacionUbicacion', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
+            }
+        });
+        socket.on('confirmacionAccion', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion, true);
+            }
+        });
+        socket.on('reunion', function (data) {
+            alert(data);
+        });
+        socket.on('reserva', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                if (document.getElementById("banderaReserva").innerHTML == "") {
+                } else {
+                    socket.emit("reservaAnterior", {msg:'{{nombreUsuario}} continúa preparando un elemento en el diagrama', sesion:'{{sesion.id}}', seccion:'Argumentacion', usuario:'{{nombreUsuario}}'});
+                }
+            } else {
+                document.getElementById("banderaReserva").innerHTML="X";
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
+            }
+        });
+        socket.on('reservaAnterior', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                document.getElementById("banderaReserva").innerHTML = "";
+                ubicarUsuario('{{nombreUsuario}}','{{nombreUsuario}}',"Argumentacion");
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
+            }
+        });
+        socket.on('levantamientoReserva', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                document.getElementById("btnDesplegarCaptura").style.display = "inline-block";
+                document.getElementById("banderaReserva").innerHTML="";
+            }
+            ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
+        });
+        socket.on('connection', function (data) {
+            console.log(data);
+        });
+        socket.emit("ingresoEquipo", {msg:'{{nombreUsuario}} ingresó a la argumentación {{argumentacion.nombre}}', sesion:'{{sesion.id}}', seccion:'Argumentacion', usuario:'{{nombreUsuario}}'});
+    });
+    function alertaAporte(pNombre){
+        socket.emit("reserva", {msg:'{{nombreUsuario}} prepara un aporte en la argumentación', sesion:'{{sesion.id}}', seccion:'Argumentacion', usuario:'{{nombreUsuario}}'});
+    }
+    function continuacionAporte(){
+        socket.emit("reserva", {msg:'{{nombreUsuario}} continúa preparando un mensaje en el chat', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
+        document.getElementById("btnGrabarAporte").style.display="inline-block";
+        document.getElementById("btnGrabarAporte").focus();
+    }
+    function inclusionAporte(){
+        restaurarDimensiones();
+        document.getElementById("divCapturaAporte").style.display='none';
+        socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} incluyó un nuevo aporte en la argumentación', sesion:'{{sesion.id}}', seccion:'Argumentacion', usuario:'{{nombreUsuario}}'});
+    }
+    function desistimientoAporte(pNombre){
+        restaurarDimensiones();
+        socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} desistió de incluir un aporte en la argumentación', sesion:'{{sesion.id}}', seccion:'Argumentacion', usuario:'{{nombreUsuario}}'});
+        document.getElementById("banderaReserva").innerHTML='';
+    }
+    function llamarReunion() {
+        socket.emit("reunionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en la argumentación {{argumentacion.nombre}}', sesion:'{{sesion.id}}'});
+    }
+</script>

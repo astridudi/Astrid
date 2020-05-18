@@ -30,33 +30,39 @@ module.exports = class Datos extends Conexion {
     async grabarObjeto(pDiagramaId, pObjeto) {
         var datosArgumentacion = new DatosArgumentacion();
         if (pObjeto.validez) {
-            var nArgumentacion = new Argumentacion('',pObjeto.valoresPropiedades,pObjeto.tiempo);
+            var nArgumentacion = new Argumentacion('',pObjeto.tipoObjeto.nombre+': '+pObjeto.valoresPropiedades[0],pObjeto.tiempo);
             try {
                 this._firebase.firestore().collection(this._coleccionObjetos).add({
                     diagramaId: pDiagramaId,
                     tipoObjetoId: pObjeto.tipoObjeto.id,
                     valoresPropiedades: pObjeto.valoresPropiedades,
-                    tiempo: pObjeto.tiempo
+                    tiempo: pObjeto.tiempo,
+                    nombreUsuario: pObjeto.nombreUsuario,
+                    x : pObjeto.datoGrafico.x,
+                    y : pObjeto.datoGrafico.y,
                 }). then(ref => {
                     pObjeto.id = ref.id;
                     nArgumentacion.objeto = pObjeto;
-                    datosArgumentacion.grabarArgumentacion(nArgumentacion);
+                    datosArgumentacion.grabarArgumentacion(nArgumentacion,nArgumentacion.nombre,pObjeto.nombreUsuario);
                 }) ;
             } catch (e) {
                 console.log(e.message);
             }
         }
     }
-    async grabarRelacion(pDiagramaId, pRelacion, pObjetoInicioId, pObjetoFinalId) {
+    async grabarRelacion(pDiagramaId, pRelacion, pObjetoInicialId, pNumeroPuertoObjetoInicial, pObjetoFinalId, pNumeroPuertoObjetoFinal) {
         if (pRelacion.validez) {
             try {
                 this._firebase.firestore().collection(this._coleccionRelaciones).add({
                     diagramaId: pDiagramaId,
                     tipoRelacionId: pRelacion.tipoRelacion.id,
-                    objetoInicioId: pObjetoInicioId,
+                    objetoInicialId: pObjetoInicialId,
+                    numeroPuertoObjetoInicial: pNumeroPuertoObjetoInicial,
                     objetoFinalId: pObjetoFinalId,
+                    numeroPuertoObjetoFinal: pNumeroPuertoObjetoFinal,
                     valoresPropiedades: pRelacion.valoresPropiedades,
-                    tiempo: pRelacion.tiempo
+                    tiempo: pRelacion.tiempo,
+                    nombreUsuario: pRelacion.nombreUsuario
                 });
             } catch (e) {
                 console.log(e.message);
@@ -108,10 +114,13 @@ module.exports = class Datos extends Conexion {
                         document.id,
                         rDiagrama.tipoDiagrama.id,
                         document.data().tipoObjetoId,
-                        document.data().tiempo);
+                        document.data().tiempo,
+                        document.data().nombreUsuario);
                     for (i=0; i<document.data().valoresPropiedades.length; i++) {
                         tObjeto.incluirValorPropiedad(document.data().valoresPropiedades[i])
                     }
+                    tObjeto.datoGrafico.x = parseInt(document.data().x,10);
+                    tObjeto.datoGrafico.y = parseInt(document.data().y,10);
                     tObjeto.diagrama = rDiagrama;
                     rDiagrama.incluirObjeto(tObjeto);
                 });
@@ -127,9 +136,12 @@ module.exports = class Datos extends Conexion {
                         document.id,
                         rDiagrama.tipoDiagrama.id,
                         document.data().tipoRelacionId,
-                        document.data().tiempo);
-                    tRelacion.objetoInicio=rDiagrama.objetoPorId(document.data().objetoInicioId);
+                        document.data().tiempo,
+                        document.data().nombreUsuario);
+                    tRelacion.objetoInicial=rDiagrama.objetoPorId(document.data().objetoInicialId);
+                    tRelacion.numeroPuertoObjetoInicial = parseInt(document.data().numeroPuertoObjetoInicial,10);
                     tRelacion.objetoFinal=rDiagrama.objetoPorId(document.data().objetoFinalId);
+                    tRelacion.numeroPuertoObjetoFinal = parseInt(document.data().numeroPuertoObjetoFinal,10);
                     for (i=0; i<document.data().valoresPropiedades.length; i++) {
                         tRelacion.incluirValorPropiedad(document.data().valoresPropiedades[i])
                     }
@@ -169,10 +181,13 @@ module.exports = class Datos extends Conexion {
                         document.id,
                         rDiagrama.tipoDiagrama.id,
                         document.data().tipoObjetoId,
-                        document.data().tiempo);
+                        document.data().tiempo,
+                        document.data().nombreUsuario);
                     for (i=0; i<document.data().valoresPropiedades.length; i++) {
                         tObjeto.incluirValorPropiedad(document.data().valoresPropiedades[i])
                     }
+                    tObjeto.datoGrafico.x = parseInt(document.data().x,10);
+                    tObjeto.datoGrafico.y = parseInt(document.data().y,10);
                     tObjeto.diagrama = rDiagrama;
                     rDiagrama.incluirObjeto(tObjeto);
                 });
@@ -188,9 +203,12 @@ module.exports = class Datos extends Conexion {
                         document.id,
                         rDiagrama.tipoDiagrama.id,
                         document.data().tipoRelacionId,
-                        document.data().tiempo);
-                    tRelacion.objetoInicio=rDiagrama.objetoPorId(document.data().objetoInicioId);
+                        document.data().tiempo,
+                        document.data().nombreUsuario);
+                    tRelacion.objetoInicial=rDiagrama.objetoPorId(document.data().objetoInicialId);
+                    tRelacion.numeroPuertoObjetoInicial = parseInt(document.data().numeroPuertoObjetoInicial,10);
                     tRelacion.objetoFinal=rDiagrama.objetoPorId(document.data().objetoFinalId);
+                    tRelacion.numeroPuertoObjetoFinal = parseInt(document.data().numeroPuertoObjetoFinal,10);
                     for (i=0; i<document.data().valoresPropiedades.length; i++) {
                         tRelacion.incluirValorPropiedad(document.data().valoresPropiedades[i])
                     }
@@ -235,6 +253,15 @@ module.exports = class Datos extends Conexion {
             } catch (e) {
                 console.log(e.message);
             }
+        }
+    }
+    async actualizarObjeto(pIdObjeto,pX,pY) {
+        try {
+            this._firebase.firestore().collection(this._coleccionObjetos).doc(pIdObjeto).update({
+                x: pX,
+                y: pY});
+        } catch (e) {
+            console.log(e.message);
         }
     }
     async actualizarRelacion(pRelacion) {

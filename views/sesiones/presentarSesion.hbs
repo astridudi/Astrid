@@ -1,15 +1,68 @@
-{{#if sesion}}
-    <h3>
-        <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
-        {{sesion.nombre}} |
-        Planteamiento |
-        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}'>Chat</a> |
-        <a href='/main/presentarDiagramaSesion?idSesion={{sesion.id}}'>Diagrama</a> |
-    </h3>
-    <div align="center" style="background-color:#D9D9D6; height: 600px;overflow: scroll;border:1px solid #1B4F72;">
+<div style="display: flex">
+    <div id="divPresentacionPlanteamiento" class="divDibujo">
+        <img id="imgPlanteamiento" src="/images/Documento.png" width="1000" usemap="#mapaChat">
     </div>
-    <br>
-    <a href='/main/eliminarSesion?id={{sesion.id}}'>Eliminar sesión</a> |
-    <a href='/main/editarSesion?id={{sesion.id}}'>Editar sesión</a> |
-{{/if}}
+    <div id="divCapturaAccion" class="divEmergente">
+    </div>
+</div>
+
+<!--
+Cargue de scripts de inicialización de la vista Sesión
+-->
+<script src="../javascripts/funcionesVistaSesion.js"></script>
+<script src="../javascripts/inicializacionVistaSesion.js"></script>
+<script type="text/javascript">inicializacionVistaSesion('{{sesion.sesionJson}}');</script>
+<!--
+Inicialización sección de mensajería
+-->
+<script>
+    let socket;
+    $(document).ready(()=>{
+        socket = io.connect(document.getElementById("urlServidor").innerHTML);
+        socket.on('ubicacion', function (data) {
+            ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
+            socket.emit('respuestaUbicacion', {sesion:'{{sesion.id}}', seccion:'Planteamiento', usuario:'{{nombreUsuario}}'});
+        });
+        socket.on('confirmacionUbicacion', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
+            }
+        });
+        socket.on('confirmacionAccion', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion, true);
+            }
+        });
+        socket.on('reunion', function (data) {
+            alert(data);
+        });
+        socket.on('reserva', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                if (document.getElementById("banderaReserva").innerHTML == "") {
+                    ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
+                    document.getElementById("btnDesplegarCaptura").style.display = "none";
+                }
+            }
+        });
+        socket.on('reservaAnterior', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                document.getElementById("btnDesplegarCaptura").style.display = "none";
+                document.getElementById("banderaReserva").innerHTML = "";
+                ubicarUsuario('{{nombreUsuario}}','{{nombreUsuario}}',"Planteamiento");
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
+            }
+        });
+        socket.on('levantamientoReserva', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                document.getElementById("btnDesplegarCaptura").style.display = "inline-block";
+                document.getElementById("banderaReserva").innerHTML="";
+            }
+            ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
+        });
+        socket.on('connection', function (data) {
+            console.log(data);
+        });
+        socket.emit("ingresoEquipo", {msg:'{{nombreUsuario}} ingresó al planteamiento', sesion:'{{sesion.id}}', seccion:'Planteamiento', usuario:'{{nombreUsuario}}'});
+    });
+</script>
 

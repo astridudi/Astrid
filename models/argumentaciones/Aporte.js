@@ -1,21 +1,27 @@
 const Argumentacion = require('../argumentaciones/Argumentacion');
-const DatoGrafico = require('../argumentaciones/DatoGrafico');
+const DatoGrafico = require('../DatoGrafico');
 
 module.exports = class Aporte {
-    constructor(id,tipoAporteId,contenido,tiempo) {
+    constructor(id,tipoAporteId,contenido,tiempo,nombreUsuario) {
         this._id = id;
         this._argumentacion = new Argumentacion('','','');
         this._aportePredecesor = undefined;
         this._aportesSucesores = [];
-        this._tipoAporte = this._argumentacion.tiposAporte.tipoAporte(tipoAporteId);
+        this._tipoAporte = this._argumentacion._conjuntoTiposAporte.tipoAporte(tipoAporteId);
         this._contenido = contenido;
         if (tiempo.length==0){
             this._tiempo = new Date();
         } else {
             this._tiempo = tiempo;
         }
-        this._datoGrafico = undefined;
+        this._nombreUsuario = nombreUsuario;
+        this._datoGrafico = new DatoGrafico(0,0,0,0,0);
         this._areasEnlace = [];
+        this._areasEnlace[0] = new DatoGrafico(0,0,0,0,0);
+        this._areasEnlace[1] = new DatoGrafico(0,0,0,0,0);
+        this._areasEnlace[2] = new DatoGrafico(0,0,0,0,0);
+        this._ordinalEstructura = 0;
+        this._ordinalCronologia = 0;
     }
     set id(pId) {
         this._id = pId;
@@ -38,6 +44,15 @@ module.exports = class Aporte {
     set tiempo(pTiempo) {
         this._tiempo = pTiempo;
     }
+    set nombreUsuario(pNombreUsuario) {
+        this._nombreUsuario = pNombreUsuario;
+    }
+    set ordinalEstructura(pOrdinalEstructura) {
+        this._ordinalEstructura = pOrdinalEstructura;
+    }
+    set ordinalCronologia(pOrdinalCronologia) {
+        this._ordinalCronologia = pOrdinalCronologia;
+    }
     get id() {
         return this._id;
     }
@@ -58,6 +73,15 @@ module.exports = class Aporte {
     }
     get tiempo() {
         return this._tiempo;
+    }
+    get nombreUsuario() {
+        return this._nombreUsuario;
+    }
+    get ordinalEstructura() {
+        return this._ordinalEstructura;
+    }
+    get ordinalCronologia() {
+        return this._ordinalCronologia;
     }
     get tiposSucesores() {
         return this._argumentacion.aporte(this._tipoAporteId).tiposSucesores;
@@ -141,8 +165,18 @@ module.exports = class Aporte {
         return (this._aportesSucesores[pIndice]);
     }
     incluirSucesor(pSucesor) {
-        let i = this._aportesSucesores.length;
-        this._aportesSucesores[i] = pSucesor;
+        let j = this._aportesSucesores.length;
+        if (j>0) {
+            let a = this._aportesSucesores[j-1].tipoAporte.id;
+            let b = pSucesor.tipoAporte.id;
+            a = a + b;
+            b = a + b;
+        }
+        while ((j>0) && (this._aportesSucesores[j-1].tipoAporte.id < pSucesor.tipoAporte.id)) {
+            this._aportesSucesores[j] = this._aportesSucesores[j-1];
+            j = j - 1;
+        }
+        this._aportesSucesores[j] = pSucesor;
     }
     incluirDatoGrafico(pX,pY,pAncho,pAlto,pLineas) {
         this._datoGrafico = new DatoGrafico(pX,pY,pAncho,pAlto,pLineas);

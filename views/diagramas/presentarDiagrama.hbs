@@ -1,30 +1,435 @@
-{{#if sesion}}
-    <h3>
-        <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
-        {{sesion.nombre}} |
-        <a href='/main/presentarSesion?id={{sesion.id}}'>Planteamiento</a> |
-        <a href='/main/presentarChatSesion?idSesion={{sesion.id}}'>Chat</a> |
-        Diagrama |
-    </h3>
-    {{#if sesion.diagrama}}
-        <div align="center" style="background-color:#D9D9D6; max-height: 600px;overflow: scroll;border:1px solid #1B4F72;">
-            <img id="imagen" src="{{sesion.diagrama.tipoDiagrama.dibujar}}" width="1000" height="2000" usemap="#mapa" >
-            <map name="mapa">
-                {{#each sesion.diagrama.objetos}}
-                    {{#each areasEnlace}}
-                        <area shape="rect" coords="{{xIzquierda}},{{yArriba}},{{xDerecha}},{{yAbajo}}" href="/main/presentarArgumentacionSesion?idSesion={{../../sesion.id}}&idObjeto={{../id}}" />
-                    {{/each}}
-                {{/each}}
-            </map>
+<div style="display: flex">
+    <div id="divPresentacionDiagrama" class="divDibujo">
+        <img id="imgDiagrama" class="imgDibujo" usemap="#mapaDiagrama" onmousedown="down(event)" ondrop="drop(event)" ondragover="allowDrop(event)"/>
+        <map id="mapaDiagrama" name="mapaDiagrama"></map>
+        <canvas id="canvasDiagrama" width="1000" height="2000"></canvas>
+    </div>
+    <div id="divCapturaElemento" class="divEmergente w3-round">
+        <div id="divBtnCapturaElemento">
+            <button id="btnCapturaObjeto" class="w3-button w3-round btnControl" title="Agregar objeto">Objeto</button>
+            <button id="btnCapturaRelacion" class="w3-button w3-round btnControl" title="Agregar relación">Relación</button>
+            <button id="btnDesistirElemento" class="w3-button w3-round btnDesistir">Desistir</button>
+            <!-- Los botones para cada tipo de objeto o de relación se crean por función, porque dependen del diagrama -->
         </div>
-        <br>
-        {{#each sesion.diagrama.tipoDiagrama.tiposObjeto}}
-            <a href='/main/registrarObjetoDiagramaSesion?idSesion={{../sesion.id}}&objetoTipoId={{id}}'>Objeto {{nombre}}</a>
-            |
-        {{/each}}
-        {{#each sesion.diagrama.tipoDiagrama.tiposRelacion}}
-            <a href='/main/registrarRelacionDiagramaSesion?idSesion={{../sesion.id}}&relacionTipoId={{id}}'>Relación {{nombre}}</a>
-            |
-        {{/each}}
-    {{/if}}
-{{/if}}
+        <div id="divFormularioObjeto" class="divFormulario">
+            <form id='formGrabarObjetoDiagramaSesion' method='POST' action='/main/grabarObjetoDiagramaSesion'>
+                <input id="tipoDiagrama" name='tipoDiagrama' type='hidden' value={{sesion.diagrama.tipoDiagrama.id}}>
+                <input id="tipoObjeto" name='tipoObjeto' type='hidden' >
+                <input id="objetoTiempo" name='objetoTiempo' type='hidden' value=''/>
+                <input id="nombreUsuario" name="nombreUsuario" type="hidden" value={{nombreUsuario}}>
+                <input name='idSesion' type="hidden" value={{sesion.id}}>
+                <input name='id' type="hidden" value={{sesion.diagrama.id}}>
+                <b><label id="lblObjetoTipo" class="lblCaptura">: </label></b><br><br>
+                <div id="divPropiedadesObjeto"></div>
+                <div id="divCoordenadasObjeto">
+                    <b><label class="lblCaptura">Coordenadas:</label></b>
+                    <br>
+                    <table class="tblEncabezado">
+                        <tr>
+                            <th>
+                                <b><label class="lblCaptura">X</label></b>
+                                <input id="xObjeto" class="w3-input w3-round" name='xObjeto' type='number' min="0" step="10" >
+                            </th>
+                            <th>
+                                <b><label class="lblCaptura">Y</label></b>
+                                <input id="yObjeto" class="w3-input w3-round" name='yObjeto' type='number' min="0" step="10" >
+                            </th>
+                        </tr>
+                    </table>
+                    <br>
+                </div>
+                <div id="divGrabacionObjeto">
+                    <button id="btnGrabarObjeto" type="submit" class="w3-button w3-round btnControl" onclick="inclusionElemento()" style="display: inline-block">Grabar objeto</button>
+                    <button id="btnDesistirObjeto" type="button" class="w3-button w3-round btnDesistir" onclick="desistimientoElemento()" style="display: inline-block">Desistir</button>
+                </div>
+            </form>
+        </div>
+        <div id="divFormularioRelacion" class="divFormulario">
+            <form id='formGrabarRelacionDiagramaSesion' method='POST' action='/main/grabarRelacionDiagramaSesion'>
+                <input type="hidden" name="nombreUsuario" value={{nombreUsuario}}>
+                <input type='hidden' name='idSesion' value={{sesion.id}}>
+                <input type='hidden' name='id' value={{sesion.diagrama.id}}>
+                <input type='hidden' name='tipoDiagrama' value={{sesion.diagrama.tipoDiagrama.id}}>
+                <input id="tipoRelacion" name='tipoRelacion' type='hidden' >
+                <input type='hidden' name='relacionTiempo' value=''/>
+                <b><label id="relacionTipo" >: </label></b><br><br>
+                <div id="pendienteRemplazo" style="display: none" >
+                    <input type='hidden' id="diagramaJsonCopia" name='diagramaJson' value="{{sesion.diagrama.diagramaJson}}" >
+                    <input id="xNuevoObjeto" name='xNuevoObjeto' type='hidden' >
+                    <input id="yNuevoObjeto" name='yNuevoObjeto' type='hidden' >
+                    <script src="../javascripts/determinarObjeto.js"></script>
+                    <script src="../javascripts/determinarIdObjeto.js"></script>
+                    <script src="../javascripts/determinarNombreObjeto.js"></script>
+                    <script src="../javascripts/determinarNumeroPuerto.js"></script>
+                    <script src="../javascripts/editarDiagrama.js"></script>
+                </div>
+                <div id="divCapturarObjetoInicial" style="display: none;">
+                    <p>
+                        <b>
+                            <input id="indiceObjetoInicial" name='indiceObjetoInicial' type='hidden' >
+                            <input id="idObjetoInicial" name='idObjetoInicial' type='hidden' >
+                            <b><label class="lblCaptura">Objeto inicial:</label></b>
+                            <input id="nombreObjetoInicial" class="w3-input w3-round" name='nombreObjetoInicial' type='text' disabled>
+                            <!--
+                            <b><label class="lblCaptura">Puerto:</label></b>
+                            -->
+                            <input id="numeroPuertoObjetoInicial" class="w3-input w3-round" name='numeroPuertoObjetoInicial' value="" type='hidden'>
+                        </b>
+                    </p>
+                </div>
+                <div id="divCapturarObjetoFinal" style="display: none;">
+                    <p>
+                        <b>
+                            <input id="indiceObjetoFinal" name='indiceObjetoFinal' type='hidden' >
+                            <input id="idObjetoFinal" name='idObjetoFinal' type='hidden' >
+                            <b><label class="lblCaptura">Objeto final:</label></b>
+                            <input id="nombreObjetoFinal" class="w3-input w3-round" name='nombreObjetoFinal' type='text' disabled>
+                            <!--
+                            <b><label class="lblCaptura">Puerto:</label></b>
+                            -->
+                            <input id="numeroPuertoObjetoFinal" class="w3-input w3-round" name='numeroPuertoObjetoFinal' value="" type='hidden'>
+                        </b>
+                    </p>
+                </div>
+                <div id="divPropiedadesRelacion"></div>
+                <div id="divGrabacionObjeto">
+                    <button id="btnGrabarRelacion" type="submit" class="w3-button w3-round btnControl" onclick="inclusionElemento()" style="display: inline-block">Grabar relación</button>
+                    <button id="btnDesistirRelacion" type="button" class="w3-button w3-round btnDesistir" onclick="desistimientoElemento()" style="display: inline-block">Desistir</button>
+                </div>
+            </form>
+        </div>
+        <div id="divFormularioMovimiento" class="divFormulario">
+            <form id='formGrabarEdicionDiagramaSesion' method='POST' action='/main/grabarEdicionDiagramaSesion'>
+                <input type='hidden' id="diagramaJson" name='diagramaJson' value="{{sesion.diagrama.diagramaJson}}" >
+                <input type="hidden" name="nombreUsuario" value={{nombreUsuario}}>
+                <input type='hidden' name='idSesion' value={{sesion.id}}>
+                <input type='hidden' name='id' value={{sesion.diagrama.id}}>
+                <input type='hidden' name='tipoDiagrama' value={{sesion.diagrama.tipoDiagrama.id}}>
+                <input type='hidden' id="indiceObjeto" name='indiceObjeto' value="" >
+                <input type='hidden' id="pasoCaptura" name='pasoCaptura' value="0" >
+                <input type='hidden' id="xInicioMovimiento" name='xInicioMovimiento' >
+                <input type='hidden' id="yInicioMovimiento" name='yInicioMovimiento' >
+                <b><label>Edición del diagrama</label></b><br><br>
+                <div id="divCoordenadasEdicion">
+                    <b><label class="lblCaptura">Coordenadas:</label></b>
+                    <br>
+                    <table class="tblEncabezado">
+                        <tr>
+                            <th>
+                                <b><label class="lblCaptura">X</label></b>
+                                <input id="xFinMovimiento" class="w3-input w3-round" name='xFinMovimiento' type='number' min="0" step="10" >
+                            </th>
+                            <th>
+                                <b><label class="lblCaptura">Y</label></b>
+                                <input id="yFinMovimiento" class="w3-input w3-round" name='yFinMovimiento' type='number' min="0" step="10" >
+                            </th>
+                        </tr>
+                    </table>
+                    <br>
+                </div>
+                <div id="divGrabacionMovimiento">
+                    <button id="btnProbarMovimiento" type="submit" class="w3-button w3-round btnControl" onclick="probarDiagrama()" style="display: inline-block">Probar edición</button>
+                    <button id="btnGrabarMovimiento" type="submit" class="w3-button w3-round btnControl" onclick="edicion()" style="display: inline-block">Grabar edición</button>
+                    <button id="btnDesistirMovimiento" type="button" class="w3-button w3-round btnDesistir" onclick="desistimientoEdicion()" style="display: inline-block">Desistir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--
+Cargue de scripts de inicialización de la vista Diagrama
+-->
+<script src="../javascripts/funcionesVistaDiagrama.js"></script>
+<script src="../javascripts/inicializacionVistaDiagrama.js"></script>
+<script type="text/javascript">inicializacionVistaDiagrama("{{sesion.sesionJson}}","{{sesion.diagrama.diagramaJson}}");</script>
+<script src="../javascripts/{{sesion.diagrama.tipoDiagrama.scriptDibujo}}"></script>
+<script type="text/javascript">dibujarDiagrama("{{sesion.diagrama.diagramaJson}}","/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");</script>
+<script type="text/javascript">inicioFormularioCapturaObjeto();</script>
+<script type="text/javascript">inicioFormularioCapturaRelacion();</script>
+
+<!--
+Inicialización sección de mensajería
+-->
+<script>
+    let socket;
+    $(document).ready(()=>{
+        socket = io.connect(document.getElementById("urlServidor").innerHTML);
+        socket.on("actualizacionDiagrama", (data)=>{
+            console.log("Evento: "+data);
+            document.getElementById('diagramaJsonCopia').value = data.diagramaRecuperado;
+            document.getElementById('diagramaJson').value = data.diagramaRecuperado;
+            dibujarDiagrama(data.diagramaRecuperado,"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
+        });
+        socket.on('ubicacion', function (data) {
+            ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
+            socket.emit('respuestaUbicacion', {sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
+        });
+        socket.on('confirmacionUbicacion', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
+            }
+        });
+        socket.on('confirmacionAccion', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion, true);
+            }
+        });
+        socket.on('reunion', function (data) {
+            alert(data);
+        });
+        socket.on('reserva', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                if (document.getElementById("banderaReserva").innerHTML == "") {
+                    document.getElementById("divFormularioObjeto").style.display = "none";
+                    document.getElementById("divFormularioRelacion").style.display = "none";
+                    document.getElementById("capturarMovimiento").style.display = "none";
+                } else {
+                    socket.emit("reservaAnterior", {msg:'{{nombreUsuario}} continúa preparando un elemento en el diagrama', sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
+                }
+            } else {
+                document.getElementById("banderaReserva").innerHTML="X";
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
+            }
+        });
+        socket.on('reservaAnterior', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                document.getElementById("divFormularioObjeto").style.display = "none";
+                document.getElementById("divFormularioRelacion").style.display = "none";
+                document.getElementById("capturarMovimiento").style.display = "none";
+                document.getElementById("banderaReserva").innerHTML = "";
+                ubicarUsuario('{{nombreUsuario}}','{{nombreUsuario}}',"Diagrama");
+                ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
+            }
+        });
+        socket.on('levantamientoReserva', function (data) {
+            if (data.usuario != '{{nombreUsuario}}') {
+                document.getElementById("btnDesplegarCaptura").style.display = "inline-block";
+                document.getElementById("divFormularioObjeto").style.display = "none";
+                document.getElementById("divFormularioRelacion").style.display = "none";
+                document.getElementById("capturarMovimiento").style.display = "none";
+                document.getElementById("banderaReserva").innerHTML="";
+            }
+            ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
+        });
+        socket.on('connection', function (data) {
+            console.log(data);
+        });
+        socket.emit("ingresoEquipo", {msg:'{{nombreUsuario}} ingresó al {{sesion.nombreTipoDiagrama}}', sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
+    });
+    function inicioCapturaObjeto(pObjetoTipoId, pObjetoTipo, pTiposPropiedadJson){
+        let i = 0;
+        document.getElementById('tipoObjeto').value=pObjetoTipoId;
+        document.getElementById('lblObjetoTipo').innerHTML=pObjetoTipo+": ";
+        document.getElementById("lblSangriaDerecha").innerHTML = "3. Registrar datos del objeto";
+        while (document.getElementById("btnObjeto"+i) != undefined) {
+            document.getElementById("btnObjeto"+i).style.display = "none";
+            i++;
+        }
+        document.getElementById("divBtnCapturaElemento").style.display = "none";
+        document.getElementById("divFormularioObjeto").style.display = "block";
+        document.getElementById("divFormularioRelacion").style.display = "none";
+        document.getElementById("divFormularioMovimiento").style.display='none';
+
+        let cadenaTiposPropiedad = pTiposPropiedadJson.replace(/&quot;/g, "'");
+        cadenaTiposPropiedad = cadenaTiposPropiedad.replace(/'/g, '"');
+        let pTiposPropiedad = JSON.parse(cadenaTiposPropiedad);
+
+        if (cadenaTiposPropiedad.length > 0) {
+            for (i=0; i<pTiposPropiedad.length; i++) {
+                document.getElementById('divPropiedadObjeto'+i).style.display = "block";
+                document.getElementById('nombrePropiedadObjeto'+i).innerHTML = pTiposPropiedad[i]._nombre+": ";
+                document.getElementById('nombrePropiedadObjeto'+i).autofocus = true;
+                document.getElementById('valorPropiedadObjeto'+i).name = 'valorPropiedadObjeto'+i;
+                if (i == 0) {
+                    document.getElementById('valorPropiedadObjeto'+i).focus();
+                }
+            }
+        }
+        while (i<5) {
+            document.getElementById('divPropiedadObjeto'+i).style.display = "none";
+            i = i+1;
+        }
+        i = 0;
+        while (document.getElementById('area'+i) != undefined) {
+            document.getElementById('area'+i).href="#";
+            i = i + 1;
+        }
+        alertaElemento(pObjetoTipo);
+    }
+    function capturaRelacion(pPaso,pRelacionTipoId,pRelacionTipo,pTiposPropiedadJson){
+        let i = 0;
+        if (pPaso==1) {
+            while (document.getElementById("btnRelacion"+i) != undefined) {
+                document.getElementById("btnRelacion"+i).style.display = "none";
+                i++;
+            }
+            document.getElementById('pasoCaptura').value=pPaso;
+            document.getElementById('tipoRelacion').value=pRelacionTipoId;
+            document.getElementById('relacionTipo').innerHTML=pRelacionTipo+": ";
+
+            document.getElementById("divBtnCapturaElemento").style.display = "none";
+            document.getElementById("divFormularioObjeto").style.display = "none";
+            document.getElementById("divFormularioRelacion").style.display = "block";
+            document.getElementById("divFormularioMovimiento").style.display='none';
+            document.getElementById("lblSangriaDerecha").innerHTML = "3. Pulsar el objeto inicial de la relación";
+
+            let cadenaTiposPropiedad = pTiposPropiedadJson.replace(/&quot;/g, "'");
+            cadenaTiposPropiedad = cadenaTiposPropiedad.replace(/'/g, '"');
+
+            i = 0;
+            if (cadenaTiposPropiedad.length > 0) {
+                let pTiposPropiedad = JSON.parse(cadenaTiposPropiedad);
+                for (i=0; i<pTiposPropiedad.length; i++) {
+                    document.getElementById('divPropiedadRelacion'+i).style.display = "none";
+                    document.getElementById('nombrePropiedadRelacion'+i).innerHTML = pTiposPropiedad[i]._nombre+": ";
+                    document.getElementById('nombrePropiedadRelacion'+i).autofocus = true;
+                    document.getElementById('valorPropiedadRelacion'+i).name = 'valorPropiedadRelacion'+i;
+                }
+            }
+            while (i<5) {
+                document.getElementById('divPropiedadRelacion'+i).style.display = "none";
+                document.getElementById('valorPropiedadRelacion'+i).name = 'none';
+                i = i+1;
+            }
+            i = 0;
+            while (document.getElementById('area'+i) != undefined) {
+                document.getElementById('area'+i).href="#";
+                i = i + 1;
+            }
+            document.getElementById('indiceObjetoInicial').value='';
+            document.getElementById('idObjetoInicial').value='';
+            document.getElementById('nombreObjetoInicial').value='';
+            document.getElementById('indiceObjetoFinal').value='';
+            document.getElementById('idObjetoFinal').value='';
+            document.getElementById('nombreObjetoFinal').value='';
+            document.getElementById('divCapturarObjetoInicial').style.display='block';
+            document.getElementById('nombreObjetoInicial').focus();
+            dibujarDiagrama(document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",pPaso);
+            alertaElemento(pRelacionTipo);
+        }
+        if (pPaso==2) {
+            document.getElementById("lblSangriaDerecha").innerHTML = "4. Seleccionar punto de inicio";
+        }
+        if (pPaso==3) {
+            document.getElementById("lblSangriaDerecha").innerHTML = "5. Pulsar objeto final de la relación";
+            document.getElementById('divCapturarObjetoFinal').style.display='block';
+            document.getElementById('nombreObjetoFinal').focus();
+            dibujarDiagrama(document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",pPaso);
+        }
+        if (pPaso==4) {
+            document.getElementById("lblSangriaDerecha").innerHTML = "6. Seleccionar punto final";
+        }
+        if (pPaso==5) {
+            document.getElementById("lblSangriaDerecha").innerHTML = "7. Registrar datos de la relación";
+            i = 0;
+            while (i<5) {
+                if (document.getElementById('valorPropiedadRelacion'+i).name != 'none') {
+                    document.getElementById('divPropiedadRelacion'+i).style.display = "block";
+                }
+                i = i+1;
+            }
+        }
+    }
+    function alertaElemento(pTipoElemento){
+        socket.emit("reserva", {msg:'{{nombreUsuario}} prepara un elemento en el diagrama', sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
+    }
+    function inclusionElemento(){
+        restaurarDimensiones();
+        document.getElementById("divBtnCapturaElemento").style.display = "inline-block";
+        document.getElementById("btnDesplegarCaptura").style.display = "inline-block";
+        document.getElementById("divFormularioObjeto").style.display = "none";
+        document.getElementById("divFormularioRelacion").style.display = "none";
+        document.getElementById("divFormularioMovimiento").style.display='none';
+        socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} incluyó un elemento en el diagrama', sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
+    }
+    function desistimientoElemento(pTipoElemento){
+        restaurarDimensiones();
+        document.getElementById("divBtnCapturaElemento").style.display = "inline-block";
+        document.getElementById("divFormularioObjeto").style.display = "none";
+        document.getElementById("divFormularioRelacion").style.display = "none";
+        document.getElementById("divFormularioMovimiento").style.display='none';
+        dibujarDiagrama(document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
+        socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} desistió de incluir un elemento en el diagrama', sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
+        document.getElementById("banderaReserva").innerHTML='';
+    }
+    function alertaEdicion(){
+        document.getElementById("divPresentacionDiagrama").style.width = Math.round(window.innerWidth * 0.75)+"px";
+        document.getElementById("divCapturaElemento").style.width = Math.round(window.innerWidth * 0.25)+"px";
+        document.getElementById("btnCapturaObjeto").style.display = "none";
+        document.getElementById("btnCapturaRelacion").style.display = "none";
+        document.getElementById("btnDesistirElemento").style.display = "none";
+
+        document.getElementById("divFormularioObjeto").style.display = "none";
+        document.getElementById("divFormularioRelacion").style.display = "none";
+        document.getElementById('divFormularioMovimiento').style.display='block';
+        socket.emit("reserva", {msg:'{{nombreUsuario}} está editando el diagrama', sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
+    }
+    function edicion(){
+        document.getElementById("capturarMovimiento").style.display='none';
+        socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} editó el diagrama', sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
+    }
+    function desistimientoEdicion(pTipoElemento){
+        restaurarDimensiones();
+        document.getElementById("divBtnCapturaElemento").style.display = "inline-block";
+        document.getElementById("divFormularioObjeto").style.display = "none";
+        document.getElementById("divFormularioRelacion").style.display = "none";
+        document.getElementById("divFormularioMovimiento").style.display='none';
+        document.getElementById("diagramaJson").value = document.getElementById("diagramaJsonCopia").value;
+        dibujarDiagrama(document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
+        socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} desistió de editar el diagrama', sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
+        document.getElementById("banderaReserva").innerHTML='';
+    }
+    function llamarReunion() {
+        socket.emit("reunionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en el {{sesion.nombreTipoDiagrama}}', sesion:'{{sesion.id}}'});
+    }
+    function down(ev) {
+        document.getElementById('xObjeto').value=Math.round((ev.clientX-document.getElementById('divPresentacionDiagrama').offsetLeft-document.getElementById('canvasDiagrama').offsetLeft+document.getElementById('divPresentacionDiagrama').scrollLeft)/10)*10;
+        document.getElementById('yObjeto').value=Math.round((ev.clientY-document.getElementById('divPresentacionDiagrama').offsetTop-document.getElementById('canvasDiagrama').offsetTop+document.getElementById('divPresentacionDiagrama').scrollTop)/10)*10;
+    }
+    function downObjetoInicial(ev,pIndice,pId,pNombre) {
+        document.getElementById("indiceObjetoInicial").value = pIndice;
+        document.getElementById("idObjetoInicial").value = pId;
+        dibujarDiagrama(document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",2);
+        capturaRelacion(2,'','','');
+    }
+    function downPuertoInicial(ev,pNumero,pNombre) {
+        document.getElementById("nombreObjetoInicial").value = pNombre;
+        document.getElementById("numeroPuertoObjetoInicial").value = pNumero;
+        dibujarDiagrama(document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",3);
+        capturaRelacion(3,'','','');
+    }
+    function downObjetoFinal(ev,pIndice,pId,pNombre) {
+        document.getElementById("indiceObjetoFinal").value = pIndice;
+        document.getElementById("idObjetoFinal").value = pId;
+        dibujarDiagrama(document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",4);
+        capturaRelacion(4,'','','');
+    }
+    function downPuertoFinal(ev,pNumero,pNombre) {
+        document.getElementById("nombreObjetoFinal").value = pNombre;
+        document.getElementById("numeroPuertoObjetoFinal").value = pNumero;
+        dibujarDiagrama(document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",5);
+        capturaRelacion(5,'','','');
+    }
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+        document.getElementById('xInicioMovimiento').value=ev.clientX-document.getElementById('divPresentacionDiagrama').offsetLeft-document.getElementById('canvasDiagrama').offsetLeft+document.getElementById('divPresentacionDiagrama').scrollLeft;
+        document.getElementById('yInicioMovimiento').value=ev.clientY-document.getElementById('divPresentacionDiagrama').offsetTop-document.getElementById('canvasDiagrama').offsetTop+document.getElementById('divPresentacionDiagrama').scrollTop;
+    }
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        document.getElementById('xFinMovimiento').value=Math.round((ev.clientX-document.getElementById('divPresentacionDiagrama').offsetLeft-document.getElementById('canvasDiagrama').offsetLeft+document.getElementById('divPresentacionDiagrama').scrollLeft)/10)*10;
+        document.getElementById('yFinMovimiento').value=Math.round((ev.clientY-document.getElementById('divPresentacionDiagrama').offsetTop-document.getElementById('canvasDiagrama').offsetTop+document.getElementById('divPresentacionDiagrama').scrollTop)/10)*10;
+        alertaEdicion();
+        document.getElementById("indiceObjeto").value = determinarObjeto(document.getElementById('diagramaJson').value,document.getElementById('xInicioMovimiento').value,document.getElementById('yInicioMovimiento').value);
+        dibujarDiagrama(editarDiagrama(document.getElementById('diagramaJson').value,document.getElementById('xInicioMovimiento').value,document.getElementById('yInicioMovimiento').value,document.getElementById('xFinMovimiento').value,document.getElementById('yFinMovimiento').value,document.getElementById("indiceObjeto").value),"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
+        clickEditarDiagrama();
+    }
+    function probarDiagrama() {
+        dibujarDiagrama(editarDiagrama(document.getElementById('diagramaJson').value,document.getElementById('xInicioMovimiento').value,document.getElementById('yInicioMovimiento').value,document.getElementById('xFinMovimiento').value,document.getElementById('yFinMovimiento').value,document.getElementById("indiceObjeto").value),"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
+    }
+</script>

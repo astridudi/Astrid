@@ -1,10 +1,17 @@
-{{#if conjuntoSesiones}}
-    <h3>Sesiones</h3>
-    {{#each conjuntoSesiones.arreglo}}
-        <ul>
-            <li><a href="/main/presentarSesion?id={{id}}">{{@index}}</a> {{nombre}}</li>
-        </ul>
-    {{/each}}
-    <hr class="verdeAstrid1">
-    <a href='/main/registrarSesion'>Registrar sesión</a>
-{{/if}}
+<div style="display: flex">
+    <div id="divPresentacionSesiones" class="divPresentacion"></div>
+    <div id="divCapturaSesion" class="divEmergente">
+        <div id="divFormularioSesion" class="divFormulario">
+            <form method='POST' action='/main/grabarSesion'>
+                <div id="construirSesion" style="display: block;">
+                </div>
+                <div id="grabarMensaje" style="display: block;">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="../javascripts/funcionesVistaConjuntoSesiones.js"></script>
+<script src="../javascripts/inicializacionVistaConjuntoSesiones.js"></script>
+<script type="text/javascript">inicializacionVistaConjuntoSesiones('{{conjuntoSesiones.sesionesJson}}');</script>

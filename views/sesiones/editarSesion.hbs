@@ -1,12 +1,11 @@
 <form method='POST' action='/main/actualizarSesion'>
-    <hr/>
-    <h3>Edición</h3>
+    <h3>
+        <a href='/main/consultarConjuntoSesiones?nombreUsuario={{nombreUsuario}}'>Sesiones</a> |
+        <a href="/main/presentarSesion?id={{sesion.id}}&nombreUsuario={{nombreUsuario}}">{{sesion.nombre}}</a> |
+    </h3>
+    <input type="hidden" name="nombreUsuario" value="{{nombreUsuario}}"/>
     <input type='hidden' name='id' value='{{sesion.id}}'>
-    <p>Sesión: <input type='text' name='nombre' value='{{sesion.nombre}}'/></p>
+    <p>Nombre: <input type='text' name='nombre' value='{{sesion.nombre}}'/></p>
     <p><input type='hidden' name='inicio' value='{{sesion.inicio}}'/></p>
     <input type='submit' value='Actualizar' />
-    <hr/>
-    <a href='/'>Inicio</a> |
-    <a href='/main/consultarConjuntoSesiones'>Sesiones</a> |
-    <a href="/main/presentarSesion?id={{sesion.id}}">{{sesion.nombre}}</a> |
 </form>
