@@ -10,6 +10,14 @@ function clickCapturaAporte() {
     document.getElementById("lblSangriaDerecha").innerHTML = "1. Pulsar aporte predecesor";
     document.getElementById("lblSangriaDerecha").style.display = "inline-block";
     document.getElementById("divBtnCapturaAporte").appendChild(document.getElementById("btnDesistirAporte"));
+    document.getElementById("btnLlamar").title = "Convocar a la argumentación";
+    document.getElementById("btnLlamar").style.display = "inline-block";
+    document.getElementById("imgBtnPlanteamiento").style.display = "none";
+    document.getElementById("imgBtnChat").style.display = "none";
+    document.getElementById("imgBtnDiagrama").style.display = "none";
+    document.getElementById("imgBtnPlanteamientoInhabilitado").style.display = "inline-block";
+    document.getElementById("imgBtnChatInhabilitado").style.display = "inline-block";
+    document.getElementById("imgBtnDiagramaInhabilitado").style.display = "inline-block";
     alertaAporte();
 }
 
@@ -172,5 +180,12 @@ function restaurarDimensiones() {
     document.getElementById("divRedactarAporte").style.display = "none";
     document.getElementById("lblAporteTipo").innerHTML = "";
     document.getElementById("aporteContenido").innerHTML = "";
+    document.getElementById("btnLlamar").style.display = "none";
+    document.getElementById("imgBtnPlanteamiento").style.display = "inline-block";
+    document.getElementById("imgBtnChat").style.display = "inline-block";
+    document.getElementById("imgBtnDiagrama").style.display = "inline-block";
+    document.getElementById("imgBtnPlanteamientoInhabilitado").style.display = "none";
+    document.getElementById("imgBtnChatInhabilitado").style.display = "none";
+    document.getElementById("imgBtnDiagramaInhabilitado").style.display = "none";
 }
 

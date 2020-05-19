@@ -163,7 +163,14 @@ Inicialización sección de mensajería
         });
         socket.on('ubicacion', function (data) {
             ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
-            socket.emit('respuestaUbicacion', {sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
+            if (data.usuario != '{{nombreUsuario}}') {
+                if (document.getElementById("banderaReserva").innerHTML != "") {
+                    socket.emit("reservaAnterior", {msg:'{{nombreUsuario}} continúa preparando un elemento en el diagrama', sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
+                }
+                else {
+                    socket.emit('respuestaUbicacion', {sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
+                }
+            }
         });
         socket.on('confirmacionUbicacion', function (data) {
             if (data.usuario != '{{nombreUsuario}}') {
@@ -176,7 +183,9 @@ Inicialización sección de mensajería
             }
         });
         socket.on('reunion', function (data) {
-            alert(data);
+            if (data.usuario != '{{nombreUsuario}}') {
+                alert(data.msg);
+            }
         });
         socket.on('reserva', function (data) {
             if (data.usuario != '{{nombreUsuario}}') {
@@ -384,7 +393,7 @@ Inicialización sección de mensajería
         document.getElementById("banderaReserva").innerHTML='';
     }
     function llamarReunion() {
-        socket.emit("reunionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en el {{sesion.nombreTipoDiagrama}}', sesion:'{{sesion.id}}'});
+        socket.emit("reunionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en el {{sesion.nombreTipoDiagrama}}', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
     }
     function down(ev) {
         document.getElementById('xObjeto').value=Math.round((ev.clientX-document.getElementById('divPresentacionDiagrama').offsetLeft-document.getElementById('canvasDiagrama').offsetLeft+document.getElementById('divPresentacionDiagrama').scrollLeft)/10)*10;

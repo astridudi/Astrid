@@ -79,7 +79,7 @@ io.on('connection', function (socket) {
   });
   socket.on("reunionEquipo", (data)=>{
     io.to("room"+data.sesion).emit("atencion",data.msg);
-    io.to("room"+data.sesion).emit("reunion",data.msg);
+    io.to("room"+data.sesion).emit("reunion",data);
     console.log("Evento: "+data.msg)
   });
   socket.on("reserva", (data)=>{

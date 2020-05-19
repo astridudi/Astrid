@@ -85,16 +85,16 @@ th.tblAporte {
 }
 
 th.tblSeparacion {
-  background-color: #FFFFFF;
+  background-color: var(--colorFondoLibre);
 }
 
 th.tblSangriaDerecha {
   width: 50px;
-  background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
+  background-color: var(--colorFondoLibre);
 }
 
 th.tblSangriaDerechaResaltada {
-  background-image: linear-gradient(to top right, var(--colorTextoNormal), var(--colorGrisResaltado));
+  background-image: linear-gradient(to top right, var(--colorTextoNormal), var(--colorGrisLibre));
 }
 
 label.lblSesion {

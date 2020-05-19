@@ -9,6 +9,14 @@ function clickCapturaElemento() {
     document.getElementById("btnDesistirElemento").style.display = "inline-block";
     document.getElementById("lblSangriaDerecha").innerHTML = "1. Seleccionar tipo de elemento";
     document.getElementById("lblSangriaDerecha").style.display = "inline-block";
+    document.getElementById("btnLlamar").title = "Convocar al diagrama";
+    document.getElementById("btnLlamar").style.display = "inline-block";
+    document.getElementById("imgBtnPlanteamiento").style.display = "none";
+    document.getElementById("imgBtnChat").style.display = "none";
+    document.getElementById("imgBtnArgumentacion").style.display = "none";
+    document.getElementById("imgBtnPlanteamientoInhabilitado").style.display = "inline-block";
+    document.getElementById("imgBtnChatInhabilitado").style.display = "inline-block";
+    document.getElementById("imgBtnArgumentacionInhabilitado").style.display = "inline-block";
     alertaElemento();
 }
 
@@ -70,6 +78,13 @@ function restaurarDimensiones() {
     document.getElementById("btnDesistirElemento").style.display = "none";
     document.getElementById("lblSangriaDerecha").innerHTML = "";
     document.getElementById("lblSangriaDerecha").style.display = "none";
+    document.getElementById("btnLlamar").style.display = "none";
+    document.getElementById("imgBtnPlanteamiento").style.display = "inline-block";
+    document.getElementById("imgBtnChat").style.display = "inline-block";
+    document.getElementById("imgBtnArgumentacion").style.display = "inline-block";
+    document.getElementById("imgBtnPlanteamientoInhabilitado").style.display = "none";
+    document.getElementById("imgBtnChatInhabilitado").style.display = "none";
+    document.getElementById("imgBtnArgumentacionInhabilitado").style.display = "none";
 }
 
 function inicioFormularioCapturaObjeto() {

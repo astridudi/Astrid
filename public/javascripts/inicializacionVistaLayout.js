@@ -102,6 +102,11 @@ function inicializacionVistaLayout() {
             areaBtnArgumentacion.title = "Argumentación";
             document.getElementById("mapBtnArgumentacion").appendChild(areaBtnArgumentacion);
             document.getElementById("lblArgumentacion").href = "#";
+
+            document.getElementById("btnLlamar").setAttribute(
+                "onclick",
+                "llamarReunion()"
+            );
         }
     }
 }

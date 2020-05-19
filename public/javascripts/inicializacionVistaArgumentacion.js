@@ -13,6 +13,9 @@ function inicializacionVistaArgumentacion(pSesionJson) {
         document.getElementById("imgBtnInstituciones").style.display = "inline-block";
         document.getElementById("imgBtnSesiones").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";
+        document.getElementById("btnLlamar").src = "/images/imgArgumentacionLlamar.png";
+        document.getElementById("imgBtnArgumentacion").style.display = "none";
+        document.getElementById("imgBtnArgumentacionInhabilitado").style.display = "inline-block";
         /*
         Inicialización de la altura máxima de dibujo
          */

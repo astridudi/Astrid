@@ -13,6 +13,9 @@ function inicializacionVistaSesion(pSesionJson) {
         document.getElementById("imgBtnInstituciones").style.display = "inline-block";
         document.getElementById("imgBtnSesiones").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";
+        document.getElementById("btnLlamar").src = "/images/imgPlanteamientoLlamar.png";
+        document.getElementById("imgBtnPlanteamiento").style.display = "none";
+        document.getElementById("imgBtnPlanteamientoInhabilitado").style.display = "inline-block";
         /*
         Inicialización de la altura máxima de dibujo
          */

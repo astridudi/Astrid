@@ -34,7 +34,9 @@ Inicialización sección de mensajería
             }
         });
         socket.on('reunion', function (data) {
-            alert(data);
+            if (data.usuario != '{{nombreUsuario}}') {
+                alert(data.msg);
+            }
         });
         socket.on('reserva', function (data) {
             if (data.usuario != '{{nombreUsuario}}') {

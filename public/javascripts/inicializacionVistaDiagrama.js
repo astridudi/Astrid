@@ -15,6 +15,9 @@ function inicializacionVistaDiagrama(pSesionJson,pDiagramaJson) {
         document.getElementById("imgBtnInstituciones").style.display = "inline-block";
         document.getElementById("imgBtnSesiones").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";
+        document.getElementById("btnLlamar").src = "/images/imgDiagramaLlamar.png";
+        document.getElementById("imgBtnDiagrama").style.display = "none";
+        document.getElementById("imgBtnDiagramaInhabilitado").style.display = "inline-block";
         /*
         Inicialización de la altura máxima de dibujo
          */

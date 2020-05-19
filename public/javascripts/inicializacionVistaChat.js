@@ -13,6 +13,9 @@ function inicializacionVistaChat(pSesionJson) {
         document.getElementById("imgBtnInstituciones").style.display = "inline-block";
         document.getElementById("imgBtnSesiones").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";
+        document.getElementById("btnLlamar").src = "/images/imgChatLlamar.png";
+        document.getElementById("imgBtnChat").style.display = "none";
+        document.getElementById("imgBtnChatInhabilitado").style.display = "inline-block";
         /*
         Inicialización de la altura máxima de dibujo
          */

@@ -100,7 +100,14 @@ Inicialización sección de mensajería
         });
         socket.on('ubicacion', function (data) {
             ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
-            socket.emit('respuestaUbicacion', {sesion:'{{sesion.id}}', seccion:'Argumentacion', usuario:'{{nombreUsuario}}'});
+            if (data.usuario != '{{nombreUsuario}}') {
+                if (document.getElementById("banderaReserva").innerHTML != "") {
+                    socket.emit("reservaAnterior", {msg:'{{nombreUsuario}} continúa preparando un elemento en el diagrama', sesion:'{{sesion.id}}', seccion:'Argumentacion', usuario:'{{nombreUsuario}}'});
+                }
+                else {
+                    socket.emit('respuestaUbicacion', {sesion:'{{sesion.id}}', seccion:'Argumentacion', usuario:'{{nombreUsuario}}'});
+                }
+            }
         });
         socket.on('confirmacionUbicacion', function (data) {
             if (data.usuario != '{{nombreUsuario}}') {
@@ -113,7 +120,9 @@ Inicialización sección de mensajería
             }
         });
         socket.on('reunion', function (data) {
-            alert(data);
+            if (data.usuario != '{{nombreUsuario}}') {
+                alert(data.msg);
+            }
         });
         socket.on('reserva', function (data) {
             if (data.usuario != '{{nombreUsuario}}') {
@@ -167,6 +176,6 @@ Inicialización sección de mensajería
         document.getElementById("banderaReserva").innerHTML='';
     }
     function llamarReunion() {
-        socket.emit("reunionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en la argumentación {{argumentacion.nombre}}', sesion:'{{sesion.id}}'});
+        socket.emit("reunionEquipo", {msg:'{{nombreUsuario}} solicita reunirse en la argumentación {{argumentacion.nombre}}', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
     }
 </script>
