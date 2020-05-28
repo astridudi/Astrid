@@ -5,7 +5,6 @@ function inicializacionVistaIndex() {
         document.getElementById("imgBtnIngresar").style.display = "inline-block";
     } else {
         document.getElementById("lblUbicacion").innerHTML = "Astrid 1.0";
-        document.getElementById("lblUsuario").innerHTML = urlParametros.get("nombreUsuario");
         document.getElementById("imgBtnInicio").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";
         if (urlParametros.get("perfilUsuario") == 0) {

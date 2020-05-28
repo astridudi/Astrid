@@ -7,11 +7,11 @@ function clickDesplegarOpciones() {
     document.getElementById("btnOcultarOpcionesSesion").style.display = "inline-block";
     document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
     // presentarConjuntoInstituciones
-    document.getElementById("divPresentacionSesiones").style.width = Math.round(window.innerWidth * 0.50)+"px";
-    document.getElementById("divCapturaSesion").style.width = Math.round(window.innerWidth * 0.50)+"px";
-    document.getElementById("divBtnOpcionesSesion").style.display = "block";
+    document.getElementById("divPresentacionCasos").style.width = Math.round(window.innerWidth * 0.50)+"px";
+    document.getElementById("divCapturaCaso").style.width = Math.round(window.innerWidth * 0.50)+"px";
+    document.getElementById("divBtnOpcionesCaso").style.display = "block";
     document.getElementById("divFormularioCaso").style.display = "none";
-    document.getElementById("divFormularioSesion").style.display = "none";
+    document.getElementById("divFormularioAsignacion").style.display = "none";
     // inicialización de valores
     document.getElementById("inpNombreCurso").value = "";
     document.getElementById("inpNombreCaso").value = "";
@@ -36,13 +36,13 @@ function clickOcultarOpciones() {
     document.getElementById("btnDesplegarOpcionesSesion").style.display = "block";
     document.getElementById("btnOcultarOpcionesSesion").style.display = "none";
     // presentarConjuntoSesiones
-    document.getElementById("divPresentacionSesiones").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionSesiones").offsetTop)+"px";
-    document.getElementById("divPresentacionSesiones").style.width = window.innerWidth+"px";
-    document.getElementById("divCapturaSesion").style.height = document.getElementById("divPresentacionSesiones").style.height;
-    document.getElementById("divCapturaSesion").style.width = 0+"px";
-    document.getElementById("divBtnOpcionesSesion").style.display = "none";
+    document.getElementById("divPresentacionCasos").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionCasos").offsetTop)+"px";
+    document.getElementById("divPresentacionCasos").style.width = window.innerWidth+"px";
+    document.getElementById("divCapturaCaso").style.height = document.getElementById("divPresentacionCasos").style.height;
+    document.getElementById("divCapturaCaso").style.width = 0+"px";
+    document.getElementById("divBtnOpcionesCaso").style.display = "none";
     document.getElementById("divFormularioCaso").style.display = "none";
-    document.getElementById("divFormularioSesion").style.display = "none";
+    document.getElementById("divFormularioAsignacion").style.display = "none";
 }
 
 function clickCapturarCaso() {
@@ -50,7 +50,7 @@ function clickCapturarCaso() {
     document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerechaResaltada";
     document.getElementById("lblOpcionesSesion").innerHTML = "1. Seleccionar curso";
     // presentarConjuntoSesiones
-    document.getElementById("divBtnOpcionesSesion").style.display = "none";
+    document.getElementById("divBtnOpcionesCaso").style.display = "none";
     document.getElementById("divFormularioCaso").style.display = "block";
     document.getElementById("inpNombreCurso").focus();
 }
@@ -60,8 +60,8 @@ function clickCapturarSesion() {
     document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerechaResaltada";
     document.getElementById("lblOpcionesSesion").innerHTML = "1. Seleccionar caso";
     // presentarConjuntoSesiones
-    document.getElementById("divBtnOpcionesSesion").style.display = "none";
-    document.getElementById("divFormularioSesion").style.display = "block";
+    document.getElementById("divBtnOpcionesCaso").style.display = "none";
+    document.getElementById("divFormularioAsignacion").style.display = "block";
     document.getElementById("inpNombreCaso").focus();
 }
 

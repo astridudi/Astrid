@@ -11,7 +11,6 @@ function inicializacionVistaPrograma(pProgramaJson) {
         Inicialización del encabezado
          */
         document.getElementById("lblUbicacion").innerHTML = "Programa: "+pPrograma._nombre;
-        document.getElementById("lblUsuario").innerHTML = urlParametros.get("nombreUsuario");
         document.getElementById("imgBtnInicio").style.display = "inline-block";
         document.getElementById("imgBtnInstituciones").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";

@@ -4,14 +4,13 @@ function inicializacionVistaConjuntoSesiones(pSesionesJson) {
     var botones = [];
     var rotulos = [];
     let pSesiones = cadenaJson(pSesionesJson);
-    /*
-    Inicialización del encabezado
-     */
     if (urlParametros.get("nombreUsuario") == undefined) {
         document.getElementById("lblAplicacion").style.display = "none";
     } else {
-        document.getElementById("lblUbicacion").innerHTML = "Sesiones";
-        document.getElementById("lblUsuario").innerHTML = urlParametros.get("nombreUsuario");
+        /*
+        Inicialización del encabezado
+         */
+        document.getElementById("lblUbicacion").innerHTML = document.getElementById("lblAplicacion").innerHTML+" | Sesiones";
         document.getElementById("imgBtnInicio").style.display = "inline-block";
         document.getElementById("imgBtnSesiones").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";

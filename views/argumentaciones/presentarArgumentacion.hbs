@@ -115,7 +115,7 @@ Inicialización sección de mensajería
             if (data.usuario != '{{nombreUsuario}}') {
                 if (document.getElementById("banderaReserva").innerHTML == "") {
                     ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
-                    document.getElementById("btnDesplegarCaptura").style.display = "none";
+                    document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
                 } else {
                     socket.emit("reservaAnterior", {msg:'{{nombreUsuario}} continúa preparando un elemento en el diagrama', sesion:'{{sesion.id}}', seccion:'Argumentacion', usuario:'{{nombreUsuario}}'});
                 }
@@ -126,7 +126,7 @@ Inicialización sección de mensajería
         });
         socket.on('reservaAnterior', function (data) {
             if (data.usuario != '{{nombreUsuario}}') {
-                document.getElementById("btnDesplegarCaptura").style.display = "none";
+                document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
                 document.getElementById("banderaReserva").innerHTML = "";
                 ubicarUsuario('{{nombreUsuario}}','{{nombreUsuario}}',"Argumentacion");
                 ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
@@ -134,7 +134,7 @@ Inicialización sección de mensajería
         });
         socket.on('levantamientoReserva', function (data) {
             if (data.usuario != '{{nombreUsuario}}') {
-                document.getElementById("btnDesplegarCaptura").style.display = "inline-block";
+                document.getElementById("btnDesplegarOpcionesSesion").style.display = "inline-block";
                 document.getElementById("banderaReserva").innerHTML="";
             }
             ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);

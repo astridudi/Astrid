@@ -11,7 +11,6 @@ function inicializacionVistaInstitucion(pInstitucionJson) {
         Inicialización del encabezado en layout
          */
         document.getElementById("lblUbicacion").innerHTML = "Institución: "+pInstitucion._nombre;
-        document.getElementById("lblUsuario").innerHTML = urlParametros.get("nombreUsuario");
         document.getElementById("imgBtnInicio").style.display = "inline-block";
         document.getElementById("imgBtnInstituciones").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";

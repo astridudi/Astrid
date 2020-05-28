@@ -184,7 +184,7 @@ Inicialización sección de mensajería
                     document.getElementById("divFormularioRelacion").style.display = "none";
                     document.getElementById("divFormularioMovimiento").style.display = "none";
                     ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
-                    document.getElementById("btnDesplegarCaptura").style.display = "none";
+                    document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
                 } else {
                     socket.emit("reservaAnterior", {msg:'{{nombreUsuario}} continúa preparando un elemento en el diagrama', sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
                 }
@@ -198,7 +198,7 @@ Inicialización sección de mensajería
                 document.getElementById("divFormularioObjeto").style.display = "none";
                 document.getElementById("divFormularioRelacion").style.display = "none";
                 document.getElementById("divFormularioMovimiento").style.display = "none";
-                document.getElementById("btnDesplegarCaptura").style.display = "none";
+                document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
                 document.getElementById("banderaReserva").innerHTML = "";
                 ubicarUsuario('{{nombreUsuario}}','{{nombreUsuario}}',"Diagrama");
                 ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
@@ -206,7 +206,7 @@ Inicialización sección de mensajería
         });
         socket.on('levantamientoReserva', function (data) {
             if (data.usuario != '{{nombreUsuario}}') {
-                document.getElementById("btnDesplegarCaptura").style.display = "inline-block";
+                document.getElementById("btnDesplegarOpcionesSesion").style.display = "inline-block";
                 document.getElementById("divFormularioObjeto").style.display = "none";
                 document.getElementById("divFormularioRelacion").style.display = "none";
                 document.getElementById("divFormularioMovimiento").style.display = "none";
@@ -339,7 +339,7 @@ Inicialización sección de mensajería
     function inclusionElemento(){
         clickOcultarOpciones();
         document.getElementById("divBtnCapturaElemento").style.display = "inline-block";
-        document.getElementById("btnDesplegarCaptura").style.display = "inline-block";
+        document.getElementById("btnDesplegarOpcionesSesion").style.display = "inline-block";
         document.getElementById("divFormularioObjeto").style.display = "none";
         document.getElementById("divFormularioRelacion").style.display = "none";
         document.getElementById("divFormularioMovimiento").style.display='none';

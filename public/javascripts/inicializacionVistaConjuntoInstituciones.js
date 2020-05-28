@@ -10,8 +10,7 @@ function inicializacionVistaConjuntoInstituciones(pInstitucionesJson) {
         /*
         Inicialización del encabezado en layout
          */
-        document.getElementById("lblUbicacion").innerHTML = "Instituciones";
-        document.getElementById("lblUsuario").innerHTML = urlParametros.get("nombreUsuario");
+        document.getElementById("lblUbicacion").innerHTML = document.getElementById("lblAplicacion").innerHTML+" | Instituciones";
         document.getElementById("imgBtnInicio").style.display = "inline-block";
         document.getElementById("imgBtnInstituciones").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";

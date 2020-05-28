@@ -1,10 +1,9 @@
-function inicializacionVistaConjuntoCasos(pSesionesJson,pUsuarioJson,pConjuntoTiposDiagramaJson) {
+function inicializacionVistaConjuntoCasos(pUsuarioJson,pConjuntoTiposDiagramaJson) {
     const urlParametros = new URLSearchParams(window.location.search);
     var b = [];
     var botones = [];
     var rotulos = [];
     var opciones = [];
-    let pSesiones = cadenaJson(pSesionesJson);
     let pUsuario = cadenaJson(pUsuarioJson);
     let pConjuntoTiposDiagrama = cadenaJson(pConjuntoTiposDiagramaJson);
     if (urlParametros.get("nombreUsuario") == undefined) {
@@ -13,8 +12,7 @@ function inicializacionVistaConjuntoCasos(pSesionesJson,pUsuarioJson,pConjuntoTi
         /*
         Inicialización del encabezado
          */
-        document.getElementById("lblUbicacion").innerHTML = "Casos";
-        document.getElementById("lblUsuario").innerHTML = urlParametros.get("nombreUsuario");
+        document.getElementById("lblUbicacion").innerHTML = document.getElementById("lblAplicacion").innerHTML+" | Casos";
         document.getElementById("imgBtnInicio").style.display = "inline-block";
         document.getElementById("imgBtnSesiones").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";
@@ -31,18 +29,18 @@ function inicializacionVistaConjuntoCasos(pSesionesJson,pUsuarioJson,pConjuntoTi
             rotulos[rotulos.length-1].id = "lblCurso"+i;
             rotulos[rotulos.length-1].innerHTML = "Curso: "+pUsuario._cursos[i]._nombre+" - Grupos: ";
             rotulos[rotulos.length-1].className = "lblPresentacion";
-            document.getElementById("divPresentacionSesiones").appendChild(b[b.length-1]);
+            document.getElementById("divPresentacionCasos").appendChild(b[b.length-1]);
             document.getElementById("bCurso"+i).appendChild(botones[botones.length-1]);
-            document.getElementById("divPresentacionSesiones").appendChild(rotulos[rotulos.length-1]);
+            document.getElementById("divPresentacionCasos").appendChild(rotulos[rotulos.length-1]);
             for (j=0; j<pUsuario._cursos[i]._grupos.length; j++) {
                 botones[botones.length] = document.createElement("a");
                 botones[botones.length-1].id = "btnGrupo"+i;
                 botones[botones.length-1].innerHTML = pUsuario._cursos[i]._grupos[j]._nombre;
                 botones[botones.length-1].className = "w3-button w3-round aEnumeracionSub";
                 botones[botones.length-1].setAttribute("onclick","clickSeleccionarGrupo('"+pUsuario._cursos[i]._id+"','"+pUsuario._cursos[i]._grupos[j]._id+"','"+pUsuario._cursos[i]._grupos[j]._nombre+"','"+JSON.stringify(pUsuario._cursos[i]._grupos[j]._estudiantes)+"')");
-                document.getElementById("divPresentacionSesiones").appendChild(botones[botones.length-1]);
+                document.getElementById("divPresentacionCasos").appendChild(botones[botones.length-1]);
             }
-            document.getElementById("divPresentacionSesiones").appendChild(document.createElement("br"));
+            document.getElementById("divPresentacionCasos").appendChild(document.createElement("br"));
             for (j=0; j<pUsuario._cursos[i]._casos.length; j++) {
                 b[b.length] = document.createElement("b");
                 b[b.length-1].id = "bCaso"+i+"."+j;
@@ -55,10 +53,10 @@ function inicializacionVistaConjuntoCasos(pSesionesJson,pUsuarioJson,pConjuntoTi
                 rotulos[rotulos.length-1].id = "lblCaso"+i+"."+j;
                 rotulos[rotulos.length-1].innerHTML = "Caso: "+pUsuario._cursos[i]._casos[j]._nombre;
                 rotulos[rotulos.length-1].className = "lblPresentacionSub";
-                document.getElementById("divPresentacionSesiones").appendChild(b[b.length-1]);
+                document.getElementById("divPresentacionCasos").appendChild(b[b.length-1]);
                 document.getElementById("bCaso"+i+"."+j).appendChild(botones[botones.length-1]);
-                document.getElementById("divPresentacionSesiones").appendChild(rotulos[rotulos.length-1]);
-                document.getElementById("divPresentacionSesiones").appendChild(document.createElement("br"));
+                document.getElementById("divPresentacionCasos").appendChild(rotulos[rotulos.length-1]);
+                document.getElementById("divPresentacionCasos").appendChild(document.createElement("br"));
             }
         }
         for (i=0; i<pConjuntoTiposDiagrama._tiposDiagrama.length; i++) {
@@ -70,6 +68,7 @@ function inicializacionVistaConjuntoCasos(pSesionesJson,pUsuarioJson,pConjuntoTi
         }
         document.getElementById("idUsuarioCaso").value = pUsuario._id;
         document.getElementById("idUsuarioAsignacion").value = pUsuario._id;
+
         clickOcultarOpciones();
 
         document.getElementById("btnDesplegarOpcionesSesion").setAttribute(

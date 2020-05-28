@@ -33,6 +33,7 @@ function inicializacionVistaLayout() {
         document.getElementById("mapBtnIngresar").appendChild(areaBtnIngresar);
     }
     else {
+        document.getElementById("lblUsuario").innerHTML = urlParametros.get("nombreUsuario");
         /*
         Botón para pedir acceso a la vista de instituciones
          */
