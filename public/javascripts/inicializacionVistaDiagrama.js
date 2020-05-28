@@ -3,32 +3,20 @@ function inicializacionVistaDiagrama(pSesionJson,pDiagramaJson) {
     let pSesion = cadenaJson(pSesionJson);
     let pDiagrama = cadenaJson(pDiagramaJson);
     let botones = [];
-    /*
-    Inicialización del encabezado
-     */
     if (urlParametros.get("nombreUsuario") == undefined) {
         document.getElementById("lblAplicacion").style.display = "none";
     } else {
+        /*
+        Inicialización del encabezado
+         */
         document.getElementById("lblUbicacion").innerHTML = pSesion._nombre+" | "+pSesion._diagrama._tipoDiagrama._nombre;
         document.getElementById("lblUsuario").innerHTML = urlParametros.get("nombreUsuario");
         document.getElementById("imgBtnInicio").style.display = "inline-block";
-        document.getElementById("imgBtnInstituciones").style.display = "inline-block";
         document.getElementById("imgBtnSesiones").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";
         document.getElementById("btnLlamar").src = "/images/imgDiagramaLlamar.png";
         document.getElementById("imgBtnDiagrama").style.display = "none";
         document.getElementById("imgBtnDiagramaInhabilitado").style.display = "inline-block";
-        /*
-        Inicialización de la altura máxima de dibujo
-         */
-        document.getElementById("divPresentacionDiagrama").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionDiagrama").offsetTop)+"px";
-        document.getElementById("divPresentacionDiagrama").style.width = window.innerWidth+"px";
-        document.getElementById("divCapturaElemento").style.height = document.getElementById("divPresentacionDiagrama").style.height;
-        document.getElementById("divCapturaElemento").style.width = 0+"px";
-        document.getElementById("divCapturaElemento").style.display = "inline-block";
-
-        document.getElementById("btnCapturaObjeto").style.display = "none";
-        document.getElementById("btnCapturaRelacion").style.display = "none";
 
         for (i=0;i<pDiagrama._tipoDiagrama._tiposObjeto.length;i++) {
             botones[botones.length] = document.createElement("button");
@@ -54,12 +42,11 @@ function inicializacionVistaDiagrama(pSesionJson,pDiagramaJson) {
             document.getElementById("divBtnCapturaElemento").appendChild(botones[botones.length-1]);
         }
 
-        document.getElementById("divFormularioObjeto").appendChild(document.getElementById("btnDesistirElemento"));
-        document.getElementById("divBtnCapturaElemento").appendChild(document.getElementById("btnDesistirElemento"));
+        clickOcultarOpciones();
 
-        document.getElementById("btnDesplegarCaptura").setAttribute(
+        document.getElementById("btnDesplegarOpcionesSesion").setAttribute(
             "onclick",
-            "clickCapturaElemento()"
+            "clickDesplegarOpciones()"
         );
         document.getElementById("btnCapturaObjeto").setAttribute(
             "onclick",
@@ -69,7 +56,7 @@ function inicializacionVistaDiagrama(pSesionJson,pDiagramaJson) {
             "onclick",
             "clickCapturaRelacion()"
         );
-        document.getElementById("btnDesistirElemento").setAttribute(
+        document.getElementById("btnOcultarOpcionesSesion").setAttribute(
             "onclick",
             "desistimientoElemento()"
         );

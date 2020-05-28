@@ -39,9 +39,19 @@ function inicializacionVistaLayout() {
         var areaBtnInstituciones = document.createElement("area");
         areaBtnInstituciones.shape = "rect";
         areaBtnInstituciones.coords = "0,0,40,40";
-        areaBtnInstituciones.href = "/main/consultarConjuntoInstituciones?nombreUsuario="+urlParametros.get("nombreUsuario");
+        areaBtnInstituciones.href = "/main/consultarConjuntoInstituciones?nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
         areaBtnInstituciones.title = "Instituciones";
         document.getElementById("mapBtnInstituciones").appendChild(areaBtnInstituciones);
+
+        /*
+        Botón para pedir acceso a la vista de casos
+         */
+        var areaBtnCasos = document.createElement("area");
+        areaBtnCasos.shape = "rect";
+        areaBtnCasos.coords = "0,0,40,40";
+        areaBtnCasos.href = "/main/consultarConjuntoCasos?nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
+        areaBtnCasos.title = "Casos";
+        document.getElementById("mapBtnCasos").appendChild(areaBtnCasos);
 
         /*
         Botón para pedir acceso a la vista de sesiones
@@ -49,7 +59,7 @@ function inicializacionVistaLayout() {
         var areaBtnSesiones = document.createElement("area");
         areaBtnSesiones.shape = "rect";
         areaBtnSesiones.coords = "0,0,40,40";
-        areaBtnSesiones.href = "/main/consultarConjuntoSesiones?nombreUsuario="+urlParametros.get("nombreUsuario");
+        areaBtnSesiones.href = "/main/consultarConjuntoSesiones?nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
         areaBtnSesiones.title = "Sesiones";
         document.getElementById("mapBtnSesiones").appendChild(areaBtnSesiones);
 

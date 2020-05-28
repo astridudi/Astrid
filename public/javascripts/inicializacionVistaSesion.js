@@ -10,7 +10,6 @@ function inicializacionVistaSesion(pSesionJson) {
         document.getElementById("lblUbicacion").innerHTML = pSesion._nombre+" | Planteamiento";
         document.getElementById("lblUsuario").innerHTML = urlParametros.get("nombreUsuario");
         document.getElementById("imgBtnInicio").style.display = "inline-block";
-        document.getElementById("imgBtnInstituciones").style.display = "inline-block";
         document.getElementById("imgBtnSesiones").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";
         document.getElementById("btnLlamar").src = "/images/imgPlanteamientoLlamar.png";

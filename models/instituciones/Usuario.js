@@ -12,6 +12,7 @@ module.exports = class Usuario {
         this._administraCurso = administraCurso;
         this._habilitadoDocente = habilitadoDocente;
         this._habilitadoEstudiante = habilitadoEstudiante;
+        this._cursos = [];
     }
     set id(pId) {
         this._id = pId;
@@ -43,6 +44,9 @@ module.exports = class Usuario {
     set habilitadoEstudiante(pHabilitadoEstudiante) {
         this._habilitadoEstudiante = pHabilitadoEstudiante;
     }
+    set cursos(pCursos) {
+        this._cursos = pCursos;
+    }
     get id() {
         return this._id;
     }
@@ -73,9 +77,44 @@ module.exports = class Usuario {
     get habilitadoEstudiante() {
         return this._habilitadoEstudiante;
     }
+    get cursos() {
+        return this._cursos;
+    }
     get validez() {
         var rValidez;
         rValidez = ((1*this._identificacion.length>0) && (1*this._nombres.length>0) && (1*this._apellidos.length>0));
         return rValidez;
+    }
+    get usuarioJson() {
+        let rUsuarioJson = JSON.stringify(this);
+        return rUsuarioJson;
+    }
+    esAnteriorA(pDocente) {
+        var rEsAnteriorA;
+        rEsAnteriorA = ((this._apellidos.localeCompare(pDocente._apellidos) < 0) || ((this._apellidos.localeCompare(pDocente._apellidos) == 0) && (this._nombres.localeCompare(pDocente._nombres) < 0)));
+        return rEsAnteriorA;
+    }
+    incluirCurso(pCurso) {
+        let i = this._cursos.length;
+        this._cursos[i] = pCurso;
+    }
+    ordenarCursos() {
+        let i = 0;
+        let j = 0;
+        let k = 0;
+        let tCurso = undefined;
+        for (i=0; i<this._cursos.length - 1; i++) {
+            k=i;
+            for (j=i+1; j<this._cursos.length; j++) {
+                if (this._cursos[j].esAnteriorA(this._cursos[k])) {
+                    k=j;
+                }
+            }
+            if (k != i) {
+                tCurso = this._cursos[i];
+                this._cursos[i] = this._cursos[k];
+                this._cursos[k] = tCurso;
+            }
+        }
     }
 }

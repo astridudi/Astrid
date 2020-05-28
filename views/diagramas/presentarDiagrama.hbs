@@ -1,14 +1,13 @@
-<div style="display: flex">
+<div id="divPrincipal" class="divContenedorPrincipal">
     <div id="divPresentacionDiagrama" class="divDibujo">
         <img id="imgDiagrama" class="imgDibujo" usemap="#mapaDiagrama" onmousedown="down(event)" ondrop="drop(event)" ondragover="allowDrop(event)"/>
         <map id="mapaDiagrama" name="mapaDiagrama"></map>
         <canvas id="canvasDiagrama" width="1000" height="2000"></canvas>
     </div>
-    <div id="divCapturaElemento" class="divEmergente w3-round">
-        <div id="divBtnCapturaElemento">
-            <button id="btnCapturaObjeto" class="w3-button w3-round btnControl" title="Agregar objeto">Objeto</button>
-            <button id="btnCapturaRelacion" class="w3-button w3-round btnControl" title="Agregar relación">Relación</button>
-            <button id="btnDesistirElemento" class="w3-button w3-round btnDesistir">Desistir</button>
+    <div id="divCapturaElemento" class="divEmergente">
+        <div id="divBtnCapturaElemento" class="divSubformulario">
+            <button id="btnCapturaObjeto" class="w3-button w3-round btnControl">Agregar objeto</button>
+            <button id="btnCapturaRelacion" class="w3-button w3-round btnControl">Agregar relación</button>
             <!-- Los botones para cada tipo de objeto o de relación se crean por función, porque dependen del diagrama -->
         </div>
         <div id="divFormularioObjeto" class="divFormulario">
@@ -19,28 +18,28 @@
                 <input id="nombreUsuario" name="nombreUsuario" type="hidden" value={{nombreUsuario}}>
                 <input name='idSesion' type="hidden" value={{sesion.id}}>
                 <input name='id' type="hidden" value={{sesion.diagrama.id}}>
-                <b><label id="lblObjetoTipo" class="lblCaptura">: </label></b><br><br>
-                <div id="divPropiedadesObjeto"></div>
-                <div id="divCoordenadasObjeto">
+                <div id="divPropiedadesObjeto" class="divSubformulario">
+                    <b><label id="lblObjetoTipo" class="lblCaptura">: </label></b><br><br>
+                </div>
+                <div id="divCoordenadasObjeto" class="divSubformulario">
                     <b><label class="lblCaptura">Coordenadas:</label></b>
                     <br>
                     <table class="tblEncabezado">
                         <tr>
-                            <th>
-                                <b><label class="lblCaptura">X</label></b>
+                            <td>
+                                <label class="lblCaptura" style="alignment: center">x</label>
                                 <input id="xObjeto" class="w3-input w3-round" name='xObjeto' type='number' min="0" step="10" >
-                            </th>
-                            <th>
-                                <b><label class="lblCaptura">Y</label></b>
+                            </td>
+                            <td>
+                                <label class="lblCaptura" style="alignment: center">y</label>
                                 <input id="yObjeto" class="w3-input w3-round" name='yObjeto' type='number' min="0" step="10" >
-                            </th>
+                            </td>
                         </tr>
                     </table>
                     <br>
                 </div>
-                <div id="divGrabacionObjeto">
+                <div id="divGrabacionObjeto" class="divSubformulario">
                     <button id="btnGrabarObjeto" type="submit" class="w3-button w3-round btnControl" onclick="inclusionElemento()" style="display: inline-block">Grabar objeto</button>
-                    <button id="btnDesistirObjeto" type="button" class="w3-button w3-round btnDesistir" onclick="desistimientoElemento()" style="display: inline-block">Desistir</button>
                 </div>
             </form>
         </div>
@@ -52,7 +51,6 @@
                 <input type='hidden' name='tipoDiagrama' value={{sesion.diagrama.tipoDiagrama.id}}>
                 <input id="tipoRelacion" name='tipoRelacion' type='hidden' >
                 <input type='hidden' name='relacionTiempo' value=''/>
-                <b><label id="relacionTipo" >: </label></b><br><br>
                 <div id="pendienteRemplazo" style="display: none" >
                     <input type='hidden' id="diagramaJsonCopia" name='diagramaJson' value="{{sesion.diagrama.diagramaJson}}" >
                     <input id="xNuevoObjeto" name='xNuevoObjeto' type='hidden' >
@@ -63,38 +61,29 @@
                     <script src="../javascripts/determinarNumeroPuerto.js"></script>
                     <script src="../javascripts/editarDiagrama.js"></script>
                 </div>
-                <div id="divCapturarObjetoInicial" style="display: none;">
-                    <p>
-                        <b>
-                            <input id="indiceObjetoInicial" name='indiceObjetoInicial' type='hidden' >
-                            <input id="idObjetoInicial" name='idObjetoInicial' type='hidden' >
-                            <b><label class="lblCaptura">Objeto inicial:</label></b>
-                            <input id="nombreObjetoInicial" class="w3-input w3-round" name='nombreObjetoInicial' type='text' disabled>
-                            <!--
-                            <b><label class="lblCaptura">Puerto:</label></b>
-                            -->
-                            <input id="numeroPuertoObjetoInicial" class="w3-input w3-round" name='numeroPuertoObjetoInicial' value="" type='hidden'>
-                        </b>
-                    </p>
+                <div id="divClaseRelacion" class="divSubformulario">
+                    <b><label id="relacionTipo" class="lblCaptura">: </label></b><br><br>
                 </div>
-                <div id="divCapturarObjetoFinal" style="display: none;">
-                    <p>
-                        <b>
-                            <input id="indiceObjetoFinal" name='indiceObjetoFinal' type='hidden' >
-                            <input id="idObjetoFinal" name='idObjetoFinal' type='hidden' >
-                            <b><label class="lblCaptura">Objeto final:</label></b>
-                            <input id="nombreObjetoFinal" class="w3-input w3-round" name='nombreObjetoFinal' type='text' disabled>
-                            <!--
-                            <b><label class="lblCaptura">Puerto:</label></b>
-                            -->
-                            <input id="numeroPuertoObjetoFinal" class="w3-input w3-round" name='numeroPuertoObjetoFinal' value="" type='hidden'>
-                        </b>
-                    </p>
+                <div id="divCapturarObjetoInicial" class="divSubformulario">
+                    <input id="indiceObjetoInicial" name='indiceObjetoInicial' type='hidden' >
+                    <input id="idObjetoInicial" name='idObjetoInicial' type='hidden' >
+                    <b><label class="lblCaptura">Objeto inicial:</label></b>
+                    <input id="nombreObjetoInicial" class="w3-input w3-round" name='nombreObjetoInicial' type='text' disabled>
+                    <input id="numeroPuertoObjetoInicial" class="w3-input w3-round" name='numeroPuertoObjetoInicial' value="" type='hidden'>
                 </div>
-                <div id="divPropiedadesRelacion"></div>
-                <div id="divGrabacionObjeto">
+                <div id="divCapturarObjetoFinal" class="divSubformulario">
+                    <input id="indiceObjetoFinal" name='indiceObjetoFinal' type='hidden' >
+                    <input id="idObjetoFinal" name='idObjetoFinal' type='hidden' >
+                    <b><label class="lblCaptura">Objeto final:</label></b>
+                    <input id="nombreObjetoFinal" class="w3-input w3-round" name='nombreObjetoFinal' type='text' disabled>
+                    <!--
+                    <b><label class="lblCaptura">Puerto:</label></b>
+                    -->
+                    <input id="numeroPuertoObjetoFinal" class="w3-input w3-round" name='numeroPuertoObjetoFinal' value="" type='hidden'>
+                </div>
+                <div id="divPropiedadesRelacion" class="divSubformulario"></div>
+                <div id="divGrabacionObjeto" class="divSubformulario">
                     <button id="btnGrabarRelacion" type="submit" class="w3-button w3-round btnControl" onclick="inclusionElemento()" style="display: inline-block">Grabar relación</button>
-                    <button id="btnDesistirRelacion" type="button" class="w3-button w3-round btnDesistir" onclick="desistimientoElemento()" style="display: inline-block">Desistir</button>
                 </div>
             </form>
         </div>
@@ -109,28 +98,29 @@
                 <input type='hidden' id="pasoCaptura" name='pasoCaptura' value="0" >
                 <input type='hidden' id="xInicioMovimiento" name='xInicioMovimiento' >
                 <input type='hidden' id="yInicioMovimiento" name='yInicioMovimiento' >
-                <b><label>Edición del diagrama</label></b><br><br>
-                <div id="divCoordenadasEdicion">
+                <div id="divEdicion" class="divSubformulario">
+                    <b><label id="edicionDiagrama" class="lblCaptura">Edición del diagrama</label></b><br><br>
+                </div>
+                <div id="divCoordenadasEdicion" class="divSubformulario">
                     <b><label class="lblCaptura">Coordenadas:</label></b>
                     <br>
                     <table class="tblEncabezado">
                         <tr>
-                            <th>
-                                <b><label class="lblCaptura">X</label></b>
+                            <td>
+                                <label class="lblCaptura" style="alignment: center">x</label>
                                 <input id="xFinMovimiento" class="w3-input w3-round" name='xFinMovimiento' type='number' min="0" step="10" >
-                            </th>
-                            <th>
-                                <b><label class="lblCaptura">Y</label></b>
+                            </td>
+                            <td>
+                                <label class="lblCaptura" style="alignment: center">y</label>
                                 <input id="yFinMovimiento" class="w3-input w3-round" name='yFinMovimiento' type='number' min="0" step="10" >
-                            </th>
+                            </td>
                         </tr>
                     </table>
                     <br>
                 </div>
-                <div id="divGrabacionMovimiento">
+                <div id="divGrabacionMovimiento" class="divSubformulario">
                     <button id="btnProbarMovimiento" type="submit" class="w3-button w3-round btnControl" onclick="probarDiagrama()" style="display: inline-block">Probar edición</button>
                     <button id="btnGrabarMovimiento" type="submit" class="w3-button w3-round btnControl" onclick="edicion()" style="display: inline-block">Grabar edición</button>
-                    <button id="btnDesistirMovimiento" type="button" class="w3-button w3-round btnDesistir" onclick="desistimientoEdicion()" style="display: inline-block">Desistir</button>
                 </div>
             </form>
         </div>
@@ -233,7 +223,7 @@ Inicialización sección de mensajería
         let i = 0;
         document.getElementById('tipoObjeto').value=pObjetoTipoId;
         document.getElementById('lblObjetoTipo').innerHTML=pObjetoTipo+": ";
-        document.getElementById("lblSangriaDerecha").innerHTML = "3. Registrar datos del objeto";
+        document.getElementById("lblOpcionesSesion").innerHTML = "3. Registrar datos del objeto";
         while (document.getElementById("btnObjeto"+i) != undefined) {
             document.getElementById("btnObjeto"+i).style.display = "none";
             i++;
@@ -284,7 +274,7 @@ Inicialización sección de mensajería
             document.getElementById("divFormularioObjeto").style.display = "none";
             document.getElementById("divFormularioRelacion").style.display = "block";
             document.getElementById("divFormularioMovimiento").style.display='none';
-            document.getElementById("lblSangriaDerecha").innerHTML = "3. Pulsar el objeto inicial de la relación";
+            document.getElementById("lblOpcionesSesion").innerHTML = "3. Pulsar el objeto inicial de la relación";
 
             let cadenaTiposPropiedad = pTiposPropiedadJson.replace(/&quot;/g, "'");
             cadenaTiposPropiedad = cadenaTiposPropiedad.replace(/'/g, '"');
@@ -321,19 +311,19 @@ Inicialización sección de mensajería
             alertaElemento(pRelacionTipo);
         }
         if (pPaso==2) {
-            document.getElementById("lblSangriaDerecha").innerHTML = "4. Seleccionar punto de inicio";
+            document.getElementById("lblOpcionesSesion").innerHTML = "4. Seleccionar punto de inicio";
         }
         if (pPaso==3) {
-            document.getElementById("lblSangriaDerecha").innerHTML = "5. Pulsar objeto final de la relación";
+            document.getElementById("lblOpcionesSesion").innerHTML = "5. Pulsar objeto final de la relación";
             document.getElementById('divCapturarObjetoFinal').style.display='block';
             document.getElementById('nombreObjetoFinal').focus();
             dibujarDiagrama(document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",pPaso);
         }
         if (pPaso==4) {
-            document.getElementById("lblSangriaDerecha").innerHTML = "6. Seleccionar punto final";
+            document.getElementById("lblOpcionesSesion").innerHTML = "6. Seleccionar punto final";
         }
         if (pPaso==5) {
-            document.getElementById("lblSangriaDerecha").innerHTML = "7. Registrar datos de la relación";
+            document.getElementById("lblOpcionesSesion").innerHTML = "7. Registrar datos de la relación";
             i = 0;
             while (i<5) {
                 if (document.getElementById('valorPropiedadRelacion'+i).name != 'none') {
@@ -347,7 +337,7 @@ Inicialización sección de mensajería
         socket.emit("reserva", {msg:'{{nombreUsuario}} prepara un elemento en el diagrama', sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
     }
     function inclusionElemento(){
-        restaurarDimensiones();
+        clickOcultarOpciones();
         document.getElementById("divBtnCapturaElemento").style.display = "inline-block";
         document.getElementById("btnDesplegarCaptura").style.display = "inline-block";
         document.getElementById("divFormularioObjeto").style.display = "none";
@@ -356,11 +346,7 @@ Inicialización sección de mensajería
         socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} incluyó un elemento en el diagrama', sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
     }
     function desistimientoElemento(pTipoElemento){
-        restaurarDimensiones();
-        document.getElementById("divBtnCapturaElemento").style.display = "inline-block";
-        document.getElementById("divFormularioObjeto").style.display = "none";
-        document.getElementById("divFormularioRelacion").style.display = "none";
-        document.getElementById("divFormularioMovimiento").style.display='none';
+        clickOcultarOpciones();
         dibujarDiagrama(document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=");
         socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} desistió de incluir un elemento en el diagrama', sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
         document.getElementById("banderaReserva").innerHTML='';
@@ -370,7 +356,6 @@ Inicialización sección de mensajería
         document.getElementById("divCapturaElemento").style.width = Math.round(window.innerWidth * 0.25)+"px";
         document.getElementById("btnCapturaObjeto").style.display = "none";
         document.getElementById("btnCapturaRelacion").style.display = "none";
-        document.getElementById("btnDesistirElemento").style.display = "none";
 
         document.getElementById("divFormularioObjeto").style.display = "none";
         document.getElementById("divFormularioRelacion").style.display = "none";
@@ -382,7 +367,7 @@ Inicialización sección de mensajería
         socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} editó el diagrama', sesion:'{{sesion.id}}', seccion:'Diagrama', usuario:'{{nombreUsuario}}'});
     }
     function desistimientoEdicion(pTipoElemento){
-        restaurarDimensiones();
+        clickOcultarOpciones();
         document.getElementById("divBtnCapturaElemento").style.display = "inline-block";
         document.getElementById("divFormularioObjeto").style.display = "none";
         document.getElementById("divFormularioRelacion").style.display = "none";

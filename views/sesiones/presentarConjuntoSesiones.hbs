@@ -1,17 +1,7 @@
-<div style="display: flex">
+<div id="divPrincipal" class="divContenedorPrincipal">
     <div id="divPresentacionSesiones" class="divPresentacion"></div>
-    <div id="divCapturaSesion" class="divEmergente">
-        <div id="divFormularioSesion" class="divFormulario">
-            <form method='POST' action='/main/grabarSesion'>
-                <div id="construirSesion" style="display: block;">
-                </div>
-                <div id="grabarMensaje" style="display: block;">
-                </div>
-            </form>
-        </div>
-    </div>
 </div>
 
 <script src="../javascripts/funcionesVistaConjuntoSesiones.js"></script>
 <script src="../javascripts/inicializacionVistaConjuntoSesiones.js"></script>
-<script type="text/javascript">inicializacionVistaConjuntoSesiones('{{conjuntoSesiones.sesionesJson}}');</script>
+<script type="text/javascript">inicializacionVistaConjuntoSesiones('{{conjuntoSesiones.sesionesJson}}','{{usuarioRecuperado.usuarioJson}}','{{conjuntoTiposDiagramaRecuperado.conjuntoTiposDiagramaJson}}');</script>

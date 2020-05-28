@@ -68,7 +68,7 @@ module.exports = class Datos extends Conexion {
             }
         }
     }
-    async grabarDocente(pCursoId, pGrupoId, pDocente) {
+    async grabarDocente(pProgramaId, pDocente) {
         if (pDocente.validez) {
             try {
                 this._firebase.firestore().collection(this._coleccionUsuarios).add({
@@ -76,8 +76,7 @@ module.exports = class Datos extends Conexion {
                     nombres: pDocente.nombres,
                     apellidos: pDocente.apellidos,
                     correoElectronico: pDocente.correo,
-                    docenteCursosId: [pCursoId],
-                    docenteGruposId: [pGrupoId],
+                    docenteProgramasId: [pProgramaId],
                     habilitadoAdministradorInstitucion: pDocente.administraInstitucion,
                     habilitadoAdministradorPrograma: pDocente.administraPrograma,
                     habilitadoAdministradorCurso: pDocente.administraCurso,
@@ -89,7 +88,7 @@ module.exports = class Datos extends Conexion {
             }
         }
     }
-    async grabarEstudiante(pGrupoId, pEstudiante) {
+    async grabarEstudiante(pProgramaId, pEstudiante) {
         if (pEstudiante.validez) {
             try {
                 this._firebase.firestore().collection(this._coleccionUsuarios).add({
@@ -97,7 +96,7 @@ module.exports = class Datos extends Conexion {
                     nombres: pEstudiante.nombres,
                     apellidos: pEstudiante.apellidos,
                     correoElectronico: pEstudiante.correo,
-                    estudianteGruposId: [pGrupoId],
+                    estudianteProgramasId: [pProgramaId],
                     habilitadoAdministradorInstitucion: pEstudiante.administraInstitucion,
                     habilitadoAdministradorPrograma: pEstudiante.administraPrograma,
                     habilitadoAdministradorCurso: pEstudiante.administraCurso,
@@ -158,11 +157,14 @@ module.exports = class Datos extends Conexion {
             .catch(err => {
                 console.log(err);
             });
+        rInstitucion.ordenarProgramas();
         return rInstitucion;
     }
     async recuperarPrograma(pId) {
         let tInstitucionId = '';
         let rPrograma = new Programa('','','','');
+        let tEstudiante = new Usuario('','','','',false,false,false,false,false);
+        let tDocente = new Usuario('','','','',false,false,false,false,false);
         let tCurso = new Curso('','','');
         let referenciaConsulta = this._firebase.firestore().collection(this._coleccionProgramas).doc(pId);
         let consulta = await referenciaConsulta.get()
@@ -206,6 +208,51 @@ module.exports = class Datos extends Conexion {
             .catch(err => {
                 console.log(err);
             });
+        referenciaConsulta = this._firebase.firestore().collection(this._coleccionUsuarios).where('docenteProgramasId', 'array-contains', pId);
+        consulta = await referenciaConsulta.get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(document => {
+                    tDocente = new Docente(
+                        document.id,
+                        document.data().identificacion,
+                        document.data().nombres,
+                        document.data().apellidos,
+                        document.data().correoElectronico,
+                        document.data().administraInstitucion,
+                        document.data().administraPrograma,
+                        document.data().administraCurso,
+                        document.data().habilitadoDocente,
+                        document.data().habilitadoEstudiante);
+                    rPrograma.incluirDocente(tDocente);
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        referenciaConsulta = this._firebase.firestore().collection(this._coleccionUsuarios).where('estudianteProgramasId', 'array-contains', pId);
+        consulta = await referenciaConsulta.get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(document => {
+                    tEstudiante = new Estudiante(
+                        document.id,
+                        document.data().identificacion,
+                        document.data().nombres,
+                        document.data().apellidos,
+                        document.data().correoElectronico,
+                        document.data().administraInstitucion,
+                        document.data().administraPrograma,
+                        document.data().administraCurso,
+                        document.data().habilitadoDocente,
+                        document.data().habilitadoEstudiante);
+                    rPrograma.incluirEstudiante(tEstudiante);
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        rPrograma.ordenarCursos();
+        rPrograma.ordenarDocentes();
+        rPrograma.ordenarEstudiantes();
         return rPrograma;
     }
     async recuperarCurso(pId) {
@@ -291,6 +338,8 @@ module.exports = class Datos extends Conexion {
             .catch(err => {
                 console.log(err);
             });
+        rCurso.ordenarDocentes();
+        rCurso.ordenarGrupos();
         return rCurso;
     }
     async recuperarGrupo(pId) {
@@ -397,6 +446,7 @@ module.exports = class Datos extends Conexion {
             .catch(err => {
                 console.log(err);
             });
+        rGrupo.ordenarEstudiantes();
         return rGrupo;
     }
     async recuperarUsuario(pIdentificacion) {
@@ -406,6 +456,30 @@ module.exports = class Datos extends Conexion {
             .then(querySnapshot => {
                 querySnapshot.forEach(document => {
                     rUsuario = new Usuario(
+                        document.id,
+                        document.data().identificacion,
+                        document.data().nombres,
+                        document.data().apellidos,
+                        document.data().correoElectronico,
+                        document.data().administraInstitucion,
+                        document.data().administraPrograma,
+                        document.data().administraCurso,
+                        document.data().habilitadoDocente,
+                        document.data().habilitadoEstudiante);
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        return rUsuario;
+    }
+    async recuperarUsuarioCorreo(pCorreoDocente) {
+        let rUsuario = new Usuario('','','','','',false,false,false,false,false);
+        let referenciaConsulta = this._firebase.firestore().collection(this._coleccionUsuarios).where('correoElectronico', '==', pCorreoDocente).limit(1);
+        let consulta = await referenciaConsulta.get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(document => {
+                    rUsuario = new Docente(
                         document.id,
                         document.data().identificacion,
                         document.data().nombres,

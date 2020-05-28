@@ -1,32 +1,30 @@
 function inicializacionVistaChat(pSesionJson) {
     const urlParametros = new URLSearchParams(window.location.search);
     let pSesion = cadenaJson(pSesionJson);
-    /*
-    Inicialización del encabezado
-     */
     if (urlParametros.get("nombreUsuario") == undefined) {
         document.getElementById("lblAplicacion").style.display = "none";
     } else {
+        /*
+        Inicialización del encabezado
+         */
         document.getElementById("lblUbicacion").innerHTML = pSesion._nombre+" | Chat";
         document.getElementById("lblUsuario").innerHTML = urlParametros.get("nombreUsuario");
         document.getElementById("imgBtnInicio").style.display = "inline-block";
-        document.getElementById("imgBtnInstituciones").style.display = "inline-block";
         document.getElementById("imgBtnSesiones").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";
         document.getElementById("btnLlamar").src = "/images/imgChatLlamar.png";
         document.getElementById("imgBtnChat").style.display = "none";
         document.getElementById("imgBtnChatInhabilitado").style.display = "inline-block";
-        /*
-        Inicialización de la altura máxima de dibujo
-         */
-        document.getElementById("divPresentacionChat").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionChat").offsetTop)+"px";
-        document.getElementById("divCapturaMensaje").style.height = document.getElementById("divPresentacionChat").style.height;
-        restaurarDimensiones();
-        document.getElementById("divCapturaMensaje").style.display = "inline-block";
 
-        document.getElementById("btnDesplegarCaptura").setAttribute(
+        clickOcultarOpciones();
+
+        document.getElementById("btnDesplegarOpcionesSesion").setAttribute(
             "onclick",
-            "clickCapturaMensaje()"
+            "clickDesplegarOpciones()"
+        );
+        document.getElementById("btnOcultarOpcionesSesion").setAttribute(
+            "onclick",
+            "desistimientoMensaje()"
         );
     }
 }

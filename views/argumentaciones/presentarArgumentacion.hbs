@@ -1,13 +1,10 @@
-<div style="display: flex">
+<div id="divPrincipal" class="divContenedorPrincipal">
     <div id="divPresentacionArgumentacion" class="divDibujo">
         <img id="imgArgumentacion" class="imgDibujo" usemap="#mapaArgumentacion"/>
         <map id="mapaArgumentacion" name="mapaArgumentacion"></map>
         <canvas id="canvasArgumentacion" width="1000" height="2000"></canvas>
     </div>
-    <div id="divCapturaAporte" class="divEmergente w3-round">
-        <div id="divBtnCapturaAporte">
-            <button id="btnDesistirAporte" class="w3-button w3-round btnDesistir">Desistir</button>
-        </div>
+    <div id="divCapturaAporte" class="divEmergente">
         <div id="divFormularioAporte" class="divFormulario">
             <form id="formGrabarAporteSesion" method='POST' action='/main/grabarAporteSesion'>
                 <input id="id" name='id' type='hidden' value={{argumentacion.id}}>
@@ -17,62 +14,52 @@
                 <input name="nombreUsuario" type="hidden" value="{{nombreUsuario}}">
                 <input name='idSesion' type="hidden" value={{sesion.id}}>
                 <input name='idObjeto' type="hidden" value={{idObjeto}}>
-                <div id="divAportePredecesor">
+                <div id="divAportePredecesor" class="divSubformulario">
                     <b><label id="lblAportePredecesorTipo" class="lblCaptura"></label></b><br>
-                    <label id="lblAportePredecesorContenido"></label><br><br>
+                    <label id="lblAportePredecesorContenido" class="lblCaptura"></label><br><br>
                 </div>
-                <br>
-                <div id="divBtnAportes">
+                <div id="divBtnAportes" class="divSubformulario">
                     <table class="tblSesion">
                         <tr>
                             <th id="thApoyo" class="tblAporte w3-round">
-                                <img id="imgBtnApoyo" class="w3-button w3-round imgBtnEncabezado" src="/images/imgApoyo.png" usemap="#mapBtnApoyo" title="Apoyar la proposición">
-                                <map id="mapBtnApoyo" name="mapBtnApoyo"></map>
-                                <lbl id="lblApoyo">Apoyo</lbl>
+                                <img id="imgBtnApoyo" class="w3-button w3-round imgBtnEncabezado" src="/images/imgApoyo.png" title="Apoyar la proposición">
+                                <lbl id="lblApoyo" class="lblCaptura">Apoyo</lbl>
                             </th>
                         </tr>
                         <tr>
                             <th id="thRefutacion" class="tblAporte w3-round">
-                                <img id="imgBtnRefutacion" class="w3-button w3-round imgBtnEncabezado" src="/images/imgRefutacion.png" usemap="#mapBtnRefutacion" title="Refutar la proposición">
-                                <map id="mapBtnRefutacion" name="mapBtnRefutacion"></map>
-                                <lbl id="lblRefutacion">Refutación</lbl>
+                                <img id="imgBtnRefutacion" class="w3-button w3-round imgBtnEncabezado" src="/images/imgRefutacion.png" title="Refutar la proposición">
+                                <lbl id="lblRefutacion" class="lblCaptura">Refutación</lbl>
                             </th>
                         </tr>
                         <tr>
                             <th id="thProposicion" class="tblAporte w3-round">
-                                <img id="imgBtnProposicion" class="w3-button w3-round imgBtnEncabezado" src="/images/imgProposicion.png" usemap="#mapBtnProposicion" title="Presentar nueva proposición">
-                                <map id="mapBtnProposicion" name="mapBtnProposicion"></map>
-                                <lbl id="lblProposicion">Proposición</lbl>
+                                <img id="imgBtnProposicion" class="w3-button w3-round imgBtnEncabezado" src="/images/imgProposicion.png" title="Presentar nueva proposición">
+                                <lbl id="lblProposicion" class="lblCaptura">Proposición</lbl>
                             </th>
                         </tr>
                         <tr>
                             <th id="thEvidencia" class="tblAporte w3-round">
-                                <img id="imgBtnEvidencia" class="w3-button w3-round imgBtnEncabezado" src="/images/imgEvidencia.png" usemap="#mapBtnEvidencia" title="Aportar evidencia">
-                                <map id="mapBtnEvidencia" name="mapBtnEvidencia"></map>
-                                <lbl id="lblEvidencia">Evidencia</lbl>
+                                <img id="imgBtnEvidencia" class="w3-button w3-round imgBtnEncabezado" src="/images/imgEvidencia.png" title="Aportar evidencia">
+                                <lbl id="lblEvidencia" class="lblCaptura">Evidencia</lbl>
                             </th>
                         </tr>
                         <tr>
                             <th id="thPregunta" class="tblAporte w3-round">
-                                <img id="imgBtnPregunta" class="w3-button w3-round imgBtnEncabezado" src="/images/imgPregunta.png" usemap="#mapBtnPregunta" title="Preguntar">
-                                <map id="mapBtnPregunta" name="mapBtnPregunta"></map>
-                                <lbl id="lblPregunta">Pregunta</lbl>
+                                <img id="imgBtnPregunta" class="w3-button w3-round imgBtnEncabezado" src="/images/imgPregunta.png" title="Preguntar">
+                                <lbl id="lblPregunta" class="lblCaptura">Pregunta</lbl>
                             </th>
                         </tr>
                     </table>
+                    <br>
+                </div>
+                <div id="divRedactarAporte" class="divSubformulario">
+                    <b><label id="lblAporteTipo" class="lblCaptura">Contenido:</label></b>
+                    <textarea id="aporteContenido" class="w3-input w3-round" type="text" name="aporteContenido" style="resize: none" onchange="continuacionAporte()"></textarea>
                 </div>
                 <br>
-                <div id="divRedactarAporte" style="display: none">
-                    <p>
-                        <b><label id="lblAporteTipo" class="lblCaptura">Contenido:</label></b>
-                        <textarea id="aporteContenido" class="w3-input w3-round" type="text" name="aporteContenido" style="resize: none" onchange="continuacionAporte()"></textarea>
-                    </p>
-                </div>
-                <br>
-                <div id="divGrabarAporte" style="display: none">
-                    <p>
-                        <button id="btnGrabarAporte" class="w3-button w3-round btnControl" type="submit">Grabar aporte</button>
-                    </p>
+                <div id="divGrabarAporte" class="divSubformulario">
+                    <button id="btnGrabarAporte" class="w3-button w3-round btnControl" type="submit">Grabar aporte</button>
                 </div>
             </form>
         </div>
@@ -166,12 +153,12 @@ Inicialización sección de mensajería
         document.getElementById("btnGrabarAporte").focus();
     }
     function inclusionAporte(){
-        restaurarDimensiones();
+        clickOcultarOpciones();
         document.getElementById("divCapturaAporte").style.display='none';
         socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} incluyó un nuevo aporte en la argumentación', sesion:'{{sesion.id}}', seccion:'Argumentacion', usuario:'{{nombreUsuario}}'});
     }
     function desistimientoAporte(pNombre){
-        restaurarDimensiones();
+        clickOcultarOpciones();
         socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} desistió de incluir un aporte en la argumentación', sesion:'{{sesion.id}}', seccion:'Argumentacion', usuario:'{{nombreUsuario}}'});
         document.getElementById("banderaReserva").innerHTML='';
     }

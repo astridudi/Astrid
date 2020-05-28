@@ -26,11 +26,12 @@
                 </th>
                 <th>
                     <div id="divNavegacion" style="display: flex; flex-direction: row-reverse;">
-                        <img id="imgBtnSalir" class="w3-button w3-round imgBtnEncabezado" src="/images/imgSalir.png" usemap="#mapBtnSalir" title="Salir">
-                        <img id="imgBtnCreditos" class="w3-button w3-round imgBtnEncabezado" src="/images/imgLogo.png" usemap="#mapBtnCreditos" title="Créditos">
-                        <img id="imgBtnEstadisticas" class="w3-button w3-round imgBtnEncabezado" src="/images/imgLogo.png" usemap="#mapBtnEstadisticas" title="Estadísticas">
-                        <img id="imgBtnSesiones" class="w3-button w3-round imgBtnEncabezado" src="/images/imgSesiones.png" usemap="#mapBtnSesiones" title="Sesiones">
-                        <img id="imgBtnInstituciones" class="w3-button w3-round imgBtnEncabezado" src="/images/imgInstituciones.png" usemap="#mapBtnInstituciones" title="Instituciones">
+                        <img id="imgBtnSalir" class="w3-button w3-round imgBtnEncabezado" src="/images/imgSalir.png" usemap="#mapBtnSalir">
+                        <img id="imgBtnCreditos" class="w3-button w3-round imgBtnEncabezado" src="/images/imgLogo.png" usemap="#mapBtnCreditos">
+                        <img id="imgBtnEstadisticas" class="w3-button w3-round imgBtnEncabezado" src="/images/imgLogo.png" usemap="#mapBtnEstadisticas">
+                        <img id="imgBtnSesiones" class="w3-button w3-round imgBtnEncabezado" src="/images/imgSesiones.png" usemap="#mapBtnSesiones">
+                        <img id="imgBtnCasos" class="w3-button w3-round imgBtnEncabezado" src="/images/imgSesiones.png" usemap="#mapBtnCasos">
+                        <img id="imgBtnInstituciones" class="w3-button w3-round imgBtnEncabezado" src="/images/imgInstituciones.png" usemap="#mapBtnInstituciones">
                         <img id="imgBtnIngresar" class="w3-button w3-round imgBtnEncabezado" src="/images/imgIngresar.png" usemap="#mapBtnIngresar" >
                         <div id="divSeparadorUsuario" style="width: 20px"></div>
                         <b id="lblUsuario" class="bEncabezado"></b>
@@ -38,6 +39,7 @@
                         <map id="mapBtnCreditos" name="mapBtnCreditos"></map>
                         <map id="mapBtnEstadisticas" name="mapBtnEstadisticas"></map>
                         <map id="mapBtnSesiones" name="mapBtnSesiones"></map>
+                        <map id="mapBtnCasos" name="mapBtnCasos"></map>
                         <map id="mapBtnInstituciones" name="mapBtnInstituciones"></map>
                         <map id="mapBtnIngresar" name="mapBtnIngresar"></map>
                     </div>
@@ -81,10 +83,12 @@
                     <img id="btnLlamar" class="w3-button w3-round imgBtnEncabezado" src="/images/imgPlanteamientoLlamar.png" usemap="#mapBtnDesplegarCaptura" style="display: none" title="Llamar a planteamiento">
                     <map id="mapBtnLlamar" name="mapBtnLlamar"></map>
                 </th>
-                <th id="thSangriaDerecha" class="tblSangriaDerecha w3-round">
-                    <img id="btnDesplegarCaptura" class="w3-button w3-round imgBtnEncabezado" src="/images/imgDesplegar.png" usemap="#mapBtnDesplegarCaptura" style="display: inline-block" title="Desplegar opciones">
-                    <map id="mapBtnDesplegarCaptura" name="mapBtnDesplegarCaptura"></map>
-                    <label id="lblSangriaDerecha" class="lblSesionResaltado" style="display: none"></label>
+                <th id="thOcultarOpcionesSesion" class="tblSangriaDerecha w3-round">
+                    <img id="btnOcultarOpcionesSesion" class="w3-button w3-round imgBtnEncabezado" src="/images/imgOcultar.png" style="display: none" title="Ocultar opciones">
+                </th>
+                <th id="thDesplegarOpcionesSesion" class="tblSangriaDerecha w3-round">
+                    <img id="btnDesplegarOpcionesSesion" class="w3-button w3-round imgBtnEncabezado" src="/images/imgDesplegar.png" usemap="#mapBtnDesplegarCaptura" style="display: inline-block" title="Desplegar opciones">
+                    <label id="lblOpcionesSesion" class="lblSesionResaltado" style="display: none"></label>
                 </th>
             </tr>
         </table>
@@ -95,9 +99,29 @@
                 <th id="thSangriaIzquierdaListado" class="tblSangriaIzquierda w3-round">
                     <img id="imgBtnNada" class="w3-button w3-round imgBtnEncabezado" src="/images/imgNada.png" style="display: inline-block">
                 </th>
+                <th id="thCursos" class="tblListado w3-round">
+                    <img id="btnDesplegarCursos" class="w3-button w3-round imgBtnEncabezado" src="/images/imgCurso.png" style="display: inline-block">
+                    <a id="lblCursos" class="lblSesion">Cursos</a>
+                </th>
+                <th id="thGrupos" class="tblListado w3-round">
+                    <img id="btnDesplegarGrupos" class="w3-button w3-round imgBtnEncabezado" src="/images/imgCurso.png" style="display: inline-block">
+                    <a id="lblGrupos" class="lblSesion">Grupos</a>
+                </th>
+                <th id="thDocentes" class="tblListado w3-round">
+                    <img id="btnDesplegarDocentes" class="w3-button w3-round imgBtnEncabezado" src="/images/imgDocente.png" style="display: inline-block">
+                    <a id="lblDocentes" class="lblSesion">Docentes</a>
+                </th>
+                <th id="thEstudiantes" class="tblListado w3-round">
+                    <img id="btnDesplegarEstudiantes" class="w3-button w3-round imgBtnEncabezado" src="/images/imgEstudiante.png" style="display: inline-block">
+                    <a id="lblEstudiantes" class="lblSesion">Estudiantes</a>
+                </th>
                 <th id="thSeparacionListado" class="tblSeparacion w3-round"></th>
-                <th id="thSangriaDerechaListado" class="tblSangriaDerecha w3-round">
-                    <b><button id="btnDesplegarCapturaListado" class="w3-button w3-round">+</button></b>
+                <th id="thOcultarOpciones" class="tblSangriaDerecha w3-round">
+                    <img id="btnOcultarOpciones" class="w3-button w3-round imgBtnEncabezado" src="/images/imgOcultar.png" style="display: none" title="Ocultar opciones">
+                </th>
+                <th id="thDesplegarOpciones" class="tblSangriaDerecha w3-round">
+                    <img id="btnDesplegarOpciones" class="w3-button w3-round imgBtnEncabezado" src="/images/imgDesplegar.png" style="display: inline-block" title="Desplegar opciones">
+                    <label id="lblOpciones" class="lblSesionResaltado" style="display: none"></label>
                 </th>
             </tr>
         </table>

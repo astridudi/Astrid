@@ -6,11 +6,12 @@ function clickDesplegarOpciones() {
     document.getElementById("lblOpciones").style.display = "inline-block";
     document.getElementById("btnOcultarOpciones").style.display = "inline-block";
     document.getElementById("btnDesplegarOpciones").style.display = "none";
-    // presentarConjuntoInstituciones
-    document.getElementById("divPresentacionInstituciones").style.width = Math.round(window.innerWidth * 0.50)+"px";
-    document.getElementById("divCapturaInstitucion").style.width = Math.round(window.innerWidth * 0.50)+"px";
+    // presentarGrupo
+    document.getElementById("divPresentacionGrupo").style.width = Math.round(window.innerWidth * 0.50)+"px";
+    document.getElementById("divCapturaEstudiante").style.width = Math.round(window.innerWidth * 0.50)+"px";
     document.getElementById("divBtnOpciones").style.display = "block";
-    document.getElementById("divFormularioInstitucion").style.display = "none";
+    document.getElementById("divFormularioDocente").style.display = "none";
+    document.getElementById("divFormularioEstudiante").style.display = "none";
 }
 
 function clickOcultarOpciones() {
@@ -26,21 +27,30 @@ function clickOcultarOpciones() {
     document.getElementById("lblOpciones").style.display = "none";
     document.getElementById("btnDesplegarOpciones").style.display = "block";
     document.getElementById("btnOcultarOpciones").style.display = "none";
-    // presentarConjuntoInstituciones
-    document.getElementById("divPresentacionInstituciones").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionInstituciones").offsetTop)+"px";
-    document.getElementById("divPresentacionInstituciones").style.width = window.innerWidth+"px";
-    document.getElementById("divCapturaInstitucion").style.height = document.getElementById("divPresentacionInstituciones").style.height;
-    document.getElementById("divCapturaInstitucion").style.width = 0+"px";
+    // presentarGrupo
+    document.getElementById("divPresentacionGrupo").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionGrupo").offsetTop)+"px";
+    document.getElementById("divPresentacionGrupo").style.width = window.innerWidth+"px";
+    document.getElementById("divCapturaEstudiante").style.height = document.getElementById("divPresentacionGrupo").style.height;
+    document.getElementById("divCapturaEstudiante").style.width = 0+"px";
     document.getElementById("divBtnOpciones").style.display = "none";
-    document.getElementById("divFormularioInstitucion").style.display = "none";
+    document.getElementById("divFormularioDocente").style.display = "none";
+    document.getElementById("divFormularioEstudiante").style.display = "none";
 }
 
-function clickCapturarInstitucion() {
+function clickCapturarDocente() {
     // layout
     document.getElementById("thDesplegarOpciones").className = "tblSangriaDerechaResaltada";
-    document.getElementById("lblOpciones").innerHTML = "Registrar institución";
-    // presentarConjuntoInstituciones
+    document.getElementById("lblOpciones").innerHTML = "Registrar docente";
+    // presentarGrupo
     document.getElementById("divBtnOpciones").style.display = "none";
-    document.getElementById("divFormularioInstitucion").style.display = "block";
-    document.getElementById("inpNombreInstitucion").focus();
+    document.getElementById("divFormularioDocente").style.display = "block";
+}
+
+function clickCapturarEstudiante() {
+    // layout
+    document.getElementById("thDesplegarOpciones").className = "tblSangriaDerechaResaltada";
+    document.getElementById("lblOpciones").innerHTML = "Registrar estudiante";
+    // presentarGrupo
+    document.getElementById("divBtnOpciones").style.display = "none";
+    document.getElementById("divFormularioEstudiante").style.display = "block";
 }

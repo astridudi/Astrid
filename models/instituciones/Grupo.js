@@ -58,4 +58,32 @@ module.exports = class Grupo {
         let i = this._estudiantes.length;
         this._estudiantes[i] = pEstudiante;
     }
+    get grupoJson() {
+        let rGrupoJson = JSON.stringify(this);
+        return rGrupoJson;
+    }
+    esAnteriorA(pGrupo) {
+        var rEsAnteriorA;
+        rEsAnteriorA = (this._nombre.localeCompare(pGrupo._nombre) < 0);
+        return rEsAnteriorA;
+    }
+    ordenarEstudiantes() {
+        let i = 0;
+        let j = 0;
+        let k = 0;
+        let tEstudiante = undefined;
+        for (i=0; i<this._estudiantes.length - 1; i++) {
+            k=i;
+            for (j=i+1; j<this._estudiantes.length; j++) {
+                if (this._estudiantes[j].esAnteriorA(this._estudiantes[k])) {
+                    k=j;
+                }
+            }
+            if (k != i) {
+                tEstudiante = this._estudiantes[i];
+                this._estudiantes[i] = this._estudiantes[k];
+                this._estudiantes[k] = tEstudiante;
+            }
+        }
+    }
 }

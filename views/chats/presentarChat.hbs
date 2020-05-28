@@ -1,26 +1,22 @@
-<div style="display: flex">
+<div id="divPrincipal" class="divContenedorPrincipal">
     <div id="divPresentacionChat" class="divDibujo">
         <img id="imgChat" class="imgDibujo" usemap="#mapaChat">
         <map id="mapaChat" name="mapaChat"></map>
         <canvas id="canvasChat" width="1000" height="2000"></canvas>
     </div>
-    <div id="divCapturaMensaje" class="divEmergente w3-round">
+    <div id="divCapturaMensaje" class="divEmergente">
         <div id="divFormularioMensaje" class="divFormulario">
             <form method='POST' action='/main/grabarMensajeChatSesion'>
-                <div id="construirMensaje" style="display: block;">
-                    <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
-                    <input type='hidden' name='idSesion' value={{sesion.id}}>
-                    <input type='hidden' name='id' value={{sesion.chat.id}}>
-                    <input type='hidden' name='mensajeTiempo' value=''/>
+                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
+                <input type='hidden' name='idSesion' value={{sesion.id}}>
+                <input type='hidden' name='id' value={{sesion.chat.id}}>
+                <input type='hidden' name='mensajeTiempo' value=''/>
+                <div id="divDatosMensaje" class="divSubformulario">
+                    <b><label class="lblCaptura" >Mensaje:</label></b>
+                    <textarea id="mensajeContenido" class="w3-input w3-round" type="text" name="mensajeContenido" style="resize: none" onchange="continuacionMensaje()"></textarea>
                 </div>
-                <div id="grabarMensaje" style="display: block;">
-                    <p>
-                        <b><label class="lblCaptura" >Mensaje:</label></b>
-                        <textarea id="mensajeContenido" class="w3-input w3-round" type="text" name="mensajeContenido" style="resize: none" onchange="continuacionMensaje()"></textarea>
-                        <br>
-                        <button id="btnEnviarMensaje" type="submit" class="w3-button w3-round btnControl" onclick="emisionMensaje()">Enviar mensaje</button>
-                        <button id="btnDesistirMensaje" type="button" class="w3-button w3-round btnDesistir" onclick="desistimientoMensaje()">Desistir</button>
-                    </p>
+                <div id="divGrabarMensaje" class="divSubformulario">
+                    <button id="btnEnviarMensaje" type="submit" class="w3-button w3-round btnControl" onclick="emisionMensaje()">Enviar mensaje</button>
                 </div>
             </form>
         </div>
@@ -45,7 +41,7 @@ Inicialización sección de mensajería
         socket.on("actualizacionChat", (data)=>{
             console.log("Evento: "+data);
             dibujarChat(data.chatRecuperado, "{{nombreUsuario}}");
-            restaurarDimensiones();
+            clickOcultarOpciones();
         });
         socket.on('ubicacion', function (data) {
             ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
@@ -77,7 +73,7 @@ Inicialización sección de mensajería
             if (data.usuario != '{{nombreUsuario}}') {
                 if (document.getElementById("banderaReserva").innerHTML == "") {
                     ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
-                    document.getElementById("btnDesplegarCaptura").style.display = "none";
+                    document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
                 } else {
                     socket.emit("reservaAnterior", {msg:'{{nombreUsuario}} continúa preparando un mensaje en el chat', sesion:'{{sesion.id}}', seccion:'Chat', usuario:'{{nombreUsuario}}'});
                 }
@@ -88,7 +84,7 @@ Inicialización sección de mensajería
         });
         socket.on('reservaAnterior', function (data) {
             if (data.usuario != '{{nombreUsuario}}') {
-                document.getElementById("btnDesplegarCaptura").style.display = "none";
+                document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
                 document.getElementById("banderaReserva").innerHTML = "";
                 ubicarUsuario('{{nombreUsuario}}','{{nombreUsuario}}',"Chat");
                 ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion,true);
@@ -96,7 +92,7 @@ Inicialización sección de mensajería
         });
         socket.on('levantamientoReserva', function (data) {
             if (data.usuario != '{{nombreUsuario}}') {
-                document.getElementById("btnDesplegarCaptura").style.display = "inline-block";
+                document.getElementById("btnDesplegarOpcionesSesion").style.display = "inline-block";
                 document.getElementById("banderaReserva").innerHTML="";
             }
             ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);
@@ -115,12 +111,12 @@ Inicialización sección de mensajería
         document.getElementById("btnEnviarMensaje").focus();
     }
     function emisionMensaje(){
-        restaurarDimensiones();
+        clickOcultarOpciones();
         socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} envió un mensaje en el chat', sesion:'{{sesion.id}}', usuario:'{{nombreUsuario}}'});
         document.getElementById("btnEnviarMensaje").style.display="none"
     }
     function desistimientoMensaje(){
-        restaurarDimensiones();
+        clickOcultarOpciones();
         socket.emit("levantamientoReserva", {msg:'{{nombreUsuario}} desistió de enviar un mensaje en el chat', sesion:'{{sesion.id}}', seccion:'Chat', usuario:'{{nombreUsuario}}'});
         document.getElementById("banderaReserva").innerHTML='';
     }

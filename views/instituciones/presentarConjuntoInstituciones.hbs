@@ -1,11 +1,25 @@
-<div style="display: flex">
+<div id="divPrincipal" class="divContenedorPrincipal">
     <div id="divPresentacionInstituciones" class="divPresentacion"></div>
     <div id="divCapturaInstitucion" class="divEmergente">
+        <div id="divBtnOpciones" class="divSubformulario">
+            <button id="btnAgregarInstitucion" class="w3-button w3-round btnControl">Registrar institución</button>
+            <button id="btnEliminarInstitucion" class="w3-button w3-round btnControl">Eliminar institución</button>
+        </div>
         <div id="divFormularioInstitucion" class="divFormulario">
             <form method='POST' action='/main/grabarInstitucion'>
-                <div id="construirInstitucion" style="display: block;">
+                <input id="nombreUsuario" type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
+                <div id="divDatosInstitucion" class="divSubformulario">
+                    <b><label class="lblCaptura" >Institución:</label></b>
+                    <input id="inpNombreInstitucion" class="w3-input w3-round" type="text" name="nombreInstitucion"></input>
+                    <br>
+                    <b><label class="lblCaptura" >Sigla:</label></b>
+                    <input id="inpSiglaInstitucion" class="w3-input w3-round" type="text" name="siglaInstitucion"></input>
+                    <br>
+                    <b><label class="lblCaptura" >Snies:</label></b>
+                    <input id="inpSniesInstitucion" class="w3-input w3-round" type="text" name="identificacionInstitucion"></input>
                 </div>
-                <div id="grabarInstitucion" style="display: block;">
+                <div id="divGrabarInstitucion" class="divSubformulario">
+                    <button id="btnGrabarInstitucion" type="submit" class="w3-button w3-round btnControl">Grabar institucion</button>
                 </div>
             </form>
         </div>

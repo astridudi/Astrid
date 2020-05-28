@@ -78,8 +78,14 @@ th.tblSesion {
   text-align: left;
 }
 
+th.tblListado {
+  width: 200px;
+  background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
+  text-align: left;
+}
+
 th.tblAporte {
-  width: 100%;
+  width: 200px;
   background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
   text-align: left;
 }
@@ -94,7 +100,7 @@ th.tblSangriaDerecha {
 }
 
 th.tblSangriaDerechaResaltada {
-  background-image: linear-gradient(to top right, var(--colorTextoNormal), var(--colorGrisLibre));
+  background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
 }
 
 label.lblSesion {
@@ -108,7 +114,7 @@ label.lblSesionResaltado {
   alignment: left;
   font-family: var(--tipografiaNormal);
   font-size: var(--tamanoTipografiaNormal);
-  color: var(--colorFondoLibre);
+  color: var(--colorVerdePrincipalWeb);
 }
 
 b.bSesion {
@@ -129,6 +135,10 @@ div.divFondo {
   position: relative;
 }
 
+div.divContenedorPrincipal {
+  display: flex;
+}
+
 div.divPresentacion {
   display: block;
   font-family: var(--tipografiaNormal);
@@ -138,6 +148,15 @@ div.divPresentacion {
   border-bottom-color: var(--colorNaranjaPrincipalWeb);
   overflow: auto;
   position: relative;
+  padding: 20px;
+}
+
+div.divListado {
+  font-family: var(--tipografiaNormal);
+  font-size: var(--tamanoTipografiaNormal);
+  overflow: auto;
+  position: relative;
+  padding: 20px;
 }
 
 a.btnEnumeracion {
@@ -215,9 +234,17 @@ div.divFormulario {
   font-family: var(--tipografiaNormal);
   font-size: var(--tamanoTipografiaNormal);
   background-color: var(--colorGrisLibre);
-  padding: 20px;
+  padding: 10px;
   overflow: auto;
   position: relative;
+}
+
+div.divSubformulario {
+  font-family: var(--tipografiaNormal);
+  font-size: var(--tamanoTipografiaNormal);
+  background-color: var(--colorGrisLibre);
+  padding: 20px;
+  padding-bottom: 0px;
 }
 
 div.divCaptura {
@@ -236,10 +263,31 @@ b.bCaptura {
   color: var(--colorTextoNormal);
 }
 
+label.lblPresentacion {
+  alignment: left;
+  font-family: var(--tipografiaNormal);
+  font-size: var(--tamanoTipografiaGrande);
+  color: var(--colorTextoNormal);
+}
+
+label.lblPresentacionSub {
+  alignment: left;
+  font-family: var(--tipografiaNormal);
+  font-size: var(--tamanoTipografiaNormal);
+  color: var(--colorTextoNormal);
+}
+
 label.lblCaptura {
   alignment: left;
   font-family: var(--tipografiaNormal);
   font-size: var(--tamanoTipografiaGrande);
+  color: var(--colorTextoNormal);
+}
+
+label.lblMenor {
+  alignment: left;
+  font-family: var(--tipografiaNormal);
+  font-size: var(--tamanoTipografiaPequena);
   color: var(--colorTextoNormal);
 }
 
@@ -284,7 +332,7 @@ button.btnTerceraPersonaReserva {
 }
 
 button.btnControl {
-  display: none;
+  display: "inline-block";
   color: #FFFFFF;
   font-family: var(--tipografiaNormal);
   font-size: var(--tamanoTipografiaNormal);
@@ -305,6 +353,19 @@ button.btnDesistir {
   border-color: #FFFFFF;
 }
 
+table.tblIntegrantes {
+  width: 100%;
+}
+
+td.tblIntegrantes {
+  width: 75%;
+  font-size: var(--tamanoTipografiaPequena);
+}
+
+td.tblEquipos {
+  width: 25%;
+}
+
 hr.verdeAstrid3 {
   border: 3px solid var(--colorVerdePrincipalWeb);
   border-radius: 2px;
@@ -319,6 +380,14 @@ hr.naranjaAstrid2 {
   border-radius: 1px;
 }
 
-a {
+a.aEnumeracion {
+  font-family: var(--tipografiaNormal);
+  font-size: var(--tamanoTipografiaNormal);
+  color: var(--colorNaranjaPrincipalWeb);
+}
 
+a.aEnumeracionSub {
+  font-family: var(--tipografiaNormal);
+  font-size: var(--tamanoTipografiaPequena);
+  color: var(--colorVerdePrincipalWeb);
 }

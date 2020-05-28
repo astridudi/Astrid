@@ -1,28 +1,56 @@
-{{#if grupo}}
-    <h3>
-        <a href='/main/consultarConjuntoInstituciones?nombreUsuario={{nombreUsuario}}'>Instituciones</a> |
-        <a href="/main/presentarInstitucion?id={{grupo.curso.programa.institucion.id}}&nombreUsuario={{nombreUsuario}}">{{grupo.curso.programa.institucion.nombre}}</a> |
-        <a href="/main/presentarPrograma?id={{grupo.curso.programa.id}}&nombreUsuario={{nombreUsuario}}">{{grupo.curso.programa.nombre}}</a> |
-        <a href="/main/presentarCurso?id={{grupo.curso.id}}&nombreUsuario={{nombreUsuario}}">{{grupo.curso.nombre}}</a> |
-        {{grupo.nombre}} |
-    </h3>
-    <p>Identificación: {{grupo.identificacion}}</p>
-    <p>Nombre: {{grupo.nombre}}</p>
-    <hr class="verdeAstrid1">
-    <h3>Docentes</h3>
-    <ul>
-        <li><a href="/main/presentarDocente?id={{id}}&nombreUsuario={{../nombreUsuario}}">{{grupo.docente.identificacion}}</a> - {{grupo.docente.nombres}} {{grupo.docente.apellidos}} - {{grupo.docente.correo}}</li>
-    </ul>
-    <hr class="verdeAstrid1">
-    <h3>Estudiantes</h3>
-    {{#each grupo.estudiantes}}
-        <ul>
-            <li><a href="/main/presentarEstudiante?id={{id}}&nombreUsuario={{../nombreUsuario}}">{{identificacion}}</a> - {{nombres}} {{apellidos}} - {{correo}}</li>
-        </ul>
-    {{/each}}
-    <hr class="verdeAstrid1">
-    <a href='/main/eliminarGrupo?id={{grupo.id}}&nombreUsuario={{nombreUsuario}}'>Eliminar grupo</a> |
-    <a href='/main/editarGrupo?id={{grupo.id}}&nombreUsuario={{nombreUsuario}}'>Editar grupo</a> |
-    <a href='/main/vincularDocente?id={{grupo.id}}&nombreUsuario={{nombreUsuario}}'>Vincular docente</a> |
-    <a href='/main/vincularEstudiante?id={{grupo.id}}&nombreUsuario={{nombreUsuario}}'>Vincular estudiante</a>
-{{/if}}
+<div id="divPrincipal" class="divContenedorPrincipal">
+    <div id="divPresentacionGrupo" class="divPresentacion">
+        <label id="lblNombreInstitucion" class="lblPresentacion"></label>
+        <label id="lblSniesInstitucion" class="lblMenor"></label><br>
+        <label id="lblNombrePrograma" class="lblPresentacion"></label>
+        <label id="lblSniesPrograma" class="lblMenor"></label><br>
+        <label id="lblNombreCurso" class="lblPresentacion"></label>
+        <label id="lblIdentificacionCurso" class="lblMenor"></label><br>
+        <label id="lblNombreGrupo" class="lblPresentacion"></label>
+        <label id="lblIdentificacionGrupo" class="lblMenor"></label><br>
+        <div id="divPresentacionDocentes" class="divListado">
+            <label id="lblDocentes" class="lblPresentacion">Docente</label><br>
+        </div>
+        <div id="divPresentacionEstudiantes" class="divListado">
+            <label id="lblEstudiantes" class="lblPresentacion">Estudiantes</label><br>
+        </div>
+    </div>
+    <div id="divCapturaEstudiante" class="divEmergente">
+        <div id="divBtnOpciones" class="divSubformulario">
+            <button id="btnAgregarDocente" class="w3-button w3-round btnControl">Registrar docente</button>
+            <button id="btnEliminarDocente" class="w3-button w3-round btnControl">Eliminar docente</button>
+            <button id="btnAgregarEstudiante" class="w3-button w3-round btnControl">Registrar estudiante</button>
+            <button id="btnEliminarEstudiante" class="w3-button w3-round btnControl">Eliminar estudiante</button>
+        </div>
+        <div id="divFormularioDocente" class="divFormulario">
+            <form method='POST' action='/main/grabarVinculoDocente'>
+                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
+                <input type='hidden' name='idGrupoDocente' value={{grupo.id}}>
+                <div id="divDatosDocente" class="divSubformulario">
+                    <b><label class="lblCaptura">Identificacion:</label></b>
+                    <input id="inpIdentificacionDocente" class="w3-input w3-round" type="text" name="identificacionDocente"></input>
+                </div>
+                <div id="divGrabarDocente" class="divSubformulario">
+                    <button id="btnGrabarDocente" type="submit" class="w3-button w3-round btnControl">Grabar docente</button>
+                </div>
+            </form>
+        </div>
+        <div id="divFormularioEstudiante" class="divFormulario">
+            <form method='POST' action='/main/grabarVinculoEstudiante'>
+                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
+                <input type='hidden' name='idGrupoEstudiante' value={{grupo.id}}>
+                <div id="divDatosEstudiante" class="divSubformulario">
+                    <b><label class="lblCaptura">Identificacion:</label></b>
+                    <input id="inpIdentificacionEstudiante" class="w3-input w3-round" type="text" name="identificacionEstudiante"></input>
+                </div>
+                <div id="divGrabarEstudiante" class="divSubformulario">
+                    <button id="btnGrabarEstudiante" type="submit" class="w3-button w3-round btnControl">Grabar estudiante</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="../javascripts/funcionesVistaGrupo.js"></script>
+<script src="../javascripts/inicializacionVistaGrupo.js"></script>
+<script type="text/javascript">inicializacionVistaGrupo('{{grupo.grupoJson}}');</script>

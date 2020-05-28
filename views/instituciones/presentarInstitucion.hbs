@@ -1,20 +1,35 @@
-{{#if institucion}}
-    <h3>
-        <a href='/main/consultarConjuntoInstituciones?nombreUsuario={{nombreUsuario}}'>Instituciones</a> |
-        {{institucion.nombre}} |
-    </h3>
-    <p>Identificacion (SNIES) : {{institucion.identificacion}}</p>
-    <p>Nombre: {{institucion.nombre}}</p>
-    <p>Sigla: {{institucion.sigla}}</p>
-    <hr class="verdeAstrid1">
-    <h3>Programas</h3>
-    {{#each institucion.programas}}
-        <ul>
-            <li><a href="/main/presentarPrograma?id={{id}}&nombreUsuario={{../nombreUsuario}}">{{identificacion}}</a> {{nombre}}</li>
-        </ul>
-    {{/each}}
-    <hr class="verdeAstrid1">
-    <a href='/main/eliminarInstitucion?id={{institucion.id}}&nombreUsuario={{nombreUsuario}}'>Eliminar institución</a> |
-    <a href='/main/editarInstitucion?id={{institucion.id}}&nombreUsuario={{nombreUsuario}}'>Editar institución</a> |
-    <a href='/main/registrarPrograma?id={{institucion.id}}&nombreUsuario={{nombreUsuario}}'>Registrar programa</a>
-{{/if}}
+<div id="divPrincipal" class="divContenedorPrincipal">
+    <div id="divPresentacionInstitucion" class="divPresentacion">
+        <label id="lblNombreInstitucion" class="lblPresentacion"></label>
+        <label id="lblSniesInstitucion" class="lblMenor"></label><br>
+        <div id="divPresentacionProgramas" class="divListado">
+            <label id="lblProgramas" class="lblPresentacion">Programas</label><br>
+        </div>
+    </div>
+    <div id="divCapturaPrograma" class="divEmergente">
+        <div id="divBtnOpciones" class="divSubformulario">
+            <button id="btnAgregarPrograma" class="w3-button w3-round btnControl">Registrar programa</button>
+            <button id="btnEliminarPrograma" class="w3-button w3-round btnControl">Eliminar programa</button>
+        </div>
+        <div id="divFormularioPrograma" class="divFormulario">
+            <form method='POST' action='/main/grabarPrograma'>
+                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
+                <input type='hidden' name='idInstitucion' value={{institucion.id}}>
+                <div id="divDatosPrograma" class="divSubformulario">
+                    <b><label class="lblCaptura" >Programa:</label></b>
+                    <input id="inpNombrePrograma" class="w3-input w3-round" type="text" name="nombrePrograma"></input>
+                    <br>
+                    <b><label class="lblCaptura" >Snies:</label></b>
+                    <input id="inpSniesPrograma" class="w3-input w3-round" type="text" name="identificacionPrograma"></input>
+                </div>
+                <div id="divGrabarPrograma" class="divSubformulario">
+                    <button id="btnGrabarPrograma" type="submit" class="w3-button w3-round btnControl">Grabar programa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="../javascripts/funcionesVistaInstitucion.js"></script>
+<script src="../javascripts/inicializacionVistaInstitucion.js"></script>
+<script type="text/javascript">inicializacionVistaInstitucion('{{institucion.institucionJson}}');</script>

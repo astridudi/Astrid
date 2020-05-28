@@ -1,36 +1,29 @@
 function inicializacionVistaArgumentacion(pSesionJson) {
     const urlParametros = new URLSearchParams(window.location.search);
     let pSesion = cadenaJson(pSesionJson);
-    /*
-    Inicialización del encabezado
-     */
     if (urlParametros.get("nombreUsuario") == undefined) {
         document.getElementById("lblAplicacion").style.display = "none";
     } else {
+        /*
+        Inicialización del encabezado
+         */
         document.getElementById("lblUbicacion").innerHTML = pSesion._nombre+" | Argumentación";
         document.getElementById("lblUsuario").innerHTML = urlParametros.get("nombreUsuario");
         document.getElementById("imgBtnInicio").style.display = "inline-block";
-        document.getElementById("imgBtnInstituciones").style.display = "inline-block";
         document.getElementById("imgBtnSesiones").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";
         document.getElementById("btnLlamar").src = "/images/imgArgumentacionLlamar.png";
         document.getElementById("imgBtnArgumentacion").style.display = "none";
         document.getElementById("imgBtnArgumentacionInhabilitado").style.display = "inline-block";
-        /*
-        Inicialización de la altura máxima de dibujo
-         */
-        document.getElementById("divPresentacionArgumentacion").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionArgumentacion").offsetTop)+"px";
-        document.getElementById("divPresentacionArgumentacion").style.width = window.innerWidth+"px";
-        document.getElementById("divCapturaAporte").style.height = document.getElementById("divPresentacionArgumentacion").style.height;
-        document.getElementById("divCapturaAporte").style.width = 0+"px";
-        document.getElementById("divCapturaAporte").style.display = "inline-block";
     }
 
-    document.getElementById("btnDesplegarCaptura").setAttribute(
+    clickOcultarOpciones();
+
+    document.getElementById("btnDesplegarOpcionesSesion").setAttribute(
         "onclick",
-        "clickCapturaAporte()"
+        "clickDesplegarOpciones()"
     );
-    document.getElementById("btnDesistirAporte").setAttribute(
+    document.getElementById("btnOcultarOpcionesSesion").setAttribute(
         "onclick",
         "desistimientoAporte()"
     );

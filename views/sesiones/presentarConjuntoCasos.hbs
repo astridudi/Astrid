@@ -1,0 +1,70 @@
+<div id="divPrincipal" class="divContenedorPrincipal">
+    <div id="divPresentacionSesiones" class="divPresentacion"></div>
+    <div id="divCapturaSesion" class="divEmergente">
+        <div id="divBtnOpcionesSesion" class="divSubformulario">
+            <button id="btnAgregarCaso" class="w3-button w3-round btnControl">Registrar caso</button>
+            <button id="btnEliminarCaso" class="w3-button w3-round btnControl">Eliminar caso</button>
+            <button id="btnAsignarCaso" class="w3-button w3-round btnControl">Asignar caso</button>
+        </div>
+        <div id="divFormularioCaso" class="divFormulario">
+            <form method='POST' action='/main/grabarCaso'>
+                <input id="nombreUsuario" type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
+                <input id="idUsuarioCaso" type='hidden' name='idUsuarioCaso'>
+                <input id="inicioCaso" type='hidden' name='inicioCaso' value=''>
+                <input id="inpIdCurso" type='hidden' name='idCurso' value="">
+                <div id="divDatosCaso" class="divSubformulario">
+                    <b><label class="lblCaptura" >Curso:</label></b>
+                    <input id="inpNombreCurso" class="w3-input w3-round" type="text" name="nombreCurso" disabled></input>
+                    <br>
+                    <b><label class="lblCaptura" >Caso:</label></b>
+                    <input id="inpNombreCaso" class="w3-input w3-round" type="text" name="nombreCaso"></input>
+                    <br>
+                    <b><label class="lblCaptura" >Tipo de diagrama:</label></b>
+                    <br>
+                    <select id="selTipoDiagrama" class="w3-input w3-round" name='selTipoDiagrama' required>
+                        <option></option>
+                    </select>
+                </div>
+                <div id="divGrabarCaso" class="divSubformulario">
+                    <button id="btnGrabarCaso" type="submit" class="w3-button w3-round btnControl">Grabar caso</button>
+                </div>
+            </form>
+        </div>
+        <div id="divFormularioSesion" class="divFormulario">
+            <form method='POST' action='/main/grabarAsignacion'>
+                <input id="nombreUsuarioSesion" type='hidden' name='nombreUsuarioSesion' value={{nombreUsuario}}>
+                <input id="idUsuarioAsignacion" type='hidden' name='idUsuarioAsignacion'>
+                <input id="inicioSesion" type='hidden' name='inicioSesion' value=''>
+                <input id="inpIdCaso" type='hidden' name='idCaso' value="">
+                <input id="inpIdCursoSesion" type='hidden' name='idCursoSesion' value="">
+                <input id="inpIdGrupo" type='hidden' name='idGrupo' value="">
+                <input id="inpNombreSesion" type="hidden" name="nombreSesion" value="">
+                <input id="inpIdTipoDiagramaSesion" type="hidden" name="idTipoDiagramaSesion" value="">
+                <input id="nombreTipoDiagramaSesion" type="hidden" name="nombreTipoDiagramaSesion" value="">
+                <div id="divDatosSesion" class="divSubformulario">
+                    <b><label class="lblCaptura" >Curso:</label></b>
+                    <input id="inpNombreCursoSesion" class="w3-input w3-round" type="text" name="nombreCursoSesion" disabled></input>
+                    <br>
+                    <b><label class="lblCaptura" >Caso:</label></b>
+                    <input id="inpNombreCasoSesion" class="w3-input w3-round" type="text" name="nombreCasoSesion" disabled></input>
+                    <br>
+                    <b><label class="lblCaptura" >Tipo de Diagrama:</label></b>
+                    <input id="inpNombreDiagramaSesion" class="w3-input w3-round" type="text" name="nombreDiagramaSesion" disabled></input>
+                    <br>
+                    <b><label class="lblCaptura" >Grupo:</label></b>
+                    <input id="inpNombreGrupoSesion" class="w3-input w3-round" type="text" name="nombreGrupoSesion" disabled></input>
+                    <br>
+                    <b><label class="lblCaptura">Equipos:</label></b>
+                    <table id="tblEstudiantes" class="tblIntegrantes"></table>
+                </div>
+                <div id="divGrabarAsignacion" class="divSubformulario">
+                    <button id="btnGrabarAsignacion" type="submit" class="w3-button w3-round btnControl">Grabar asignación</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="../javascripts/funcionesVistaConjuntoCasos.js"></script>
+<script src="../javascripts/inicializacionVistaConjuntoCasos.js"></script>
+<script type="text/javascript">inicializacionVistaConjuntoCasos('{{conjuntoSesiones.sesionesJson}}','{{usuarioRecuperado.usuarioJson}}','{{conjuntoTiposDiagramaRecuperado.conjuntoTiposDiagramaJson}}');</script>

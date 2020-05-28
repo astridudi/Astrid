@@ -25,6 +25,10 @@ module.exports = class ConjuntoTiposDiagrama {
     get tiposDiagrama() {
         return this._tiposDiagrama;
     }
+    get conjuntoTiposDiagramaJson() {
+        let rConjuntoTiposDiagramaJson = JSON.stringify(this, ['_tiposDiagrama', '_id', '_nombre']);
+        return rConjuntoTiposDiagramaJson;
+    }
     tipoDiagrama(pIdTipoDiagrama) {
         return this._tiposDiagrama[pIdTipoDiagrama];
     }

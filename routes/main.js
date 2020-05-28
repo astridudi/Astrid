@@ -11,6 +11,7 @@ const Docente = require('../models/instituciones/Docente');
 const Estudiante = require('../models/instituciones/Estudiante');
 const DatosInstitucion = require('../models/instituciones/DatosInstitucion');
 const Sesion = require('../models/sesiones/Sesion');
+const Caso = require('../models/sesiones/Caso');
 const DatosSesion = require('../models/sesiones/DatosSesion');
 const Chat = require('../models/chats/Chat');
 const Mensaje = require('../models/chats/Mensaje');
@@ -42,14 +43,169 @@ router.get('/consultarConjuntoInstituciones', async (req, res, next) => {
     });
 });
 /*
+Recibe la petición de grabación de una institución
+ */
+router.post('/grabarInstitucion', async (req, res, next) => {
+    var datos = new DatosInstitucion();
+    await datos.grabarInstitucion(
+        new Institucion('',req.body.identificacionInstitucion,req.body.siglaInstitucion,req.body.nombreInstitucion));
+    res.redirect('/main/consultarConjuntoInstituciones?nombreUsuario='+req.body.nombreUsuario);
+});
+/*
+Recibe la petición de grabación de un programa
+ */
+router.post('/grabarPrograma', async (req, res, next) => {
+    var datos = new DatosInstitucion();
+    await datos.grabarPrograma(req.body.idInstitucion,
+        new Programa('',req.body.identificacionPrograma,req.body.nombrePrograma));
+    res.redirect('/main/presentarInstitucion?id='+ req.body.idInstitucion +'&nombreUsuario='+ req.body.nombreUsuario);
+});
+/*
+Recibe la petición de grabación de un curso
+ */
+router.post('/grabarCurso', async (req, res, next) => {
+    var datos = new DatosInstitucion();
+    await datos.grabarCurso(req.body.idPrograma,
+        new Curso('',req.body.identificacionCurso,req.body.nombreCurso));
+    res.redirect('/main/presentarPrograma?id='+ req.body.idPrograma+'&nombreUsuario='+ req.body.nombreUsuario);
+});
+/*
+Recibe la petición de grabación de un grupo
+ */
+router.post('/grabarGrupo', async (req, res, next) => {
+    var datos = new DatosInstitucion();
+    await datos.grabarGrupo(req.body.idCurso,
+        new Grupo('',req.body.identificacionGrupo,req.body.nombreGrupo));
+    res.redirect('/main/presentarCurso?id='+ req.body.idCurso+'&nombreUsuario='+ req.body.nombreUsuario);
+});
+/*
+Recibe la petición de grabación de un docente
+ */
+router.post('/grabarDocente', async (req, res, next) => {
+    var datos = new DatosInstitucion();
+    await datos.grabarDocente(req.body.idPrograma,
+        new Docente('',req.body.identificacionDocente,req.body.nombresDocente,req.body.apellidosDocente,req.body.correoElectronicoDocente,
+            false,false,false,true,false));
+    res.redirect('/main/presentarPrograma?id='+ req.body.idPrograma+'&nombreUsuario='+ req.body.nombreUsuario);
+});
+/*
+Recibe la petición de grabación de un estudiante
+ */
+router.post('/grabarEstudiante', async (req, res, next) => {
+    var datos = new DatosInstitucion();
+    await datos.grabarEstudiante(req.body.idPrograma,
+        new Estudiante('',req.body.identificacionEstudiante,req.body.nombresEstudiante,req.body.apellidosEstudiante,req.body.correoElectronicoEstudiante,
+            false,false,false,false,true));
+    res.redirect('/main/presentarPrograma?id='+ req.body.idPrograma+'&nombreUsuario='+ req.body.nombreUsuario);
+});
+/*
+Recibe la petición de vinculación de un docente a un grupo
+ */
+router.post('/grabarVinculoDocente', async (req, res, next) => {
+    var datos = new DatosInstitucion();
+    var grupoDocenteExiste = await datos.verificarGrupoDocente(req.body.idGrupoDocente,req.body.identificacionDocente);
+    if (! grupoDocenteExiste) {
+        var usuarioExiste = await datos.verificarUsuario(req.body.identificacionDocente);
+        if (usuarioExiste) {
+            docenteRecuperado = await datos.recuperarUsuario(req.body.identificacionDocente);
+            grupoRecuperado = await datos.recuperarGrupo(req.body.idGrupoDocente);
+            datos.actualizarVinculoDocente(grupoRecuperado,docenteRecuperado);
+        }
+    }
+    res.redirect('/main/presentarGrupo?id='+ req.body.idGrupoDocente+'&nombreUsuario='+ req.body.nombreUsuario);
+});
+/*
+Recibe la petición de vinculación de un docente a un grupo
+ */
+router.post('/grabarVinculoEstudiante', async (req, res, next) => {
+    var datos = new DatosInstitucion();
+    var grupoEstudianteExiste = await datos.verificarGrupoEstudiante(req.body.idGrupoEstudiante,req.body.identificacionEstudiante);
+    if (! grupoEstudianteExiste) {
+        var usuarioExiste = await datos.verificarUsuario(req.body.identificacionEstudiante);
+        if (usuarioExiste) {
+            estudianteRecuperado = await datos.recuperarUsuario(req.body.identificacionEstudiante);
+            grupoRecuperado = await datos.recuperarGrupo(req.body.idGrupoEstudiante);
+            datos.actualizarVinculoEstudiante(grupoRecuperado,estudianteRecuperado);
+        }
+    }
+    res.redirect('/main/presentarGrupo?id='+ req.body.idGrupoEstudiante+'&nombreUsuario='+ req.body.nombreUsuario);
+});
+/*
+Recibe la petición de grabar un caso
+ */
+router.post('/grabarCaso', async (req, res, next) => {
+    var datos = new DatosSesion();
+    await datos.grabarCaso(
+        new Caso('',req.body.nombreCaso, req.body.inicioCaso), req.body.idCurso, req.body.selTipoDiagrama, req.body.idUsuarioCaso);
+    res.redirect('/main/consultarConjuntoSesiones?nombreUsuario='+ req.body.nombreUsuario+'&perfilUsuario=1');
+});
+/*
+Recibe la petición de grabar un caso
+ */
+router.post('/grabarAsignacion', async (req, res, next) => {
+    var datos = new DatosSesion();
+    let i = 0;
+    let j = 0;
+    let estudiantesId = [];
+    let cantidadEquipos = 0;
+    let cantidadEstudiantes = 0;
+    let nombreSesion = "";
+    while (req.body["equipoEstudiante"+i] != undefined) {
+        if (req.body["equipoEstudiante"+i] > cantidadEquipos) {
+            cantidadEquipos = req.body["equipoEstudiante"+i];
+        }
+        i++;
+    }
+    cantidadEstudiantes = i;
+    for (i=1; i<=cantidadEquipos; i++) {
+        estudiantesId = [];
+        for (j=0; j<cantidadEstudiantes; j++) {
+            if (req.body["equipoEstudiante"+j] == i) {
+                estudiantesId[estudiantesId.length] = req.body["idEstudiante"+j];
+            }
+        }
+        nombreSesion = req.body.nombreSesion + " ("+i+")";
+        await datos.grabarAsignacion(
+            new Sesion('',nombreSesion, req.body.inicioSesion),req.body.idCaso, req.body.idCursoSesion, req.body.idGrupo, req.body.idUsuarioAsignacion, req.body.idTipoDiagramaSesion, estudiantesId);
+    }
+    res.redirect('/main/consultarConjuntoSesiones?nombreUsuario='+ req.body.nombreUsuarioSesion+'&perfilUsuario=1');
+});
+/*
 Recibe la petición y despliega la vista de sesiones
  */
 router.get('/consultarConjuntoSesiones', async (req, res, next) => {
     datos = new DatosSesion();
-    res.render('sesiones/presentarConjuntoSesiones', {
-        nombreUsuario: req.query.nombreUsuario,
-        conjuntoSesiones: await datos.recuperarConjuntoSesiones()
-    });
+    datosInstitucion = new DatosInstitucion();
+    if (req.query.perfilUsuario == 1) {
+        res.render('sesiones/presentarConjuntoSesiones', {
+            nombreUsuario: req.query.nombreUsuario,
+            usuarioRecuperado: await datosInstitucion.recuperarUsuarioCorreo(req.query.nombreUsuario),
+            conjuntoTiposDiagramaRecuperado: new ConjuntoTiposDiagrama(),
+            conjuntoSesiones: await datos.recuperarSesionesDocente(req.query.nombreUsuario)
+        });
+    }
+    if (req.query.perfilUsuario == 2) {
+        res.render('sesiones/presentarConjuntoSesiones', {
+            nombreUsuario: req.query.nombreUsuario,
+            usuarioRecuperado: await datosInstitucion.recuperarUsuarioCorreo(req.query.nombreUsuario),
+            conjuntoTiposDiagramaRecuperado: new ConjuntoTiposDiagrama(),
+            conjuntoSesiones: await datos.recuperarSesionesEstudiante(req.query.nombreUsuario)
+        });
+    }
+});
+/*
+Recibe la petición y despliega la vista de casoss
+ */
+router.get('/consultarConjuntoCasos', async (req, res, next) => {
+    datos = new DatosSesion();
+    if (req.query.perfilUsuario == 1) {
+        res.render('sesiones/presentarConjuntoCasos', {
+            nombreUsuario: req.query.nombreUsuario,
+            usuarioRecuperado: await datos.recuperarDocenteCasos(req.query.nombreUsuario),
+            conjuntoTiposDiagramaRecuperado: new ConjuntoTiposDiagrama(),
+            conjuntoSesiones: await datos.recuperarConjuntoSesiones()
+        });
+    }
 });
 /*
 Recibe la petición y despliega la vista de sesión
@@ -235,12 +391,6 @@ router.get('/vincularEstudiante', async (req, res, next) => {
         grupo: grupoRecuperado
     });
 });
-router.post('/grabarInstitucion', async (req, res, next) => {
-    var datos = new DatosInstitucion();
-    await datos.grabarInstitucion(
-        new Institucion('',req.body.identificacion,req.body.sigla,req.body.nombre));
-    res.redirect('/main/consultarConjuntoInstituciones?nombreUsuario='+req.body.nombreUsuario);
-});
 router.post('/actualizarInstitucion', async (req, res, next) => {
     var datos = new DatosInstitucion();
     await datos.actualizarInstitucion(
@@ -251,12 +401,6 @@ router.post('/eliminarInstitucion/confirmar', async (req, res, next) => {
     var datos = new DatosInstitucion();
     await datos.eliminarInstitucion(req.body.id);
     res.redirect('/main/consultarConjuntoInstituciones?nombreUsuario='+req.body.nombreUsuario);
-});
-router.post('/grabarPrograma', async (req, res, next) => {
-    var datos = new DatosInstitucion();
-    await datos.grabarPrograma(req.body.id,
-        new Programa('',req.body.programaIdentificacion,req.body.programaNombre));
-    res.redirect('/main/presentarInstitucion?id='+ req.body.id +'&nombreUsuario='+ req.body.nombreUsuario);
 });
 router.post('/actualizarPrograma', async (req, res, next) => {
     var datos = new DatosInstitucion();
@@ -269,12 +413,6 @@ router.post('/eliminarPrograma/confirmar', async (req, res, next) => {
     await datos.eliminarPrograma(req.body.id);
     res.redirect('/main/consultarConjuntoInstituciones?nombreUsuario='+req.body.nombreUsuario);
 });
-router.post('/grabarCurso', async (req, res, next) => {
-    var datos = new DatosInstitucion();
-    await datos.grabarCurso(req.body.id,
-        new Curso('',req.body.cursoIdentificacion,req.body.cursoNombre));
-    res.redirect('/main/presentarPrograma?id='+ req.body.id+'&nombreUsuario='+ req.body.nombreUsuario);
-});
 router.post('/actualizarCurso', async (req, res, next) => {
     var datos = new DatosInstitucion();
     await datos.actualizarCurso(
@@ -286,12 +424,6 @@ router.post('/eliminarCurso/confirmar', async (req, res, next) => {
     await datos.eliminarCurso(req.body.id);
     res.redirect('/main/consultarConjuntoInstituciones?nombreUsuario='+req.body.nombreUsuario);
 });
-router.post('/grabarGrupo', async (req, res, next) => {
-    var datos = new DatosInstitucion();
-    await datos.grabarGrupo(req.body.id,
-        new Grupo('',req.body.grupoIdentificacion,req.body.grupoNombre));
-    res.redirect('/main/presentarCurso?id='+ req.body.id+'&nombreUsuario='+ req.body.nombreUsuario);
-});
 router.post('/actualizarGrupo', async (req, res, next) => {
     var datos = new DatosInstitucion();
     await datos.actualizarGrupo(
@@ -302,68 +434,6 @@ router.post('/eliminarGrupo/confirmar', async (req, res, next) => {
     var datos = new DatosInstitucion();
     await datos.eliminarGrupo(req.body.id);
     res.redirect('/main/consultarConjuntoInstituciones?nombreUsuario='+req.body.nombreUsuario);
-});
-router.post('/grabarDocente', async (req, res, next) => {
-    var datos = new DatosInstitucion();
-    await datos.grabarDocente(req.body.cursoIdentificacion,req.body.grupoIdentificacion,
-        new Docente('',req.body.docenteIdentificacion,req.body.docenteNombres,req.body.docenteApellidos,req.body.docenteCorreoElectronico,
-            false,false,false,true,false));
-    res.redirect('/main/presentarGrupo?id='+ req.body.grupoIdentificacion+'&nombreUsuario='+ req.body.nombreUsuario);
-});
-router.post('/grabarEstudiante', async (req, res, next) => {
-    var datos = new DatosInstitucion();
-    await datos.grabarEstudiante(req.body.grupoIdentificacion,
-        new Estudiante('',req.body.estudianteIdentificacion,req.body.estudianteNombres,req.body.estudianteApellidos,req.body.estudianteCorreoElectronico,
-            false,false,false,false,true));
-    res.redirect('/main/presentarGrupo?id='+ req.body.grupoIdentificacion+'&nombreUsuario='+ req.body.nombreUsuario);
-});
-router.post('/grabarVinculoDocente', async (req, res, next) => {
-    var datos = new DatosInstitucion();
-    var grupoDocenteExiste = await datos.verificarGrupoDocente(req.body.grupoIdentificacion,req.body.docenteIdentificacion);
-    if (grupoDocenteExiste) {
-        res.redirect('/main/presentarGrupo?id='+ req.body.grupoIdentificacion+'&nombreUsuario='+ req.body.nombreUsuario);
-    }
-    else {
-        var usuarioExiste = await datos.verificarUsuario(req.body.docenteIdentificacion);
-        if (usuarioExiste) {
-            docenteRecuperado = await datos.recuperarUsuario(req.body.docenteIdentificacion);
-            grupoRecuperado = await datos.recuperarGrupo(req.body.grupoIdentificacion);
-            datos.actualizarVinculoDocente(grupoRecuperado,docenteRecuperado);
-            res.redirect('/main/presentarGrupo?id='+ req.body.grupoIdentificacion+'&nombreUsuario='+ req.body.nombreUsuario);
-        }
-        else {
-            grupoRecuperado = await datos.recuperarGrupo(req.body.grupoIdentificacion);
-            res.render('instituciones/capturarDocente', {
-                nombreUsuario: req.body.nombreUsuario,
-                grupo: grupoRecuperado,
-                docenteIdentificacion: req.body.docenteIdentificacion
-            });
-        }
-    }
-});
-router.post('/grabarVinculoEstudiante', async (req, res, next) => {
-    var datos = new DatosInstitucion();
-    var grupoEstudianteExiste = await datos.verificarGrupoEstudiante(req.body.grupoIdentificacion,req.body.estudianteIdentificacion);
-    if (grupoEstudianteExiste) {
-        res.redirect('/main/presentarGrupo?id='+ req.body.grupoIdentificacion+'&nombreUsuario='+ req.body.nombreUsuario);
-    }
-    else {
-        var usuarioExiste = await datos.verificarUsuario(req.body.estudianteIdentificacion);
-        if (usuarioExiste) {
-            estudianteRecuperado = await datos.recuperarUsuario(req.body.estudianteIdentificacion);
-            grupoRecuperado = await datos.recuperarGrupo(req.body.grupoIdentificacion);
-            datos.actualizarVinculoEstudiante(grupoRecuperado,estudianteRecuperado);
-            res.redirect('/main/presentarGrupo?id='+ req.body.grupoIdentificacion+'&nombreUsuario='+ req.body.nombreUsuario);
-        }
-        else {
-            grupoRecuperado = await datos.recuperarGrupo(req.body.grupoIdentificacion);
-            res.render('instituciones/capturarEstudiante', {
-                nombreUsuario: req.body.nombreUsuario,
-                grupo: grupoRecuperado,
-                estudianteIdentificacion: req.body.estudianteIdentificacion
-            });
-        }
-    }
 });
 router.get('/registrarSesion', async (req, res, next) => {
     datos = new DatosSesion();
@@ -493,7 +563,24 @@ router.post('/grabarAporteSesion', async (req, res, next) => {
 Recibe los datos de ingreso del usuario y lo redirige a index
  */
 router.post('/permitirIngreso', async (req, res, next) => {
-    res.redirect('/?nombreUsuario='+ req.body.nombreUsuario);
+    var datos = new DatosInstitucion();
+    if (req.body.nombreUsuario == "astrid@udi.edu.co") {
+        res.redirect('/?nombreUsuario='+ req.body.nombreUsuario +'&perfilUsuario=0');
+    }
+    else {
+        var usuario = await datos.recuperarUsuarioCorreo(req.body.nombreUsuario);
+        if (usuario._habilitadoDocente) {
+            res.redirect('/?nombreUsuario='+ req.body.nombreUsuario +'&perfilUsuario=1');
+        }
+        else {
+            if (usuario._habilitadoEstudiante) {
+                res.redirect('/?nombreUsuario='+ req.body.nombreUsuario +'&perfilUsuario=2');
+            }
+            else {
+                res.redirect('back');
+            }
+        }
+    }
 });
 
 module.exports = router;

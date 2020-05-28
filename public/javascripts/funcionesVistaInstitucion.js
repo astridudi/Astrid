@@ -6,11 +6,11 @@ function clickDesplegarOpciones() {
     document.getElementById("lblOpciones").style.display = "inline-block";
     document.getElementById("btnOcultarOpciones").style.display = "inline-block";
     document.getElementById("btnDesplegarOpciones").style.display = "none";
-    // presentarConjuntoInstituciones
-    document.getElementById("divPresentacionInstituciones").style.width = Math.round(window.innerWidth * 0.50)+"px";
-    document.getElementById("divCapturaInstitucion").style.width = Math.round(window.innerWidth * 0.50)+"px";
+    // presentarInstitucion
+    document.getElementById("divPresentacionInstitucion").style.width = Math.round(window.innerWidth * 0.50)+"px";
+    document.getElementById("divCapturaPrograma").style.width = Math.round(window.innerWidth * 0.50)+"px";
     document.getElementById("divBtnOpciones").style.display = "block";
-    document.getElementById("divFormularioInstitucion").style.display = "none";
+    document.getElementById("divFormularioPrograma").style.display = "none";
 }
 
 function clickOcultarOpciones() {
@@ -26,21 +26,23 @@ function clickOcultarOpciones() {
     document.getElementById("lblOpciones").style.display = "none";
     document.getElementById("btnDesplegarOpciones").style.display = "block";
     document.getElementById("btnOcultarOpciones").style.display = "none";
-    // presentarConjuntoInstituciones
-    document.getElementById("divPresentacionInstituciones").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionInstituciones").offsetTop)+"px";
-    document.getElementById("divPresentacionInstituciones").style.width = window.innerWidth+"px";
-    document.getElementById("divCapturaInstitucion").style.height = document.getElementById("divPresentacionInstituciones").style.height;
-    document.getElementById("divCapturaInstitucion").style.width = 0+"px";
+    // presentarInstitucion
+    document.getElementById("divPresentacionInstitucion").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionInstitucion").offsetTop)+"px";
+    document.getElementById("divPresentacionInstitucion").style.width = window.innerWidth+"px";
+    document.getElementById("divCapturaPrograma").style.height = document.getElementById("divPresentacionInstitucion").style.height;
+    document.getElementById("divCapturaPrograma").style.width = 0+"px";
     document.getElementById("divBtnOpciones").style.display = "none";
-    document.getElementById("divFormularioInstitucion").style.display = "none";
+    document.getElementById("divFormularioPrograma").style.display = "none";
 }
 
-function clickCapturarInstitucion() {
+function clickCapturarPrograma() {
     // layout
     document.getElementById("thDesplegarOpciones").className = "tblSangriaDerechaResaltada";
-    document.getElementById("lblOpciones").innerHTML = "Registrar institución";
-    // presentarConjuntoInstituciones
+    document.getElementById("lblOpciones").innerHTML = "Registrar programa";
+    // presentarInstitucion
     document.getElementById("divBtnOpciones").style.display = "none";
-    document.getElementById("divFormularioInstitucion").style.display = "block";
-    document.getElementById("inpNombreInstitucion").focus();
+    document.getElementById("divFormularioPrograma").style.display = "block";
+    document.getElementById("inpNombrePrograma").focus();
 }
+
+

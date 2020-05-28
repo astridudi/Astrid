@@ -426,7 +426,7 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
                         contexto.strokeRect(pDiagrama._objetos[i]._tipoObjeto._puertos[j]._datoGrafico._x - 1, pDiagrama._objetos[i]._tipoObjeto._puertos[j]._datoGrafico._y - 1, 3, 3);
                         document.getElementById('area'+i+'-'+j).setAttribute(
                             "onmousedown",
-                            "downPuertoInicial(event,"+j+")"
+                            "downPuertoInicial(event,"+j+", '"+pDiagrama._objetos[i]._valoresPropiedades[0]+"')"
                         );
                         document.getElementById('area'+i+'-'+j).style.display="inline-block";
                     }
@@ -442,7 +442,7 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
                         contexto.strokeRect(pDiagrama._objetos[i]._tipoObjeto._puertos[j]._datoGrafico._x - 1, pDiagrama._objetos[i]._tipoObjeto._puertos[j]._datoGrafico._y - 1, 3, 3);
                         document.getElementById('area'+i+'-'+j).setAttribute(
                             "onmousedown",
-                            "downPuertoFinal(event,"+j+")"
+                            "downPuertoFinal(event,"+j+", '"+pDiagrama._objetos[i]._valoresPropiedades[0]+"')"
                         );
                         document.getElementById('area'+i+'-'+j).style.display="inline-block";
                     }

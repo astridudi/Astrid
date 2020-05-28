@@ -1,20 +1,92 @@
-{{#if programa}}
-    <h3>
-        <a href='/main/consultarConjuntoInstituciones?nombreUsuario={{nombreUsuario}}'>Instituciones</a> |
-        <a href="/main/presentarInstitucion?id={{programa.institucion.id}}&nombreUsuario={{nombreUsuario}}">{{programa.institucion.nombre}}</a> |
-        {{programa.nombre}} |
-    </h3>
-    <p>Identificación (SNIES): {{programa.identificacion}}</p>
-    <p>Nombre: {{programa.nombre}}</p>
-    <hr class="verdeAstrid1">
-    <h3>Cursos:</h3>
-    {{#each programa.cursos}}
-        <ul>
-            <li><a href="/main/presentarCurso?id={{id}}&nombreUsuario={{../nombreUsuario}}">{{identificacion}}</a> {{nombre}}</li>
-        </ul>
-    {{/each}}
-    <hr class="verdeAstrid1">
-    <a href='/main/eliminarPrograma?id={{programa.id}}&nombreUsuario={{nombreUsuario}}'>Eliminar programa</a> |
-    <a href='/main/editarPrograma?id={{programa.id}}&nombreUsuario={{nombreUsuario}}'>Editar programa</a> |
-    <a href='/main/registrarCurso?id={{programa.id}}&nombreUsuario={{nombreUsuario}}'>Registrar curso</a>
-{{/if}}
+<div id="divPrincipal" class="divContenedorPrincipal">
+    <div id="divPresentacionPrograma" class="divPresentacion">
+        <label id="lblNombreInstitucion" class="lblPresentacion"></label>
+        <label id="lblSniesInstitucion" class="lblMenor"></label><br>
+        <label id="lblNombrePrograma" class="lblPresentacion"></label>
+        <label id="lblSniesPrograma" class="lblMenor"></label><br>
+        <div id="divPresentacionCursos" class="divListado">
+            <label id="lblCursos" class="lblPresentacion">Cursos</label><br>
+        </div>
+        <div id="divPresentacionDocentes" class="divListado">
+            <label id="lblDocentes" class="lblPresentacion">Docentes</label><br>
+        </div>
+        <div id="divPresentacionEstudiantes" class="divListado">
+            <label id="lblEstudiantes" class="lblPresentacion">Estudiantes</label><br>
+        </div>
+    </div>
+    <div id="divCapturaCurso" class="divEmergente">
+        <div id="divBtnOpciones" class="divSubformulario">
+            <button id="btnAgregarCurso" class="w3-button w3-round btnControl">Registrar curso</button>
+            <button id="btnEliminarCurso" class="w3-button w3-round btnControl">Eliminar curso</button>
+            <button id="btnAgregarDocente" class="w3-button w3-round btnControl">Registrar docente</button>
+            <button id="btnEliminarDocente" class="w3-button w3-round btnControl">Eliminar docente</button>
+            <button id="btnAgregarEstudiante" class="w3-button w3-round btnControl">Registrar estudiante</button>
+            <button id="btnEliminarEstudiante" class="w3-button w3-round btnControl">Eliminar estudiante</button>
+        </div>
+        <div id="divFormularioCurso" class="divFormulario">
+            <form method='POST' action='/main/grabarCurso'>
+                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
+                <input type='hidden' name='idPrograma' value={{programa.id}}>
+                <div id="divDatosCurso" class="divSubformulario">
+                    <b><label class="lblCaptura" >Curso:</label></b>
+                    <input id="inpNombreCurso" class="w3-input w3-round" type="text" name="nombreCurso"></input>
+                    <br>
+                    <b><label class="lblCaptura" >Código:</label></b>
+                    <input id="inpIdentificacionCurso" class="w3-input w3-round" type="text" name="identificacionCurso"></input>
+                </div>
+                <div id="divGrabarCurso" class="divSubformulario">
+                    <button id="btnGrabarCurso" type="submit" class="w3-button w3-round btnControl">Grabar curso</button>
+                </div>
+            </form>
+        </div>
+        <div id="divFormularioDocente" class="divFormulario">
+            <form method='POST' action='/main/grabarDocente'>
+                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
+                <input type='hidden' name='idPrograma' value={{programa.id}}>
+                <div id="divDatosDocente" class="divSubformulario">
+                    <b><label class="lblCaptura" >Apellidos:</label></b>
+                    <input id="inpApellidosDocente" class="w3-input w3-round" type="text" name="apellidosDocente"></input>
+                    <br>
+                    <b><label class="lblCaptura" >Nombres:</label></b>
+                    <input id="inpNombresDocente" class="w3-input w3-round" type="text" name="nombresDocente"></input>
+                    <br>
+                    <b><label class="lblCaptura" >Identificación:</label></b>
+                    <input id="inpIdentificacionDocente" class="w3-input w3-round" type="text" name="identificacionDocente"></input>
+                    <br>
+                    <b><label class="lblCaptura" >Correo electrónico:</label></b>
+                    <input id="inpCorreoElectronicoDocente" class="w3-input w3-round" type="email" name="correoElectronicoDocente"></input>
+                </div>
+                <div id="divGrabarDocente" class="divSubformulario">
+                    <button id="btnGrabarDocente" type="submit" class="w3-button w3-round btnControl">Grabar docente</button>
+                </div>
+            </form>
+        </div>
+        <div id="divFormularioEstudiante" class="divFormulario">
+            <form method='POST' action='/main/grabarEstudiante'>
+                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
+                <input type='hidden' name='idPrograma' value={{programa.id}}>
+                <div id="divDatosEstudiante" class="divSubformulario">
+                    <b><label class="lblCaptura" >Apellidos:</label></b>
+                    <input id="inpApellidosEstudiante" class="w3-input w3-round" type="text" name="apellidosEstudiante"></input>
+                    <br>
+                    <b><label class="lblCaptura" >Nombres:</label></b>
+                    <input id="inpNombresEstudiante" class="w3-input w3-round" type="text" name="nombresEstudiante"></input>
+                    <br>
+                    <b><label class="lblCaptura" >Identificación:</label></b>
+                    <input id="inpIdentificacionEstudiante" class="w3-input w3-round" type="text" name="identificacionEstudiante"></input>
+                    <br>
+                    <b><label class="lblCaptura" >Correo electrónico:</label></b>
+                    <input id="inpCorreoElectronicoEstudiante" class="w3-input w3-round" type="email" name="correoElectronicoEstudiante"></input>
+                </div>
+                <div id="divGrabarEstudiante" class="divSubformulario">
+                    <button id="btnGrabarEstudiante" type="submit" class="w3-button w3-round btnControl">Grabar estudiante</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="../javascripts/funcionesVistaPrograma.js"></script>
+<script src="../javascripts/inicializacionVistaPrograma.js"></script>
+<script type="text/javascript">inicializacionVistaPrograma('{{programa.programaJson}}');</script>
+

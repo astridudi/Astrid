@@ -48,4 +48,27 @@ module.exports = class Institucion {
         let i = this._programas.length;
         this._programas[i] = pPrograma;
     }
+    get institucionJson() {
+        let rInstitucionJson = JSON.stringify(this);
+        return rInstitucionJson;
+    }
+    ordenarProgramas() {
+        let i = 0;
+        let j = 0;
+        let k = 0;
+        let tPrograma = undefined;
+        for (i=0; i<this._programas.length - 1; i++) {
+            k=i;
+            for (j=i+1; j<this._programas.length; j++) {
+                if (this._programas[j].esAnteriorA(this._programas[k])) {
+                    k=j;
+                }
+            }
+            if (k != i) {
+                tPrograma = this._programas[i];
+                this._programas[i] = this._programas[k];
+                this._programas[k] = tPrograma;
+            }
+        }
+    }
 }

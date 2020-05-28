@@ -1,4 +1,7 @@
-module.exports = class Sesion {
+const Curso = require('../instituciones/Curso');
+const Docente = require('../instituciones/Docente');
+
+module.exports = class Caso {
     constructor(id,nombre,inicio) {
         this._id = id;
         this._nombre = nombre;
@@ -7,11 +10,10 @@ module.exports = class Sesion {
         } else {
             this._inicio = inicio;
         }
-        this._chat = require('../chats/Chat');
-        this._diagrama = require('../diagramas/Diagrama');
+        this._curso = new Curso('','','');
+        this._docente = new Docente('','','','','');
         this._idTipoDiagrama = '';
         this._nombreTipoDiagrama = '';
-        this._nombreUsuario = '';
     }
     set id(pId) {
         this._id = pId;
@@ -19,23 +21,20 @@ module.exports = class Sesion {
     set nombre(pNombre) {
         this._nombre = pNombre;
     }
-    set inicio(pInicio) {
-        this._inicio = pInicio;
+    set tiempo(pInicio) {
+        this._tiempo = pInicio;
     }
-    set chat(pChat) {
-        this._chat = pChat;
+    set curso(pCurso){
+        this._curso = pCurso;
     }
-    set diagrama(pDiagrama) {
-        this._diagrama = pDiagrama;
+    set docente(pDocente) {
+        this._docente = pDocente;
     }
     set idTipoDiagrama(pIdTipoDiagrama) {
         this._idTipoDiagrama = pIdTipoDiagrama;
     }
     set nombreTipoDiagrama(pNombreTipoDiagrama) {
         this._nombreTipoDiagrama = pNombreTipoDiagrama;
-    }
-    set nombreUsuario(pNombreUsuario) {
-        this._nombreUsuario = pNombreUsuario;
     }
     get id() {
         return this._id;
@@ -46,11 +45,11 @@ module.exports = class Sesion {
     get inicio() {
         return this._inicio;
     }
-    get chat() {
-        return this._chat;
+    get curso() {
+        return this._curso;
     }
-    get diagrama() {
-        return this._diagrama;
+    get docente() {
+        return this._docente;
     }
     get idTipoDiagrama() {
         return this._idTipoDiagrama;
@@ -58,21 +57,18 @@ module.exports = class Sesion {
     get nombreTipoDiagrama() {
         return this._nombreTipoDiagrama;
     }
-    get nombreUsuario() {
-        return this._nombreUsuario;
-    }
     get validez() {
         var rValidez;
         rValidez = (1*this._nombre.length>0);
         return rValidez;
     }
-    get sesionJson() {
-        let rSesionJson = JSON.stringify(this, ['_id', '_nombre', '_diagrama', '_tipoDiagrama']);
-        return rSesionJson;
+    get casoJson() {
+        let rCasoJson = JSON.stringify(this);
+        return rCasoJson;
     }
-    esAnteriorA(pSesion) {
+    esAnteriorA(pCaso) {
         var rEsAnteriorA;
-        rEsAnteriorA = ((this._inicio < pSesion._inicio) || ((this._inicio = pSesion._inicio) && (this._nombre.localeCompare(pSesion._nombre) < 0)));
+        rEsAnteriorA = (this._nombre.localeCompare(pCaso._nombre) < 0);
         return rEsAnteriorA;
     }
 }

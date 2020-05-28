@@ -1,28 +1,42 @@
-{{#if curso}}
-    <h3>
-        <a href='/main/consultarConjuntoInstituciones?nombreUsuario={{nombreUsuario}}'>Instituciones</a> |
-        <a href="/main/presentarInstitucion?id={{curso.programa.institucion.id}}&nombreUsuario={{nombreUsuario}}">{{curso.programa.institucion.nombre}}</a> |
-        <a href="/main/presentarPrograma?id={{curso.programa.id}}&nombreUsuario={{nombreUsuario}}">{{curso.programa.nombre}}</a> |
-        {{curso.nombre}} |
-    </h3>
-    <p>Identificación: {{curso.identificacion}}</p>
-    <p>Nombre: {{curso.nombre}}</p>
-    <hr class="verdeAstrid1">
-    <h3>Docentes</h3>
-    {{#each curso.docentes}}
-        <ul>
-            <li><a href="/main/presentarDocente?id={{id}}&nombreUsuario={{../nombreUsuario}}">{{identificacion}}</a> - {{nombres}} {{apellidos}} - {{correo}}</li>
-        </ul>
-    {{/each}}
-    <hr class="verdeAstrid1">
-    <h3>Grupos</h3>
-    {{#each curso.grupos}}
-        <ul>
-            <li><a href="/main/presentarGrupo?id={{id}}&nombreUsuario={{../nombreUsuario}}">{{@index}}</a> {{nombre}}</li>
-        </ul>
-    {{/each}}
-    <hr class="verdeAstrid1">
-    <a href='/main/eliminarCurso?id={{curso.id}}&nombreUsuario={{nombreUsuario}}'>Eliminar curso</a> |
-    <a href='/main/editarCurso?id={{curso.id}}&nombreUsuario={{nombreUsuario}}'>Editar curso</a> |
-    <a href='/main/registrarGrupo?id={{curso.id}}&nombreUsuario={{nombreUsuario}}'>Registrar grupo</a>
-{{/if}}
+<div id="divPrincipal" class="divContenedorPrincipal">
+    <div id="divPresentacionCurso" class="divPresentacion">
+        <label id="lblNombreInstitucion" class="lblPresentacion"></label>
+        <label id="lblSniesInstitucion" class="lblMenor"></label><br>
+        <label id="lblNombrePrograma" class="lblPresentacion"></label>
+        <label id="lblSniesPrograma" class="lblMenor"></label><br>
+        <label id="lblNombreCurso" class="lblPresentacion"></label>
+        <label id="lblIdentificacionCurso" class="lblMenor"></label><br>
+        <div id="divPresentacionDocentes" class="divListado">
+            <label id="lblDocentes" class="lblPresentacion">Docentes</label><br>
+        </div>
+        <div id="divPresentacionGrupos" class="divListado">
+            <label id="lblGrupos" class="lblPresentacion">Grupos</label><br>
+        </div>
+    </div>
+    <div id="divCapturaGrupo" class="divEmergente">
+        <div id="divBtnOpciones" class="divSubformulario">
+            <button id="btnAgregarGrupo" class="w3-button w3-round btnControl">Registrar grupo</button>
+            <button id="btnEliminarGrupo" class="w3-button w3-round btnControl">Eliminar grupo</button>
+        </div>
+        <div id="divFormularioGrupo" class="divFormulario">
+            <form method='POST' action='/main/grabarGrupo'>
+                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
+                <input type='hidden' name='idCurso' value={{curso.id}}>
+                <div id="divDatosGrupo" class="divSubformulario">
+                    <b><label class="lblCaptura">Grupo:</label></b>
+                    <input id="inpNombreGrupo" class="w3-input w3-round" type="text" name="nombreGrupo"></input>
+                    <br>
+                    <b><label class="lblCaptura" >Código:</label></b>
+                    <input id="inpIdentificacionGrupo" class="w3-input w3-round" type="text" name="identificacionGrupo"></input>
+                </div>
+                <div id="divGrabarGrupo" class="divSubformulario">
+                    <button id="btnGrabarGrupo" type="submit" class="w3-button w3-round btnControl">Grabar grupo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="../javascripts/funcionesVistaCurso.js"></script>
+<script src="../javascripts/inicializacionVistaCurso.js"></script>
+<script type="text/javascript">inicializacionVistaCurso('{{curso.cursoJson}}');</script>
