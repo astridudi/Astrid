@@ -59,7 +59,7 @@ function inicializacionVistaPrograma(pProgramaJson) {
             botones[botones.length-1].id = "btnDocente"+i;
             botones[botones.length-1].innerHTML = (i+1)+".";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
-            botones[botones.length-1].href = "/main/presentarDocente?id="+pPrograma._cursos[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            botones[botones.length-1].href = "/main/presentarDocente?id="+pPrograma._docentes[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
             rotulos[rotulos.length] = document.createElement("label");
             rotulos[rotulos.length-1].id = "lblDocente"+i;
             rotulos[rotulos.length-1].innerHTML = pPrograma._docentes[i]._apellidos+" "+pPrograma._docentes[i]._nombres;
@@ -86,7 +86,7 @@ function inicializacionVistaPrograma(pProgramaJson) {
             botones[botones.length-1].id = "btnEstudiante"+i;
             botones[botones.length-1].innerHTML = (i+1)+".";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
-            botones[botones.length-1].href = "/main/presentarEstudiante?id="+pPrograma._cursos[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            botones[botones.length-1].href = "/main/presentarEstudiante?id="+pPrograma._estudiantes[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
             rotulos[rotulos.length] = document.createElement("label");
             rotulos[rotulos.length-1].id = "lblEstudiante"+i;
             rotulos[rotulos.length-1].innerHTML = pPrograma._estudiantes[i]._apellidos+" "+pPrograma._estudiantes[i]._nombres;

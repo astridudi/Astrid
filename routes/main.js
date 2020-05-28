@@ -137,7 +137,7 @@ router.post('/grabarCaso', async (req, res, next) => {
     var datos = new DatosSesion();
     await datos.grabarCaso(
         new Caso('',req.body.nombreCaso, req.body.inicioCaso), req.body.idCurso, req.body.selTipoDiagrama, req.body.idUsuarioCaso);
-    res.redirect('/main/consultarConjuntoSesiones?nombreUsuario='+ req.body.nombreUsuario+'&perfilUsuario=1');
+    res.redirect('/main/consultarConjuntoCasos?nombreUsuario='+ req.body.nombreUsuario+'&perfilUsuario=1');
 });
 /*
 Recibe la petición de grabar un caso
@@ -168,7 +168,7 @@ router.post('/grabarAsignacion', async (req, res, next) => {
         await datos.grabarAsignacion(
             new Sesion('',nombreSesion, req.body.inicioSesion),req.body.idCaso, req.body.idCursoSesion, req.body.idGrupo, req.body.idUsuarioAsignacion, req.body.idTipoDiagramaSesion, estudiantesId);
     }
-    res.redirect('/main/consultarConjuntoSesiones?nombreUsuario='+ req.body.nombreUsuarioSesion+'&perfilUsuario=1');
+    res.redirect('/main/consultarConjuntoCasos?nombreUsuario='+ req.body.nombreUsuarioSesion+'&perfilUsuario=1');
 });
 /*
 Recibe la petición y despliega la vista de sesiones
