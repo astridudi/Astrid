@@ -19,43 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="16a71e2f-24bf-4e07-86b4-092e2f1677fa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/dibujarDiagramaEntidadRelacion.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/dibujarDiagramaEntidadRelacion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/dibujarDiagramaFlujo.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/dibujarDiagramaFlujo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/dibujarDiagramaProcesos.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/dibujarDiagramaProcesos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/funcionesVistaArgumentacion.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/funcionesVistaArgumentacion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/funcionesVistaChat.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/funcionesVistaChat.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/funcionesVistaConjuntoCasos.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/funcionesVistaConjuntoCasos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/funcionesVistaConjuntoInstituciones.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/funcionesVistaConjuntoInstituciones.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/funcionesVistaCurso.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/funcionesVistaCurso.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/funcionesVistaDiagrama.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/funcionesVistaDiagrama.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/funcionesVistaGrupo.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/funcionesVistaGrupo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/funcionesVistaInstitucion.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/funcionesVistaInstitucion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/funcionesVistaPrograma.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/funcionesVistaPrograma.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/funcionesVistaSesion.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/funcionesVistaSesion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/inicializacionVistaArgumentacion.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/inicializacionVistaArgumentacion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/inicializacionVistaChat.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/inicializacionVistaChat.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/inicializacionVistaConjuntoInstituciones.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/inicializacionVistaConjuntoInstituciones.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/inicializacionVistaConjuntoSesiones.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/inicializacionVistaConjuntoSesiones.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/inicializacionVistaCurso.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/inicializacionVistaCurso.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/inicializacionVistaDiagrama.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/inicializacionVistaDiagrama.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/inicializacionVistaInstitucion.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/inicializacionVistaInstitucion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/inicializacionVistaLayout.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/inicializacionVistaLayout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/inicializacionVistaPrograma.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/inicializacionVistaPrograma.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/inicializacionVistaSesion.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/inicializacionVistaSesion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/stylesheets/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/stylesheets/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/argumentaciones/presentarArgumentacion.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/argumentaciones/presentarArgumentacion.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/capturarIngreso.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/capturarIngreso.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/chats/presentarChat.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/chats/presentarChat.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/diagramas/presentarDiagrama.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/diagramas/presentarDiagrama.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/index.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/instituciones/presentarConjuntoInstituciones.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/instituciones/presentarConjuntoInstituciones.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/instituciones/presentarInstitucion.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/instituciones/presentarInstitucion.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/layout.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/layout.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/sesiones/presentarSesion.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/views/sesiones/presentarSesion.hbs" afterDir="false" />
-    </list>
+    <list default="true" id="16a71e2f-24bf-4e07-86b4-092e2f1677fa" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -273,7 +237,7 @@
       <workItem from="1590684699014" duration="763000" />
       <workItem from="1590685662272" duration="1817000" />
       <workItem from="1591291815962" duration="117000" />
-      <workItem from="1591291951314" duration="600000" />
+      <workItem from="1591291951314" duration="809000" />
     </task>
     <task id="LOCAL-00001" summary="SE agrega la carpeta bin y el archivo www">
       <created>1583438963937</created>
@@ -506,7 +470,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590690385295</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Se actualiza a la versión 6-01">
+      <created>1591295256587</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1591295256587</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -553,10 +524,6 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="552" y="201" key="#Inspections/0.0.1920.1080@0.0.1920.1080" timestamp="1582672971409" />
-    <state x="414" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582572624415">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="414" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1582572624415" />
     <state x="693" y="301" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1585092709044">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
@@ -569,20 +536,16 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="634" y="242" width="642" height="620" key="#watch-ts/0.27.1920.1053@0.27.1920.1053" timestamp="1585092736405" />
-    <state x="2090" y="16" width="912" height="623" key="CommitChangelistDialog2" timestamp="1590690385081">
+    <state x="2090" y="16" width="912" height="623" key="CommitChangelistDialog2" timestamp="1591295256121">
       <screen x="1920" y="0" width="1280" height="720" />
     </state>
     <state x="255" y="51" width="912" height="911" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1280.720@0.27.1920.1053" timestamp="1590684741974" />
-    <state x="2090" y="16" width="912" height="623" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1280.720@1920.0.1280.720" timestamp="1590690385081" />
+    <state x="2090" y="16" width="912" height="623" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1280.720@1920.0.1280.720" timestamp="1591295256121" />
     <state x="0" y="144" width="958" height="912" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1588025865845" />
     <state width="991" height="466" key="DebuggerActiveHint" timestamp="1582660370540">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="991" height="466" key="DebuggerActiveHint/0.0.1920.1080@0.0.1920.1080" timestamp="1582660370540" />
-    <state x="489" y="301" key="FileChooserDialogImpl" timestamp="1582329167440">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="489" y="301" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1582329167440" />
     <state width="1897" height="344" key="GridCell.Tab.0.bottom" timestamp="1585094836388">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
@@ -675,28 +638,20 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="449" y="187" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1585092614932" />
-    <state x="2290" y="179" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1590690388262">
+    <state x="2290" y="179" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1591295263343">
       <screen x="1920" y="0" width="1280" height="720" />
     </state>
     <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1280.720@0.27.1920.1053" timestamp="1590684744777" />
-    <state x="2290" y="179" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1280.720@1920.0.1280.720" timestamp="1590690388262" />
+    <state x="2290" y="179" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1280.720@1920.0.1280.720" timestamp="1591295263343" />
     <state x="555" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1588025878204" />
     <state x="728" y="473" width="454" height="160" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1584484917573">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="728" y="473" width="454" height="160" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1920.1053@0.27.1920.1053" timestamp="1584484917573" />
-    <state x="517" y="279" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1582583703115">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="517" y="279" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1080@0.0.1920.1080" timestamp="1582583703115" />
     <state x="608" y="292" width="704" height="520" key="find.popup" timestamp="1585089276176">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="608" y="292" width="704" height="520" key="find.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1585089276176" />
-    <state x="616" y="250" key="run.anything.popup" timestamp="1582572715927">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="616" y="250" key="run.anything.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1582572715927" />
     <state x="623" y="256" width="672" height="662" key="search.everywhere.popup" timestamp="1585094160397">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
