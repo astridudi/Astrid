@@ -1,7 +1,7 @@
 function inicializacionVistaLayout() {
     const urlParametros = new URLSearchParams(window.location.search);
-    document.getElementById("urlServidor").innerHTML = "http://34.69.82.100:3000";
-    //document.getElementById("urlServidor").innerHTML = "http://localhost:3000";
+    //document.getElementById("urlServidor").innerHTML = "http://34.69.82.100:3000";
+    document.getElementById("urlServidor").innerHTML = "http://localhost:3000";
     /*
     Botón para volver a la raíz de la aplicación
      */
@@ -34,6 +34,7 @@ function inicializacionVistaLayout() {
     }
     else {
         document.getElementById("lblUsuario").innerHTML = urlParametros.get("nombreUsuario");
+        document.getElementById("perfilUsuario").innerHTML = urlParametros.get("perfilUsuario");
         /*
         Botón para pedir acceso a la vista de instituciones
          */
@@ -76,10 +77,10 @@ function inicializacionVistaLayout() {
             areaBtnPlanteamiento.id = "areaBtnPlanteamiento";
             areaBtnPlanteamiento.shape = "rect";
             areaBtnPlanteamiento.coords = "0,0,40,40";
-            areaBtnPlanteamiento.href = "/main/presentarSesion?idSesion="+urlParametros.get("idSesion")+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            areaBtnPlanteamiento.href = "/main/presentarSesion?idSesion="+urlParametros.get("idSesion")+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
             areaBtnPlanteamiento.title = "Planteamiento";
             document.getElementById("mapBtnPlanteamiento").appendChild(areaBtnPlanteamiento);
-            document.getElementById("lblPlanteamiento").href = "/main/presentarSesion?idSesion="+urlParametros.get("idSesion")+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            document.getElementById("lblPlanteamiento").href = "/main/presentarSesion?idSesion="+urlParametros.get("idSesion")+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
             /*
             Botón para pedir ingreso al chat
              */
@@ -87,10 +88,10 @@ function inicializacionVistaLayout() {
             areaBtnChat.id = "areaBtnChat";
             areaBtnChat.shape = "rect";
             areaBtnChat.coords = "0,0,40,40";
-            areaBtnChat.href = "/main/presentarChatSesion?idSesion="+urlParametros.get("idSesion")+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            areaBtnChat.href = "/main/presentarChatSesion?idSesion="+urlParametros.get("idSesion")+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");;
             areaBtnChat.title = "Chat";
             document.getElementById("mapBtnChat").appendChild(areaBtnChat);
-            document.getElementById("lblChat").href = "/main/presentarChatSesion?idSesion="+urlParametros.get("idSesion")+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            document.getElementById("lblChat").href = "/main/presentarChatSesion?idSesion="+urlParametros.get("idSesion")+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");;
             /*
             Botón para pedir ingreso al diagrama
              */
@@ -98,10 +99,10 @@ function inicializacionVistaLayout() {
             areaBtnDiagrama.id = "areaBtnDiagrama";
             areaBtnDiagrama.shape = "rect";
             areaBtnDiagrama.coords = "0,0,40,40";
-            areaBtnDiagrama.href = "/main/presentarDiagramaSesion?idSesion="+urlParametros.get("idSesion")+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            areaBtnDiagrama.href = "/main/presentarDiagramaSesion?idSesion="+urlParametros.get("idSesion")+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");;
             areaBtnDiagrama.title = "Diagrama";
             document.getElementById("mapBtnDiagrama").appendChild(areaBtnDiagrama);
-            document.getElementById("lblDiagrama").href = "/main/presentarDiagramaSesion?idSesion="+urlParametros.get("idSesion")+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            document.getElementById("lblDiagrama").href = "/main/presentarDiagramaSesion?idSesion="+urlParametros.get("idSesion")+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");;
             /*
             Botón para pedir ingreso a la argumentación
              */

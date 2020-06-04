@@ -66,7 +66,7 @@ function inicializacionVistaCurso(pCursoJson) {
             botones[botones.length-1].id = "btnGrupo"+i;
             botones[botones.length-1].innerHTML = (i+1)+".";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
-            botones[botones.length-1].href = "/main/presentarGrupo?id="+pCurso._grupos[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            botones[botones.length-1].href = "/main/presentarGrupo?id="+pCurso._grupos[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
             rotulos[rotulos.length] = document.createElement("label");
             rotulos[rotulos.length-1].id = "lblGrupo"+i;
             rotulos[rotulos.length-1].innerHTML = pCurso._grupos[i]._nombre;
@@ -77,6 +77,7 @@ function inicializacionVistaCurso(pCursoJson) {
         }
         clickOcultarOpciones();
         document.getElementById("divPresentacionDocentes").style.display = "none";
+        document.getElementById("thGrupos").className = "tblListadoActiva w3-round"
 
         document.getElementById("btnDesplegarOpciones").setAttribute(
             "onclick",

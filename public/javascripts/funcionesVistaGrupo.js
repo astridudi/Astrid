@@ -44,6 +44,8 @@ function clickCapturarDocente() {
     // presentarGrupo
     document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioDocente").style.display = "block";
+    document.getElementById("divDatosDocente").style.display = "block";
+    document.getElementById("divGrabarDocente").style.display = "block";
 }
 
 function clickCapturarEstudiante() {
@@ -53,4 +55,6 @@ function clickCapturarEstudiante() {
     // presentarGrupo
     document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioEstudiante").style.display = "block";
+    document.getElementById("divDatosEstudiante").style.display = "block";
+    document.getElementById("divGrabarEstudiante").style.display = "block";
 }

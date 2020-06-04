@@ -1,101 +1,190 @@
 function clickDesplegarOpciones() {
     // layout
+    // Cambio de tamaño de las secciones en pantalla
     document.getElementById("thDesplegarOpcionesSesion").style.width = Math.round(window.innerWidth * 0.35)+"px";
+    document.getElementById("divPresentacionDiagrama").style.width = Math.round(window.innerWidth * 0.65)+"px";
+    document.getElementById("divCapturaElemento").style.width = Math.round(window.innerWidth * 0.35)+"px";
+    // Cambio de aspecto de botones inhabilitados en menú divSesion
+    document.getElementById("imgBtnPlanteamiento").style.display = "none";
+    document.getElementById("imgBtnChat").style.display = "none";
+    document.getElementById("imgBtnArgumentacion").style.display = "none";
+    document.getElementById("imgBtnPlanteamientoInhabilitado").style.display = "inline-block";
+    document.getElementById("imgBtnChatInhabilitado").style.display = "inline-block";
+    document.getElementById("imgBtnArgumentacionInhabilitado").style.display = "inline-block";
+    // Habilitación de opciones de interacción con el usuario
+    document.getElementById("btnLlamar").title = "Convocar al diagrama";
+    document.getElementById("btnLlamar").style.display = "inline-block";
+    document.getElementById("btnOcultarOpcionesSesion").style.display = "inline-block";
+    document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
     document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerechaResaltada";
     document.getElementById("lblOpcionesSesion").innerHTML = "1. Seleccionar tipo de elemento";
     document.getElementById("lblOpcionesSesion").style.display = "inline-block";
-    document.getElementById("btnOcultarOpcionesSesion").style.display = "inline-block";
-    document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
-    document.getElementById("btnLlamar").title = "Convocar al diagrama";
-    document.getElementById("btnLlamar").style.display = "inline-block";
-    document.getElementById("imgBtnPlanteamiento").style.display = "none";
-    document.getElementById("imgBtnDiagrama").style.display = "none";
-    document.getElementById("imgBtnArgumentacion").style.display = "none";
-    document.getElementById("imgBtnPlanteamientoInhabilitado").style.display = "inline-block";
-    document.getElementById("imgBtnDiagramaInhabilitado").style.display = "inline-block";
-    document.getElementById("imgBtnArgumentacionInhabilitado").style.display = "inline-block";
-    // presentarDiagrama
-    document.getElementById("divPresentacionDiagrama").style.width = Math.round(window.innerWidth * 0.65)+"px";
-    document.getElementById("divCapturaElemento").style.width = Math.round(window.innerWidth * 0.35)+"px";
+    // Habilitación del formulario (las divisiones permanecen inhabilitadas)
     document.getElementById("divBtnCapturaElemento").style.display = "block";
     document.getElementById("btnCapturaObjeto").style.display = "inline-block";
     document.getElementById("btnCapturaRelacion").style.display = "inline-block";
     document.getElementById("divFormularioObjeto").style.display = "none";
     document.getElementById("divFormularioRelacion").style.display = "none";
     document.getElementById("divFormularioMovimiento").style.display = "none";
-    // divCapturaElemento
+    // Notificación a usuarios
     alertaElemento();
 }
 
 function clickOcultarOpciones() {
-    let i = 0;
-    // layout
-    document.getElementById("divSesion").style.display = "block";
+    // Restauración de tamaño inicial de las secciones en pantalla
     document.getElementById("thDesplegarOpcionesSesion").style.width = 50+"px";
+    document.getElementById("divPresentacionDiagrama").style.width = window.innerWidth+"px";
+    document.getElementById("divCapturaElemento").style.width = 0+"px";
+    document.getElementById("divPresentacionDiagrama").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionDiagrama").offsetTop)+"px";
+    document.getElementById("divCapturaElemento").style.height = document.getElementById("divPresentacionDiagrama").style.height;
+    // Cambio de aspecto de botones habilitados en menú divSesion
+    document.getElementById("imgBtnPlanteamiento").style.display = "inline-block";
+    document.getElementById("imgBtnChat").style.display = "inline-block";
+    document.getElementById("imgBtnArgumentacion").style.display = "inline-block";
+    document.getElementById("imgBtnPlanteamientoInhabilitado").style.display = "none";
+    document.getElementById("imgBtnChatInhabilitado").style.display = "none";
+    document.getElementById("imgBtnArgumentacionInhabilitado").style.display = "none";
+    document.getElementById("btnLlamar").style.display = "none";
+    document.getElementById("btnOcultarOpcionesSesion").style.display = "none";
+    document.getElementById("btnDesplegarOpcionesSesion").style.display = "inline-block";
     document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerecha";
     document.getElementById("lblOpcionesSesion").innerHTML = "";
     document.getElementById("lblOpcionesSesion").style.display = "none";
-    document.getElementById("btnDesplegarOpcionesSesion").style.display = "inline-block";
-    document.getElementById("btnOcultarOpcionesSesion").style.display = "none";
-    document.getElementById("btnLlamar").style.display = "none";
-    document.getElementById("imgBtnPlanteamiento").style.display = "inline-block";
-    document.getElementById("imgBtnDiagrama").style.display = "inline-block";
-    document.getElementById("imgBtnArgumentacion").style.display = "inline-block";
-    document.getElementById("imgBtnPlanteamientoInhabilitado").style.display = "none";
-    document.getElementById("imgBtnDiagramaInhabilitado").style.display = "none";
-    document.getElementById("imgBtnArgumentacionInhabilitado").style.display = "none";
-    // presentarCurso
-    document.getElementById("divPresentacionDiagrama").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionDiagrama").offsetTop)+"px";
-    document.getElementById("divPresentacionDiagrama").style.width = window.innerWidth+"px";
-    document.getElementById("divCapturaElemento").style.height = document.getElementById("divPresentacionDiagrama").style.height;
-    document.getElementById("divCapturaElemento").style.width = 0+"px";
+    // Ocultamiento de secciones del formulario y reinicio de elementos
+    document.getElementById("divBtnCapturaElemento").style.display = "none";
     document.getElementById("divFormularioObjeto").style.display = "none";
     document.getElementById("divFormularioRelacion").style.display = "none";
     document.getElementById("divFormularioMovimiento").style.display = "none";
-
-    while (document.getElementById("btnObjeto"+i) != undefined) {
-        document.getElementById("btnObjeto"+i).style.display = "none";
-        i++;
-    }
-    i = 0;
-    while (document.getElementById("btnRelacion"+i) != undefined) {
-        document.getElementById("btnRelacion"+i).style.display = "none";
-        i++;
-    }
 }
 
 function clickCapturaObjeto() {
-    let i = 0;
-    document.getElementById("btnCapturaObjeto").style.display = "none";
-    document.getElementById("btnCapturaRelacion").style.display = "none";
-    document.getElementById("lblOpciones").innerHTML = "2. Seleccionar tipo de objeto";
-    while (document.getElementById("btnObjeto"+i) != undefined) {
-        document.getElementById("btnObjeto"+i).style.display = "inline-block";
-        i++;
-    }
+    document.getElementById("divBtnCapturaElemento").style.display = "none";
+    document.getElementById("divBtnCapturaObjeto").style.display = "block";
+    document.getElementById("lblOpcionesSesion").innerHTML = "2. Seleccionar tipo de objeto";
 }
 
 function clickCapturaRelacion() {
-    let i = 0;
-    document.getElementById("btnCapturaObjeto").style.display = "none";
-    document.getElementById("btnCapturaRelacion").style.display = "none";
-    document.getElementById("lblOpciones").innerHTML = "2. Seleccionar tipo de relación";
-    while (document.getElementById("btnRelacion"+i) != undefined) {
-        document.getElementById("btnRelacion"+i).style.display = "inline-block";
-        i++;
-    }
+    document.getElementById("divBtnCapturaElemento").style.display = "none";
+    document.getElementById("divBtnCapturaRelacion").style.display = "block";
+    document.getElementById("lblOpcionesSesion").innerHTML = "2. Seleccionar tipo de vínculo";
 }
 
 function clickEditarDiagrama() {
-    document.getElementById("divPresentacionDiagrama").style.width = Math.round(window.innerWidth * 0.65)+"px";
-    document.getElementById("divCapturaElemento").style.width = Math.round(window.innerWidth * 0.35)+"px";
-    document.getElementById("thDesplegarOpciones").style.width = Math.round(window.innerWidth * 0.35)+"px";
-    document.getElementById("thDesplegarOpciones").className = "tblSangriaDerechaResaltada";
-    document.getElementById("btnDesplegarOpciones").style.display = "none";
-    document.getElementById("btnCapturaObjeto").style.display = "none";
-    document.getElementById("btnCapturaRelacion").style.display = "none";
-    document.getElementById("lblOpciones").innerHTML = "1. Editar diagrama";
-    document.getElementById("lblOpciones").style.display = "inline-block";
+    clickDesplegarOpciones()
+    document.getElementById("divBtnCapturaElemento").style.display = "none";
+    document.getElementById("divFormularioMovimiento").style.display = "block"
+    document.getElementById("divCoordenadasEdicion").style.display = "block"
+    document.getElementById("divGrabacionMovimiento").style.display = "block"
+    document.getElementById("lblOpcionesSesion").innerHTML = "1. Editar diagrama";
+}
+
+function inicioCapturaObjeto(pObjetoTipoId, pObjetoTipo, pTiposPropiedadJson) {
+    let i = 0;
+    let cadenaTiposPropiedad = pTiposPropiedadJson.replace(/&quot;/g, "'");
+    cadenaTiposPropiedad = cadenaTiposPropiedad.replace(/'/g, '"');
+    let pTiposPropiedad = JSON.parse(cadenaTiposPropiedad);
+
+    document.getElementById('inpIdTipoObjeto').value=pObjetoTipoId;
+    document.getElementById('lblObjetoTipo').innerHTML="Objeto: "+pObjetoTipo;
+    document.getElementById("lblOpcionesSesion").innerHTML = "3. Registrar propiedades del objeto";
+    document.getElementById("divBtnCapturaObjeto").style.display = "none";
+    document.getElementById("divFormularioObjeto").style.display = "block";
+    document.getElementById("divPropiedadesObjeto").style.display = "block";
+    document.getElementById("divCoordenadasObjeto").style.display = "block";
+    document.getElementById("divGrabacionObjeto").style.display = "block";
+
+    if (cadenaTiposPropiedad.length > 0) {
+        for (i=0; i<pTiposPropiedad.length; i++) {
+            document.getElementById('divPropiedadObjeto'+i).style.display = "block";
+            document.getElementById('nombrePropiedadObjeto'+i).innerHTML = pTiposPropiedad[i]._nombre+": ";
+            document.getElementById('nombrePropiedadObjeto'+i).autofocus = true;
+            document.getElementById('valorPropiedadObjeto'+i).name = 'valorPropiedadObjeto'+i;
+            if (i == 0) {
+                document.getElementById('valorPropiedadObjeto'+i).focus();
+            }
+        }
+    }
+    while (i<5) {
+        document.getElementById('divPropiedadObjeto'+i).style.display = "none";
+        i = i+1;
+    }
+    i = 0;
+    while (document.getElementById('area'+i) != undefined) {
+        document.getElementById('area'+i).href="#";
+        i = i + 1;
+    }
+    alertaElemento(pObjetoTipo);
+}
+
+function capturaRelacion(pPaso,pRelacionTipoId,pRelacionTipo,pTiposPropiedadJson) {
+    let i = 0;
+    if (pPaso==1) {
+        let cadenaTiposPropiedad = pTiposPropiedadJson.replace(/&quot;/g, "'");
+        cadenaTiposPropiedad = cadenaTiposPropiedad.replace(/'/g, '"');
+        document.getElementById("pasoCaptura").value=pPaso;
+        document.getElementById("inpIdTipoRelacion").value=pRelacionTipoId;
+        document.getElementById("lblRelacionTipo").innerHTML="Vínculo: "+pRelacionTipo;
+        document.getElementById("inpIndiceObjetoInicial").value='';
+        document.getElementById("inpIdObjetoInicial").value='';
+        document.getElementById("inpNombreObjetoInicial").value='';
+        document.getElementById("inpIndiceObjetoFinal").value='';
+        document.getElementById("inpIdObjetoFinal").value='';
+        document.getElementById("inpNombreObjetoFinal").value='';
+        document.getElementById("lblOpcionesSesion").innerHTML = "3. Pulsar objeto inicial del vínculo";
+        document.getElementById("divBtnCapturaRelacion").style.display = "none";
+        document.getElementById("divFormularioRelacion").style.display = "block";
+        document.getElementById("divCapturarObjetoInicial").style.display = "block";
+
+        i = 0;
+        if (cadenaTiposPropiedad.length > 0) {
+            let pTiposPropiedad = JSON.parse(cadenaTiposPropiedad);
+            for (i=0; i<pTiposPropiedad.length; i++) {
+                document.getElementById('divPropiedadRelacion'+i).style.display = "block";
+                document.getElementById('nombrePropiedadRelacion'+i).innerHTML = pTiposPropiedad[i]._nombre+": ";
+                document.getElementById('nombrePropiedadRelacion'+i).autofocus = true;
+                document.getElementById('valorPropiedadRelacion'+i).name = 'valorPropiedadRelacion'+i;
+            }
+        }
+        while (i<5) {
+            document.getElementById('divPropiedadRelacion'+i).style.display = "none";
+            document.getElementById('valorPropiedadRelacion'+i).name = 'none';
+            i = i+1;
+        }
+        i = 0;
+        while (document.getElementById('area'+i) != undefined) {
+            document.getElementById('area'+i).href="#";
+            i = i + 1;
+        }
+        document.getElementById('inpNombreObjetoInicial').focus();
+        dibujarDiagrama(document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",pPaso);
+        alertaElemento(pRelacionTipo);
+    }
+    if (pPaso==2) {
+        document.getElementById("lblOpcionesSesion").innerHTML = "4. Seleccionar punto de inicio";
+    }
+    if (pPaso==3) {
+        document.getElementById("lblOpcionesSesion").innerHTML = "5. Pulsar objeto final del vínculo";
+        document.getElementById('divCapturarObjetoFinal').style.display='block';
+        document.getElementById('inpNombreObjetoFinal').focus();
+        dibujarDiagrama(document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",pPaso);
+    }
+    if (pPaso==4) {
+        document.getElementById("lblOpcionesSesion").innerHTML = "6. Seleccionar punto final";
+    }
+    if (pPaso==5) {
+        document.getElementById("lblOpcionesSesion").innerHTML = "7. Registrar propiedades del vínculo";
+        document.getElementById("divPropiedadesRelacion").style.display = "block";
+        document.getElementById("divGrabacionRelacion").style.display = "block";
+
+
+        i = 0;
+        while (i<5) {
+            if (document.getElementById('valorPropiedadRelacion'+i).name != 'none') {
+                document.getElementById('divPropiedadRelacion'+i).style.display = "block";
+            }
+            i = i+1;
+        }
+    }
 }
 
 function inicioFormularioCapturaObjeto() {
@@ -128,8 +217,8 @@ function inicioFormularioCapturaObjeto() {
             divisiones[i].style.display="none";
         }
     }
-    document.getElementById("xObjeto").value = document.getElementById("xNuevoObjeto").value;
-    document.getElementById("yObjeto").value = document.getElementById("yNuevoObjeto").value;
+    document.getElementById("inpXObjeto").value = document.getElementById("inpXNuevoObjeto").value;
+    document.getElementById("inpYObjeto").value = document.getElementById("inpYNuevoObjeto").value;
 }
 
 function inicioFormularioCapturaRelacion() {

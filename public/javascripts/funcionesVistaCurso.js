@@ -38,6 +38,8 @@ function clickDesplegarDocentes() {
     document.getElementById("divPresentacionGrupos").style.display = "none";
     document.getElementById("btnAgregarGrupo").style.display = "none";
     document.getElementById("btnEliminarGrupo").style.display = "none";
+    document.getElementById("thGrupos").className = "tblListado w3-round"
+    document.getElementById("thDocentes").className = "tblListadoActiva w3-round"
 }
 
 function clickDesplegarGrupos() {
@@ -45,6 +47,8 @@ function clickDesplegarGrupos() {
     document.getElementById("divPresentacionGrupos").style.display = "inline-block";
     document.getElementById("btnAgregarGrupo").style.display = "inline-block";
     document.getElementById("btnEliminarGrupo").style.display = "inline-block";
+    document.getElementById("thGrupos").className = "tblListadoActiva w3-round"
+    document.getElementById("thDocentes").className = "tblListado w3-round"
 }
 
 function clickCapturarGrupo() {
@@ -54,5 +58,7 @@ function clickCapturarGrupo() {
     // presentarCurso
     document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioGrupo").style.display = "block";
+    document.getElementById("divDatosGrupo").style.display = "block";
+    document.getElementById("divGrabarGrupo").style.display = "block";
     document.getElementById("inpNombreGrupo").focus();
 }

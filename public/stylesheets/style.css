@@ -30,6 +30,16 @@ table.tblEncabezado {
   width: 100%;
 }
 
+div.divAplicacion {
+  display: flex;
+  flex-direction: row;
+}
+
+div.divNavegacion {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
 img.imgBtnEncabezado {
   width: 40px;
   height: 40px;
@@ -78,10 +88,28 @@ th.tblSesion {
   text-align: left;
 }
 
+th.tblSesionActiva {
+  width: 250px;
+  background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
+  text-align: left;
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
+  border-bottom-color: var(--colorVerdePrincipalWeb);
+}
+
 th.tblListado {
   width: 200px;
   background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
   text-align: left;
+}
+
+th.tblListadoActiva {
+  width: 200px;
+  background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
+  text-align: left;
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
+  border-bottom-color: var(--colorVerdePrincipalWeb);
 }
 
 th.tblAporte {
@@ -200,6 +228,7 @@ div.divDibujo {
   background-color: var(--colorFondoLibre);
   overflow: auto;
   position: relative;
+  width: 100%;
 }
 
 img.imgDibujo {
@@ -227,6 +256,7 @@ div.divEmergente {
   background-color: var(--colorGrisLibre);
   overflow: visible;
   position: relative;
+  width: 0%;
 }
 
 div.divFormulario {
@@ -240,10 +270,11 @@ div.divFormulario {
 }
 
 div.divSubformulario {
+  display: none;
   font-family: var(--tipografiaNormal);
   font-size: var(--tamanoTipografiaNormal);
   background-color: var(--colorGrisLibre);
-  padding: 20px;
+  padding: 10px;
   padding-bottom: 0px;
 }
 
@@ -282,6 +313,13 @@ label.lblCaptura {
   font-family: var(--tipografiaNormal);
   font-size: var(--tamanoTipografiaGrande);
   color: var(--colorTextoNormal);
+}
+
+label.lblGuiaCaptura {
+  alignment: left;
+  font-family: var(--tipografiaNormal);
+  font-size: var(--tamanoTipografiaGrande);
+  color: var(--colorVerdePrincipalWeb);
 }
 
 label.lblMenor {

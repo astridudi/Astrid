@@ -46,6 +46,9 @@ function clickDesplegarCursos() {
     document.getElementById("btnEliminarDocente").style.display = "none";
     document.getElementById("btnAgregarEstudiante").style.display = "none";
     document.getElementById("btnEliminarEstudiante").style.display = "none";
+    document.getElementById("thCursos").className = "tblListadoActiva w3-round"
+    document.getElementById("thDocentes").className = "tblListado w3-round"
+    document.getElementById("thEstudiantes").className = "tblListado w3-round"
 }
 
 function clickDesplegarDocentes() {
@@ -58,6 +61,9 @@ function clickDesplegarDocentes() {
     document.getElementById("btnEliminarDocente").style.display = "inline-block";
     document.getElementById("btnAgregarEstudiante").style.display = "none";
     document.getElementById("btnEliminarEstudiante").style.display = "none";
+    document.getElementById("thCursos").className = "tblListado w3-round"
+    document.getElementById("thDocentes").className = "tblListadoActiva w3-round"
+    document.getElementById("thEstudiantes").className = "tblListado w3-round"
 }
 
 function clickDesplegarEstudiantes() {
@@ -70,6 +76,9 @@ function clickDesplegarEstudiantes() {
     document.getElementById("btnEliminarDocente").style.display = "none";
     document.getElementById("btnAgregarEstudiante").style.display = "inline-block";
     document.getElementById("btnEliminarEstudiante").style.display = "inline-block";
+    document.getElementById("thCursos").className = "tblListado w3-round"
+    document.getElementById("thDocentes").className = "tblListado w3-round"
+    document.getElementById("thEstudiantes").className = "tblListadoActiva w3-round"
 }
 
 function clickCapturarCurso() {
@@ -81,6 +90,8 @@ function clickCapturarCurso() {
     document.getElementById("divFormularioCurso").style.display = "block";
     document.getElementById("divFormularioDocente").style.display = "none";
     document.getElementById("divFormularioEstudiante").style.display = "none";
+    document.getElementById("divDatosCurso").style.display = "block";
+    document.getElementById("divGrabarCurso").style.display = "block";
     document.getElementById("inpNombreCurso").focus();
 }
 
@@ -93,6 +104,8 @@ function clickCapturarDocente() {
     document.getElementById("divFormularioCurso").style.display = "none";
     document.getElementById("divFormularioDocente").style.display = "block";
     document.getElementById("divFormularioEstudiante").style.display = "none";
+    document.getElementById("divDatosDocente").style.display = "block";
+    document.getElementById("divGrabarDocente").style.display = "block";
     document.getElementById("inpApellidosDocente").focus();
 }
 
@@ -105,5 +118,7 @@ function clickCapturarEstudiante() {
     document.getElementById("divFormularioCurso").style.display = "none";
     document.getElementById("divFormularioDocente").style.display = "none";
     document.getElementById("divFormularioEstudiante").style.display = "block";
+    document.getElementById("divDatosEstudiante").style.display = "block";
+    document.getElementById("divGrabarEstudiante").style.display = "block";
     document.getElementById("inpApellidosEstudiante").focus();
 }

@@ -6,20 +6,20 @@
             <button id="btnEliminarInstitucion" class="w3-button w3-round btnControl">Eliminar institución</button>
         </div>
         <div id="divFormularioInstitucion" class="divFormulario">
-            <form method='POST' action='/main/grabarInstitucion'>
-                <input id="nombreUsuario" type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
+            <form method="POST" action="/main/grabarInstitucion">
+                <input id="nombreUsuario" name="nombreUsuario" type="hidden" value={{nombreUsuario}}>
                 <div id="divDatosInstitucion" class="divSubformulario">
                     <b><label class="lblCaptura" >Institución:</label></b>
-                    <input id="inpNombreInstitucion" class="w3-input w3-round" type="text" name="nombreInstitucion"></input>
+                    <input id="inpNombreInstitucion" class="w3-input w3-round" name="nombreInstitucion" type="text"></input>
                     <br>
                     <b><label class="lblCaptura" >Sigla:</label></b>
-                    <input id="inpSiglaInstitucion" class="w3-input w3-round" type="text" name="siglaInstitucion"></input>
+                    <input id="inpSiglaInstitucion" class="w3-input w3-round" name="siglaInstitucion" type="text"></input>
                     <br>
                     <b><label class="lblCaptura" >Snies:</label></b>
-                    <input id="inpSniesInstitucion" class="w3-input w3-round" type="text" name="identificacionInstitucion"></input>
+                    <input id="inpSniesInstitucion" class="w3-input w3-round" name="identificacionInstitucion" type="text"></input>
                 </div>
                 <div id="divGrabarInstitucion" class="divSubformulario">
-                    <button id="btnGrabarInstitucion" type="submit" class="w3-button w3-round btnControl">Grabar institucion</button>
+                    <button id="btnGrabarInstitucion" class="w3-button w3-round btnControl" type="submit">Grabar institucion</button>
                 </div>
             </form>
         </div>
@@ -28,4 +28,4 @@
 
 <script src="../javascripts/funcionesVistaConjuntoInstituciones.js"></script>
 <script src="../javascripts/inicializacionVistaConjuntoInstituciones.js"></script>
-<script type="text/javascript">inicializacionVistaConjuntoInstituciones('{{conjuntoInstituciones.institucionesJson}}');</script>
+<script type="text/javascript">inicializacionVistaConjuntoInstituciones("{{conjuntoInstituciones.institucionesJson}}");</script>

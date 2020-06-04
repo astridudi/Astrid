@@ -52,6 +52,8 @@ function clickCapturarCaso() {
     // presentarConjuntoSesiones
     document.getElementById("divBtnOpcionesCaso").style.display = "none";
     document.getElementById("divFormularioCaso").style.display = "block";
+    document.getElementById("divDatosCaso").style.display = "block";
+    document.getElementById("divGrabarCaso").style.display = "block";
     document.getElementById("inpNombreCurso").focus();
 }
 
@@ -62,6 +64,8 @@ function clickCapturarSesion() {
     // presentarConjuntoSesiones
     document.getElementById("divBtnOpcionesCaso").style.display = "none";
     document.getElementById("divFormularioAsignacion").style.display = "block";
+    document.getElementById("divDatosSesion").style.display = "block";
+    document.getElementById("divGrabarAsignacion").style.display = "block";
     document.getElementById("inpNombreCaso").focus();
 }
 

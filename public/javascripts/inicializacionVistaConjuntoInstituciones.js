@@ -27,7 +27,7 @@ function inicializacionVistaConjuntoInstituciones(pInstitucionesJson) {
             botones[botones.length-1].id = "btnInstitucion"+i;
             botones[botones.length-1].innerHTML = (i+1)+".";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
-            botones[botones.length-1].href = "/main/presentarInstitucion?id="+pInstituciones._arreglo[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            botones[botones.length-1].href = "/main/presentarInstitucion?id="+pInstituciones._arreglo[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
             rotulos[rotulos.length] = document.createElement("label");
             rotulos[rotulos.length-1].id = "lblInstitucion"+i;
             rotulos[rotulos.length-1].innerHTML = pInstituciones._arreglo[i]._nombre;

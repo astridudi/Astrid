@@ -14,6 +14,7 @@ function inicializacionVistaChat(pSesionJson) {
         document.getElementById("btnLlamar").src = "/images/imgChatLlamar.png";
         document.getElementById("imgBtnChat").style.display = "none";
         document.getElementById("imgBtnChatInhabilitado").style.display = "inline-block";
+        document.getElementById("thChat").className = "tblSesionActiva w3-round";
 
         clickOcultarOpciones();
 

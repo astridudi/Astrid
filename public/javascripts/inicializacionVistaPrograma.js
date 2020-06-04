@@ -37,7 +37,7 @@ function inicializacionVistaPrograma(pProgramaJson) {
             botones[botones.length-1].id = "btnCurso"+i;
             botones[botones.length-1].innerHTML = (i+1)+".";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
-            botones[botones.length-1].href = "/main/presentarCurso?id="+pPrograma._cursos[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            botones[botones.length-1].href = "/main/presentarCurso?id="+pPrograma._cursos[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
             rotulos[rotulos.length] = document.createElement("label");
             rotulos[rotulos.length-1].id = "lblCurso"+i;
             rotulos[rotulos.length-1].innerHTML = pPrograma._cursos[i]._nombre;
@@ -107,6 +107,7 @@ function inicializacionVistaPrograma(pProgramaJson) {
         document.getElementById("btnEliminarDocente").style.display = "none";
         document.getElementById("btnAgregarEstudiante").style.display = "none";
         document.getElementById("btnEliminarEstudiante").style.display = "none";
+        document.getElementById("thCursos").className = "tblListadoActiva w3-round"
 
         document.getElementById("btnDesplegarOpciones").setAttribute(
             "onclick",

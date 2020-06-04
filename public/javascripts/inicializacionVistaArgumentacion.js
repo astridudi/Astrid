@@ -14,6 +14,13 @@ function inicializacionVistaArgumentacion(pSesionJson) {
         document.getElementById("btnLlamar").src = "/images/imgArgumentacionLlamar.png";
         document.getElementById("imgBtnArgumentacion").style.display = "none";
         document.getElementById("imgBtnArgumentacionInhabilitado").style.display = "inline-block";
+        document.getElementById("thArgumentacion").className = "tblSesionActiva w3-round";
+
+        document.getElementById("imgBtnApoyo").style.display = "inline-block";
+        document.getElementById("imgBtnRefutacion").style.display = "inline-block";
+        document.getElementById("imgBtnProposicion").style.display = "inline-block";
+        document.getElementById("imgBtnEvidencia").style.display = "inline-block";
+        document.getElementById("imgBtnPregunta").style.display = "inline-block";
     }
 
     clickOcultarOpciones();

@@ -206,8 +206,8 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
         x = margen;
         y = y + Math.max(altoEntidad,altoRelacion,altoAtributo) + margen;
     }
-    document.getElementById('xNuevoObjeto').value = x;
-    document.getElementById('yNuevoObjeto').value = y;
+    document.getElementById('inpXNuevoObjeto').value = x;
+    document.getElementById('inpYNuevoObjeto').value = y;
 
     if (x > margen) {
         y = y + Math.max(altoEntidad,altoRelacion,altoAtributo) + margen;
@@ -418,8 +418,8 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
         contexto.strokeStyle = strokes[0];
         contexto.fillStyle = fills[0];
         if (pTipoDibujo == 2) {
-            if (i == document.getElementById('indiceObjetoInicial').value) {
-                k = document.getElementById('tipoRelacion').value;
+            if (i == document.getElementById('inpIndiceObjetoInicial').value) {
+                k = document.getElementById('inpIdTipoRelacion').value;
                 for (j = 0; j < pDiagrama._objetos[i]._tipoObjeto._puertos.length; j++) {
                     if (pDiagrama._objetos[i]._tipoObjeto._puertos[j]._tipoPuerto._tiposRol[0]._id == pDiagrama._tipoDiagrama._tiposRelacion[k]._tipoRolInicio._id) {
                         contexto.moveTo(pDiagrama._objetos[i]._tipoObjeto._puertos[j]._datoGrafico._x - 1, pDiagrama._objetos[i]._tipoObjeto._puertos[j]._datoGrafico._y - 1);
@@ -434,8 +434,8 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
             }
         }
         if (pTipoDibujo == 4) {
-            if (i == document.getElementById('indiceObjetoFinal').value) {
-                k = document.getElementById('tipoRelacion').value;
+            if (i == document.getElementById('inpIndiceObjetoFinal').value) {
+                k = document.getElementById('inpIdTipoRelacion').value;
                 for (j = 0; j < pDiagrama._objetos[i]._tipoObjeto._puertos.length; j++) {
                     if (pDiagrama._objetos[i]._tipoObjeto._puertos[j]._tipoPuerto._tiposRol[0]._id == pDiagrama._tipoDiagrama._tiposRelacion[k]._tipoRolFinal._id) {
                         contexto.moveTo(pDiagrama._objetos[i]._tipoObjeto._puertos[j]._datoGrafico._x - 1, pDiagrama._objetos[i]._tipoObjeto._puertos[j]._datoGrafico._y - 1);
@@ -603,14 +603,14 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
     Trazado de la relación que está en proceso de edición
      */
     if (pTipoDibujo == 5) {
-        x = document.getElementById('indiceObjetoInicial').value;
-        y = document.getElementById('numeroPuertoObjetoInicial').value;
-        p = document.getElementById('indiceObjetoFinal').value;
-        q = document.getElementById('numeroPuertoObjetoFinal').value;
+        x = document.getElementById('inpIndiceObjetoInicial').value;
+        y = document.getElementById('inpNumeroPuertoObjetoInicial').value;
+        p = document.getElementById('inpIndiceObjetoFinal').value;
+        q = document.getElementById('inpNumeroPuertoObjetoFinal').value;
         contexto.setLineDash([2,4]);
         contexto.beginPath();
         contexto.moveTo(pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._x, pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._y);
-        if ((document.getElementById('tipoRelacion').value == 1) || (document.getElementById('tipoRelacion').value == 2)) {
+        if ((document.getElementById('inpIdTipoRelacion').value == 1) || (document.getElementById('inpIdTipoRelacion').value == 2)) {
             contexto.lineTo(pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._x, pDiagrama._objetos[p]._tipoObjeto._puertos[q]._datoGrafico._y + sangria);
             contexto.quadraticCurveTo(pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._x, pDiagrama._objetos[p]._tipoObjeto._puertos[q]._datoGrafico._y, pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._x - sangria, pDiagrama._objetos[p]._tipoObjeto._puertos[q]._datoGrafico._y);
         }

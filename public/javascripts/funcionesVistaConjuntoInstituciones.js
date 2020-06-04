@@ -42,5 +42,7 @@ function clickCapturarInstitucion() {
     // presentarConjuntoInstituciones
     document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioInstitucion").style.display = "block";
+    document.getElementById("divDatosInstitucion").style.display = "block";
+    document.getElementById("divGrabarInstitucion").style.display = "block";
     document.getElementById("inpNombreInstitucion").focus();
 }

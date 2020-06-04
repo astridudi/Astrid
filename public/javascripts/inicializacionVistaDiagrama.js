@@ -16,6 +16,7 @@ function inicializacionVistaDiagrama(pSesionJson,pDiagramaJson) {
         document.getElementById("btnLlamar").src = "/images/imgDiagramaLlamar.png";
         document.getElementById("imgBtnDiagrama").style.display = "none";
         document.getElementById("imgBtnDiagramaInhabilitado").style.display = "inline-block";
+        document.getElementById("thDiagrama").className = "tblSesionActiva w3-round";
 
         for (i=0;i<pDiagrama._tipoDiagrama._tiposObjeto.length;i++) {
             botones[botones.length] = document.createElement("button");
@@ -26,7 +27,7 @@ function inicializacionVistaDiagrama(pSesionJson,pDiagramaJson) {
                 "onclick",
                 "inicioCapturaObjeto('"+pDiagrama._tipoDiagrama._tiposObjeto[i]._id+"','"+pDiagrama._tipoDiagrama._tiposObjeto[i]._nombre+"','"+JSON.stringify(pDiagrama._tipoDiagrama._tiposObjeto[i]._tiposPropiedad)+"')"
             );
-            document.getElementById("divBtnCapturaElemento").appendChild(botones[botones.length-1]);
+            document.getElementById("divBtnCapturaObjeto").appendChild(botones[botones.length-1]);
         }
 
         for (i=0;i<pDiagrama._tipoDiagrama._tiposRelacion.length;i++) {
@@ -38,7 +39,7 @@ function inicializacionVistaDiagrama(pSesionJson,pDiagramaJson) {
                 "onclick",
                 "capturaRelacion('1','"+pDiagrama._tipoDiagrama._tiposRelacion[i]._id+"','"+pDiagrama._tipoDiagrama._tiposRelacion[i]._nombre+"','"+JSON.stringify(pDiagrama._tipoDiagrama._tiposRelacion[i]._tiposPropiedad)+"')"
             );
-            document.getElementById("divBtnCapturaElemento").appendChild(botones[botones.length-1]);
+            document.getElementById("divBtnCapturaRelacion").appendChild(botones[botones.length-1]);
         }
 
         clickOcultarOpciones();

@@ -3,45 +3,46 @@
 <head>
     <title>Astrid 1.0 (Versión beta)</title>
     <link rel="icon" href="/images/Icono_Astrid.png" type="image/png"/>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
 <header>
     <div style="display: none">
         <b id="lblAplicacion" class="bEncabezado">Astrid 1.0</b>
-        <b id="urlServidor" style="display: none"></b>
-        <b id="alerta" ></b>
-        <b id="banderaReserva" ></b>
+        <b id="urlServidor"></b>
+        <b id="perfilUsuario"></b>
+        <b id="alerta"></b>
+        <b id="banderaReserva"></b>
     </div>
     <div id="divEncabezado" class="divEncabezado">
         <table class="tblEncabezado">
             <tr>
                 <th>
-                    <div id="divAplicacion" style="display: flex; flex-direction: row;" align="left">
-                        <img id="imgBtnInicio" class="w3-button w3-round imgBtnEncabezado" src="/images/imgLogo.png" usemap="#mapBtnInicio" title="Astrid 1.0">
+                    <div id="divAplicacion" class="divAplicacion" align="left">
+                        <img id="imgBtnInicio" class="w3-button w3-round imgBtnEncabezado" src="/images/imgLogo.png" usemap="#mapBtnInicio">
                         <map id="mapBtnInicio" name="mapBtnInicio"></map>
                         <b id="lblUbicacion" class="bEncabezado"></b>
                     </div>
                 </th>
                 <th>
-                    <div id="divNavegacion" style="display: flex; flex-direction: row-reverse;">
+                    <div id="divNavegacion" class="divNavegacion">
                         <img id="imgBtnSalir" class="w3-button w3-round imgBtnEncabezado" src="/images/imgSalir.png" usemap="#mapBtnSalir">
+                        <map id="mapBtnSalir" name="mapBtnSalir"></map>
                         <img id="imgBtnCreditos" class="w3-button w3-round imgBtnEncabezado" src="/images/imgLogo.png" usemap="#mapBtnCreditos">
+                        <map id="mapBtnCreditos" name="mapBtnCreditos"></map>
                         <img id="imgBtnEstadisticas" class="w3-button w3-round imgBtnEncabezado" src="/images/imgLogo.png" usemap="#mapBtnEstadisticas">
+                        <map id="mapBtnEstadisticas" name="mapBtnEstadisticas"></map>
                         <img id="imgBtnSesiones" class="w3-button w3-round imgBtnEncabezado" src="/images/imgSesiones.png" usemap="#mapBtnSesiones">
+                        <map id="mapBtnSesiones" name="mapBtnSesiones"></map>
                         <img id="imgBtnCasos" class="w3-button w3-round imgBtnEncabezado" src="/images/imgSesiones.png" usemap="#mapBtnCasos">
+                        <map id="mapBtnCasos" name="mapBtnCasos"></map>
                         <img id="imgBtnInstituciones" class="w3-button w3-round imgBtnEncabezado" src="/images/imgInstituciones.png" usemap="#mapBtnInstituciones">
+                        <map id="mapBtnInstituciones" name="mapBtnInstituciones"></map>
                         <img id="imgBtnIngresar" class="w3-button w3-round imgBtnEncabezado" src="/images/imgIngresar.png" usemap="#mapBtnIngresar" >
+                        <map id="mapBtnIngresar" name="mapBtnIngresar"></map>
                         <div id="divSeparadorUsuario" style="width: 20px"></div>
                         <b id="lblUsuario" class="bEncabezado"></b>
-                        <map id="mapBtnSalir" name="mapBtnSalir"></map>
-                        <map id="mapBtnCreditos" name="mapBtnCreditos"></map>
-                        <map id="mapBtnEstadisticas" name="mapBtnEstadisticas"></map>
-                        <map id="mapBtnSesiones" name="mapBtnSesiones"></map>
-                        <map id="mapBtnCasos" name="mapBtnCasos"></map>
-                        <map id="mapBtnInstituciones" name="mapBtnInstituciones"></map>
-                        <map id="mapBtnIngresar" name="mapBtnIngresar"></map>
                     </div>
                 </th>
             </tr>
@@ -88,7 +89,7 @@
                 </th>
                 <th id="thDesplegarOpcionesSesion" class="tblSangriaDerecha w3-round">
                     <img id="btnDesplegarOpcionesSesion" class="w3-button w3-round imgBtnEncabezado" src="/images/imgDesplegar.png" usemap="#mapBtnDesplegarCaptura" style="display: inline-block" title="Desplegar opciones">
-                    <label id="lblOpcionesSesion" class="lblSesionResaltado" style="display: none"></label>
+                    <label id="lblOpcionesSesion" class="lblSesionResaltado"></label>
                 </th>
             </tr>
         </table>

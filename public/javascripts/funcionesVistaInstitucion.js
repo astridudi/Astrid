@@ -42,6 +42,8 @@ function clickCapturarPrograma() {
     // presentarInstitucion
     document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioPrograma").style.display = "block";
+    document.getElementById("divDatosPrograma").style.display = "block";
+    document.getElementById("divGrabarPrograma").style.display = "block";
     document.getElementById("inpNombrePrograma").focus();
 }
 
