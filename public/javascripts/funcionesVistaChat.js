@@ -16,6 +16,8 @@ function clickOcultarOpciones() {
     ocultarOpcionesSesionLayout();
     document.getElementById("divPresentacionChat").style.width = document.getElementById("anchoPresentacion").value+"px";
     document.getElementById("divCapturaMensaje").style.width = document.getElementById("anchoEmergente").value+"px";
+    document.getElementById("divPresentacionChat").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionChat").offsetTop)+"px";
+    document.getElementById("divCapturaMensaje").style.height = document.getElementById("divPresentacionChat").style.height;
 }
 
 function clickPresentarChat() {

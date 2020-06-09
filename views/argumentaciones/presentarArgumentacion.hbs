@@ -77,7 +77,7 @@ Inicialización sección de mensajería
         socket = io.connect(document.getElementById("urlServidor").innerHTML);
         socket.on("actualizacionArgumentacion", (data)=>{
             console.log("Evento: "+data);
-            dibujarArgumentacion("canvasDibujo", data.argumentacionRecuperada);
+            dibujarArgumentacion(data.argumentacionRecuperada);
         });
         socket.on('ubicacion', function (data) {
             ubicarUsuario(data.usuario,'{{nombreUsuario}}',data.seccion);

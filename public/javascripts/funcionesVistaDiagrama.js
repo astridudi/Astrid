@@ -17,6 +17,8 @@ function clickOcultarOpciones() {
     ocultarOpcionesSesionLayout();
     document.getElementById("divPresentacionDiagrama").style.width = document.getElementById("anchoPresentacion").value+"px";
     document.getElementById("divCapturaElemento").style.width = document.getElementById("anchoEmergente").value+"px";
+    document.getElementById("divPresentacionDiagrama").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionDiagrama").offsetTop)+"px";
+    document.getElementById("divCapturaElemento").style.height = document.getElementById("divPresentacionDiagrama").style.height;
 }
 
 function clickPresentarDiagrama() {

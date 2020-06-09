@@ -12,6 +12,8 @@ function clickOcultarOpciones() {
     ocultarOpcionesSesionLayout();
     document.getElementById("divPresentacionArgumentacion").style.width = document.getElementById("anchoPresentacion").value+"px";
     document.getElementById("divCapturaAporte").style.width = document.getElementById("anchoEmergente").value+"px";
+    document.getElementById("divPresentacionArgumentacion").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionArgumentacion").offsetTop)+"px";
+    document.getElementById("divCapturaAporte").style.height = document.getElementById("divPresentacionArgumentacion").style.height;
     // Ocultamiento de secciones del formulario y reinicio de elementos
     document.getElementById("divFormularioAporte").style.display = "none";
     document.getElementById("divAportePredecesor").style.display = "none";
@@ -64,6 +66,9 @@ function inicioCapturaAporte(pIdAportePredecesor,pAportePredecesorTipoId,pAporte
                 document.getElementById("thRefutacion").style.display = "inline-block";
                 document.getElementById("thProposicion").style.display = "inline-block";
                 document.getElementById("divBtnAportes").style.display = "inline-block";
+                document.getElementById("divRedactarAporte").style.display = "none";
+                document.getElementById("txtAporteContenido").value = "";
+                document.getElementById("divGrabarAporte").style.display = "none";
                 break;
             }
             case "1" : {
@@ -79,6 +84,9 @@ function inicioCapturaAporte(pIdAportePredecesor,pAportePredecesorTipoId,pAporte
                     "onclick",
                     "clickCapturaContenido(5)"
                 );
+                document.getElementById("divRedactarAporte").style.display = "none";
+                document.getElementById("txtAporteContenido").value = "";
+                document.getElementById("divGrabarAporte").style.display = "none";
                 break;
             }
             case "2" : {
@@ -94,6 +102,9 @@ function inicioCapturaAporte(pIdAportePredecesor,pAportePredecesorTipoId,pAporte
                     "onclick",
                     "clickCapturaContenido(7)"
                 );
+                document.getElementById("divRedactarAporte").style.display = "none";
+                document.getElementById("txtAporteContenido").value = "";
+                document.getElementById("divGrabarAporte").style.display = "none";
                 break;
             }
             case "3" : {
@@ -113,9 +124,6 @@ function inicioCapturaAporte(pIdAportePredecesor,pAportePredecesorTipoId,pAporte
                 break;
             }
         }
-        document.getElementById("divRedactarAporte").style.display = "none";
-        document.getElementById("txtAporteContenido").value = "";
-        document.getElementById("divGrabarAporte").style.display = "none";
     }
 }
 

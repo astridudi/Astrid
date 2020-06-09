@@ -2,6 +2,8 @@ function clickOcultarOpciones() {
     ocultarOpcionesSesionLayout();
     document.getElementById("divPresentacionPlanteamiento").style.width = document.getElementById("anchoPresentacion").value+"px";
     document.getElementById("divCapturaAccion").style.width = document.getElementById("anchoEmergente").value+"px";
+    document.getElementById("divPresentacionPlanteamiento").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionPlanteamiento").offsetTop)+"px";
+    document.getElementById("divCapturaAccion").style.height = document.getElementById("divPresentacionPlanteamiento").style.height;
 }
 
 function clickPresentarPlanteamiento() {

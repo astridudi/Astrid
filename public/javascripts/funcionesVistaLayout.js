@@ -61,7 +61,7 @@ function desplegarOpcionesSesionLayout() {
     document.getElementById("anchoEmergente").value = Math.round(window.innerWidth * 0.35);
     document.getElementById("thLlamada").className = "tblSangriaDerecha";
     document.getElementById("thOcultarOpcionesSesion").className = "tblSangriaDerecha";
-    document.getElementById("thDesplegarOpcionesSesion").style.width = (document.getElementById("anchoEmergente").value - document.getElementById("thOcultarOpcionesSesion").offsetWidth - document.getElementById("thLlamada").offsetWidth - 11)+"px";
+    document.getElementById("thDesplegarOpcionesSesion").style.width = (document.getElementById("anchoEmergente").value - document.getElementById("thOcultarOpcionesSesion").offsetWidth - document.getElementById("thLlamada").offsetWidth - 4)+"px";
     document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerechaResaltada";
     document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
 }
