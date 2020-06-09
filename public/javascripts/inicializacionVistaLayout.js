@@ -2,24 +2,6 @@ function inicializacionVistaLayout() {
     const urlParametros = new URLSearchParams(window.location.search);
     document.getElementById("urlServidor").innerHTML = "http://34.69.82.100:3000";
     //document.getElementById("urlServidor").innerHTML = "http://localhost:3000";
-    /*
-    Botón para volver a la raíz de la aplicación
-     */
-    var areaBtnInicio = document.createElement("area");
-    areaBtnInicio.shape = "rect";
-    areaBtnInicio.coords = "0,0,40,40";
-    areaBtnInicio.href = "#";
-    areaBtnInicio.title = "Astrid 1.0";
-    document.getElementById("mapBtnInicio").appendChild(areaBtnInicio);
-    /*
-    Botón para salir de la aplicación
-     */
-    var areaBtnSalir = document.createElement("area");
-    areaBtnSalir.shape = "rect";
-    areaBtnSalir.coords = "0,0,40,40";
-    areaBtnSalir.href = "/";
-    areaBtnSalir.title = "Salir";
-    document.getElementById("mapBtnSalir").appendChild(areaBtnSalir);
 
     if (urlParametros.get("nombreUsuario") == undefined) {
         /*
@@ -33,8 +15,24 @@ function inicializacionVistaLayout() {
         document.getElementById("mapBtnIngresar").appendChild(areaBtnIngresar);
     }
     else {
-        document.getElementById("lblUsuario").innerHTML = urlParametros.get("nombreUsuario");
-        document.getElementById("perfilUsuario").innerHTML = urlParametros.get("perfilUsuario");
+        /*
+        Botón para volver a la raíz de la aplicación
+         */
+        var areaBtnInicio = document.createElement("area");
+        areaBtnInicio.shape = "rect";
+        areaBtnInicio.coords = "0,0,40,40";
+        areaBtnInicio.href = "#";
+        areaBtnInicio.title = "Astrid 1.0";
+        document.getElementById("mapBtnInicio").appendChild(areaBtnInicio);
+        /*
+        Botón para salir de la aplicación
+         */
+        var areaBtnSalir = document.createElement("area");
+        areaBtnSalir.shape = "rect";
+        areaBtnSalir.coords = "0,0,40,40";
+        areaBtnSalir.href = "/";
+        areaBtnSalir.title = "Salir";
+        document.getElementById("mapBtnSalir").appendChild(areaBtnSalir);
         /*
         Botón para pedir acceso a la vista de instituciones
          */
@@ -120,5 +118,9 @@ function inicializacionVistaLayout() {
                 "llamarReunion()"
             );
         }
+        document.getElementById("imgBtnInicio").style.display = "inline-block";
+        document.getElementById("imgBtnSalir").style.display = "inline-block";
+        document.getElementById("lblUsuario").innerHTML = urlParametros.get("nombreUsuario");
+        document.getElementById("perfilUsuario").innerHTML = urlParametros.get("perfilUsuario");
     }
 }

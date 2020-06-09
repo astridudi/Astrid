@@ -1,50 +1,17 @@
 function clickDesplegarOpciones() {
-    // layout
-    // Cambio de tamaño de las secciones en pantalla
-    document.getElementById("thDesplegarOpcionesSesion").style.width = Math.round(window.innerWidth * 0.35)+"px";
-    document.getElementById("divPresentacionArgumentacion").style.width = Math.round(window.innerWidth * 0.65)+"px";
-    document.getElementById("divCapturaAporte").style.width = Math.round(window.innerWidth * 0.35)+"px";
-    // Cambio de aspecto de botones inhabilitados en menú divSesion
-    document.getElementById("imgBtnPlanteamiento").style.display = "none";
-    document.getElementById("imgBtnChat").style.display = "none";
-    document.getElementById("imgBtnDiagrama").style.display = "none";
-    document.getElementById("imgBtnPlanteamientoInhabilitado").style.display = "inline-block";
-    document.getElementById("imgBtnChatInhabilitado").style.display = "inline-block";
-    document.getElementById("imgBtnDiagramaInhabilitado").style.display = "inline-block";
-    // Habilitación de opciones de interacción con el usuario
-    document.getElementById("btnLlamar").title = "Convocar a la argumentación";
-    document.getElementById("btnLlamar").style.display = "inline-block";
-    document.getElementById("btnOcultarOpcionesSesion").style.display = "inline-block";
-    document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
-    document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerechaResaltada";
+    desplegarOpcionesSesionLayout();
+    document.getElementById("divPresentacionArgumentacion").style.width = document.getElementById("anchoPresentacion").value+"px";
+    document.getElementById("divCapturaAporte").style.width = document.getElementById("anchoEmergente").value+"px";
     document.getElementById("lblOpcionesSesion").innerHTML = "1. Seleccionar aporte predecesor";
-    document.getElementById("lblOpcionesSesion").style.display = "inline-block";
-    // Habilitación del formulario (las divisiones permanecen inhabilitadas)
     document.getElementById("divFormularioAporte").style.display = "inline-block";
     // Notificación a usuarios
     alertaAporte();
 }
 
 function clickOcultarOpciones() {
-    // Restauración de tamaño inicial de las secciones en pantalla
-    document.getElementById("thDesplegarOpcionesSesion").style.width = 50+"px";
-    document.getElementById("divPresentacionArgumentacion").style.width = window.innerWidth+"px";
-    document.getElementById("divCapturaAporte").style.width = 0+"px";
-    document.getElementById("divPresentacionArgumentacion").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionArgumentacion").offsetTop)+"px";
-    document.getElementById("divCapturaAporte").style.height = document.getElementById("divPresentacionArgumentacion").style.height;
-    // Cambio de aspecto de botones habilitados en menú divSesion
-    document.getElementById("imgBtnPlanteamiento").style.display = "inline-block";
-    document.getElementById("imgBtnChat").style.display = "inline-block";
-    document.getElementById("imgBtnDiagrama").style.display = "inline-block";
-    document.getElementById("imgBtnPlanteamientoInhabilitado").style.display = "none";
-    document.getElementById("imgBtnChatInhabilitado").style.display = "none";
-    document.getElementById("imgBtnDiagramaInhabilitado").style.display = "none";
-    document.getElementById("btnLlamar").style.display = "none";
-    document.getElementById("btnOcultarOpcionesSesion").style.display = "none";
-    document.getElementById("btnDesplegarOpcionesSesion").style.display = "inline-block";
-    document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerecha";
-    document.getElementById("lblOpcionesSesion").innerHTML = "";
-    document.getElementById("lblOpcionesSesion").style.display = "none";
+    ocultarOpcionesSesionLayout();
+    document.getElementById("divPresentacionArgumentacion").style.width = document.getElementById("anchoPresentacion").value+"px";
+    document.getElementById("divCapturaAporte").style.width = document.getElementById("anchoEmergente").value+"px";
     // Ocultamiento de secciones del formulario y reinicio de elementos
     document.getElementById("divFormularioAporte").style.display = "none";
     document.getElementById("divAportePredecesor").style.display = "none";
@@ -59,6 +26,22 @@ function clickOcultarOpciones() {
     document.getElementById("divRedactarAporte").style.display = "none";
     document.getElementById("txtAporteContenido").innerHTML = "";
     document.getElementById("divGrabarAporte").style.display = "none";
+}
+
+function clickPresentarArgumentacion() {
+    document.getElementById("imgBtnPlanteamiento").style.display = "inline-block";
+    document.getElementById("imgBtnChat").style.display = "inline-block";
+    document.getElementById("imgBtnDiagrama").style.display = "inline-block";
+    document.getElementById("imgBtnArgumentacion").style.display = "none";
+    document.getElementById("imgBtnPlanteamientoActiva").style.display = "none";
+    document.getElementById("imgBtnChatActiva").style.display = "none";
+    document.getElementById("imgBtnDiagramaActiva").style.display = "none";
+    document.getElementById("imgBtnArgumentacionActiva").style.display = "inline-block";
+    document.getElementById("thPlanteamiento").className = "w3-round tblMenuSesionVisible";
+    document.getElementById("thChat").className = "w3-round tblMenuSesionVisible";
+    document.getElementById("thDiagrama").className = "w3-round tblMenuSesionVisible";
+    document.getElementById("thArgumentacion").className = "w3-round tblMenuSesionActiva";
+    document.getElementById("btnLlamar").title = "Llamar a argumentación";
 }
 
 function inicioCapturaAporte(pIdAportePredecesor,pAportePredecesorTipoId,pAportePredecesorTipo,pAportePredecesorContenido,pArgumentacionNombre) {

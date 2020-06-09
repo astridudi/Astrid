@@ -8,13 +8,6 @@ function inicializacionVistaGrupo(pGrupoJson) {
         document.getElementById("lblAplicacion").style.display = "none";
     } else {
         /*
-        Inicialización del encabezado
-         */
-        document.getElementById("lblUbicacion").innerHTML = "Grupo: "+pGrupo._nombre;
-        document.getElementById("imgBtnInicio").style.display = "inline-block";
-        document.getElementById("imgBtnInstituciones").style.display = "inline-block";
-        document.getElementById("imgBtnSalir").style.display = "inline-block";
-        /*
         Creación del bloque de datos del curso
          */
         document.getElementById("lblNombreInstitucion").innerHTML = "Institución: "+pGrupo._curso._programa._institucion._nombre;
@@ -29,7 +22,7 @@ function inicializacionVistaGrupo(pGrupoJson) {
             document.getElementById("lblNombreInstitucion").innerHTML = document.getElementById("lblNombreInstitucion").innerHTML +" - "+pGrupo._curso._programa._institucion._sigla;
         }
         /*
-        Creación de la lista de docentes
+        Creación de la lista de docentes en vista presentarGrupo
          */
         if (pGrupo._docente._id.length != 0) {
             b[b.length] = document.createElement("b");
@@ -53,7 +46,7 @@ function inicializacionVistaGrupo(pGrupoJson) {
             document.getElementById("divPresentacionDocentes").appendChild(rotulos[rotulos.length-1]);
         }
         /*
-        Creación de la lista de estudiantes
+        Creación de la lista de estudiantes en vista presentarGrupo
          */
         for (i=0; i<pGrupo._estudiantes.length; i++) {
             if (i>0) {
@@ -79,6 +72,13 @@ function inicializacionVistaGrupo(pGrupoJson) {
             rotulos[rotulos.length-1].className = "lblMenor";
             document.getElementById("divPresentacionEstudiantes").appendChild(rotulos[rotulos.length-1]);
         }
+        /*
+        Inicialización del encabezado - Vista layout
+         */
+        document.getElementById("lblUbicacion").innerHTML = "Grupo: "+pGrupo._nombre;
+        document.getElementById("imgBtnInstituciones").style.display = "inline-block";
+        document.getElementById("divListado").style.display = "block";
+
         clickOcultarOpciones();
 
         document.getElementById("btnDesplegarOpciones").setAttribute(

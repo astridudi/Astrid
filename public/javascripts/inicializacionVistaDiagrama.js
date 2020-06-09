@@ -10,13 +10,8 @@ function inicializacionVistaDiagrama(pSesionJson,pDiagramaJson) {
         Inicialización del encabezado
          */
         document.getElementById("lblUbicacion").innerHTML = pSesion._nombre+" | "+pSesion._diagrama._tipoDiagrama._nombre;
-        document.getElementById("imgBtnInicio").style.display = "inline-block";
         document.getElementById("imgBtnSesiones").style.display = "inline-block";
-        document.getElementById("imgBtnSalir").style.display = "inline-block";
-        document.getElementById("btnLlamar").src = "/images/imgDiagramaLlamar.png";
-        document.getElementById("imgBtnDiagrama").style.display = "none";
-        document.getElementById("imgBtnDiagramaInhabilitado").style.display = "inline-block";
-        document.getElementById("thDiagrama").className = "tblSesionActiva w3-round";
+        document.getElementById("divSesion").style.display = "block";
 
         for (i=0;i<pDiagrama._tipoDiagrama._tiposObjeto.length;i++) {
             botones[botones.length] = document.createElement("button");
@@ -43,6 +38,7 @@ function inicializacionVistaDiagrama(pSesionJson,pDiagramaJson) {
         }
 
         clickOcultarOpciones();
+        clickPresentarDiagrama();
 
         document.getElementById("btnDesplegarOpcionesSesion").setAttribute(
             "onclick",

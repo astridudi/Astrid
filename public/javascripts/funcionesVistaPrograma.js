@@ -1,14 +1,8 @@
 function clickDesplegarOpciones() {
-    // layout
-    document.getElementById("thDesplegarOpciones").style.width = Math.round(window.innerWidth * 0.50)+"px";
-    document.getElementById("thDesplegarOpciones").className = "tblSangriaDerechaResaltada";
+    desplegarOpcionesListadoLayout();
+    document.getElementById("divPresentacionPrograma").style.width = document.getElementById("anchoPresentacion").value+"px";
+    document.getElementById("divCapturaCurso").style.width = document.getElementById("anchoEmergente").value+"px";
     document.getElementById("lblOpciones").innerHTML = "Seleccionar opción";
-    document.getElementById("lblOpciones").style.display = "inline-block";
-    document.getElementById("btnOcultarOpciones").style.display = "inline-block";
-    document.getElementById("btnDesplegarOpciones").style.display = "none";
-    // presentarPrograma
-    document.getElementById("divPresentacionPrograma").style.width = Math.round(window.innerWidth * 0.50)+"px";
-    document.getElementById("divCapturaCurso").style.width = Math.round(window.innerWidth * 0.50)+"px";
     document.getElementById("divBtnOpciones").style.display = "block";
     document.getElementById("divFormularioCurso").style.display = "none";
     document.getElementById("divFormularioDocente").style.display = "none";
@@ -16,20 +10,9 @@ function clickDesplegarOpciones() {
 }
 
 function clickOcultarOpciones() {
-    // layout
-    document.getElementById("divListado").style.display = "block";
-    document.getElementById("thGrupos").style.display = "none";
-    document.getElementById("thDesplegarOpciones").style.width = 50+"px";
-    document.getElementById("thDesplegarOpciones").className = "tblSangriaDerecha";
-    document.getElementById("lblOpciones").innerHTML = "";
-    document.getElementById("lblOpciones").style.display = "none";
-    document.getElementById("btnDesplegarOpciones").style.display = "block";
-    document.getElementById("btnOcultarOpciones").style.display = "none";
-    // presentarPrograma
-    document.getElementById("divPresentacionPrograma").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionPrograma").offsetTop)+"px";
-    document.getElementById("divPresentacionPrograma").style.width = window.innerWidth+"px";
-    document.getElementById("divCapturaCurso").style.height = document.getElementById("divPresentacionPrograma").style.height;
-    document.getElementById("divCapturaCurso").style.width = 0+"px";
+    ocultarOpcionesListadoLayout();
+    document.getElementById("divPresentacionPrograma").style.width = document.getElementById("anchoPresentacion").value+"px";
+    document.getElementById("divCapturaCurso").style.width = document.getElementById("anchoEmergente").value+"px";
     document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioCurso").style.display = "none";
     document.getElementById("divFormularioDocente").style.display = "none";
@@ -37,7 +20,7 @@ function clickOcultarOpciones() {
 }
 
 function clickDesplegarCursos() {
-    document.getElementById("divPresentacionCursos").style.display = "inline-block";
+    document.getElementById("divPresentacionCursos").style.display = "block";
     document.getElementById("divPresentacionDocentes").style.display = "none";
     document.getElementById("divPresentacionEstudiantes").style.display = "none";
     document.getElementById("btnAgregarCurso").style.display = "inline-block";
@@ -46,9 +29,12 @@ function clickDesplegarCursos() {
     document.getElementById("btnEliminarDocente").style.display = "none";
     document.getElementById("btnAgregarEstudiante").style.display = "none";
     document.getElementById("btnEliminarEstudiante").style.display = "none";
-    document.getElementById("thCursos").className = "tblListadoActiva w3-round"
-    document.getElementById("thDocentes").className = "tblListado w3-round"
-    document.getElementById("thEstudiantes").className = "tblListado w3-round"
+    document.getElementById("thCursos").className = "w3-round tblMenuListadoActiva";
+    document.getElementById("thDocentes").className = "w3-round tblMenuListadoVisible";
+    document.getElementById("thEstudiantes").className = "w3-round tblMenuListadoVisible";
+    document.getElementById("btnDesplegarCursos").src="/images/imgCursoActiva.png";
+    document.getElementById("btnDesplegarDocentes").src="/images/imgDocente.png";
+    document.getElementById("btnDesplegarEstudiantes").src="/images/imgEstudiante.png";
 }
 
 function clickDesplegarDocentes() {
@@ -61,9 +47,12 @@ function clickDesplegarDocentes() {
     document.getElementById("btnEliminarDocente").style.display = "inline-block";
     document.getElementById("btnAgregarEstudiante").style.display = "none";
     document.getElementById("btnEliminarEstudiante").style.display = "none";
-    document.getElementById("thCursos").className = "tblListado w3-round"
-    document.getElementById("thDocentes").className = "tblListadoActiva w3-round"
-    document.getElementById("thEstudiantes").className = "tblListado w3-round"
+    document.getElementById("thCursos").className = "w3-round tblMenuListadoVisible";
+    document.getElementById("thDocentes").className = "w3-round tblMenuListadoActiva";
+    document.getElementById("thEstudiantes").className = "w3-round tblMenuListadoVisible";
+    document.getElementById("btnDesplegarCursos").src="/images/imgCurso.png";
+    document.getElementById("btnDesplegarDocentes").src="/images/imgDocenteActiva.png";
+    document.getElementById("btnDesplegarEstudiantes").src="/images/imgEstudiante.png";
 }
 
 function clickDesplegarEstudiantes() {
@@ -76,16 +65,16 @@ function clickDesplegarEstudiantes() {
     document.getElementById("btnEliminarDocente").style.display = "none";
     document.getElementById("btnAgregarEstudiante").style.display = "inline-block";
     document.getElementById("btnEliminarEstudiante").style.display = "inline-block";
-    document.getElementById("thCursos").className = "tblListado w3-round"
-    document.getElementById("thDocentes").className = "tblListado w3-round"
-    document.getElementById("thEstudiantes").className = "tblListadoActiva w3-round"
+    document.getElementById("thCursos").className = "w3-round tblMenuListadoVisible";
+    document.getElementById("thDocentes").className = "w3-round tblMenuListadoVisible";
+    document.getElementById("thEstudiantes").className = "w3-round tblMenuListadoActiva";
+    document.getElementById("btnDesplegarCursos").src="/images/imgCurso.png";
+    document.getElementById("btnDesplegarDocentes").src="/images/imgDocente.png";
+    document.getElementById("btnDesplegarEstudiantes").src="/images/imgEstudianteActiva.png";
 }
 
 function clickCapturarCurso() {
-    // layout
-    document.getElementById("thDesplegarOpciones").className = "tblSangriaDerechaResaltada";
     document.getElementById("lblOpciones").innerHTML = "Registrar curso";
-    // presentarPrograma
     document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioCurso").style.display = "block";
     document.getElementById("divFormularioDocente").style.display = "none";
@@ -96,10 +85,7 @@ function clickCapturarCurso() {
 }
 
 function clickCapturarDocente() {
-    // layout
-    document.getElementById("thDesplegarOpciones").className = "tblSangriaDerechaResaltada";
     document.getElementById("lblOpciones").innerHTML = "Registrar docente";
-    // presentarPrograma
     document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioCurso").style.display = "none";
     document.getElementById("divFormularioDocente").style.display = "block";
@@ -110,10 +96,7 @@ function clickCapturarDocente() {
 }
 
 function clickCapturarEstudiante() {
-    // layout
-    document.getElementById("thDesplegarOpciones").className = "tblSangriaDerechaResaltada";
     document.getElementById("lblOpciones").innerHTML = "Registrar estudiante";
-    // presentarPrograma
     document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioCurso").style.display = "none";
     document.getElementById("divFormularioDocente").style.display = "none";

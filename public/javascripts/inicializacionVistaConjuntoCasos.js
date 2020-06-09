@@ -10,13 +10,8 @@ function inicializacionVistaConjuntoCasos(pUsuarioJson,pConjuntoTiposDiagramaJso
         document.getElementById("lblAplicacion").style.display = "none";
     } else {
         /*
-        Inicialización del encabezado
+        Creación de la lista de cursos y casos en vista presentarConjuntoCasos
          */
-        document.getElementById("lblUbicacion").innerHTML = document.getElementById("lblAplicacion").innerHTML+" | Casos";
-        document.getElementById("imgBtnInicio").style.display = "inline-block";
-        document.getElementById("imgBtnSesiones").style.display = "inline-block";
-        document.getElementById("imgBtnSalir").style.display = "inline-block";
-
         for (i=0; i<pUsuario._cursos.length; i++) {
             b[b.length] = document.createElement("b");
             b[b.length-1].id = "bCurso"+i;
@@ -68,14 +63,20 @@ function inicializacionVistaConjuntoCasos(pUsuarioJson,pConjuntoTiposDiagramaJso
         }
         document.getElementById("idUsuarioCaso").value = pUsuario._id;
         document.getElementById("idUsuarioAsignacion").value = pUsuario._id;
+        /*
+        Inicialización del encabezado - Vista layout
+         */
+        document.getElementById("lblUbicacion").innerHTML = document.getElementById("lblAplicacion").innerHTML+" | Casos";
+        document.getElementById("imgBtnSesiones").style.display = "inline-block";
+        document.getElementById("divListado").style.display = "block";
 
         clickOcultarOpciones();
 
-        document.getElementById("btnDesplegarOpcionesSesion").setAttribute(
+        document.getElementById("btnDesplegarOpciones").setAttribute(
             "onclick",
             "clickDesplegarOpciones()"
         );
-        document.getElementById("btnOcultarOpcionesSesion").setAttribute(
+        document.getElementById("btnOcultarOpciones").setAttribute(
             "onclick",
             "clickOcultarOpciones()"
         );

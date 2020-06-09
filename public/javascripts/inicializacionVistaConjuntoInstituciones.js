@@ -8,14 +8,7 @@ function inicializacionVistaConjuntoInstituciones(pInstitucionesJson) {
         document.getElementById("lblAplicacion").style.display = "none";
     } else {
         /*
-        Inicialización del encabezado en layout
-         */
-        document.getElementById("lblUbicacion").innerHTML = document.getElementById("lblAplicacion").innerHTML+" | Instituciones";
-        document.getElementById("imgBtnInicio").style.display = "inline-block";
-        document.getElementById("imgBtnInstituciones").style.display = "inline-block";
-        document.getElementById("imgBtnSalir").style.display = "inline-block";
-        /*
-        Creación de la lista de instituciones en presentarConjuntoInstituciones
+        Creación de la lista de instituciones en vista presentarConjuntoInstituciones
          */
         for (i=0; i<pInstituciones._arreglo.length; i++) {
             if (i>0) {
@@ -39,6 +32,13 @@ function inicializacionVistaConjuntoInstituciones(pInstitucionesJson) {
             document.getElementById("bInstitucion"+i).appendChild(botones[botones.length-1]);
             document.getElementById("divPresentacionInstituciones").appendChild(rotulos[rotulos.length-1]);
         }
+        /*
+        Inicialización del encabezado - Vista layout
+         */
+        document.getElementById("lblUbicacion").innerHTML = document.getElementById("lblAplicacion").innerHTML+" | Instituciones";
+        document.getElementById("imgBtnInstituciones").style.display = "inline-block";
+        document.getElementById("divListado").style.display = "block";
+
         clickOcultarOpciones();
 
         document.getElementById("btnDesplegarOpciones").setAttribute(

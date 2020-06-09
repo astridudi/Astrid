@@ -8,22 +8,12 @@ function inicializacionVistaArgumentacion(pSesionJson) {
         Inicialización del encabezado
          */
         document.getElementById("lblUbicacion").innerHTML = pSesion._nombre+" | Argumentación";
-        document.getElementById("imgBtnInicio").style.display = "inline-block";
         document.getElementById("imgBtnSesiones").style.display = "inline-block";
-        document.getElementById("imgBtnSalir").style.display = "inline-block";
-        document.getElementById("btnLlamar").src = "/images/imgArgumentacionLlamar.png";
-        document.getElementById("imgBtnArgumentacion").style.display = "none";
-        document.getElementById("imgBtnArgumentacionInhabilitado").style.display = "inline-block";
-        document.getElementById("thArgumentacion").className = "tblSesionActiva w3-round";
-
-        document.getElementById("imgBtnApoyo").style.display = "inline-block";
-        document.getElementById("imgBtnRefutacion").style.display = "inline-block";
-        document.getElementById("imgBtnProposicion").style.display = "inline-block";
-        document.getElementById("imgBtnEvidencia").style.display = "inline-block";
-        document.getElementById("imgBtnPregunta").style.display = "inline-block";
+        document.getElementById("divSesion").style.display = "block";
     }
 
     clickOcultarOpciones();
+    clickPresentarArgumentacion();
 
     document.getElementById("btnDesplegarOpcionesSesion").setAttribute(
         "onclick",

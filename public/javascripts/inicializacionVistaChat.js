@@ -8,15 +8,11 @@ function inicializacionVistaChat(pSesionJson) {
         Inicialización del encabezado
          */
         document.getElementById("lblUbicacion").innerHTML = pSesion._nombre+" | Chat";
-        document.getElementById("imgBtnInicio").style.display = "inline-block";
         document.getElementById("imgBtnSesiones").style.display = "inline-block";
-        document.getElementById("imgBtnSalir").style.display = "inline-block";
-        document.getElementById("btnLlamar").src = "/images/imgChatLlamar.png";
-        document.getElementById("imgBtnChat").style.display = "none";
-        document.getElementById("imgBtnChatInhabilitado").style.display = "inline-block";
-        document.getElementById("thChat").className = "tblSesionActiva w3-round";
+        document.getElementById("divSesion").style.display = "block";
 
         clickOcultarOpciones();
+        clickPresentarChat();
 
         document.getElementById("btnDesplegarOpcionesSesion").setAttribute(
             "onclick",

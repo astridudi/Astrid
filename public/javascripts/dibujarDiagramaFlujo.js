@@ -262,8 +262,8 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
         x = margen;
         y = y + Math.max(altoInicio,altoEntrada,altoProceso,altoCondicional) + margen;
     }
-    document.getElementById('xNuevoObjeto').value = x;
-    document.getElementById('yNuevoObjeto').value = y;
+    document.getElementById('inpXNuevoObjeto').value = x;
+    document.getElementById('inpYNuevoObjeto').value = y;
 
     if (x > margen) {
         y = y + Math.max(altoInicio,altoEntrada,altoProceso,altoCondicional) + margen;

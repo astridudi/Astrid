@@ -26,10 +26,6 @@ div.divEncabezado {
   background-color: var(--colorGrisLibre);
 }
 
-table.tblEncabezado {
-  width: 100%;
-}
-
 div.divAplicacion {
   display: flex;
   flex-direction: row;
@@ -38,23 +34,6 @@ div.divAplicacion {
 div.divNavegacion {
   display: flex;
   flex-direction: row-reverse;
-}
-
-img.imgBtnEncabezado {
-  width: 40px;
-  height: 40px;
-  padding: 0px;
-  background-size: cover;
-  display: none;
-}
-
-b.bEncabezado {
-  alignment: left;
-  font-family: var(--tipografiaDestacada);
-  font-size: var(--tamanoTipografiaGrande);
-  color: var(--colorTextoNormal);
-  padding-top: 10px;
-  padding-left: 10px;
 }
 
 div.divSeparadorEncabezado {
@@ -69,11 +48,32 @@ div.divSeparadorEncabezado {
   height: 7px;
 }
 
-div.divSesion {
+div.divMenu {
   display: none;
 }
 
-table.tblSesion {
+table.tblEncabezado {
+  width: 100%;
+}
+
+img.imgBtnEncabezado {
+  display: none;
+  width: 40px;
+  height: 40px;
+  padding: 0px;
+  background-size: cover;
+}
+
+b.bEncabezado {
+  alignment: left;
+  font-family: var(--tipografiaDestacada);
+  font-size: var(--tamanoTipografiaGrande);
+  color: var(--colorTextoNormal);
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+table.tblMenu {
   width: 100%;
 }
 
@@ -82,34 +82,60 @@ th.tblSangriaIzquierda {
   background-color: var(--colorFondoLibre);
 }
 
-th.tblSesion {
-  width: 250px;
+th.tblMenuSesion {
+  width: 225px;
   background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
   text-align: left;
 }
 
-th.tblSesionActiva {
-  width: 250px;
+th.tblMenuSesionVisible {
+  display: inline-block;
+  width: 225px;
   background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
   text-align: left;
   border-bottom-style: solid;
   border-bottom-width: 3px;
-  border-bottom-color: var(--colorVerdePrincipalWeb);
+  border-bottom-color: var(--colorGrisResaltado);
 }
 
-th.tblListado {
-  width: 200px;
+th.tblMenuSesionActiva {
+  display: inline-block;
+  width: 225px;
   background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
   text-align: left;
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
+  border-bottom-color: var(--colorNaranjaPrincipalWeb);
 }
 
-th.tblListadoActiva {
+th.tblMenuListado {
+  display: none;
   width: 200px;
   background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
   text-align: left;
   border-bottom-style: solid;
   border-bottom-width: 3px;
-  border-bottom-color: var(--colorVerdePrincipalWeb);
+  border-bottom-color: var(--colorGrisResaltado);
+}
+
+th.tblMenuListadoVisible {
+  display: inline-block;
+  width: 200px;
+  background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
+  text-align: left;
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
+  border-bottom-color: var(--colorGrisResaltado);
+}
+
+th.tblMenuListadoActiva {
+  display: inline-block;
+  width: 200px;
+  background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
+  text-align: left;
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
+  border-bottom-color: var(--colorNaranjaPrincipalWeb);
 }
 
 th.tblAporte {
@@ -123,8 +149,12 @@ th.tblSeparacion {
 }
 
 th.tblSangriaDerecha {
-  width: 50px;
+  width: 40px;
   background-color: var(--colorFondoLibre);
+}
+
+th.tblSangriaDerechaOculta {
+  display: none;
 }
 
 th.tblSangriaDerechaResaltada {
@@ -139,6 +169,7 @@ label.lblSesion {
 }
 
 label.lblSesionResaltado {
+  display: inline-block;
   alignment: left;
   font-family: var(--tipografiaNormal);
   font-size: var(--tamanoTipografiaNormal);

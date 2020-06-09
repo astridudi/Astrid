@@ -8,13 +8,6 @@ function inicializacionVistaConjuntoSesiones(pSesionesJson) {
         document.getElementById("lblAplicacion").style.display = "none";
     } else {
         /*
-        Inicialización del encabezado
-         */
-        document.getElementById("lblUbicacion").innerHTML = document.getElementById("lblAplicacion").innerHTML+" | Sesiones";
-        document.getElementById("imgBtnInicio").style.display = "inline-block";
-        document.getElementById("imgBtnSesiones").style.display = "inline-block";
-        document.getElementById("imgBtnSalir").style.display = "inline-block";
-        /*
         Creación de la lista de sesiones
          */
         for (i=0; i<pSesiones._arreglo.length; i++) {
@@ -37,18 +30,12 @@ function inicializacionVistaConjuntoSesiones(pSesionesJson) {
             document.getElementById("divPresentacionSesiones").appendChild(rotulos[rotulos.length-1]);
         }
         /*
-        Configuración vista inicial
+        Inicialización del encabezado - Vista layout
          */
-        document.getElementById("thDocentes").style.display = "none";
-        document.getElementById("thCursos").style.display = "none";
-        document.getElementById("thGrupos").style.display = "none";
-        document.getElementById("thEstudiantes").style.display = "none";
-        document.getElementById("divPresentacionSesiones").style.display = "block";
-        /*
-        Inicialización de la altura máxima de dibujo
-         */
+        document.getElementById("lblUbicacion").innerHTML = document.getElementById("lblAplicacion").innerHTML+" | Sesiones";
+        document.getElementById("imgBtnSesiones").style.display = "inline-block";
         document.getElementById("divListado").style.display = "block";
-        document.getElementById("divPresentacionSesiones").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionSesiones").offsetTop)+"px";
+
         clickOcultarOpciones();
 
     }

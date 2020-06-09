@@ -1,18 +1,12 @@
 function clickDesplegarOpciones() {
-    // layout
-    document.getElementById("thDesplegarOpcionesSesion").style.width = Math.round(window.innerWidth * 0.50)+"px";
-    document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerechaResaltada";
-    document.getElementById("lblOpcionesSesion").innerHTML = "Seleccionar opción";
-    document.getElementById("lblOpcionesSesion").style.display = "inline-block";
-    document.getElementById("btnOcultarOpcionesSesion").style.display = "inline-block";
-    document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
-    // presentarConjuntoInstituciones
-    document.getElementById("divPresentacionCasos").style.width = Math.round(window.innerWidth * 0.50)+"px";
-    document.getElementById("divCapturaCaso").style.width = Math.round(window.innerWidth * 0.50)+"px";
-    document.getElementById("divBtnOpcionesCaso").style.display = "block";
+    desplegarOpcionesListadoLayout();
+    document.getElementById("divPresentacionCasos").style.width = document.getElementById("anchoPresentacion").value+"px";
+    document.getElementById("divCapturaCaso").style.width = document.getElementById("anchoEmergente").value+"px";
+    document.getElementById("lblOpciones").innerHTML = "Seleccionar opción";
+    document.getElementById("divBtnOpciones").style.display = "block";
     document.getElementById("divFormularioCaso").style.display = "none";
     document.getElementById("divFormularioAsignacion").style.display = "none";
-    // inicialización de valores
+    // Inicialización valores formularios
     document.getElementById("inpNombreCurso").value = "";
     document.getElementById("inpNombreCaso").value = "";
     document.getElementById("selTipoDiagrama").value = "";
@@ -23,34 +17,17 @@ function clickDesplegarOpciones() {
 }
 
 function clickOcultarOpciones() {
-    // layout
-    document.getElementById("divSesion").style.display = "block";
-    document.getElementById("thPlanteamiento").style.display = "none";
-    document.getElementById("thChat").style.display = "none";
-    document.getElementById("thDiagrama").style.display = "none";
-    document.getElementById("thArgumentacion").style.display = "none";
-    document.getElementById("thDesplegarOpcionesSesion").style.width = 50+"px";
-    document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerecha";
-    document.getElementById("lblOpcionesSesion").innerHTML = "";
-    document.getElementById("lblOpcionesSesion").style.display = "none";
-    document.getElementById("btnDesplegarOpcionesSesion").style.display = "block";
-    document.getElementById("btnOcultarOpcionesSesion").style.display = "none";
-    // presentarConjuntoSesiones
-    document.getElementById("divPresentacionCasos").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionCasos").offsetTop)+"px";
-    document.getElementById("divPresentacionCasos").style.width = window.innerWidth+"px";
-    document.getElementById("divCapturaCaso").style.height = document.getElementById("divPresentacionCasos").style.height;
-    document.getElementById("divCapturaCaso").style.width = 0+"px";
-    document.getElementById("divBtnOpcionesCaso").style.display = "none";
+    ocultarOpcionesListadoLayout();
+    document.getElementById("divPresentacionCasos").style.width = document.getElementById("anchoPresentacion").value+"px";
+    document.getElementById("divCapturaCaso").style.width = document.getElementById("anchoEmergente").value+"px";
+    document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioCaso").style.display = "none";
     document.getElementById("divFormularioAsignacion").style.display = "none";
 }
 
 function clickCapturarCaso() {
-    // layout
-    document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerechaResaltada";
-    document.getElementById("lblOpcionesSesion").innerHTML = "1. Seleccionar curso";
-    // presentarConjuntoSesiones
-    document.getElementById("divBtnOpcionesCaso").style.display = "none";
+    document.getElementById("lblOpciones").innerHTML = "1. Seleccionar curso";
+    document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioCaso").style.display = "block";
     document.getElementById("divDatosCaso").style.display = "block";
     document.getElementById("divGrabarCaso").style.display = "block";
@@ -58,11 +35,8 @@ function clickCapturarCaso() {
 }
 
 function clickCapturarSesion() {
-    // layout
-    document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerechaResaltada";
-    document.getElementById("lblOpcionesSesion").innerHTML = "1. Seleccionar caso";
-    // presentarConjuntoSesiones
-    document.getElementById("divBtnOpcionesCaso").style.display = "none";
+    document.getElementById("lblOpciones").innerHTML = "1. Seleccionar caso";
+    document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioAsignacion").style.display = "block";
     document.getElementById("divDatosSesion").style.display = "block";
     document.getElementById("divGrabarAsignacion").style.display = "block";
@@ -70,30 +44,30 @@ function clickCapturarSesion() {
 }
 
 function clickSeleccionarCurso(pIdCurso,pNombreCurso) {
+    document.getElementById("lblOpciones").innerHTML = "2. Registrar caso";
+    document.getElementById("inpNombreCaso").value = "";
+    document.getElementById("selTipoDiagrama").value = "";
     document.getElementById("inpIdCurso").value = pIdCurso;
     document.getElementById("inpNombreCurso").value = pNombreCurso;
     document.getElementById("inpNombreCaso").focus();
-    document.getElementById("lblOpcionesSesion").innerHTML = "2. Registrar caso";
-    document.getElementById("inpNombreCaso").value = "";
-    document.getElementById("selTipoDiagrama").value = "";
 }
 
 function clickSeleccionarCaso(pIdCaso,pNombreCaso,pIdCurso,pNombreCurso,pIdDiagrama,pNombreDiagrama) {
+    document.getElementById("lblOpciones").innerHTML = "2. Seleccionar grupo";
+    document.getElementById("inpIdGrupo").value = "";
+    document.getElementById("inpNombreGrupoSesion").value = "";
+    document.getElementById("inpNombreSesion").value = document.getElementById("inpNombreCasoSesion").value;
     document.getElementById("inpIdCaso").value = pIdCaso;
     document.getElementById("inpIdCursoSesion").value = pIdCurso;
     document.getElementById("inpNombreCursoSesion").value = pNombreCurso;
     document.getElementById("inpNombreCasoSesion").value = pNombreCaso;
     document.getElementById("inpIdTipoDiagramaSesion").value = pIdDiagrama;
     document.getElementById("inpNombreDiagramaSesion").value = pNombreDiagrama;
-    document.getElementById("inpNombreTipoDiagramaSesion").value = pNombreDiagrama;
     document.getElementById("inpNombreGrupoSesion").focus();
-    document.getElementById("inpIdGrupo").value = "";
-    document.getElementById("inpNombreGrupoSesion").value = "";
-    document.getElementById("lblOpcionesSesion").innerHTML = "2. Seleccionar grupo";
-    document.getElementById("inpNombreSesion").value = document.getElementById("inpNombreCasoSesion").value;
 }
 
 function clickSeleccionarGrupo(pIdCurso,pIdGrupo,pNombreGrupo,pEstudiantesJson) {
+    document.getElementById("lblOpciones").innerHTML = "3. Conformar equipos";
     let i = 0;
     let entradas = [];
     let rotulos = [];

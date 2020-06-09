@@ -8,13 +8,6 @@ function inicializacionVistaPrograma(pProgramaJson) {
         document.getElementById("lblAplicacion").style.display = "none";
     } else {
         /*
-        Inicialización del encabezado
-         */
-        document.getElementById("lblUbicacion").innerHTML = "Programa: "+pPrograma._nombre;
-        document.getElementById("imgBtnInicio").style.display = "inline-block";
-        document.getElementById("imgBtnInstituciones").style.display = "inline-block";
-        document.getElementById("imgBtnSalir").style.display = "inline-block";
-        /*
         Creación del bloque de datos del programa
          */
         document.getElementById("lblNombreInstitucion").innerHTML = "Institución: "+pPrograma._institucion._nombre;
@@ -25,7 +18,7 @@ function inicializacionVistaPrograma(pProgramaJson) {
             document.getElementById("lblNombreInstitucion").innerHTML = document.getElementById("lblNombreInstitucion").innerHTML +" - "+pPrograma._institucion._sigla;
         }
         /*
-        Creación de la lista de cursos
+        Creación de la lista de cursos en vista presentarPrograma
          */
         for (i=0; i<pPrograma._cursos.length; i++) {
             if (i>0) {
@@ -47,7 +40,7 @@ function inicializacionVistaPrograma(pProgramaJson) {
             document.getElementById("divPresentacionCursos").appendChild(rotulos[rotulos.length-1]);
         }
         /*
-        Creación de la lista de docentes
+        Creación de la lista de docentes en vista presentarPrograma
          */
         for (i=0; i<pPrograma._docentes.length; i++) {
             if (i>0) {
@@ -74,7 +67,7 @@ function inicializacionVistaPrograma(pProgramaJson) {
             document.getElementById("divPresentacionDocentes").appendChild(rotulos[rotulos.length-1]);
         }
         /*
-        Creación de la lista de estudiantes
+        Creación de la lista de estudiantes en vista presentarPrograma
          */
         for (i=0; i<pPrograma._estudiantes.length; i++) {
             if (i>0) {
@@ -100,14 +93,15 @@ function inicializacionVistaPrograma(pProgramaJson) {
             rotulos[rotulos.length-1].className = "lblMenor";
             document.getElementById("divPresentacionEstudiantes").appendChild(rotulos[rotulos.length-1]);
         }
+        /*
+        Inicialización del encabezado - Vista layout
+         */
+        document.getElementById("lblUbicacion").innerHTML = "Programa: "+pPrograma._nombre;
+        document.getElementById("imgBtnInstituciones").style.display = "inline-block";
+        document.getElementById("divListado").style.display = "block";
+
         clickOcultarOpciones();
-        document.getElementById("divPresentacionDocentes").style.display = "none";
-        document.getElementById("divPresentacionEstudiantes").style.display = "none";
-        document.getElementById("btnAgregarDocente").style.display = "none";
-        document.getElementById("btnEliminarDocente").style.display = "none";
-        document.getElementById("btnAgregarEstudiante").style.display = "none";
-        document.getElementById("btnEliminarEstudiante").style.display = "none";
-        document.getElementById("thCursos").className = "tblListadoActiva w3-round"
+        clickDesplegarCursos();
 
         document.getElementById("btnDesplegarOpciones").setAttribute(
             "onclick",

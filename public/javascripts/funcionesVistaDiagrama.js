@@ -1,25 +1,8 @@
 function clickDesplegarOpciones() {
-    // layout
-    // Cambio de tamaño de las secciones en pantalla
-    document.getElementById("thDesplegarOpcionesSesion").style.width = Math.round(window.innerWidth * 0.35)+"px";
-    document.getElementById("divPresentacionDiagrama").style.width = Math.round(window.innerWidth * 0.65)+"px";
-    document.getElementById("divCapturaElemento").style.width = Math.round(window.innerWidth * 0.35)+"px";
-    // Cambio de aspecto de botones inhabilitados en menú divSesion
-    document.getElementById("imgBtnPlanteamiento").style.display = "none";
-    document.getElementById("imgBtnChat").style.display = "none";
-    document.getElementById("imgBtnArgumentacion").style.display = "none";
-    document.getElementById("imgBtnPlanteamientoInhabilitado").style.display = "inline-block";
-    document.getElementById("imgBtnChatInhabilitado").style.display = "inline-block";
-    document.getElementById("imgBtnArgumentacionInhabilitado").style.display = "inline-block";
-    // Habilitación de opciones de interacción con el usuario
-    document.getElementById("btnLlamar").title = "Convocar al diagrama";
-    document.getElementById("btnLlamar").style.display = "inline-block";
-    document.getElementById("btnOcultarOpcionesSesion").style.display = "inline-block";
-    document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
-    document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerechaResaltada";
+    desplegarOpcionesSesionLayout();
+    document.getElementById("divPresentacionDiagrama").style.width = document.getElementById("anchoPresentacion").value+"px";
+    document.getElementById("divCapturaElemento").style.width = document.getElementById("anchoEmergente").value+"px";
     document.getElementById("lblOpcionesSesion").innerHTML = "1. Seleccionar tipo de elemento";
-    document.getElementById("lblOpcionesSesion").style.display = "inline-block";
-    // Habilitación del formulario (las divisiones permanecen inhabilitadas)
     document.getElementById("divBtnCapturaElemento").style.display = "block";
     document.getElementById("btnCapturaObjeto").style.display = "inline-block";
     document.getElementById("btnCapturaRelacion").style.display = "inline-block";
@@ -31,30 +14,25 @@ function clickDesplegarOpciones() {
 }
 
 function clickOcultarOpciones() {
-    // Restauración de tamaño inicial de las secciones en pantalla
-    document.getElementById("thDesplegarOpcionesSesion").style.width = 50+"px";
-    document.getElementById("divPresentacionDiagrama").style.width = window.innerWidth+"px";
-    document.getElementById("divCapturaElemento").style.width = 0+"px";
-    document.getElementById("divPresentacionDiagrama").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionDiagrama").offsetTop)+"px";
-    document.getElementById("divCapturaElemento").style.height = document.getElementById("divPresentacionDiagrama").style.height;
-    // Cambio de aspecto de botones habilitados en menú divSesion
+    ocultarOpcionesSesionLayout();
+    document.getElementById("divPresentacionDiagrama").style.width = document.getElementById("anchoPresentacion").value+"px";
+    document.getElementById("divCapturaElemento").style.width = document.getElementById("anchoEmergente").value+"px";
+}
+
+function clickPresentarDiagrama() {
     document.getElementById("imgBtnPlanteamiento").style.display = "inline-block";
     document.getElementById("imgBtnChat").style.display = "inline-block";
+    document.getElementById("imgBtnDiagrama").style.display = "none";
     document.getElementById("imgBtnArgumentacion").style.display = "inline-block";
-    document.getElementById("imgBtnPlanteamientoInhabilitado").style.display = "none";
-    document.getElementById("imgBtnChatInhabilitado").style.display = "none";
-    document.getElementById("imgBtnArgumentacionInhabilitado").style.display = "none";
-    document.getElementById("btnLlamar").style.display = "none";
-    document.getElementById("btnOcultarOpcionesSesion").style.display = "none";
-    document.getElementById("btnDesplegarOpcionesSesion").style.display = "inline-block";
-    document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerecha";
-    document.getElementById("lblOpcionesSesion").innerHTML = "";
-    document.getElementById("lblOpcionesSesion").style.display = "none";
-    // Ocultamiento de secciones del formulario y reinicio de elementos
-    document.getElementById("divBtnCapturaElemento").style.display = "none";
-    document.getElementById("divFormularioObjeto").style.display = "none";
-    document.getElementById("divFormularioRelacion").style.display = "none";
-    document.getElementById("divFormularioMovimiento").style.display = "none";
+    document.getElementById("imgBtnPlanteamientoActiva").style.display = "none";
+    document.getElementById("imgBtnChatActiva").style.display = "none";
+    document.getElementById("imgBtnDiagramaActiva").style.display = "inline-block";
+    document.getElementById("imgBtnArgumentacionActiva").style.display = "none";
+    document.getElementById("thPlanteamiento").className = "w3-round tblMenuSesionVisible";
+    document.getElementById("thChat").className = "w3-round tblMenuSesionVisible";
+    document.getElementById("thDiagrama").className = "w3-round tblMenuSesionActiva";
+    document.getElementById("thArgumentacion").className = "w3-round tblMenuSesionVisible";
+    document.getElementById("btnLlamar").title = "Llamar a diagrama";
 }
 
 function clickCapturaObjeto() {

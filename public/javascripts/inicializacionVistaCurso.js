@@ -8,13 +8,6 @@ function inicializacionVistaCurso(pCursoJson) {
         document.getElementById("lblAplicacion").style.display = "none";
     } else {
         /*
-        Inicialización del encabezado
-         */
-        document.getElementById("lblUbicacion").innerHTML = "Curso: "+pCurso._nombre;
-        document.getElementById("imgBtnInicio").style.display = "inline-block";
-        document.getElementById("imgBtnInstituciones").style.display = "inline-block";
-        document.getElementById("imgBtnSalir").style.display = "inline-block";
-        /*
         Creación del bloque de datos del curso
          */
         document.getElementById("lblNombreInstitucion").innerHTML = "Institución: "+pCurso._programa._institucion._nombre;
@@ -27,7 +20,7 @@ function inicializacionVistaCurso(pCursoJson) {
             document.getElementById("lblNombreInstitucion").innerHTML = document.getElementById("lblNombreInstitucion").innerHTML +" - "+pCurso._programa._institucion._sigla;
         }
         /*
-        Creación de la lista de docentes
+        Creación de la lista de docentes en vista presentarCurso
          */
         for (i=0; i<pCurso._docentes.length; i++) {
             if (i>0) {
@@ -54,7 +47,7 @@ function inicializacionVistaCurso(pCursoJson) {
             document.getElementById("divPresentacionDocentes").appendChild(rotulos[rotulos.length-1]);
         }
         /*
-        Creación de la lista de grupos
+        Creación de la lista de grupos en vista presentarGrupo
          */
         for (i=0; i<pCurso._grupos.length; i++) {
             if (i>0) {
@@ -75,9 +68,15 @@ function inicializacionVistaCurso(pCursoJson) {
             document.getElementById("bGrupo"+i).appendChild(botones[botones.length-1]);
             document.getElementById("divPresentacionGrupos").appendChild(rotulos[rotulos.length-1]);
         }
+        /*
+        Inicialización del encabezado - Vista layout
+         */
+        document.getElementById("lblUbicacion").innerHTML = "Curso: "+pCurso._nombre;
+        document.getElementById("imgBtnInstituciones").style.display = "inline-block";
+        document.getElementById("divListado").style.display = "block";
+
         clickOcultarOpciones();
-        document.getElementById("divPresentacionDocentes").style.display = "none";
-        document.getElementById("thGrupos").className = "tblListadoActiva w3-round"
+        clickDesplegarGrupos();
 
         document.getElementById("btnDesplegarOpciones").setAttribute(
             "onclick",

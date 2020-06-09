@@ -5,20 +5,16 @@ function inicializacionVistaSesion(pSesionJson) {
         document.getElementById("lblAplicacion").style.display = "none";
     } else {
         /*
-        Inicialización del encabezado
+        Inicialización del encabezado - Vista layout
          */
         document.getElementById("lblUbicacion").innerHTML = pSesion._nombre+" | Planteamiento";
-        document.getElementById("imgBtnInicio").style.display = "inline-block";
         document.getElementById("imgBtnSesiones").style.display = "inline-block";
-        document.getElementById("imgBtnSalir").style.display = "inline-block";
-        document.getElementById("btnLlamar").src = "/images/imgPlanteamientoLlamar.png";
-        document.getElementById("imgBtnPlanteamiento").style.display = "none";
-        document.getElementById("imgBtnPlanteamientoInhabilitado").style.display = "inline-block";
-        document.getElementById("thPlanteamiento").className = "tblSesionActiva w3-round";
+        document.getElementById("divSesion").style.display = "block";
 
         clickOcultarOpciones();
+        clickPresentarPlanteamiento();
 
-        document.getElementById("btnDesplegarCaptura").setAttribute(
+        document.getElementById("btnDesplegarOpcionesSesion").setAttribute(
             "onclick",
             ""
         );

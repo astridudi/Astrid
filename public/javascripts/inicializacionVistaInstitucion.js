@@ -8,23 +8,15 @@ function inicializacionVistaInstitucion(pInstitucionJson) {
         document.getElementById("lblAplicacion").style.display = "none";
     } else {
         /*
-        Inicialización del encabezado en layout
-         */
-        document.getElementById("lblUbicacion").innerHTML = "Institución: "+pInstitucion._nombre;
-        document.getElementById("imgBtnInicio").style.display = "inline-block";
-        document.getElementById("imgBtnInstituciones").style.display = "inline-block";
-        document.getElementById("imgBtnSalir").style.display = "inline-block";
-        /*
         Creación del bloque de datos de la institución
          */
         document.getElementById("lblNombreInstitucion").innerHTML = "Institución: "+pInstitucion._nombre;
         document.getElementById("lblSniesInstitucion").innerHTML = " (Snies: "+pInstitucion._identificacion+")";
         if (pInstitucion._sigla.length > 0) {
-            document.getElementById("lblUbicacion").innerHTML = document.getElementById("lblUbicacion").innerHTML +" - "+pInstitucion._sigla;
             document.getElementById("lblNombreInstitucion").innerHTML = document.getElementById("lblNombreInstitucion").innerHTML +" - "+pInstitucion._sigla;
         }
         /*
-        Creación de la lista de programas en presentarInstitucion
+        Creación de la lista de programas en vista presentarInstitucion
          */
         for (i=0; i<pInstitucion._programas.length; i++) {
             if (i>0) {
@@ -45,6 +37,16 @@ function inicializacionVistaInstitucion(pInstitucionJson) {
             document.getElementById("bPrograma"+i).appendChild(botones[botones.length-1]);
             document.getElementById("divPresentacionProgramas").appendChild(rotulos[rotulos.length-1]);
         }
+        /*
+        Inicialización del encabezado - Vista layout
+         */
+        document.getElementById("lblUbicacion").innerHTML = "Institución: "+pInstitucion._nombre;
+        if (pInstitucion._sigla.length > 0) {
+            document.getElementById("lblUbicacion").innerHTML = document.getElementById("lblUbicacion").innerHTML +" - "+pInstitucion._sigla;
+        }
+        document.getElementById("imgBtnInstituciones").style.display = "inline-block";
+        document.getElementById("divListado").style.display = "block";
+
         clickOcultarOpciones();
 
         document.getElementById("btnDesplegarOpciones").setAttribute(

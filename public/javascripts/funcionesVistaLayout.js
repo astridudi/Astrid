@@ -36,3 +36,43 @@ function ubicarUsuario(pNombreUsuario,pPrimeraPersona,pUbicacion,pAccion) {
         }
     }
 }
+
+function desplegarOpcionesListadoLayout() {
+    document.getElementById("anchoPresentacion").value = Math.round(window.innerWidth * 0.50);
+    document.getElementById("anchoEmergente").value = Math.round(window.innerWidth * 0.50);
+    document.getElementById("thOcultarOpciones").className = "tblSangriaDerecha";
+    document.getElementById("thDesplegarOpciones").style.width = (document.getElementById("anchoEmergente").value - document.getElementById("thOcultarOpciones").offsetWidth - 4)+"px";
+    document.getElementById("thDesplegarOpciones").className = "tblSangriaDerechaResaltada";
+    document.getElementById("btnDesplegarOpciones").style.display = "none";
+}
+
+function ocultarOpcionesListadoLayout() {
+    document.getElementById("anchoPresentacion").value = window.innerWidth;
+    document.getElementById("anchoEmergente").value = 0;
+    document.getElementById("thOcultarOpciones").className = "tblSangriaDerechaOculta";
+    document.getElementById("thDesplegarOpciones").className = "tblSangriaDerecha";
+    document.getElementById("thDesplegarOpciones").style.width = 40+"px";
+    document.getElementById("lblOpciones").innerHTML = "";
+    document.getElementById("btnDesplegarOpciones").style.display = "inline-block";
+}
+
+function desplegarOpcionesSesionLayout() {
+    document.getElementById("anchoPresentacion").value = Math.round(window.innerWidth * 0.65);
+    document.getElementById("anchoEmergente").value = Math.round(window.innerWidth * 0.35);
+    document.getElementById("thLlamada").className = "tblSangriaDerecha";
+    document.getElementById("thOcultarOpcionesSesion").className = "tblSangriaDerecha";
+    document.getElementById("thDesplegarOpcionesSesion").style.width = (document.getElementById("anchoEmergente").value - document.getElementById("thOcultarOpcionesSesion").offsetWidth - document.getElementById("thLlamada").offsetWidth - 11)+"px";
+    document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerechaResaltada";
+    document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
+}
+
+function ocultarOpcionesSesionLayout() {
+    document.getElementById("anchoPresentacion").value = window.innerWidth;
+    document.getElementById("anchoEmergente").value = 0;
+    document.getElementById("thLlamada").className = "tblSangriaDerechaOculta";
+    document.getElementById("thOcultarOpcionesSesion").className = "tblSangriaDerechaOculta";
+    document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerecha";
+    document.getElementById("thDesplegarOpcionesSesion").style.width = 40+"px";
+    document.getElementById("lblOpcionesSesion").innerHTML = "";
+    document.getElementById("btnDesplegarOpcionesSesion").style.display = "inline-block";
+}
