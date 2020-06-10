@@ -9,7 +9,7 @@ function dibujarArgumentacion(pArgumentacionJson) {
     /*
     Inicialización de parámetros gráficos globales de trazado
      */
-    contexto.font = "15px Arial";
+    contexto.font = "17px Arial";
     contexto.textBaseline = "top";
     contexto.textAlign = "center";
     let colorBlancoFondo = "#FFFFFF";

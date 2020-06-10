@@ -67,8 +67,9 @@ function clickSeleccionarCaso(pIdCaso,pNombreCaso,pIdCurso,pNombreCurso,pIdDiagr
 }
 
 function clickSeleccionarGrupo(pIdCurso,pIdGrupo,pNombreGrupo,pEstudiantesJson) {
-    document.getElementById("lblOpciones").innerHTML = "3. Conformar equipos";
     let i = 0;
+    let minimoEquiposSugeridos = 0;
+    let maximoEquiposSugeridos = 0;
     let entradas = [];
     let rotulos = [];
     let equipos = [];
@@ -76,10 +77,13 @@ function clickSeleccionarGrupo(pIdCurso,pIdGrupo,pNombreGrupo,pEstudiantesJson) 
     let columnas1 = [];
     let columnas2 = [];
     let pEstudiantes = cadenaJson(pEstudiantesJson);
+    minimoEquiposSugeridos = Math.ceil(pEstudiantes.length / 3);
+    maximoEquiposSugeridos = Math.floor(pEstudiantes.length / 2);
     if (pIdCurso == document.getElementById("inpIdCursoSesion").value) {
         document.getElementById("inpIdGrupo").value = pIdGrupo;
         document.getElementById("inpNombreGrupoSesion").value = pNombreGrupo;
         document.getElementById("inpNombreSesion").value = document.getElementById("inpNombreCasoSesion").value+" - "+document.getElementById("inpNombreGrupoSesion").value;
+        document.getElementById("lblOpciones").innerHTML = "3. Conformar equipos (Mínimo: "+minimoEquiposSugeridos+" - Máximo: "+maximoEquiposSugeridos+")";
         for (i=0; i<pEstudiantes.length; i++) {
             if (document.getElementById("inpIdEstudiante"+i) == undefined) {
                 filas[filas.length] = document.createElement("tr");
@@ -102,6 +106,7 @@ function clickSeleccionarGrupo(pIdCurso,pIdGrupo,pNombreGrupo,pEstudiantesJson) 
                 equipos[equipos.length-1].className = "w3-input w3-round";
                 equipos[equipos.length-1].name = "equipoEstudiante"+i;
                 equipos[equipos.length-1].type = "number";
+                equipos[equipos.length-1].title = "Asignar equipo entre 1 y "+maximoEquiposSugeridos+". Para excluir de la sesión asignar cero (0)";
                 document.getElementById("tblEstudiantes").appendChild(filas[filas.length-1]);
                 document.getElementById("trEstudiante"+i).appendChild(columnas1[columnas1.length-1]);
                 document.getElementById("trEstudiante"+i).appendChild(columnas2[columnas2.length-1]);

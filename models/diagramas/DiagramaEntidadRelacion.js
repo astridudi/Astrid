@@ -36,15 +36,6 @@ module.exports = class DiagramaEntidadRelacion extends TipoDiagrama {
         let puertoAtributoDescriptor = new TipoPuerto(4, 'Atributo descriptor');
         let puertoInhabilitado = new TipoPuerto(5, 'Inhabilitado');
 
-        /*
-        rolRelacionVinculante.tipoObjeto=objetoRelacion;
-        rolEntidadParticipante.tipoObjeto=objetoEntidad;
-        rolEntidadDescrita.tipoObjeto=objetoEntidad;
-        rolDescriptorEntidad.tipoObjeto=objetoAtributo;
-        rolRelacionDescrita.tipoObjeto=objetoRelacion;
-        rolDescriptorRelacion.tipoObjeto=objetoAtributo;
-         */
-
         puertoEntidadParticipante.incluirTipoRol(rolEntidadParticipante);
         puertoEntidadDescrita.incluirTipoRol(rolEntidadDescrita);
         puertoRelacionVinculante.incluirTipoRol(rolRelacionVinculante);

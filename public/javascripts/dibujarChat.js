@@ -9,7 +9,7 @@ function dibujarChat(pChatJson,pNombreUsuario) {
     /*
     Inicialización de parámetros gráficos globales de trazado
      */
-    contexto.font = "15px Arial";
+    contexto.font = "17px Arial";
     contexto.textBaseline = "top";
     let colorBlancoFondo = "#FFFFFF";
     let colorTerceraPersona = "#F7931E";

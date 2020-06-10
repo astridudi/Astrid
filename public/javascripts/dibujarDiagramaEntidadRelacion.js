@@ -35,7 +35,7 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
     /*
     Inicialización de parámetros gráficos globales de trazado
      */
-    contexto.font = "15px Arial";
+    contexto.font = "17px Arial";
     contexto.textBaseline = "top";
     contexto.textAlign = "center";
     let colorBlancoFondo = "#FFFFFF";
@@ -296,7 +296,7 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
      */
     contexto.strokeStyle = strokes[1];
     contexto.fillStyle = fills[1];
-    contexto.font = "14px Arial";
+    contexto.font = "17px Arial";
     contexto.textBaseline = "middle";
 
     /*

@@ -19,9 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="16a71e2f-24bf-4e07-86b4-092e2f1677fa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="16a71e2f-24bf-4e07-86b4-092e2f1677fa" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -242,6 +240,7 @@
       <workItem from="1591291951314" duration="809000" />
       <workItem from="1591301759808" duration="374000" />
       <workItem from="1591720884238" duration="696000" />
+      <workItem from="1591744926572" duration="33000" />
     </task>
     <task id="LOCAL-00001" summary="SE agrega la carpeta bin y el archivo www">
       <created>1583438963937</created>
@@ -495,7 +494,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591720975840</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Se actualiza a la versión 6-01">
+      <created>1591744948243</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1591744948243</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -550,12 +556,12 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="634" y="242" width="642" height="620" key="#watch-ts/0.27.1920.1053@0.27.1920.1053" timestamp="1585092736405" />
-    <state x="2090" y="214" width="912" height="623" key="CommitChangelistDialog2" timestamp="1591720975364">
+    <state x="2090" y="198" width="912" height="720" key="CommitChangelistDialog2" timestamp="1591744947902">
       <screen x="1920" y="198" width="1280" height="720" />
     </state>
     <state x="255" y="51" width="912" height="911" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1280.720@0.27.1920.1053" timestamp="1590684741974" />
     <state x="2090" y="16" width="912" height="623" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1280.720@1920.0.1280.720" timestamp="1591302045628" />
-    <state x="2090" y="214" key="CommitChangelistDialog2/0.27.1920.1053/1920.198.1280.720@1920.198.1280.720" timestamp="1591720975364" />
+    <state x="2090" y="198" width="912" height="720" key="CommitChangelistDialog2/0.27.1920.1053/1920.198.1280.720@1920.198.1280.720" timestamp="1591744947902" />
     <state x="0" y="144" width="958" height="912" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1588025865845" />
     <state width="1897" height="344" key="GridCell.Tab.0.bottom" timestamp="1585094836388">
       <screen x="0" y="27" width="1920" height="1053" />
@@ -637,12 +643,12 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="449" y="187" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1585092614932" />
-    <state x="2290" y="377" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1591720979352">
+    <state x="2290" y="377" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1591744953002">
       <screen x="1920" y="198" width="1280" height="720" />
     </state>
     <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1280.720@0.27.1920.1053" timestamp="1590684744777" />
     <state x="2290" y="179" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1280.720@1920.0.1280.720" timestamp="1591302048926" />
-    <state x="2290" y="377" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.198.1280.720@1920.198.1280.720" timestamp="1591720979352" />
+    <state x="2290" y="377" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.198.1280.720@1920.198.1280.720" timestamp="1591744953002" />
     <state x="555" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1588025878204" />
     <state x="728" y="473" width="454" height="160" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1584484917573">
       <screen x="0" y="27" width="1920" height="1053" />
@@ -662,7 +668,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/routes/main.js</url>
-          <line>638</line>
+          <line>495</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
