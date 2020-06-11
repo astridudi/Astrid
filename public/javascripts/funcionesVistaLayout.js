@@ -43,6 +43,7 @@ function desplegarOpcionesListadoLayout() {
     document.getElementById("thOcultarOpciones").className = "tblSangriaDerecha";
     document.getElementById("thDesplegarOpciones").style.width = (document.getElementById("anchoEmergente").value - document.getElementById("thOcultarOpciones").offsetWidth - 4)+"px";
     document.getElementById("thDesplegarOpciones").className = "tblSangriaDerechaResaltada";
+    document.getElementById("lblOpciones").style.display = "inline-block";
     document.getElementById("btnDesplegarOpciones").style.display = "none";
 }
 
@@ -53,6 +54,7 @@ function ocultarOpcionesListadoLayout() {
     document.getElementById("thDesplegarOpciones").className = "tblSangriaDerecha";
     document.getElementById("thDesplegarOpciones").style.width = 40+"px";
     document.getElementById("lblOpciones").innerHTML = "";
+    document.getElementById("lblOpciones").style.display = "none";
     document.getElementById("btnDesplegarOpciones").style.display = "inline-block";
 }
 
@@ -63,6 +65,7 @@ function desplegarOpcionesSesionLayout() {
     document.getElementById("thOcultarOpcionesSesion").className = "tblSangriaDerecha";
     document.getElementById("thDesplegarOpcionesSesion").style.width = (document.getElementById("anchoEmergente").value - document.getElementById("thOcultarOpcionesSesion").offsetWidth - document.getElementById("thLlamada").offsetWidth - 4)+"px";
     document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerechaResaltada";
+    document.getElementById("lblOpcionesSesion").style.display = "inline-block";
     document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
 }
 
@@ -74,5 +77,6 @@ function ocultarOpcionesSesionLayout() {
     document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerecha";
     document.getElementById("thDesplegarOpcionesSesion").style.width = 40+"px";
     document.getElementById("lblOpcionesSesion").innerHTML = "";
+    document.getElementById("lblOpcionesSesion").style.display = "none";
     document.getElementById("btnDesplegarOpcionesSesion").style.display = "inline-block";
 }

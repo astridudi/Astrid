@@ -101,7 +101,7 @@ function capturaRelacion(pPaso,pRelacionTipoId,pRelacionTipo,pTiposPropiedadJson
     if (pPaso==1) {
         let cadenaTiposPropiedad = pTiposPropiedadJson.replace(/&quot;/g, "'");
         cadenaTiposPropiedad = cadenaTiposPropiedad.replace(/'/g, '"');
-        document.getElementById("pasoCaptura").value=pPaso;
+        document.getElementById("inpPasoCaptura").value=pPaso;
         document.getElementById("inpIdTipoRelacion").value=pRelacionTipoId;
         document.getElementById("lblRelacionTipo").innerHTML="Vínculo: "+pRelacionTipo;
         document.getElementById("inpIndiceObjetoInicial").value='';
@@ -136,7 +136,7 @@ function capturaRelacion(pPaso,pRelacionTipoId,pRelacionTipo,pTiposPropiedadJson
             i = i + 1;
         }
         document.getElementById('inpNombreObjetoInicial').focus();
-        dibujarDiagrama(document.getElementById("diagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",pPaso);
+        dibujarDiagrama(document.getElementById("inpDiagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",pPaso);
         alertaElemento(pRelacionTipo);
     }
     if (pPaso==2) {

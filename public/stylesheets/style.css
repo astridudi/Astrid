@@ -162,6 +162,9 @@ th.tblSangriaDerechaOculta {
 
 th.tblSangriaDerechaResaltada {
   background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
+  border-bottom-color: var(--colorGrisResaltado);
 }
 
 label.lblSesion {
