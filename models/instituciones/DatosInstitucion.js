@@ -20,10 +20,24 @@ module.exports = class Datos extends Conexion {
     async grabarInstitucion(pInstitucion) {
         if (pInstitucion.validez) {
             try {
-                this._firebase.firestore().collection(this._coleccionInstituciones).add({
-                    identificacion: pInstitucion.identificacion,
-                    sigla: pInstitucion.sigla,
-                    nombre: pInstitucion.nombre});
+                let rExiste = false;
+                let referenciaConsulta = this._firebase.firestore().collection(this._coleccionInstituciones).where('identificacion','==',pInstitucion.identificacion).limit(1);
+                let consulta = await referenciaConsulta.get()
+                    .then(querySnapshot => {
+                        querySnapshot.forEach(document => {
+                            rExiste = true;
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                if (!rExiste) {
+                    this._firebase.firestore().collection(this._coleccionInstituciones).add({
+                        identificacion: pInstitucion.identificacion,
+                        sigla: pInstitucion.sigla,
+                        nombre: pInstitucion.nombre
+                    });
+                }
             } catch (e) {
                 console.log(e.message);
             }
@@ -32,11 +46,24 @@ module.exports = class Datos extends Conexion {
     async grabarPrograma(pInstitucionId, pPrograma) {
         if (pPrograma.validez) {
             try {
-                this._firebase.firestore().collection(this._coleccionProgramas).add({
-                    institucionId: pInstitucionId,
-                    identificacion: pPrograma.identificacion,
-                    nombre: pPrograma.nombre
-                });
+                let rExiste = false;
+                let referenciaConsulta = this._firebase.firestore().collection(this._coleccionProgramas).where('identificacion','==',pPrograma.identificacion).limit(1);
+                let consulta = await referenciaConsulta.get()
+                    .then(querySnapshot => {
+                        querySnapshot.forEach(document => {
+                            rExiste = true;
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                if (!rExiste) {
+                    this._firebase.firestore().collection(this._coleccionProgramas).add({
+                        institucionId: pInstitucionId,
+                        identificacion: pPrograma.identificacion,
+                        nombre: pPrograma.nombre
+                    });
+                }
             } catch (e) {
                 console.log(e.message);
             }
@@ -45,11 +72,24 @@ module.exports = class Datos extends Conexion {
     async grabarCurso(pProgramaId, pCurso) {
         if (pCurso.validez) {
             try {
-                this._firebase.firestore().collection(this._coleccionCursos).add({
-                    programaId: pProgramaId,
-                    identificacion: pCurso.identificacion,
-                    nombre: pCurso.nombre
-                });
+                let rExiste = false;
+                let referenciaConsulta = this._firebase.firestore().collection(this._coleccionCursos).where('programaId','==',pProgramaId).where('identificacion','==',pCurso.identificacion).limit(1);
+                let consulta = await referenciaConsulta.get()
+                    .then(querySnapshot => {
+                        querySnapshot.forEach(document => {
+                            rExiste = true;
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                if (!rExiste) {
+                    this._firebase.firestore().collection(this._coleccionCursos).add({
+                        programaId: pProgramaId,
+                        identificacion: pCurso.identificacion,
+                        nombre: pCurso.nombre
+                    });
+                }
             } catch (e) {
                 console.log(e.message);
             }
@@ -58,11 +98,24 @@ module.exports = class Datos extends Conexion {
     async grabarGrupo(pCursoId, pGrupo) {
         if (pGrupo.validez) {
             try {
-                this._firebase.firestore().collection(this._coleccionGrupos).add({
-                    cursoId: pCursoId,
-                    identificacion: pGrupo.identificacion,
-                    nombre: pGrupo.nombre
-                });
+                let rExiste = false;
+                let referenciaConsulta = this._firebase.firestore().collection(this._coleccionGrupos).where('cursoId','==',pCursoId).where('identificacion','==',pGrupo.identificacion).limit(1);
+                let consulta = await referenciaConsulta.get()
+                    .then(querySnapshot => {
+                        querySnapshot.forEach(document => {
+                            rExiste = true;
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                if (!rExiste) {
+                    this._firebase.firestore().collection(this._coleccionGrupos).add({
+                        cursoId: pCursoId,
+                        identificacion: pGrupo.identificacion,
+                        nombre: pGrupo.nombre
+                    });
+                }
             } catch (e) {
                 console.log(e.message);
             }

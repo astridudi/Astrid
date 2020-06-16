@@ -75,7 +75,7 @@ router.post("/grabarInstitucion", async (req, res, next) => {
     var datos = new DatosInstitucion();
     await datos.grabarInstitucion(
         new Institucion("",req.body.identificacionInstitucion,req.body.siglaInstitucion,req.body.nombreInstitucion));
-    res.redirect("/main/consultarConjuntoInstituciones?nombreUsuario="+req.body.nombreUsuario);
+    res.redirect("/main/consultarConjuntoInstituciones?nombreUsuario="+req.body.nombreUsuario+"&perfilUsuario=0");
 });
 
 /* Institución **************************************************************************************/
@@ -97,7 +97,7 @@ router.post("/grabarPrograma", async (req, res, next) => {
     var datos = new DatosInstitucion();
     await datos.grabarPrograma(req.body.idInstitucion,
         new Programa('',req.body.identificacionPrograma,req.body.nombrePrograma));
-    res.redirect("/main/presentarInstitucion?id="+ req.body.idInstitucion +"&nombreUsuario="+ req.body.nombreUsuario);
+    res.redirect("/main/presentarInstitucion?id="+ req.body.idInstitucion +"&nombreUsuario="+ req.body.nombreUsuario+"&perfilUsuario=0");
 });
 
 /* Programa *****************************************************************************************/
@@ -119,7 +119,7 @@ router.post("/grabarCurso", async (req, res, next) => {
     var datos = new DatosInstitucion();
     await datos.grabarCurso(req.body.idPrograma,
         new Curso("",req.body.identificacionCurso,req.body.nombreCurso));
-    res.redirect("/main/presentarPrograma?id="+ req.body.idPrograma+"&nombreUsuario="+ req.body.nombreUsuario);
+    res.redirect("/main/presentarPrograma?id="+ req.body.idPrograma+"&nombreUsuario="+ req.body.nombreUsuario+"&perfilUsuario=0");
 });
 /*
 Recibe la petición de grabación de un docente
@@ -129,7 +129,7 @@ router.post("/grabarDocente", async (req, res, next) => {
     await datos.grabarDocente(req.body.idPrograma,
         new Docente("",req.body.identificacionDocente,req.body.nombresDocente,req.body.apellidosDocente,req.body.correoElectronicoDocente,
             false,false,false,true,false));
-    res.redirect("/main/presentarPrograma?id="+ req.body.idPrograma+"&nombreUsuario="+ req.body.nombreUsuario);
+    res.redirect("/main/presentarPrograma?id="+ req.body.idPrograma+"&nombreUsuario="+ req.body.nombreUsuario+"&perfilUsuario=0");
 });
 /*
 Recibe la petición de grabación de un estudiante
@@ -139,7 +139,7 @@ router.post("/grabarEstudiante", async (req, res, next) => {
     await datos.grabarEstudiante(req.body.idPrograma,
         new Estudiante("",req.body.identificacionEstudiante,req.body.nombresEstudiante,req.body.apellidosEstudiante,req.body.correoElectronicoEstudiante,
             false,false,false,false,true));
-    res.redirect("/main/presentarPrograma?id="+ req.body.idPrograma+"&nombreUsuario="+ req.body.nombreUsuario);
+    res.redirect("/main/presentarPrograma?id="+ req.body.idPrograma+"&nombreUsuario="+ req.body.nombreUsuario+"&perfilUsuario=0");
 });
 
 /* Curso ********************************************************************************************/
@@ -161,7 +161,7 @@ router.post("/grabarGrupo", async (req, res, next) => {
     var datos = new DatosInstitucion();
     await datos.grabarGrupo(req.body.idCurso,
         new Grupo("",req.body.identificacionGrupo,req.body.nombreGrupo));
-    res.redirect("/main/presentarCurso?id="+ req.body.idCurso+"&nombreUsuario="+ req.body.nombreUsuario);
+    res.redirect("/main/presentarCurso?id="+ req.body.idCurso+"&nombreUsuario="+ req.body.nombreUsuario+"&perfilUsuario=0");
 });
 
 /* Grupo ********************************************************************************************/
@@ -190,7 +190,7 @@ router.post("/grabarVinculoDocente", async (req, res, next) => {
             datos.actualizarVinculoDocente(grupoRecuperado,docenteRecuperado);
         }
     }
-    res.redirect("/main/presentarGrupo?id="+ req.body.idGrupoDocente+"&nombreUsuario="+ req.body.nombreUsuario);
+    res.redirect("/main/presentarGrupo?id="+ req.body.idGrupoDocente+"&nombreUsuario="+ req.body.nombreUsuario+"&perfilUsuario=0");
 });
 /*
 Recibe la petición de vinculación de un docente a un grupo
@@ -206,7 +206,7 @@ router.post("/grabarVinculoEstudiante", async (req, res, next) => {
             datos.actualizarVinculoEstudiante(grupoRecuperado,estudianteRecuperado);
         }
     }
-    res.redirect("/main/presentarGrupo?id="+ req.body.idGrupoEstudiante+"&nombreUsuario="+ req.body.nombreUsuario);
+    res.redirect("/main/presentarGrupo?id="+ req.body.idGrupoEstudiante+"&nombreUsuario="+ req.body.nombreUsuario+"&perfilUsuario=0");
 });
 
 /* Casos ********************************************************************************************/
@@ -219,8 +219,7 @@ router.get("/consultarConjuntoCasos", async (req, res, next) => {
         res.render("sesiones/presentarConjuntoCasos", {
             nombreUsuario: req.query.nombreUsuario,
             usuarioRecuperado: await datos.recuperarDocenteCasos(req.query.nombreUsuario),
-            conjuntoTiposDiagramaRecuperado: new ConjuntoTiposDiagrama(),
-            conjuntoSesiones: await datos.recuperarConjuntoSesiones()
+            conjuntoTiposDiagramaRecuperado: new ConjuntoTiposDiagrama()
         });
     }
 });

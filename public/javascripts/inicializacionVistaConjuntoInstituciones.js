@@ -2,7 +2,9 @@ function inicializacionVistaConjuntoInstituciones(pInstitucionesJson) {
     const urlParametros = new URLSearchParams(window.location.search);
     var b = [];
     var botones = [];
+    var ocultos = [];
     var rotulos = [];
+    var rotulosMenor = [];
     let pInstituciones = cadenaJson(pInstitucionesJson);
     if (urlParametros.get("nombreUsuario") == undefined) {
         document.getElementById("lblAplicacion").style.display = "none";
@@ -21,16 +23,26 @@ function inicializacionVistaConjuntoInstituciones(pInstitucionesJson) {
             botones[botones.length-1].innerHTML = (i+1)+".";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
             botones[botones.length-1].href = "/main/presentarInstitucion?id="+pInstituciones._arreglo[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
+            ocultos[ocultos.length] = document.createElement("input");
+            ocultos[ocultos.length-1].id = "btnInstitucionOculto"+i;
+            ocultos[ocultos.length-1].value = "/main/presentarInstitucion?id="+pInstituciones._arreglo[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
+            ocultos[ocultos.length-1].type = "hidden";
             rotulos[rotulos.length] = document.createElement("label");
             rotulos[rotulos.length-1].id = "lblInstitucion"+i;
             rotulos[rotulos.length-1].innerHTML = pInstituciones._arreglo[i]._nombre;
             rotulos[rotulos.length-1].className = "lblPresentacion";
+            rotulosMenor[rotulosMenor.length] = document.createElement("label");
+            rotulosMenor[rotulosMenor.length-1].id = "lblSniesInstitucion"+i;
+            rotulosMenor[rotulosMenor.length-1].innerHTML = " (Snies: "+pInstituciones._arreglo[i]._identificacion+")";
+            rotulosMenor[rotulosMenor.length-1].className = "lblMenor";
             if (pInstituciones._arreglo[i]._sigla.length > 0) {
                 rotulos[rotulos.length-1].innerHTML = rotulos[rotulos.length-1].innerHTML +" - "+pInstituciones._arreglo[i]._sigla;
             }
             document.getElementById("divPresentacionInstituciones").appendChild(b[b.length-1]);
             document.getElementById("bInstitucion"+i).appendChild(botones[botones.length-1]);
+            document.getElementById("bInstitucion"+i).appendChild(ocultos[ocultos.length-1]);
             document.getElementById("divPresentacionInstituciones").appendChild(rotulos[rotulos.length-1]);
+            document.getElementById("divPresentacionInstituciones").appendChild(rotulosMenor[rotulosMenor.length-1]);
         }
         /*
         Inicialización del encabezado - Vista layout
@@ -41,6 +53,9 @@ function inicializacionVistaConjuntoInstituciones(pInstitucionesJson) {
 
         clickOcultarOpciones();
 
+        /*
+        Inicialización métodos de acción
+         */
         document.getElementById("btnDesplegarOpciones").setAttribute(
             "onclick",
             "clickDesplegarOpciones()"
@@ -53,5 +68,24 @@ function inicializacionVistaConjuntoInstituciones(pInstitucionesJson) {
             "onclick",
             "clickCapturarInstitucion()"
         );
+        /*
+        Inicialización métodos de validación
+         */
+        document.getElementById("inpNombreInstitucion").setAttribute(
+            "onfocus",
+            "validarCapturaInstitucion()"
+        )
+        document.getElementById("inpNombreInstitucion").setAttribute(
+            "onblur",
+            "validarCapturaInstitucion()"
+        )
+        document.getElementById("inpSiglaInstitucion").setAttribute(
+            "onblur",
+            "validarCapturaInstitucion()"
+        )
+        document.getElementById("inpSniesInstitucion").setAttribute(
+            "onblur",
+            "validarCapturaInstitucion()"
+        )
     }
 }

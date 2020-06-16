@@ -2,6 +2,7 @@ function inicializacionVistaCurso(pCursoJson) {
     const urlParametros = new URLSearchParams(window.location.search);
     var b = [];
     var botones = [];
+    var ocultos = [];
     var rotulos = [];
     let pCurso = cadenaJson(pCursoJson);
     if (urlParametros.get("nombreUsuario") == undefined) {
@@ -20,33 +21,6 @@ function inicializacionVistaCurso(pCursoJson) {
             document.getElementById("lblNombreInstitucion").innerHTML = document.getElementById("lblNombreInstitucion").innerHTML +" - "+pCurso._programa._institucion._sigla;
         }
         /*
-        Creación de la lista de docentes en vista presentarCurso
-         */
-        for (i=0; i<pCurso._docentes.length; i++) {
-            if (i>0) {
-                document.getElementById("divPresentacionDocentes").appendChild(document.createElement("br"));
-            }
-            b[b.length] = document.createElement("b");
-            b[b.length-1].id = "bDocente"+i;
-            botones[botones.length] = document.createElement("a");
-            botones[botones.length-1].id = "btnDocente"+i;
-            botones[botones.length-1].innerHTML = (i+1)+".";
-            botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
-            botones[botones.length-1].href = "/main/presentarDocente?id="+pCurso._docentes[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
-            rotulos[rotulos.length] = document.createElement("label");
-            rotulos[rotulos.length-1].id = "lblDocente"+i;
-            rotulos[rotulos.length-1].innerHTML = pCurso._docentes[i]._apellidos+" "+pCurso._docentes[i]._nombres;
-            rotulos[rotulos.length-1].className = "lblPresentacion";
-            document.getElementById("divPresentacionDocentes").appendChild(b[b.length-1]);
-            document.getElementById("bDocente"+i).appendChild(botones[botones.length-1]);
-            document.getElementById("divPresentacionDocentes").appendChild(rotulos[rotulos.length-1]);
-            rotulos[rotulos.length] = document.createElement("label");
-            rotulos[rotulos.length-1].id = "lblCorreoDocente"+i;
-            rotulos[rotulos.length-1].innerHTML = " ("+pCurso._docentes[i]._correo+")";
-            rotulos[rotulos.length-1].className = "lblMenor";
-            document.getElementById("divPresentacionDocentes").appendChild(rotulos[rotulos.length-1]);
-        }
-        /*
         Creación de la lista de grupos en vista presentarGrupo
          */
         for (i=0; i<pCurso._grupos.length; i++) {
@@ -60,13 +34,50 @@ function inicializacionVistaCurso(pCursoJson) {
             botones[botones.length-1].innerHTML = (i+1)+".";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
             botones[botones.length-1].href = "/main/presentarGrupo?id="+pCurso._grupos[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
+            ocultos[ocultos.length] = document.createElement("input");
+            ocultos[ocultos.length-1].id = "btnGrupoOculto"+i;
+            ocultos[ocultos.length-1].value = "/main/presentarGrupo?id="+pCurso._grupos[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
+            ocultos[ocultos.length-1].type = "hidden";
             rotulos[rotulos.length] = document.createElement("label");
             rotulos[rotulos.length-1].id = "lblGrupo"+i;
             rotulos[rotulos.length-1].innerHTML = pCurso._grupos[i]._nombre;
             rotulos[rotulos.length-1].className = "lblPresentacion";
             document.getElementById("divPresentacionGrupos").appendChild(b[b.length-1]);
             document.getElementById("bGrupo"+i).appendChild(botones[botones.length-1]);
+            document.getElementById("bGrupo"+i).appendChild(ocultos[ocultos.length-1]);
             document.getElementById("divPresentacionGrupos").appendChild(rotulos[rotulos.length-1]);
+        }
+        /*
+        Creación de la lista de docentes en vista presentarCurso
+         */
+        for (i=0; i<pCurso._docentes.length; i++) {
+            if (i>0) {
+                document.getElementById("divPresentacionDocentes").appendChild(document.createElement("br"));
+            }
+            b[b.length] = document.createElement("b");
+            b[b.length-1].id = "bDocente"+i;
+            botones[botones.length] = document.createElement("a");
+            botones[botones.length-1].id = "btnDocente"+i;
+            botones[botones.length-1].innerHTML = (i+1)+".";
+            botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
+            botones[botones.length-1].href = "/main/presentarDocente?id="+pCurso._docentes[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            ocultos[ocultos.length] = document.createElement("input");
+            ocultos[ocultos.length-1].id = "btnDocenteOculto"+i;
+            ocultos[ocultos.length-1].value = "/main/presentarDocente?id="+pCurso._docentes[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            ocultos[ocultos.length-1].type = "hidden";
+            rotulos[rotulos.length] = document.createElement("label");
+            rotulos[rotulos.length-1].id = "lblDocente"+i;
+            rotulos[rotulos.length-1].innerHTML = pCurso._docentes[i]._apellidos+" "+pCurso._docentes[i]._nombres;
+            rotulos[rotulos.length-1].className = "lblPresentacion";
+            document.getElementById("divPresentacionDocentes").appendChild(b[b.length-1]);
+            document.getElementById("bDocente"+i).appendChild(botones[botones.length-1]);
+            document.getElementById("bDocente"+i).appendChild(ocultos[ocultos.length-1]);
+            document.getElementById("divPresentacionDocentes").appendChild(rotulos[rotulos.length-1]);
+            rotulos[rotulos.length] = document.createElement("label");
+            rotulos[rotulos.length-1].id = "lblCorreoDocente"+i;
+            rotulos[rotulos.length-1].innerHTML = " ("+pCurso._docentes[i]._correo+")";
+            rotulos[rotulos.length-1].className = "lblMenor";
+            document.getElementById("divPresentacionDocentes").appendChild(rotulos[rotulos.length-1]);
         }
         /*
         Inicialización del encabezado - Vista layout
@@ -78,6 +89,9 @@ function inicializacionVistaCurso(pCursoJson) {
         clickOcultarOpciones();
         clickDesplegarGrupos();
 
+        /*
+        Inicialización métodos de validación
+         */
         document.getElementById("btnDesplegarOpciones").setAttribute(
             "onclick",
             "clickDesplegarOpciones()"
@@ -98,5 +112,20 @@ function inicializacionVistaCurso(pCursoJson) {
             "onclick",
             "clickCapturarGrupo()"
         );
+        /*
+        Inicialización métodos de validación
+         */
+        document.getElementById("inpNombreGrupo").setAttribute(
+            "onfocus",
+            "validarCapturaGrupo()"
+        )
+        document.getElementById("inpNombreGrupo").setAttribute(
+            "onblur",
+            "validarCapturaGrupo()"
+        )
+        document.getElementById("inpIdentificacionGrupo").setAttribute(
+            "onblur",
+            "validarCapturaGrupo()"
+        )
     }
 }

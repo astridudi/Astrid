@@ -2,6 +2,7 @@ function inicializacionVistaGrupo(pGrupoJson) {
     const urlParametros = new URLSearchParams(window.location.search);
     var b = [];
     var botones = [];
+    var ocultos = [];
     var rotulos = [];
     let pGrupo = cadenaJson(pGrupoJson);
     if (urlParametros.get("nombreUsuario") == undefined) {
@@ -32,12 +33,17 @@ function inicializacionVistaGrupo(pGrupoJson) {
             botones[botones.length-1].innerHTML = "1.";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
             botones[botones.length-1].href = "/main/presentarDocente?id="+pGrupo._docente._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            ocultos[ocultos.length] = document.createElement("input");
+            ocultos[ocultos.length-1].id = "btnDocenteOculto";
+            ocultos[ocultos.length-1].value = "/main/presentarDocente?id="+pGrupo._docente._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            ocultos[ocultos.length-1].type = "hidden";
             rotulos[rotulos.length] = document.createElement("label");
             rotulos[rotulos.length-1].id = "lblDocente";
             rotulos[rotulos.length-1].innerHTML = pGrupo._docente._apellidos+" "+pGrupo._docente._nombres;
             rotulos[rotulos.length-1].className = "lblPresentacion";
             document.getElementById("divPresentacionDocentes").appendChild(b[b.length-1]);
             document.getElementById("bDocente").appendChild(botones[botones.length-1]);
+            document.getElementById("bDocente").appendChild(ocultos[ocultos.length-1]);
             document.getElementById("divPresentacionDocentes").appendChild(rotulos[rotulos.length-1]);
             rotulos[rotulos.length] = document.createElement("label");
             rotulos[rotulos.length-1].id = "lblCorreoDocente";
@@ -59,12 +65,17 @@ function inicializacionVistaGrupo(pGrupoJson) {
             botones[botones.length-1].innerHTML = (i+1)+".";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
             botones[botones.length-1].href = "/main/presentarEstudiante?id="+pGrupo._estudiantes[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            ocultos[ocultos.length] = document.createElement("input");
+            ocultos[ocultos.length-1].id = "btnEstudianteOculto"+i;
+            ocultos[ocultos.length-1].value = "/main/presentarEstudiante?id="+pGrupo._estudiantes[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            ocultos[ocultos.length-1].type = "hidden";
             rotulos[rotulos.length] = document.createElement("label");
             rotulos[rotulos.length-1].id = "lblEstudiante"+i;
             rotulos[rotulos.length-1].innerHTML = pGrupo._estudiantes[i]._apellidos+" "+pGrupo._estudiantes[i]._nombres;
             rotulos[rotulos.length-1].className = "lblPresentacion";
             document.getElementById("divPresentacionEstudiantes").appendChild(b[b.length-1]);
             document.getElementById("bEstudiante"+i).appendChild(botones[botones.length-1]);
+            document.getElementById("bEstudiante"+i).appendChild(ocultos[ocultos.length-1]);
             document.getElementById("divPresentacionEstudiantes").appendChild(rotulos[rotulos.length-1]);
             rotulos[rotulos.length] = document.createElement("label");
             rotulos[rotulos.length-1].id = "lblCorreoEstudiante"+i;
@@ -81,6 +92,9 @@ function inicializacionVistaGrupo(pGrupoJson) {
 
         clickOcultarOpciones();
 
+        /*
+        Inicialización métodos de validación
+         */
         document.getElementById("btnDesplegarOpciones").setAttribute(
             "onclick",
             "clickDesplegarOpciones()"
@@ -97,5 +111,24 @@ function inicializacionVistaGrupo(pGrupoJson) {
             "onclick",
             "clickCapturarEstudiante()"
         );
+        /*
+        Inicialización métodos de validación
+         */
+        document.getElementById("inpIdentificacionDocente").setAttribute(
+            "onfocus",
+            "validarCapturaDocente()"
+        )
+        document.getElementById("inpIdentificacionDocente").setAttribute(
+            "onblur",
+            "validarCapturaDocente()"
+        )
+        document.getElementById("inpIdentificacionEstudiante").setAttribute(
+            "onfocus",
+            "validarCapturaEstudiante()"
+        )
+        document.getElementById("inpIdentificacionEstudiante").setAttribute(
+            "onblur",
+            "validarCapturaEstudiante()"
+        )
     }
 }

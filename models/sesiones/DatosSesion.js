@@ -22,7 +22,9 @@ module.exports = class DatosSesion extends Conexion {
         this._coleccionUsuarios = 'usuarios';
     }
     async grabarCaso(pCaso,pIdCurso,pTipoDiagrama,pIdDocente) {
+        var datosSesion = new DatosSesion();
         if (pCaso.validez) {
+            var nSesion = new Sesion('',pCaso.nombre+ " - Referencia",'');
             try {
                 this._firebase.firestore().collection(this._coleccionCasos).add({
                     nombre: pCaso.nombre,
@@ -30,6 +32,9 @@ module.exports = class DatosSesion extends Conexion {
                     cursoId: pIdCurso,
                     tipoDiagramaId: pTipoDiagrama,
                     docenteId: pIdDocente
+                }).then(ref => {
+                    pCaso.id = ref.id;
+                    datosSesion.grabarAsignacion(nSesion,pCaso.id,pIdCurso,'',pIdDocente,pTipoDiagrama,'');
                 });
             } catch (e) {
                 console.log(e.message);

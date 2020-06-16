@@ -2,7 +2,9 @@ function inicializacionVistaInstitucion(pInstitucionJson) {
     const urlParametros = new URLSearchParams(window.location.search);
     var b = [];
     var botones = [];
+    var ocultos = [];
     var rotulos = [];
+    var rotulosMenor = [];
     let pInstitucion = cadenaJson(pInstitucionJson);
     if (urlParametros.get("nombreUsuario") == undefined) {
         document.getElementById("lblAplicacion").style.display = "none";
@@ -29,13 +31,23 @@ function inicializacionVistaInstitucion(pInstitucionJson) {
             botones[botones.length-1].innerHTML = (i+1)+".";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
             botones[botones.length-1].href = "/main/presentarPrograma?id="+pInstitucion._programas[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
+            ocultos[ocultos.length] = document.createElement("input");
+            ocultos[ocultos.length-1].id = "btnProgramaOculto"+i;
+            ocultos[ocultos.length-1].value = "/main/presentarPrograma?id="+pInstitucion._programas[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
+            ocultos[ocultos.length-1].type = "hidden";
             rotulos[rotulos.length] = document.createElement("label");
             rotulos[rotulos.length-1].id = "lblPrograma"+i;
             rotulos[rotulos.length-1].innerHTML = pInstitucion._programas[i]._nombre;
             rotulos[rotulos.length-1].className = "lblPresentacion";
+            rotulosMenor[rotulosMenor.length] = document.createElement("label");
+            rotulosMenor[rotulosMenor.length-1].id = "lblSniesPrograma"+i;
+            rotulosMenor[rotulosMenor.length-1].innerHTML = " (Snies: "+pInstitucion._programas[i]._identificacion+")";
+            rotulosMenor[rotulosMenor.length-1].className = "lblMenor";
             document.getElementById("divPresentacionProgramas").appendChild(b[b.length-1]);
             document.getElementById("bPrograma"+i).appendChild(botones[botones.length-1]);
+            document.getElementById("bPrograma"+i).appendChild(ocultos[ocultos.length-1]);
             document.getElementById("divPresentacionProgramas").appendChild(rotulos[rotulos.length-1]);
+            document.getElementById("divPresentacionProgramas").appendChild(rotulosMenor[rotulosMenor.length-1]);
         }
         /*
         Inicialización del encabezado - Vista layout
@@ -49,6 +61,9 @@ function inicializacionVistaInstitucion(pInstitucionJson) {
 
         clickOcultarOpciones();
 
+        /*
+        Inicialización métodos de acción
+         */
         document.getElementById("btnDesplegarOpciones").setAttribute(
             "onclick",
             "clickDesplegarOpciones()"
@@ -61,5 +76,20 @@ function inicializacionVistaInstitucion(pInstitucionJson) {
             "onclick",
             "clickCapturarPrograma()"
         );
+        /*
+        Inicialización métodos de validación
+         */
+        document.getElementById("inpNombrePrograma").setAttribute(
+            "onfocus",
+            "validarCapturaPrograma()"
+        )
+        document.getElementById("inpNombrePrograma").setAttribute(
+            "onblur",
+            "validarCapturaPrograma()"
+        )
+        document.getElementById("inpSniesPrograma").setAttribute(
+            "onblur",
+            "validarCapturaPrograma()"
+        )
     }
 }
