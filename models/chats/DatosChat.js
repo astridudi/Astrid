@@ -15,7 +15,8 @@ module.exports = class Datos extends Conexion {
                 this._firebase.firestore().collection(this._coleccionChats).add({
                     sesionId : pChat.sesion.id,
                     nombre: pChat.nombre,
-                    inicio: pChat.inicio
+                    inicio: pChat.inicio,
+                    correoModerador: pChat.correoModerador
                 });
             } catch (e) {
                 console.log(e.message);
@@ -64,6 +65,7 @@ module.exports = class Datos extends Conexion {
                         documentSnapshot.id,
                         documentSnapshot.data().nombre,
                         documentSnapshot.data().inicio);
+                    rChat.correoModerador = documentSnapshot.data().correoModerador;
                 };
             })
             .catch(err => {
@@ -97,6 +99,7 @@ module.exports = class Datos extends Conexion {
                         document.id,
                         document.data().nombre,
                         document.data().inicio);
+                    rChat.correoModerador = document.data().correoModerador;
                 });
             })
             .catch(err => {

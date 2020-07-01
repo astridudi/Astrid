@@ -21,7 +21,7 @@ function inicializacionVistaConjuntoCasos(pUsuarioJson,pConjuntoTiposDiagramaJso
             botones[botones.length-1].id = "btnCurso"+i;
             botones[botones.length-1].innerHTML = (i+1)+".";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
-            botones[botones.length-1].setAttribute("onclick","clickSeleccionarCurso('"+pUsuario._cursos[i]._id+"','"+pUsuario._cursos[i]._nombre+"')");
+            botones[botones.length-1].setAttribute("onclick","clickSeleccionarCurso('"+pUsuario._cursos[i]._id+"','"+pUsuario._cursos[i]._nombre+"',"+i+")");
             rotulos[rotulos.length] = document.createElement("label");
             rotulos[rotulos.length-1].id = "lblCurso"+i;
             rotulos[rotulos.length-1].innerHTML = "Curso: "+pUsuario._cursos[i]._nombre;
@@ -51,7 +51,7 @@ function inicializacionVistaConjuntoCasos(pUsuarioJson,pConjuntoTiposDiagramaJso
                 botones[botones.length-1].id = "btnGrupo"+i;
                 botones[botones.length-1].innerHTML = pUsuario._cursos[i]._grupos[j]._nombre;
                 botones[botones.length-1].className = "w3-button w3-round aEnumeracionSub";
-                botones[botones.length-1].setAttribute("onclick","clickSeleccionarGrupo('"+pUsuario._cursos[i]._id+"','"+pUsuario._cursos[i]._grupos[j]._id+"','"+pUsuario._cursos[i]._grupos[j]._nombre+"','"+JSON.stringify(pUsuario._cursos[i]._grupos[j]._estudiantes)+"','"+i+"')");
+                botones[botones.length-1].setAttribute("onclick","clickSeleccionarGrupo('"+pUsuario._cursos[i]._id+"','"+pUsuario._cursos[i]._grupos[j]._id+"','"+pUsuario._cursos[i]._grupos[j]._nombre+"','"+JSON.stringify(pUsuario._cursos[i]._grupos[j]._estudiantes)+"','"+i+"',"+j+")");
                 document.getElementById("divGruposCurso"+i).appendChild(botones[botones.length-1]);
             }
             if (pUsuario._cursos[i]._casos.length > 0) {
@@ -73,7 +73,7 @@ function inicializacionVistaConjuntoCasos(pUsuarioJson,pConjuntoTiposDiagramaJso
                 botones[botones.length-1].id = "btnCaso"+i+"."+j;
                 botones[botones.length-1].innerHTML = (i+1)+"."+(j+1)+".";
                 botones[botones.length-1].className = "w3-button w3-round aEnumeracionSub";
-                botones[botones.length-1].setAttribute("onclick","clickSeleccionarCaso('"+pUsuario._cursos[i]._casos[j]._id+"','"+pUsuario._cursos[i]._casos[j]._nombre+"','"+pUsuario._cursos[i]._id+"','"+pUsuario._cursos[i]._nombre+"','"+pUsuario._cursos[i]._casos[j]._idTipoDiagrama+"','"+pUsuario._cursos[i]._casos[j]._nombreTipoDiagrama+"','"+i+"')");
+                botones[botones.length-1].setAttribute("onclick","clickSeleccionarCaso('"+pUsuario._cursos[i]._casos[j]._id+"','"+pUsuario._cursos[i]._casos[j]._nombre+"','"+pUsuario._cursos[i]._id+"','"+pUsuario._cursos[i]._nombre+"','"+pUsuario._cursos[i]._casos[j]._idTipoDiagrama+"','"+pUsuario._cursos[i]._casos[j]._nombreTipoDiagrama+"','"+i+"',"+j+")");
                 rotulos[rotulos.length] = document.createElement("label");
                 rotulos[rotulos.length-1].id = "lblCaso"+i+"."+j;
                 rotulos[rotulos.length-1].innerHTML = "Caso: "+pUsuario._cursos[i]._casos[j]._nombre;
@@ -105,36 +105,17 @@ function inicializacionVistaConjuntoCasos(pUsuarioJson,pConjuntoTiposDiagramaJso
         /*
         Inicialización métodos de acción
          */
-        document.getElementById("btnDesplegarOpciones").setAttribute(
-            "onclick",
-            "clickDesplegarOpciones()"
-        );
-        document.getElementById("btnOcultarOpciones").setAttribute(
-            "onclick",
-            "clickOcultarOpciones()"
-        );
-        document.getElementById("btnAgregarCaso").setAttribute(
-            "onclick",
-            "clickCapturarCaso()"
-        );
-        document.getElementById("btnAsignarCaso").setAttribute(
-            "onclick",
-            "clickCapturarSesion()"
-        );
+        document.getElementById("btnDesplegarOpciones").setAttribute("onclick","clickDesplegarOpciones()");
+        document.getElementById("btnOcultarOpciones").setAttribute("onclick","clickOcultarOpciones()");
+        document.getElementById("btnAgregarCaso").setAttribute("onclick","clickCapturarCaso()");
+        document.getElementById("btnEditarCaso").setAttribute("onclick","clickEditarCaso()");
+        document.getElementById("btnEliminarCaso").setAttribute("onclick","clickEliminarCaso()");
+        document.getElementById("btnAsignarCaso").setAttribute("onclick","clickCapturarSesion()");
         /*
         Inicialización métodos de validación
          */
-        document.getElementById("inpNombreCaso").setAttribute(
-            "onfocus",
-            "validarCapturaCaso()"
-        )
-        document.getElementById("inpNombreCaso").setAttribute(
-            "onblur",
-            "validarCapturaCaso()"
-        )
-        document.getElementById("selTipoDiagrama").setAttribute(
-            "onblur",
-            "validarCapturaCaso()"
-        )
+        document.getElementById("inpNombreCaso").setAttribute("onfocus","validarCapturaCaso()");
+        document.getElementById("inpNombreCaso").setAttribute("onblur","validarCapturaCaso()");
+        document.getElementById("selTipoDiagrama").setAttribute("onblur","validarCapturaCaso()");
     }
 }

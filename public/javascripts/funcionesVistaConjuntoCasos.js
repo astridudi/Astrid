@@ -5,7 +5,7 @@ function clickDesplegarOpciones() {
     document.getElementById("divPrincipal").style.maxHeight = (window.innerHeight - document.getElementById("divPrincipal").offsetTop)+"px";
     document.getElementById("divPresentacionCasos").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionCasos").offsetTop)+"px";
     document.getElementById("divCapturaCaso").style.maxHeight = document.getElementById("divPresentacionCasos").style.maxHeight;
-    document.getElementById("lblOpciones").innerHTML = "Seleccionar opción";
+    document.getElementById("lblOpciones").innerHTML = "Gestión de casos";
     document.getElementById("divBtnOpciones").style.display = "block";
     document.getElementById("divFormularioCaso").style.display = "none";
     document.getElementById("divFormularioAsignacion").style.display = "none";
@@ -21,6 +21,7 @@ function clickDesplegarOpciones() {
 
 function clickOcultarOpciones() {
     ocultarOpcionesListadoLayout();
+    ocultarSeleccion();
     document.getElementById("divPresentacionCasos").style.width = document.getElementById("anchoPresentacion").value+"px";
     document.getElementById("divCapturaCaso").style.width = document.getElementById("anchoEmergente").value+"px";
     document.getElementById("divBtnOpciones").style.display = "none";
@@ -37,12 +38,33 @@ function clickOcultarOpciones() {
     ocultarOpcionesDistribucion();
 }
 
-function clickCapturarCaso() {
-    document.getElementById("lblOpciones").innerHTML = "1. Seleccionar curso";
+function ocultarSeleccion() {
+    let i = 0;
+    while (document.getElementById("lblCurso"+i) != undefined) {
+        document.getElementById("lblCurso"+i).className = "lblPresentacion";
+        i = i + 1;
+    }
+    i = 0;
+    while (document.getElementById("lblCasosCurso"+i) != undefined) {
+        document.getElementById("lblCasosCurso"+i).className = "lblPresentacionSub";
+        i = i + 1;
+    }
+}
+
+function clickIniciarCapturaCaso() {
     document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioCaso").style.display = "block";
     document.getElementById("divDatosCurso").style.display = "block";
     document.getElementById("divGrabarCaso").style.display = "block";
+    document.getElementById("inpNombreCaso").focus();
+}
+
+function clickCapturarCaso() {
+    document.getElementById("formCaso").action = "/main/grabarCaso";
+    document.getElementById("lblOpciones").innerHTML = "Registrar caso - 1. Seleccionar curso";
+    document.getElementById("btnGrabarCaso").innerHTML = "Grabar caso";
+    document.getElementById("inpPaso").value = 1;
+    clickIniciarCapturaCaso();
     /*
     Eliminación de valores de registros inconclusos
      */
@@ -52,12 +74,35 @@ function clickCapturarCaso() {
     validarCapturaCaso();
 }
 
-function clickCapturarSesion() {
-    document.getElementById("lblOpciones").innerHTML = "1. Seleccionar caso";
+function clickEditarCaso() {
+    document.getElementById("formCaso").action = "/main/actualizarCaso";
+    document.getElementById("lblOpciones").innerHTML = "Editar caso";
+    document.getElementById("btnGrabarCaso").innerHTML = "Confirmar edición";
+    document.getElementById("inpPaso").value = 2;
+    clickIniciarCapturaCaso();
+}
+
+function clickEliminarCaso() {
+    document.getElementById("formCaso").action = "/main/eliminarCaso";
+    document.getElementById("lblOpciones").innerHTML = "Inhabilitar caso";
+    document.getElementById("btnGrabarCaso").innerHTML = "Confirmar inhabilitación";
+    document.getElementById("inpPaso").value = 3;
+    clickIniciarCapturaCaso();
+}
+
+function clickIniciarCapturaSesion() {
     document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioAsignacion").style.display = "block";
     document.getElementById("divDatosCasoSesion").style.display = "block";
     document.getElementById("divGrabarAsignacion").style.display = "block";
+}
+
+function clickCapturarSesion() {
+    document.getElementById("formAsignacion").action = "/main/grabarAsignacion";
+    document.getElementById("lblOpciones").innerHTML = "Registrar asignación - 1. Seleccionar caso";
+    document.getElementById("btnGrabarAsignacion").innerHTML = "Grabar asignación";
+    document.getElementById("inpPaso").value = 1;
+    clickIniciarCapturaSesion();
     /*
     Eliminación de valores de registros inconclusos
      */
@@ -68,9 +113,11 @@ function clickCapturarSesion() {
     validarCapturaSesion();
 }
 
-function clickSeleccionarCurso(pIdCurso,pNombreCurso) {
+function clickSeleccionarCurso(pIdCurso,pNombreCurso,pIndice) {
     if (document.getElementById("divFormularioCaso").style.display != "none") {
-        document.getElementById("lblOpciones").innerHTML = "2. Registrar caso";
+        ocultarSeleccion();
+        document.getElementById("lblCurso"+pIndice).className = "lblPresentacionSeleccionado";
+        document.getElementById("lblOpciones").innerHTML = "Registrar caso - 2. Propiedades del caso";
         document.getElementById("inpNombreCaso").value = "";
         document.getElementById("selTipoDiagrama").value = "";
         document.getElementById("inpIdCurso").value = pIdCurso;
@@ -80,9 +127,12 @@ function clickSeleccionarCurso(pIdCurso,pNombreCurso) {
     }
 }
 
-function clickSeleccionarCaso(pIdCaso,pNombreCaso,pIdCurso,pNombreCurso,pIdDiagrama,pNombreDiagrama,pIndice) {
+function clickSeleccionarCaso(pIdCaso,pNombreCaso,pIdCurso,pNombreCurso,pIdDiagrama,pNombreDiagrama,pIndice,pSubIndice) {
     if (document.getElementById("divFormularioAsignacion").style.display != "none") {
-        document.getElementById("lblOpciones").innerHTML = "2. Seleccionar grupo";
+        ocultarSeleccion();
+        document.getElementById("lblCurso"+pIndice).className = "lblPresentacionSeleccionado";
+        document.getElementById("lblCaso"+pIndice+"."+pSubIndice).className = "lblPresentacionSubSeleccionado";
+        document.getElementById("lblOpciones").innerHTML = "Registrar asignación - 2. Seleccionar grupo";
         document.getElementById("divGruposCurso"+pIndice).style.display = "block";
         document.getElementById("inpIdGrupo").value = "";
         document.getElementById("inpNombreGrupoSesion").value = "";
@@ -120,7 +170,7 @@ function clickSeleccionarGrupo(pIdCurso,pIdGrupo,pNombreGrupo,pEstudiantesJson,p
             document.getElementById("inpIdGrupo").value = pIdGrupo;
             document.getElementById("inpNombreGrupoSesion").value = pNombreGrupo;
             document.getElementById("inpNombreSesion").value = document.getElementById("inpNombreCasoSesion").value+" - "+document.getElementById("inpNombreGrupoSesion").value;
-            document.getElementById("lblOpciones").innerHTML = "3. Conformar equipos";
+            document.getElementById("lblOpciones").innerHTML = "Registrar asignación - 2. Conformar equipos";
             if (pEstudiantes.length > 0) {
                 if (document.getElementById("trEncabezado") == undefined) {
                     filas[filas.length] = document.createElement("tr");
@@ -239,26 +289,11 @@ function clickSeleccionarGrupo(pIdCurso,pIdGrupo,pNombreGrupo,pEstudiantesJson,p
             document.getElementById("inpNombreGrupoSesion").value = "";
             document.getElementById("inpNombreSesion").value = "";
         }
-        document.getElementById("imgBtnAleatorio").setAttribute(
-            "onclick",
-            "clickDistribucionAleatoria("+pEstudiantes.length+", "+3+")"
-        );
-        document.getElementById("imgBtnSecuencial").setAttribute(
-            "onclick",
-            "clickDistribucionSecuencial("+pEstudiantes.length+", "+3+")"
-        );
-        document.getElementById("imgBtnLideres").setAttribute(
-            "onclick",
-            "clickDistribucionLideres("+pEstudiantes.length+", "+3+")"
-        );
-        document.getElementById("imgBtnManual").setAttribute(
-            "onclick",
-            "clickDistribucionManual("+pEstudiantes.length+")"
-        );
-        document.getElementById("imgBtnIndividual").setAttribute(
-            "onclick",
-            "clickDistribucionIndividual("+pEstudiantes.length+")"
-        );
+        document.getElementById("imgBtnAleatorio").setAttribute("onclick","clickDistribucionAleatoria("+pEstudiantes.length+", "+3+")");
+        document.getElementById("imgBtnSecuencial").setAttribute("onclick","clickDistribucionSecuencial("+pEstudiantes.length+", "+3+")");
+        document.getElementById("imgBtnLideres").setAttribute("onclick","clickDistribucionLideres("+pEstudiantes.length+", "+3+")");
+        document.getElementById("imgBtnManual").setAttribute("onclick","clickDistribucionManual("+pEstudiantes.length+")");
+        document.getElementById("imgBtnIndividual").setAttribute("onclick","clickDistribucionIndividual("+pEstudiantes.length+")");
         validarCapturaSesion();
         clickDistribucionAleatoria(pEstudiantes.length, 3);
     }

@@ -17,16 +17,21 @@
     <div id="divCapturaCurso" class="divEmergente">
         <div id="divBtnOpciones" class="divSubformulario">
             <button id="btnAgregarCurso" class="w3-button w3-round btnControl">Registrar curso</button>
-            <button id="btnEliminarCurso" class="w3-button w3-round btnControl">Eliminar curso</button>
+            <button id="btnEditarCurso" class="w3-button w3-round btnAdvertir">Editar curso</button>
+            <button id="btnEliminarCurso" class="w3-button w3-round btnDesistir">Eliminar curso</button>
             <button id="btnAgregarDocente" class="w3-button w3-round btnControl">Registrar docente</button>
-            <button id="btnEliminarDocente" class="w3-button w3-round btnControl">Eliminar docente</button>
+            <button id="btnEditarDocente" class="w3-button w3-round btnAdvertir">Editar docente</button>
+            <button id="btnEliminarDocente" class="w3-button w3-round btnDesistir">Eliminar docente</button>
             <button id="btnAgregarEstudiante" class="w3-button w3-round btnControl">Registrar estudiante</button>
-            <button id="btnEliminarEstudiante" class="w3-button w3-round btnControl">Eliminar estudiante</button>
+            <button id="btnEditarEstudiante" class="w3-button w3-round btnAdvertir">Editar estudiante</button>
+            <button id="btnEliminarEstudiante" class="w3-button w3-round btnDesistir">Eliminar estudiante</button>
+            <input id="inpPaso" name="idPaso" type="hidden" value="">
         </div>
         <div id="divFormularioCurso" class="divFormulario">
-            <form method='POST' action='/main/grabarCurso'>
-                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
-                <input type='hidden' name='idPrograma' value={{programa.id}}>
+            <form id="formCurso" method="POST" action="/main/grabarCurso">
+                <input id="nombreUsuario" name="nombreUsuario" type="hidden" value={{nombreUsuario}}>
+                <input id="inpIdPrograma" name="idPrograma" type="hidden" value={{programa.id}}>
+                <input id="inpIdCurso" name="idCurso" type="hidden" value="">
                 <div id="divDatosCurso" class="divSubformulario">
                     <b><label class="lblCaptura" >Curso:</label></b>
                     <input id="inpNombreCurso" class="w3-input w3-round" type="text" name="nombreCurso"></input>
@@ -40,9 +45,10 @@
             </form>
         </div>
         <div id="divFormularioDocente" class="divFormulario">
-            <form method='POST' action='/main/grabarDocente'>
-                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
-                <input type='hidden' name='idPrograma' value={{programa.id}}>
+            <form id="formDocente" method="POST" action="/main/grabarDocente">
+                <input id="nombreUsuario" name="nombreUsuario" type="hidden" value={{nombreUsuario}}>
+                <input id="inpIdPrograma" name="idPrograma" type="hidden" value={{programa.id}}>
+                <input id="inpIdDocente" name="idDocente" type="hidden" value="">
                 <div id="divDatosDocente" class="divSubformulario">
                     <b><label class="lblCaptura" >Apellidos:</label></b>
                     <input id="inpApellidosDocente" class="w3-input w3-round" type="text" name="apellidosDocente"></input>
@@ -62,9 +68,10 @@
             </form>
         </div>
         <div id="divFormularioEstudiante" class="divFormulario">
-            <form method='POST' action='/main/grabarEstudiante'>
-                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
-                <input type='hidden' name='idPrograma' value={{programa.id}}>
+            <form id="formEstudiante" method="POST" action="/main/grabarEstudiante">
+                <input id="nombreUsuario" name="nombreUsuario" type="hidden" value={{nombreUsuario}}>
+                <input id="inpIdPrograma" name="idPrograma" type="hidden" value={{programa.id}}>
+                <input id="inpIdEstudiante" name="idEstudiante" type="hidden" value="">
                 <div id="divDatosEstudiante" class="divSubformulario">
                     <b><label class="lblCaptura" >Apellidos:</label></b>
                     <input id="inpApellidosEstudiante" class="w3-input w3-round" type="text" name="apellidosEstudiante"></input>

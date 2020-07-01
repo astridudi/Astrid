@@ -18,14 +18,16 @@
     <div id="divCapturaEstudiante" class="divEmergente">
         <div id="divBtnOpciones" class="divSubformulario">
             <button id="btnAgregarDocente" class="w3-button w3-round btnControl">Registrar docente</button>
-            <button id="btnEliminarDocente" class="w3-button w3-round btnControl">Eliminar docente</button>
+            <button id="btnEliminarDocente" class="w3-button w3-round btnDesistir">Eliminar docente</button>
             <button id="btnAgregarEstudiante" class="w3-button w3-round btnControl">Registrar estudiante</button>
-            <button id="btnEliminarEstudiante" class="w3-button w3-round btnControl">Eliminar estudiante</button>
+            <button id="btnEliminarEstudiante" class="w3-button w3-round btnDesistir">Eliminar estudiante</button>
+            <input id="inpPaso" name="idPaso" type="hidden" value="">
         </div>
         <div id="divFormularioDocente" class="divFormulario">
-            <form method='POST' action='/main/grabarVinculoDocente'>
-                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
-                <input type='hidden' name='idGrupoDocente' value={{grupo.id}}>
+            <form id="formDocente" method="POST" action="/main/grabarVinculoDocente">
+                <input id="nombreUsuario" name="nombreUsuario" type="hidden" value={{nombreUsuario}}>
+                <input id="inpIdGrupoDocente" name="idGrupoDocente" type="hidden" value={{grupo.id}}>
+                <input id="inpIdDocente" name="idDocente" type="hidden" value="">
                 <div id="divDatosDocente" class="divSubformulario">
                     <b><label class="lblCaptura">Identificacion:</label></b>
                     <input id="inpIdentificacionDocente" class="w3-input w3-round" type="text" name="identificacionDocente"></input>
@@ -36,9 +38,10 @@
             </form>
         </div>
         <div id="divFormularioEstudiante" class="divFormulario">
-            <form method='POST' action='/main/grabarVinculoEstudiante'>
-                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
-                <input type='hidden' name='idGrupoEstudiante' value={{grupo.id}}>
+            <form id="formEstudiante" method="POST" action="/main/grabarVinculoEstudiante">
+                <input id="nombreUsuario" name="nombreUsuario" type="hidden" value={{nombreUsuario}}>
+                <input id="inpIdGrupoEstudiante" name="idGrupoEstudiante" type="hidden" value={{grupo.id}}>
+                <input id="inpIdEstudiante" name="idEstudiante" type="hidden" value="">
                 <div id="divDatosEstudiante" class="divSubformulario">
                     <b><label class="lblCaptura">Identificacion:</label></b>
                     <input id="inpIdentificacionEstudiante" class="w3-input w3-round" type="text" name="identificacionEstudiante"></input>

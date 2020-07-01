@@ -23,6 +23,9 @@ function inicializacionVistaConjuntoInstituciones(pInstitucionesJson) {
             botones[botones.length-1].innerHTML = (i+1)+".";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
             botones[botones.length-1].href = "/main/presentarInstitucion?id="+pInstituciones._arreglo[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
+            botones[botones.length-1].setAttribute("onclick",
+                "clickSeleccionarInstitucion('"+pInstituciones._arreglo[i]._id+"','"+pInstituciones._arreglo[i]._nombre+"','"+pInstituciones._arreglo[i]._sigla+"','"+pInstituciones._arreglo[i]._identificacion+"',"+i+")"
+            );
             ocultos[ocultos.length] = document.createElement("input");
             ocultos[ocultos.length-1].id = "btnInstitucionOculto"+i;
             ocultos[ocultos.length-1].value = "/main/presentarInstitucion?id="+pInstituciones._arreglo[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
@@ -56,36 +59,17 @@ function inicializacionVistaConjuntoInstituciones(pInstitucionesJson) {
         /*
         Inicialización métodos de acción
          */
-        document.getElementById("btnDesplegarOpciones").setAttribute(
-            "onclick",
-            "clickDesplegarOpciones()"
-        );
-        document.getElementById("btnOcultarOpciones").setAttribute(
-            "onclick",
-            "clickOcultarOpciones()"
-        );
-        document.getElementById("btnAgregarInstitucion").setAttribute(
-            "onclick",
-            "clickCapturarInstitucion()"
-        );
+        document.getElementById("btnDesplegarOpciones").setAttribute("onclick","clickDesplegarOpciones()");
+        document.getElementById("btnOcultarOpciones").setAttribute("onclick","clickOcultarOpciones()");
+        document.getElementById("btnAgregarInstitucion").setAttribute("onclick","clickCapturarInstitucion()");
+        document.getElementById("btnEditarInstitucion").setAttribute("onclick","clickEditarInstitucion()");
+        document.getElementById("btnEliminarInstitucion").setAttribute("onclick","clickEliminarInstitucion()");
         /*
         Inicialización métodos de validación
          */
-        document.getElementById("inpNombreInstitucion").setAttribute(
-            "onfocus",
-            "validarCapturaInstitucion()"
-        )
-        document.getElementById("inpNombreInstitucion").setAttribute(
-            "onblur",
-            "validarCapturaInstitucion()"
-        )
-        document.getElementById("inpSiglaInstitucion").setAttribute(
-            "onblur",
-            "validarCapturaInstitucion()"
-        )
-        document.getElementById("inpSniesInstitucion").setAttribute(
-            "onblur",
-            "validarCapturaInstitucion()"
-        )
+        document.getElementById("inpNombreInstitucion").setAttribute("onfocus","validarCapturaInstitucion()");
+        document.getElementById("inpNombreInstitucion").setAttribute("onblur","validarCapturaInstitucion()");
+        document.getElementById("inpSiglaInstitucion").setAttribute("onblur","validarCapturaInstitucion()");
+        document.getElementById("inpSniesInstitucion").setAttribute("onblur","validarCapturaInstitucion()");
     }
 }

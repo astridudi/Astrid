@@ -16,12 +16,15 @@
     <div id="divCapturaGrupo" class="divEmergente">
         <div id="divBtnOpciones" class="divSubformulario">
             <button id="btnAgregarGrupo" class="w3-button w3-round btnControl">Registrar grupo</button>
-            <button id="btnEliminarGrupo" class="w3-button w3-round btnControl">Eliminar grupo</button>
+            <button id="btnEditarGrupo" class="w3-button w3-round btnAdvertir">Editar grupo</button>
+            <button id="btnEliminarGrupo" class="w3-button w3-round btnDesistir">Eliminar grupo</button>
+            <input id="inpPaso" name="idPaso" type="hidden" value="">
         </div>
         <div id="divFormularioGrupo" class="divFormulario">
-            <form method='POST' action='/main/grabarGrupo'>
-                <input type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
-                <input type='hidden' name='idCurso' value={{curso.id}}>
+            <form id="formGrupo" method="POST" action="/main/grabarGrupo">
+                <input id="nombreUsuario" name="nombreUsuario" type="hidden" value={{nombreUsuario}}>
+                <input id="inpIdCurso" name="idCurso" type="hidden" value={{curso.id}}>
+                <input id="inpIdGrupo" name="idGrupo" type="hidden" value="">
                 <div id="divDatosGrupo" class="divSubformulario">
                     <b><label class="lblCaptura">Grupo:</label></b>
                     <input id="inpNombreGrupo" class="w3-input w3-round" type="text" name="nombreGrupo"></input>

@@ -3,11 +3,14 @@
     <div id="divCapturaInstitucion" class="divEmergente">
         <div id="divBtnOpciones" class="divSubformulario">
             <button id="btnAgregarInstitucion" class="w3-button w3-round btnControl">Registrar institución</button>
-            <button id="btnEliminarInstitucion" class="w3-button w3-round btnControl">Eliminar institución</button>
+            <button id="btnEditarInstitucion" class="w3-button w3-round btnAdvertir">Editar institución</button>
+            <button id="btnEliminarInstitucion" class="w3-button w3-round btnDesistir">Inhabilitar institución</button>
+            <input id="inpPaso" name="idPaso" type="hidden" value="">
         </div>
         <div id="divFormularioInstitucion" class="divFormulario">
-            <form method="POST" action="/main/grabarInstitucion">
+            <form id="formInstitucion" method="POST" action="/main/grabarInstitucion">
                 <input id="nombreUsuario" name="nombreUsuario" type="hidden" value={{nombreUsuario}}>
+                <input id="inpIdInstitucion" name="idInstitucion" type="hidden" value="">
                 <div id="divDatosInstitucion" class="divSubformulario">
                     <b><label class="lblCaptura" >Institución:</label></b>
                     <input id="inpNombreInstitucion" class="w3-input w3-round" name="nombreInstitucion" type="text"></input>

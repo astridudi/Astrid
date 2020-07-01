@@ -31,6 +31,10 @@ function inicializacionVistaInstitucion(pInstitucionJson) {
             botones[botones.length-1].innerHTML = (i+1)+".";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
             botones[botones.length-1].href = "/main/presentarPrograma?id="+pInstitucion._programas[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
+            botones[botones.length-1].setAttribute(
+                "onclick",
+                "clickSeleccionarPrograma('"+pInstitucion._programas[i]._id+"','"+pInstitucion._programas[i]._nombre+"','"+pInstitucion._programas[i]._identificacion+"',"+i+")"
+            );
             ocultos[ocultos.length] = document.createElement("input");
             ocultos[ocultos.length-1].id = "btnProgramaOculto"+i;
             ocultos[ocultos.length-1].value = "/main/presentarPrograma?id="+pInstitucion._programas[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
@@ -64,32 +68,16 @@ function inicializacionVistaInstitucion(pInstitucionJson) {
         /*
         Inicialización métodos de acción
          */
-        document.getElementById("btnDesplegarOpciones").setAttribute(
-            "onclick",
-            "clickDesplegarOpciones()"
-        );
-        document.getElementById("btnOcultarOpciones").setAttribute(
-            "onclick",
-            "clickOcultarOpciones()"
-        );
-        document.getElementById("btnAgregarPrograma").setAttribute(
-            "onclick",
-            "clickCapturarPrograma()"
-        );
+        document.getElementById("btnDesplegarOpciones").setAttribute("onclick","clickDesplegarOpciones()");
+        document.getElementById("btnOcultarOpciones").setAttribute("onclick","clickOcultarOpciones()");
+        document.getElementById("btnAgregarPrograma").setAttribute("onclick","clickCapturarPrograma()");
+        document.getElementById("btnEditarPrograma").setAttribute("onclick","clickEditarPrograma()");
+        document.getElementById("btnEliminarPrograma").setAttribute("onclick","clickEliminarPrograma()");
         /*
         Inicialización métodos de validación
          */
-        document.getElementById("inpNombrePrograma").setAttribute(
-            "onfocus",
-            "validarCapturaPrograma()"
-        )
-        document.getElementById("inpNombrePrograma").setAttribute(
-            "onblur",
-            "validarCapturaPrograma()"
-        )
-        document.getElementById("inpSniesPrograma").setAttribute(
-            "onblur",
-            "validarCapturaPrograma()"
-        )
+        document.getElementById("inpNombrePrograma").setAttribute("onfocus","validarCapturaPrograma()");
+        document.getElementById("inpNombrePrograma").setAttribute("onblur","validarCapturaPrograma()");
+        document.getElementById("inpSniesPrograma").setAttribute("onblur","validarCapturaPrograma()");
     }
 }

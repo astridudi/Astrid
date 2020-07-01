@@ -33,6 +33,10 @@ function inicializacionVistaGrupo(pGrupoJson) {
             botones[botones.length-1].innerHTML = "1.";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
             botones[botones.length-1].href = "/main/presentarDocente?id="+pGrupo._docente._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            botones[botones.length-1].setAttribute(
+                "onclick",
+                "clickSeleccionarDocente('"+pGrupo._docente._id+"','"+pGrupo._docente._identificacion+"')"
+            );
             ocultos[ocultos.length] = document.createElement("input");
             ocultos[ocultos.length-1].id = "btnDocenteOculto";
             ocultos[ocultos.length-1].value = "/main/presentarDocente?id="+pGrupo._docente._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
@@ -65,6 +69,10 @@ function inicializacionVistaGrupo(pGrupoJson) {
             botones[botones.length-1].innerHTML = (i+1)+".";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
             botones[botones.length-1].href = "/main/presentarEstudiante?id="+pGrupo._estudiantes[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
+            botones[botones.length-1].setAttribute(
+                "onclick",
+                "clickSeleccionarEstudiante('"+pGrupo._estudiantes[i]._id+"','"+pGrupo._estudiantes[i]._identificacion+"',"+i+")"
+            );
             ocultos[ocultos.length] = document.createElement("input");
             ocultos[ocultos.length-1].id = "btnEstudianteOculto"+i;
             ocultos[ocultos.length-1].value = "/main/presentarEstudiante?id="+pGrupo._estudiantes[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario");
@@ -95,40 +103,18 @@ function inicializacionVistaGrupo(pGrupoJson) {
         /*
         Inicialización métodos de validación
          */
-        document.getElementById("btnDesplegarOpciones").setAttribute(
-            "onclick",
-            "clickDesplegarOpciones()"
-        );
-        document.getElementById("btnOcultarOpciones").setAttribute(
-            "onclick",
-            "clickOcultarOpciones()"
-        );
-        document.getElementById("btnAgregarDocente").setAttribute(
-            "onclick",
-            "clickCapturarDocente()"
-        );
-        document.getElementById("btnAgregarEstudiante").setAttribute(
-            "onclick",
-            "clickCapturarEstudiante()"
-        );
+        document.getElementById("btnDesplegarOpciones").setAttribute("onclick","clickDesplegarOpciones()");
+        document.getElementById("btnOcultarOpciones").setAttribute("onclick","clickOcultarOpciones()");
+        document.getElementById("btnAgregarDocente").setAttribute("onclick","clickCapturarDocente()");
+        document.getElementById("btnEliminarDocente").setAttribute("onclick","clickEliminarDocente()");
+        document.getElementById("btnAgregarEstudiante").setAttribute("onclick","clickCapturarEstudiante()");
+        document.getElementById("btnEliminarEstudiante").setAttribute("onclick","clickEliminarEstudiante()");
         /*
         Inicialización métodos de validación
          */
-        document.getElementById("inpIdentificacionDocente").setAttribute(
-            "onfocus",
-            "validarCapturaDocente()"
-        )
-        document.getElementById("inpIdentificacionDocente").setAttribute(
-            "onblur",
-            "validarCapturaDocente()"
-        )
-        document.getElementById("inpIdentificacionEstudiante").setAttribute(
-            "onfocus",
-            "validarCapturaEstudiante()"
-        )
-        document.getElementById("inpIdentificacionEstudiante").setAttribute(
-            "onblur",
-            "validarCapturaEstudiante()"
-        )
+        document.getElementById("inpIdentificacionDocente").setAttribute("onfocus","validarCapturaDocente()");
+        document.getElementById("inpIdentificacionDocente").setAttribute("onblur","validarCapturaDocente()");
+        document.getElementById("inpIdentificacionEstudiante").setAttribute("onfocus","validarCapturaEstudiante()");
+        document.getElementById("inpIdentificacionEstudiante").setAttribute("onblur","validarCapturaEstudiante()");
     }
 }

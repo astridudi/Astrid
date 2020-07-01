@@ -21,7 +21,7 @@ module.exports = class DatosSesion extends Conexion {
         this._coleccionCasos = 'casos';
         this._coleccionUsuarios = 'usuarios';
     }
-    async grabarCaso(pCaso,pIdCurso,pTipoDiagrama,pIdDocente) {
+    async grabarCaso(pCaso,pIdCurso,pTipoDiagrama,pIdDocente,pCorreoModerador) {
         var datosSesion = new DatosSesion();
         if (pCaso.validez) {
             var nSesion = new Sesion('',pCaso.nombre+ " - Referencia",'');
@@ -31,17 +31,18 @@ module.exports = class DatosSesion extends Conexion {
                     inicio: pCaso.inicio,
                     cursoId: pIdCurso,
                     tipoDiagramaId: pTipoDiagrama,
-                    docenteId: pIdDocente
+                    docenteId: pIdDocente,
+                    habilitado: true
                 }).then(ref => {
                     pCaso.id = ref.id;
-                    datosSesion.grabarAsignacion(nSesion,pCaso.id,pIdCurso,'',pIdDocente,pTipoDiagrama,'');
+                    datosSesion.grabarAsignacion(nSesion,pCaso.id,pIdCurso,'',pIdDocente,pTipoDiagrama,'',pCorreoModerador);
                 });
             } catch (e) {
                 console.log(e.message);
             }
         }
     }
-    async grabarAsignacion(pSesion,pIdCaso,pIdCurso,pIdGrupo,pIdUsuario,pTipoDiagrama,pEstudiantesId) {
+    async grabarAsignacion(pSesion,pIdCaso,pIdCurso,pIdGrupo,pIdUsuario,pTipoDiagrama,pEstudiantesId,pCorreoModerador) {
         var datosChat = new DatosChat();
         var datosDiagrama = new DatosDiagrama();
         if (pSesion.validez) {
@@ -60,6 +61,7 @@ module.exports = class DatosSesion extends Conexion {
                 }).then(ref => {
                     pSesion.id = ref.id;
                     nChat.sesion = pSesion;
+                    nChat.correoModerador = pCorreoModerador;
                     datosChat.grabarChat(nChat);
                     nDiagrama.sesion = pSesion;
                     datosDiagrama.grabarDiagrama(nDiagrama);
@@ -109,19 +111,21 @@ module.exports = class DatosSesion extends Conexion {
         let consulta = await referenciaConsulta.get()
             .then(querySnapshot => {
                 querySnapshot.forEach(document => {
-                    rDocente = new Docente(
-                        document.id,
-                        document.data().identificacion,
-                        document.data().nombres,
-                        document.data().apellidos,
-                        document.data().correoElectronico,
-                        document.data().administraInstitucion,
-                        document.data().administraPrograma,
-                        document.data().administraCurso,
-                        document.data().habilitadoDocente,
-                        document.data().habilitadoEstudiante);
-                    tListaCursosId = document.data().docenteCursosId;
-                    tListaGruposId = document.data().docenteGruposId;
+                    if (document.data().habilitadoDocente == true) {
+                        rDocente = new Docente(
+                            document.id,
+                            document.data().identificacion,
+                            document.data().nombres,
+                            document.data().apellidos,
+                            document.data().correoElectronico,
+                            document.data().administraInstitucion,
+                            document.data().administraPrograma,
+                            document.data().administraCurso,
+                            document.data().habilitadoDocente,
+                            document.data().habilitadoEstudiante);
+                        tListaCursosId = document.data().docenteCursosId;
+                        tListaGruposId = document.data().docenteGruposId;
+                    }
                 });
             })
             .catch(err => {
@@ -132,10 +136,12 @@ module.exports = class DatosSesion extends Conexion {
             consulta = await referenciaConsulta.get()
                 .then(documentSnapshot => {
                     if (documentSnapshot.exists) {
-                        tCurso = new Curso(
-                            documentSnapshot.id,
-                            documentSnapshot.data().identificacion,
-                            documentSnapshot.data().nombre);
+                        if (documentSnapshot.data().habilitado == true) {
+                            tCurso = new Curso(
+                                documentSnapshot.id,
+                                documentSnapshot.data().identificacion,
+                                documentSnapshot.data().nombre);
+                        }
                     };
                 })
                 .catch(err => {
@@ -145,13 +151,15 @@ module.exports = class DatosSesion extends Conexion {
             consulta = await referenciaConsulta.get()
                 .then(querySnapshot => {
                     querySnapshot.forEach(document => {
-                        tCaso = new Caso(
-                            document.id,
-                            document.data().nombre,
-                            document.data().inicio);
-                        tCaso.idTipoDiagrama = document.data().tipoDiagramaId;
-                        tCaso.nombreTipoDiagrama = tConjuntoTiposDiagrama.tiposDiagrama[document.data().tipoDiagramaId].nombre;
-                        tCurso.incluirCaso(tCaso);
+                        if (document.data().habilitado == true) {
+                            tCaso = new Caso(
+                                document.id,
+                                document.data().nombre,
+                                document.data().inicio);
+                            tCaso.idTipoDiagrama = document.data().tipoDiagramaId;
+                            tCaso.nombreTipoDiagrama = tConjuntoTiposDiagrama.tiposDiagrama[document.data().tipoDiagramaId].nombre;
+                            tCurso.incluirCaso(tCaso);
+                        }
                     });
                 })
                 .catch(err => {
@@ -165,11 +173,13 @@ module.exports = class DatosSesion extends Conexion {
             consulta = await referenciaConsulta.get()
                 .then(documentSnapshot => {
                     if (documentSnapshot.exists) {
-                        tGrupo = new Grupo(
-                            documentSnapshot.id,
-                            documentSnapshot.data().identificacion,
-                            documentSnapshot.data().nombre);
-                        tIdCurso = documentSnapshot.data().cursoId;
+                        if (documentSnapshot.data().habilitado == true) {
+                            tGrupo = new Grupo(
+                                documentSnapshot.id,
+                                documentSnapshot.data().identificacion,
+                                documentSnapshot.data().nombre);
+                            tIdCurso = documentSnapshot.data().cursoId;
+                        }
                     };
                 })
                 .catch(err => {
@@ -179,18 +189,20 @@ module.exports = class DatosSesion extends Conexion {
             consulta = await referenciaConsulta.get()
                 .then(querySnapshot => {
                     querySnapshot.forEach(document => {
-                        tEstudiante = new Estudiante(
-                            document.id,
-                            document.data().identificacion,
-                            document.data().nombres,
-                            document.data().apellidos,
-                            document.data().correoElectronico,
-                            document.data().administraInstitucion,
-                            document.data().administraPrograma,
-                            document.data().administraCurso,
-                            document.data().habilitadoDocente,
-                            document.data().habilitadoEstudiante);
-                        tGrupo.incluirEstudiante(tEstudiante);
+                        if (document.data().habilitadoEstudiante == true) {
+                            tEstudiante = new Estudiante(
+                                document.id,
+                                document.data().identificacion,
+                                document.data().nombres,
+                                document.data().apellidos,
+                                document.data().correoElectronico,
+                                document.data().administraInstitucion,
+                                document.data().administraPrograma,
+                                document.data().administraCurso,
+                                document.data().habilitadoDocente,
+                                document.data().habilitadoEstudiante);
+                            tGrupo.incluirEstudiante(tEstudiante);
+                        }
                     });
                 })
                 .catch(err => {
@@ -216,17 +228,19 @@ module.exports = class DatosSesion extends Conexion {
         let consulta = await referenciaConsulta.get()
             .then(querySnapshot => {
                 querySnapshot.forEach(document => {
-                    rDocente = new Docente(
-                        document.id,
-                        document.data().identificacion,
-                        document.data().nombres,
-                        document.data().apellidos,
-                        document.data().correoElectronico,
-                        document.data().administraInstitucion,
-                        document.data().administraPrograma,
-                        document.data().administraCurso,
-                        document.data().habilitadoDocente,
-                        document.data().habilitadoEstudiante);
+                    if (document.data().habilitadoDocente == true) {
+                        rDocente = new Docente(
+                            document.id,
+                            document.data().identificacion,
+                            document.data().nombres,
+                            document.data().apellidos,
+                            document.data().correoElectronico,
+                            document.data().administraInstitucion,
+                            document.data().administraPrograma,
+                            document.data().administraCurso,
+                            document.data().habilitadoDocente,
+                            document.data().habilitadoEstudiante);
+                    }
                 });
             })
             .catch(err => {
@@ -255,17 +269,19 @@ module.exports = class DatosSesion extends Conexion {
         let consulta = await referenciaConsulta.get()
             .then(querySnapshot => {
                 querySnapshot.forEach(document => {
-                    rEstudiante = new Estudiante(
-                        document.id,
-                        document.data().identificacion,
-                        document.data().nombres,
-                        document.data().apellidos,
-                        document.data().correoElectronico,
-                        document.data().administraInstitucion,
-                        document.data().administraPrograma,
-                        document.data().administraCurso,
-                        document.data().habilitadoDocente,
-                        document.data().habilitadoEstudiante);
+                    if (document.data().habilitadoEstudiante == true) {
+                        rEstudiante = new Estudiante(
+                            document.id,
+                            document.data().identificacion,
+                            document.data().nombres,
+                            document.data().apellidos,
+                            document.data().correoElectronico,
+                            document.data().administraInstitucion,
+                            document.data().administraPrograma,
+                            document.data().administraCurso,
+                            document.data().habilitadoDocente,
+                            document.data().habilitadoEstudiante);
+                    }
                 });
             })
             .catch(err => {

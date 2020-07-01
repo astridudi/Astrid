@@ -80,3 +80,4 @@ function ocultarOpcionesSesionLayout() {
     document.getElementById("lblOpcionesSesion").style.display = "none";
     document.getElementById("btnDesplegarOpcionesSesion").style.display = "inline-block";
 }
+

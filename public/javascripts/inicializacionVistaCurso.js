@@ -34,6 +34,10 @@ function inicializacionVistaCurso(pCursoJson) {
             botones[botones.length-1].innerHTML = (i+1)+".";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
             botones[botones.length-1].href = "/main/presentarGrupo?id="+pCurso._grupos[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
+            botones[botones.length-1].setAttribute(
+                "onclick",
+                "clickSeleccionarGrupo('"+pCurso._grupos[i]._id+"','"+pCurso._grupos[i]._nombre+"','"+pCurso._grupos[i]._identificacion+"',"+i+")"
+            );
             ocultos[ocultos.length] = document.createElement("input");
             ocultos[ocultos.length-1].id = "btnGrupoOculto"+i;
             ocultos[ocultos.length-1].value = "/main/presentarGrupo?id="+pCurso._grupos[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
@@ -90,42 +94,20 @@ function inicializacionVistaCurso(pCursoJson) {
         clickDesplegarGrupos();
 
         /*
-        Inicialización métodos de validación
+        Inicialización métodos de acción
          */
-        document.getElementById("btnDesplegarOpciones").setAttribute(
-            "onclick",
-            "clickDesplegarOpciones()"
-        );
-        document.getElementById("btnOcultarOpciones").setAttribute(
-            "onclick",
-            "clickOcultarOpciones()"
-        );
-        document.getElementById("btnDesplegarDocentes").setAttribute(
-            "onclick",
-            "clickDesplegarDocentes()"
-        );
-        document.getElementById("btnDesplegarGrupos").setAttribute(
-            "onclick",
-            "clickDesplegarGrupos()"
-        );
-        document.getElementById("btnAgregarGrupo").setAttribute(
-            "onclick",
-            "clickCapturarGrupo()"
-        );
+        document.getElementById("btnDesplegarOpciones").setAttribute("onclick","clickDesplegarOpciones()");
+        document.getElementById("btnOcultarOpciones").setAttribute("onclick","clickOcultarOpciones()");
+        document.getElementById("btnDesplegarDocentes").setAttribute("onclick","clickDesplegarDocentes()");
+        document.getElementById("btnDesplegarGrupos").setAttribute("onclick","clickDesplegarGrupos()");
+        document.getElementById("btnAgregarGrupo").setAttribute("onclick","clickCapturarGrupo()");
+        document.getElementById("btnEditarGrupo").setAttribute("onclick","clickEditarGrupo()");
+        document.getElementById("btnEliminarGrupo").setAttribute("onclick","clickEliminarGrupo()");
         /*
         Inicialización métodos de validación
          */
-        document.getElementById("inpNombreGrupo").setAttribute(
-            "onfocus",
-            "validarCapturaGrupo()"
-        )
-        document.getElementById("inpNombreGrupo").setAttribute(
-            "onblur",
-            "validarCapturaGrupo()"
-        )
-        document.getElementById("inpIdentificacionGrupo").setAttribute(
-            "onblur",
-            "validarCapturaGrupo()"
-        )
+        document.getElementById("inpNombreGrupo").setAttribute("onfocus","validarCapturaGrupo()");
+        document.getElementById("inpNombreGrupo").setAttribute("onblur","validarCapturaGrupo()");
+        document.getElementById("inpIdentificacionGrupo").setAttribute("onblur","validarCapturaGrupo()");
     }
 }

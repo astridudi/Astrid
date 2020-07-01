@@ -12,12 +12,13 @@ function dibujarChat(pChatJson,pNombreUsuario) {
     contexto.font = "17px Arial";
     contexto.textBaseline = "top";
     let colorBlancoFondo = "#FFFFFF";
+    let colorModerador = "#00689E";
     let colorTerceraPersona = "#F7931E";
     let colorPrimeraPersona = "#1D8649";
     let colorGrisLibre = "#F2F2F2";
     let colorGrisResaltado = "#BDBDBD";
     let colorTextoNormal = "#151515";
-    let strokes = [colorTerceraPersona,colorTerceraPersona,colorPrimeraPersona];
+    let strokes = [colorModerador,colorTerceraPersona,colorPrimeraPersona];
     let fills = [colorGrisLibre,colorGrisLibre,colorGrisLibre];
 
     /*
@@ -29,7 +30,7 @@ function dibujarChat(pChatJson,pNombreUsuario) {
     let margen = 40;
     let altoRenglon = Math.ceil(1.4 * (Math.abs(contexto.measureText('X').actualBoundingBoxAscent) + Math.abs(contexto.measureText('X').actualBoundingBoxDescent)));
     let anchoCaja = Math.ceil(5 * anchoCanvas / 8);
-    let curva = 0;
+    let curva = Math.ceil(altoRenglon / 3);
     let yCaja = margen;
     let texto = '';
     let tipoCaja=0;
@@ -61,21 +62,20 @@ function dibujarChat(pChatJson,pNombreUsuario) {
         if (pChat._arreglo[i]._nombreUsuario == pNombreUsuario) {
             tipoCaja = 2;
             izquierda = Math.ceil(anchoCanvas - margen - ancho );
-        } else if (pChat._arreglo[i]._nombreUsuario != pNombreUsuario) {
+        } else if (pChat._arreglo[i]._nombreUsuario != pChat._correoModerador) {
             tipoCaja = 1;
             izquierda = margen;
         } else {
             tipoCaja = 0;
-            izquierda = Math.ceil(anchoCanvas / 2 );
+            izquierda = Math.ceil((anchoCanvas - ancho) / 2 );
         }
-        if (((i==0) && (tipoCaja!=2))|| ((tipoCaja!=2) && (pChat._arreglo[i]._nombreUsuario != pChat._arreglo[i-1]._nombreUsuario))) {
+        if ((i==0) || ((i!=0) && (pChat._arreglo[i]._nombreUsuario != pChat._arreglo[i-1]._nombreUsuario))) {
             lineasNombreUsuario = 1;
         } else {
             lineasNombreUsuario = 0;
         }
 
         alto = Math.ceil((lineas + lineasNombreUsuario + 0.2) * altoRenglon);
-        curva = Math.ceil(alto / 8);
 
         /*
         Dimensiones de cada caja de mensaje
@@ -157,10 +157,11 @@ function dibujarChat(pChatJson,pNombreUsuario) {
         switch (pChat._arreglo[i]._datoGrafico._tipoCaja) {
             case 0: {
                 contexto.moveTo(pChat._arreglo[i]._datoGrafico._x,pChat._arreglo[i]._datoGrafico._y + pChat._arreglo[i]._datoGrafico._curva);
-                contexto.quadraticCurveTo(pChat._arreglo[i]._datoGrafico._x, pChat._arreglo[i]._datoGrafico._y, pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._curva, pChat._arreglo[i]._datoGrafico._y);
-                contexto.lineTo(pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._ancho/2 - pChat._arreglo[i]._datoGrafico._curva/2, pChat._arreglo[i]._datoGrafico._y);
-                contexto.lineTo(pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._ancho/2, pChat._arreglo[i]._datoGrafico._y - pChat._arreglo[i]._datoGrafico._curva);
-                contexto.lineTo(pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._ancho/2 + pChat._arreglo[i]._datoGrafico._curva/2, pChat._arreglo[i]._datoGrafico._y);
+                if (pChat._arreglo[i]._datoGrafico._lineasNombreUsuario > 0) {
+                    contexto.lineTo(pChat._arreglo[i]._datoGrafico._x - 2 * pChat._arreglo[i]._datoGrafico._curva, pChat._arreglo[i]._datoGrafico._y);
+                } else {
+                    contexto.quadraticCurveTo(pChat._arreglo[i]._datoGrafico._x, pChat._arreglo[i]._datoGrafico._y, pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._curva, pChat._arreglo[i]._datoGrafico._y);
+                }
                 contexto.lineTo(pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._ancho - pChat._arreglo[i]._datoGrafico._curva, pChat._arreglo[i]._datoGrafico._y);
                 contexto.quadraticCurveTo(pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._ancho, pChat._arreglo[i]._datoGrafico._y,pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._ancho, pChat._arreglo[i]._datoGrafico._y + pChat._arreglo[i]._datoGrafico._curva );
                 break;
@@ -179,8 +180,13 @@ function dibujarChat(pChatJson,pNombreUsuario) {
             case 2: {
                 contexto.moveTo(pChat._arreglo[i]._datoGrafico._x,pChat._arreglo[i]._datoGrafico._y + pChat._arreglo[i]._datoGrafico._curva);
                 contexto.quadraticCurveTo(pChat._arreglo[i]._datoGrafico._x, pChat._arreglo[i]._datoGrafico._y, pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._curva, pChat._arreglo[i]._datoGrafico._y);
-                contexto.lineTo(pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._ancho + 2 * pChat._arreglo[i]._datoGrafico._curva, pChat._arreglo[i]._datoGrafico._y);
-                contexto.lineTo(pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._ancho, pChat._arreglo[i]._datoGrafico._y + pChat._arreglo[i]._datoGrafico._curva);
+                if (pChat._arreglo[i]._datoGrafico._lineasNombreUsuario > 0) {
+                    contexto.lineTo(pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._ancho + 2 * pChat._arreglo[i]._datoGrafico._curva, pChat._arreglo[i]._datoGrafico._y);
+                    contexto.lineTo(pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._ancho, pChat._arreglo[i]._datoGrafico._y + pChat._arreglo[i]._datoGrafico._curva);
+                } else {
+                    contexto.lineTo(pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._ancho - pChat._arreglo[i]._datoGrafico._curva, pChat._arreglo[i]._datoGrafico._y);
+                    contexto.quadraticCurveTo(pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._ancho, pChat._arreglo[i]._datoGrafico._y, pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._ancho, pChat._arreglo[i]._datoGrafico._y + pChat._arreglo[i]._datoGrafico._curva);
+                }
                 break;
             }
         }
@@ -214,7 +220,9 @@ function dibujarChat(pChatJson,pNombreUsuario) {
             case 0: {
                 contexto.textAlign = "center";
                 izquierda = pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._ancho/2;
-                contexto.fillText(pChat._arreglo[i]._nombreUsuario , izquierda,  pChat._arreglo[i]._datoGrafico._y + sangria, pChat._arreglo[i]._datoGrafico._ancho-8);
+                if (pChat._arreglo[i]._datoGrafico._lineasNombreUsuario>0) {
+                    contexto.fillText(pChat._arreglo[i]._nombreUsuario , izquierda,  pChat._arreglo[i]._datoGrafico._y + sangria, pChat._arreglo[i]._datoGrafico._ancho-8);
+                }
                 break;
             }
             case 1: {
@@ -229,6 +237,9 @@ function dibujarChat(pChatJson,pNombreUsuario) {
             case 2: {
                 izquierda = pChat._arreglo[i]._datoGrafico._x + pChat._arreglo[i]._datoGrafico._ancho - sangria;
                 contexto.textAlign = "right";
+                if (pChat._arreglo[i]._datoGrafico._lineasNombreUsuario>0) {
+                    contexto.fillText(pChat._arreglo[i]._nombreUsuario , izquierda,  pChat._arreglo[i]._datoGrafico._y + sangria, pChat._arreglo[i]._datoGrafico._ancho-8);
+                }
                 break;
             }
         }

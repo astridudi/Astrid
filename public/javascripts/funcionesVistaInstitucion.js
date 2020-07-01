@@ -4,7 +4,7 @@ function clickDesplegarOpciones() {
     document.getElementById("divCapturaPrograma").style.width = document.getElementById("anchoEmergente").value+"px";
     document.getElementById("divPresentacionInstitucion").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionInstitucion").offsetTop)+"px";
     document.getElementById("divCapturaPrograma").style.maxHeight = document.getElementById("divPresentacionInstitucion").style.maxHeight;
-    document.getElementById("lblOpciones").innerHTML = "Seleccionar opción";
+    document.getElementById("lblOpciones").innerHTML = "Gestión de programas";
     document.getElementById("divBtnOpciones").style.display = "block";
     document.getElementById("divFormularioPrograma").style.display = "none";
     /*
@@ -20,10 +20,12 @@ function clickDesplegarOpciones() {
 
 function clickOcultarOpciones() {
     ocultarOpcionesListadoLayout();
+    ocultarSeleccion();
     document.getElementById("divPresentacionInstitucion").style.width = document.getElementById("anchoPresentacion").value+"px";
     document.getElementById("divCapturaPrograma").style.width = document.getElementById("anchoEmergente").value+"px";
     document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioPrograma").style.display = "none";
+    document.getElementById("inpPaso").value = 0;
     /*
     Eliminación de valores de registros inconclusos
      */
@@ -40,13 +42,55 @@ function clickOcultarOpciones() {
     }
 }
 
-function clickCapturarPrograma() {
-    document.getElementById("lblOpciones").innerHTML = "Registrar programa";
+function ocultarSeleccion() {
+    let i = 0;
+    while (document.getElementById("lblPrograma"+i) != undefined) {
+        document.getElementById("lblPrograma"+i).className = "lblPresentacion";
+        i = i + 1;
+    }
+}
+
+function clickIniciarCaptura() {
     document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioPrograma").style.display = "block";
     document.getElementById("divDatosPrograma").style.display = "block";
     document.getElementById("divGrabarPrograma").style.display = "block";
     document.getElementById("inpNombrePrograma").focus();
+}
+
+function clickCapturarPrograma() {
+    document.getElementById("formPrograma").action = "/main/grabarPrograma";
+    document.getElementById("lblOpciones").innerHTML = "Registrar programa";
+    document.getElementById("btnGrabarPrograma").innerHTML = "Grabar programa";
+    document.getElementById("inpPaso").value = 1;
+    clickIniciarCaptura();
+}
+
+function clickEditarPrograma() {
+    document.getElementById("formPrograma").action = "/main/actualizarPrograma";
+    document.getElementById("lblOpciones").innerHTML = "Editar programa";
+    document.getElementById("btnGrabarPrograma").innerHTML = "Confirmar edición";
+    document.getElementById("inpPaso").value = 2;
+    clickIniciarCaptura();
+}
+
+function clickEliminarPrograma() {
+    document.getElementById("formPrograma").action = "/main/eliminarPrograma";
+    document.getElementById("lblOpciones").innerHTML = "Inhabilitar programa";
+    document.getElementById("btnGrabarPrograma").innerHTML = "Confirmar inhabilitación";
+    document.getElementById("inpPaso").value = 3;
+    clickIniciarCaptura();
+}
+
+function clickSeleccionarPrograma(pId,pNombre,pSnies,pIndice) {
+    if (document.getElementById("inpPaso").value == 2 || document.getElementById("inpPaso").value == 3) {
+        ocultarSeleccion();
+        document.getElementById("lblPrograma"+pIndice).className = "lblPresentacionSeleccionado";
+        document.getElementById("inpIdPrograma").value = pId;
+        document.getElementById("inpNombrePrograma").value = pNombre;
+        document.getElementById("inpSniesPrograma").value = pSnies;
+        document.getElementById("inpNombrePrograma").focus();
+    }
 }
 
 function validarCapturaPrograma() {

@@ -8,6 +8,7 @@ module.exports = class Chat {
             this._inicio = inicio;
         }
         this._arreglo = [];
+        this._correoModerador = "";
         this._sesion = require ('../sesiones/Sesion');
     }
     set id(pId) {
@@ -21,6 +22,9 @@ module.exports = class Chat {
     }
     set arreglo(pArreglo) {
         this._arreglo = pArreglo;
+    }
+    set correoModerador(pCorreoModerador) {
+        this._correoModerador = pCorreoModerador;
     }
     set sesion(pSesion) {
         this._sesion = pSesion;
@@ -36,6 +40,9 @@ module.exports = class Chat {
     }
     get arreglo() {
         return this._arreglo;
+    }
+    get correoModerador() {
+        return this._correoModerador;
     }
     get sesion() {
         return this._sesion;

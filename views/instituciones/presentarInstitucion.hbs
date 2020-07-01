@@ -9,12 +9,15 @@
     <div id="divCapturaPrograma" class="divEmergente">
         <div id="divBtnOpciones" class="divSubformulario">
             <button id="btnAgregarPrograma" class="w3-button w3-round btnControl">Registrar programa</button>
-            <button id="btnEliminarPrograma" class="w3-button w3-round btnControl">Eliminar programa</button>
+            <button id="btnEditarPrograma" class="w3-button w3-round btnAdvertir">Editar programa</button>
+            <button id="btnEliminarPrograma" class="w3-button w3-round btnDesistir">Eliminar programa</button>
+            <input id="inpPaso" name="idPaso" type="hidden" value="">
         </div>
         <div id="divFormularioPrograma" class="divFormulario">
-            <form method="POST" action="/main/grabarPrograma">
-                <input name="nombreUsuario" type="hidden" value="{{nombreUsuario}}">
-                <input name="idInstitucion" type="hidden" value="{{institucion.id}}">
+            <form id="formPrograma" method="POST" action="/main/grabarPrograma">
+                <input id="nombreUsuario" name="nombreUsuario" type="hidden" value="{{nombreUsuario}}">
+                <input id="inpIdInstitucion" name="idInstitucion" type="hidden" value="{{institucion.id}}">
+                <input id="inpIdPrograma" name="idPrograma" type="hidden" value="">
                 <div id="divDatosPrograma" class="divSubformulario">
                     <b><label class="lblCaptura" >Programa:</label></b>
                     <input id="inpNombrePrograma" class="w3-input w3-round" name="nombrePrograma" type="text"></input>

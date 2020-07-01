@@ -415,6 +415,14 @@ label.lblPresentacion {
   color: var(--colorTextoNormal);
 }
 
+label.lblPresentacionSeleccionado {
+  alignment: left;
+  font-family: var(--tipografiaNormal);
+  font-size: var(--tamanoTipografiaGrande);
+  font-weight: bold;
+  color: var(--colorNaranjaPrincipalWeb);
+}
+
 label.lblPresentacionEnumeracion {
   alignment: left;
   font-family: var(--tipografiaNormal);
@@ -439,6 +447,14 @@ label.lblPresentacionSub {
   color: var(--colorTextoNormal);
 }
 
+label.lblPresentacionSubSeleccionado {
+  alignment: left;
+  font-family: var(--tipografiaNormal);
+  font-size: var(--tamanoTipografiaNormal);
+  font-weight: bold;
+  color: var(--colorNaranjaPrincipalWeb);
+}
+
 label.lblCaptura {
   alignment: left;
   font-family: var(--tipografiaNormal);
@@ -451,6 +467,14 @@ label.lblGuiaCaptura {
   font-family: var(--tipografiaNormal);
   font-size: var(--tamanoTipografiaGrande);
   color: var(--colorVerdePrincipalWeb);
+}
+
+label.lblConfirmacion {
+  alignment: left;
+  font-family: var(--tipografiaNormal);
+  font-size: var(--tamanoTipografiaNormal);
+  color: var(--colorFondoLibre);
+  background-color: var(--colorNaranjaPrincipalWeb);
 }
 
 label.lblMenor {
@@ -531,6 +555,17 @@ button.btnControl {
   font-family: var(--tipografiaNormal);
   font-size: var(--tamanoTipografiaNormal);
   background-color: var(--colorVerdePrincipalWeb);
+  border-style: solid;
+  border-width: 1px;
+  border-color: #FFFFFF;
+}
+
+button.btnAdvertir {
+  display: "inline-block";
+  color: #FFFFFF;
+  font-family: var(--tipografiaNormal);
+  font-size: var(--tamanoTipografiaNormal);
+  background-color: var(--colorNaranjaPrincipalWeb);
   border-style: solid;
   border-width: 1px;
   border-color: #FFFFFF;

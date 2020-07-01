@@ -35,9 +35,34 @@ module.exports = class Datos extends Conexion {
                     this._firebase.firestore().collection(this._coleccionInstituciones).add({
                         identificacion: pInstitucion.identificacion,
                         sigla: pInstitucion.sigla,
-                        nombre: pInstitucion.nombre
+                        nombre: pInstitucion.nombre,
+                        habilitado: true
                     });
                 }
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
+    async actualizarInstitucion(pInstitucion) {
+        if (pInstitucion.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionInstituciones).doc(pInstitucion.id).set({
+                        identificacion: pInstitucion.identificacion,
+                        sigla: pInstitucion.sigla,
+                        nombre: pInstitucion.nombre},
+                    {merge: true});
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
+    async eliminarInstitucion(pInstitucion) {
+        if (pInstitucion.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionInstituciones).doc(pInstitucion.id).set({
+                        habilitado: false},
+                    {merge: true});
             } catch (e) {
                 console.log(e.message);
             }
@@ -61,9 +86,33 @@ module.exports = class Datos extends Conexion {
                     this._firebase.firestore().collection(this._coleccionProgramas).add({
                         institucionId: pInstitucionId,
                         identificacion: pPrograma.identificacion,
-                        nombre: pPrograma.nombre
+                        nombre: pPrograma.nombre,
+                        habilitado: true
                     });
                 }
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
+    async actualizarPrograma(pPrograma) {
+        if (pPrograma.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionProgramas).doc(pPrograma.id).set({
+                        identificacion: pPrograma.identificacion,
+                        nombre: pPrograma.nombre},
+                    {merge: true});
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
+    async eliminarPrograma(pPrograma) {
+        if (pPrograma.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionProgramas).doc(pPrograma.id).set({
+                        habilitado: false},
+                    {merge: true});
             } catch (e) {
                 console.log(e.message);
             }
@@ -87,9 +136,33 @@ module.exports = class Datos extends Conexion {
                     this._firebase.firestore().collection(this._coleccionCursos).add({
                         programaId: pProgramaId,
                         identificacion: pCurso.identificacion,
-                        nombre: pCurso.nombre
+                        nombre: pCurso.nombre,
+                        habilitado: true
                     });
                 }
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
+    async actualizarCurso(pCurso) {
+        if (pCurso.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionCursos).doc(pCurso.id).set({
+                        identificacion: pCurso.identificacion,
+                        nombre: pCurso.nombre},
+                    {merge: true});
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
+    async eliminarCurso(pCurso) {
+        if (pCurso.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionCursos).doc(pCurso.id).set({
+                        habilitado: false},
+                    {merge: true});
             } catch (e) {
                 console.log(e.message);
             }
@@ -113,9 +186,33 @@ module.exports = class Datos extends Conexion {
                     this._firebase.firestore().collection(this._coleccionGrupos).add({
                         cursoId: pCursoId,
                         identificacion: pGrupo.identificacion,
-                        nombre: pGrupo.nombre
+                        nombre: pGrupo.nombre,
+                        habilitado: true
                     });
                 }
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
+    async actualizarGrupo(pGrupo) {
+        if (pGrupo.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionGrupos).doc(pGrupo.id).set({
+                        identificacion: pGrupo.identificacion,
+                        nombre: pGrupo.nombre},
+                    {merge: true});
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
+    async eliminarGrupo(pGrupo) {
+        if (pGrupo.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionGrupos).doc(pGrupo.id).set({
+                        habilitado: false},
+                    {merge: true});
             } catch (e) {
                 console.log(e.message);
             }
@@ -141,6 +238,31 @@ module.exports = class Datos extends Conexion {
             }
         }
     }
+    async actualizarDocente(pDocente) {
+        if (pDocente.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionUsuarios).doc(pDocente.id).set({
+                        identificacion: pDocente.identificacion,
+                        nombres: pDocente.nombres,
+                        apellidos: pDocente.apellidos,
+                        correoElectronico: pDocente.correo},
+                    {merge: true});
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
+    async eliminarDocente(pDocente) {
+        if (pDocente.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionUsuarios).doc(pDocente.id).set({
+                        habilitadoDocente: false},
+                    {merge: true});
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
     async grabarEstudiante(pProgramaId, pEstudiante) {
         if (pEstudiante.validez) {
             try {
@@ -161,17 +283,44 @@ module.exports = class Datos extends Conexion {
             }
         }
     }
+    async actualizarEstudiante(pEstudiante) {
+        if (pEstudiante.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionUsuarios).doc(pEstudiante.id).set({
+                        identificacion: pEstudiante.identificacion,
+                        nombres: pEstudiante.nombres,
+                        apellidos: pEstudiante.apellidos,
+                        correoElectronico: pEstudiante.correo},
+                    {merge: true});
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
+    async eliminarEstudiante(pEstudiante) {
+        if (pEstudiante.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionUsuarios).doc(pEstudiante.id).set({
+                        habilitadoEstudiante: false},
+                    {merge: true});
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
     async recuperarConjuntoInstituciones() {
         let rConjuntoInstituciones = new ConjuntoInstituciones();
         let referenciaConsulta = this._firebase.firestore().collection(this._coleccionInstituciones).orderBy('nombre');
         let consulta = await referenciaConsulta.get()
             .then(querySnapshot => {
                 querySnapshot.forEach(document => {
-                    rConjuntoInstituciones.incluirInstitucion(new Institucion(
-                        document.id,
-                        document.data().identificacion,
-                        document.data().sigla,
-                        document.data().nombre));
+                    if (document.data().habilitado == true) {
+                        rConjuntoInstituciones.incluirInstitucion(new Institucion(
+                            document.id,
+                            document.data().identificacion,
+                            document.data().sigla,
+                            document.data().nombre));
+                    }
                 });
             })
             .catch(err => {
@@ -200,11 +349,13 @@ module.exports = class Datos extends Conexion {
         consulta = await referenciaConsulta.get()
             .then(querySnapshot => {
                 querySnapshot.forEach(document => {
-                    tPrograma = new Programa(
-                        document.id,
-                        document.data().identificacion,
-                        document.data().nombre);
-                    rInstitucion.incluirPrograma(tPrograma);
+                    if (document.data().habilitado == true) {
+                        tPrograma = new Programa(
+                            document.id,
+                            document.data().identificacion,
+                            document.data().nombre);
+                        rInstitucion.incluirPrograma(tPrograma);
+                    }
                 });
             })
             .catch(err => {
@@ -251,11 +402,13 @@ module.exports = class Datos extends Conexion {
         consulta = await referenciaConsulta.get()
             .then(querySnapshot => {
                 querySnapshot.forEach(document => {
-                    tCurso = new Curso(
-                        document.id,
-                        document.data().identificacion,
-                        document.data().nombre);
-                    rPrograma.incluirCurso(tCurso);
+                    if (document.data().habilitado == true) {
+                        tCurso = new Curso(
+                            document.id,
+                            document.data().identificacion,
+                            document.data().nombre);
+                        rPrograma.incluirCurso(tCurso);
+                    }
                 });
             })
             .catch(err => {
@@ -265,18 +418,20 @@ module.exports = class Datos extends Conexion {
         consulta = await referenciaConsulta.get()
             .then(querySnapshot => {
                 querySnapshot.forEach(document => {
-                    tDocente = new Docente(
-                        document.id,
-                        document.data().identificacion,
-                        document.data().nombres,
-                        document.data().apellidos,
-                        document.data().correoElectronico,
-                        document.data().administraInstitucion,
-                        document.data().administraPrograma,
-                        document.data().administraCurso,
-                        document.data().habilitadoDocente,
-                        document.data().habilitadoEstudiante);
-                    rPrograma.incluirDocente(tDocente);
+                    if (document.data().habilitadoDocente == true) {
+                        tDocente = new Docente(
+                            document.id,
+                            document.data().identificacion,
+                            document.data().nombres,
+                            document.data().apellidos,
+                            document.data().correoElectronico,
+                            document.data().administraInstitucion,
+                            document.data().administraPrograma,
+                            document.data().administraCurso,
+                            document.data().habilitadoDocente,
+                            document.data().habilitadoEstudiante);
+                        rPrograma.incluirDocente(tDocente);
+                    }
                 });
             })
             .catch(err => {
@@ -286,18 +441,20 @@ module.exports = class Datos extends Conexion {
         consulta = await referenciaConsulta.get()
             .then(querySnapshot => {
                 querySnapshot.forEach(document => {
-                    tEstudiante = new Estudiante(
-                        document.id,
-                        document.data().identificacion,
-                        document.data().nombres,
-                        document.data().apellidos,
-                        document.data().correoElectronico,
-                        document.data().administraInstitucion,
-                        document.data().administraPrograma,
-                        document.data().administraCurso,
-                        document.data().habilitadoDocente,
-                        document.data().habilitadoEstudiante);
-                    rPrograma.incluirEstudiante(tEstudiante);
+                    if (document.data().habilitadoEstudiante == true) {
+                        tEstudiante = new Estudiante(
+                            document.id,
+                            document.data().identificacion,
+                            document.data().nombres,
+                            document.data().apellidos,
+                            document.data().correoElectronico,
+                            document.data().administraInstitucion,
+                            document.data().administraPrograma,
+                            document.data().administraCurso,
+                            document.data().habilitadoDocente,
+                            document.data().habilitadoEstudiante);
+                        rPrograma.incluirEstudiante(tEstudiante);
+                    }
                 });
             })
             .catch(err => {
@@ -360,18 +517,20 @@ module.exports = class Datos extends Conexion {
         consulta = await referenciaConsulta.get()
             .then(querySnapshot => {
                 querySnapshot.forEach(document => {
-                    tDocente = new Docente(
-                        document.id,
-                        document.data().identificacion,
-                        document.data().nombres,
-                        document.data().apellidos,
-                        document.data().correoElectronico,
-                        document.data().administraInstitucion,
-                        document.data().administraPrograma,
-                        document.data().administraCurso,
-                        document.data().habilitadoDocente,
-                        document.data().habilitadoEstudiante);
-                    rCurso.incluirDocente(tDocente);
+                    if (document.data().habilitadoDocente == true) {
+                        tDocente = new Docente(
+                            document.id,
+                            document.data().identificacion,
+                            document.data().nombres,
+                            document.data().apellidos,
+                            document.data().correoElectronico,
+                            document.data().administraInstitucion,
+                            document.data().administraPrograma,
+                            document.data().administraCurso,
+                            document.data().habilitadoDocente,
+                            document.data().habilitadoEstudiante);
+                        rCurso.incluirDocente(tDocente);
+                    }
                 });
             })
             .catch(err => {
@@ -381,11 +540,13 @@ module.exports = class Datos extends Conexion {
         consulta = await referenciaConsulta.get()
             .then(querySnapshot => {
                 querySnapshot.forEach(document => {
-                    tGrupo = new Grupo(
-                        document.id,
-                        document.data().identificacion,
-                        document.data().nombre);
-                    rCurso.incluirGrupo(tGrupo);
+                    if (document.data().habilitado == true) {
+                        tGrupo = new Grupo(
+                            document.id,
+                            document.data().identificacion,
+                            document.data().nombre);
+                        rCurso.incluirGrupo(tGrupo);
+                    }
                 });
             })
             .catch(err => {
@@ -596,55 +757,6 @@ module.exports = class Datos extends Conexion {
             });
         return rExiste;
     }
-    async actualizarInstitucion(pInstitucion) {
-        if (pInstitucion.validez) {
-            try {
-                this._firebase.firestore().collection(this._coleccionInstituciones).doc(pInstitucion.id).set({
-                    identificacion: pInstitucion.identificacion,
-                    sigla: pInstitucion.sigla,
-                    nombre: pInstitucion.nombre},
-                    {merge: true});
-            } catch (e) {
-                console.log(e.message);
-            }
-        }
-    }
-    async actualizarPrograma(pPrograma) {
-        if (pPrograma.validez) {
-            try {
-                this._firebase.firestore().collection(this._coleccionProgramas).doc(pPrograma.id).set({
-                        identificacion: pPrograma.identificacion,
-                        nombre: pPrograma.nombre},
-                    {merge: true});
-            } catch (e) {
-                console.log(e.message);
-            }
-        }
-    }
-    async actualizarCurso(pCurso) {
-        if (pCurso.validez) {
-            try {
-                this._firebase.firestore().collection(this._coleccionCursos).doc(pCurso.id).set({
-                        identificacion: pCurso.identificacion,
-                        nombre: pCurso.nombre},
-                    {merge: true});
-            } catch (e) {
-                console.log(e.message);
-            }
-        }
-    }
-    async actualizarGrupo(pGrupo) {
-        if (pGrupo.validez) {
-            try {
-                this._firebase.firestore().collection(this._coleccionGrupos).doc(pGrupo.id).set({
-                        identificacion: pGrupo.identificacion,
-                        nombre: pGrupo.nombre},
-                    {merge: true});
-            } catch (e) {
-                console.log(e.message);
-            }
-        }
-    }
     async actualizarVinculoDocente(pGrupo, pDocente) {
         if (pDocente.validez) {
             try {
@@ -666,32 +778,25 @@ module.exports = class Datos extends Conexion {
             }
         }
     }
-    async eliminarInstitucion(pId) {
-        try {
-            this._firebase.firestore().collection(this._coleccionInstituciones).doc(pId).delete();
-        } catch (e) {
-            console.log(e.message);
+    async eliminarVinculoDocente(pGrupo, pDocente) {
+        if (pDocente.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionUsuarios).doc(pDocente.id).update({
+                    docenteCursosId: this._firebase.firestore.FieldValue.arrayRemove(pGrupo.curso.id),
+                    docenteGruposId: this._firebase.firestore.FieldValue.arrayRemove(pGrupo.id)})
+            } catch (e) {
+                console.log(e.message);
+            }
         }
     }
-    async eliminarPrograma(pId) {
-        try {
-            this._firebase.firestore().collection(this._coleccionProgramas).doc(pId).delete();
-        } catch (e) {
-            console.log(e.message);
-        }
-    }
-    async eliminarCurso(pId) {
-        try {
-            this._firebase.firestore().collection(this._coleccionCursos).doc(pId).delete();
-        } catch (e) {
-            console.log(e.message);
-        }
-    }
-    async eliminarGrupo(pId) {
-        try {
-            this._firebase.firestore().collection(this._coleccionGrupos).doc(pId).delete();
-        } catch (e) {
-            console.log(e.message);
+    async eliminarVinculoEstudiante(pGrupo, pEstudiante) {
+        if (pEstudiante.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionUsuarios).doc(pEstudiante.id).update({
+                    estudianteGruposId: this._firebase.firestore.FieldValue.arrayRemove(pGrupo.id)})
+            } catch (e) {
+                console.log(e.message);
+            }
         }
     }
 }

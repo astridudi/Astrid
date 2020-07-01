@@ -4,7 +4,7 @@ function clickDesplegarOpciones() {
     document.getElementById("divCapturaInstitucion").style.width = document.getElementById("anchoEmergente").value+"px";
     document.getElementById("divPresentacionInstituciones").style.maxHeight = (window.innerHeight - document.getElementById("divPresentacionInstituciones").offsetTop)+"px";
     document.getElementById("divCapturaInstitucion").style.maxHeight = document.getElementById("divPresentacionInstituciones").style.maxHeight;
-    document.getElementById("lblOpciones").innerHTML = "Seleccionar opción";
+    document.getElementById("lblOpciones").innerHTML = "Gestión de instituciones";
     document.getElementById("divBtnOpciones").style.display = "block";
     document.getElementById("divFormularioInstitucion").style.display = "none";
     /*
@@ -20,10 +20,12 @@ function clickDesplegarOpciones() {
 
 function clickOcultarOpciones() {
     ocultarOpcionesListadoLayout();
+    ocultarSeleccion();
     document.getElementById("divPresentacionInstituciones").style.width = document.getElementById("anchoPresentacion").value+"px";
     document.getElementById("divCapturaInstitucion").style.width = document.getElementById("anchoEmergente").value+"px";
     document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioInstitucion").style.display = "none";
+    document.getElementById("inpPaso").value = 0;
     /*
     Eliminación de valores de registros inconclusos
      */
@@ -41,13 +43,56 @@ function clickOcultarOpciones() {
     }
 }
 
-function clickCapturarInstitucion() {
-    document.getElementById("lblOpciones").innerHTML = "Registrar institución";
+function ocultarSeleccion() {
+    let i = 0;
+    while (document.getElementById("lblInstitucion"+i) != undefined) {
+        document.getElementById("lblInstitucion"+i).className = "lblPresentacion";
+        i = i + 1;
+    }
+}
+
+function clickIniciarCaptura() {
     document.getElementById("divBtnOpciones").style.display = "none";
     document.getElementById("divFormularioInstitucion").style.display = "block";
     document.getElementById("divDatosInstitucion").style.display = "block";
     document.getElementById("divGrabarInstitucion").style.display = "block";
     document.getElementById("inpNombreInstitucion").focus();
+}
+
+function clickCapturarInstitucion() {
+    document.getElementById("formInstitucion").action = "/main/grabarInstitucion";
+    document.getElementById("lblOpciones").innerHTML = "Registrar institución";
+    document.getElementById("btnGrabarInstitucion").innerHTML = "Grabar institución";
+    document.getElementById("inpPaso").value = 1;
+    clickIniciarCaptura();
+}
+
+function clickEditarInstitucion() {
+    document.getElementById("formInstitucion").action = "/main/actualizarInstitucion";
+    document.getElementById("lblOpciones").innerHTML = "Editar institución";
+    document.getElementById("btnGrabarInstitucion").innerHTML = "Confirmar edición";
+    document.getElementById("inpPaso").value = 2;
+    clickIniciarCaptura();
+}
+
+function clickEliminarInstitucion() {
+    document.getElementById("formInstitucion").action = "/main/eliminarInstitucion";
+    document.getElementById("lblOpciones").innerHTML = "Inhabilitar institución";
+    document.getElementById("btnGrabarInstitucion").innerHTML = "Confirmar inhabilitación";
+    document.getElementById("inpPaso").value = 3;
+    clickIniciarCaptura();
+}
+
+function clickSeleccionarInstitucion(pId,pNombre,pSigla,pSnies,pIndice) {
+    if (document.getElementById("inpPaso").value == 2 || document.getElementById("inpPaso").value == 3) {
+        ocultarSeleccion();
+        document.getElementById("lblInstitucion"+pIndice).className = "lblPresentacionSeleccionado";
+        document.getElementById("inpIdInstitucion").value = pId;
+        document.getElementById("inpNombreInstitucion").value = pNombre;
+        document.getElementById("inpSiglaInstitucion").value = pSigla;
+        document.getElementById("inpSniesInstitucion").value = pSnies;
+        document.getElementById("inpNombreInstitucion").focus();
+    }
 }
 
 function validarCapturaInstitucion() {

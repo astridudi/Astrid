@@ -3,15 +3,18 @@
     <div id="divCapturaCaso" class="divEmergente">
         <div id="divBtnOpciones" class="divSubformulario">
             <button id="btnAgregarCaso" class="w3-button w3-round btnControl">Registrar caso</button>
-            <button id="btnEliminarCaso" class="w3-button w3-round btnControl">Eliminar caso</button>
+            <button id="btnEditarCaso" class="w3-button w3-round btnAdvertir">Editar caso</button>
+            <button id="btnEliminarCaso" class="w3-button w3-round btnDesistir">Eliminar caso</button>
             <button id="btnAsignarCaso" class="w3-button w3-round btnControl">Asignar caso</button>
+            <input id="inpPaso" name="idPaso" type="hidden" value="">
         </div>
         <div id="divFormularioCaso" class="divFormulario">
-            <form method='POST' action='/main/grabarCaso'>
-                <input id="nombreUsuario" type='hidden' name='nombreUsuario' value={{nombreUsuario}}>
-                <input id="idUsuarioCaso" type='hidden' name='idUsuarioCaso'>
-                <input id="inicioCaso" type='hidden' name='inicioCaso' value=''>
-                <input id="inpIdCurso" type='hidden' name='idCurso' value="">
+            <form id="formCaso" method="POST" action="/main/grabarCaso">
+                <input id="nombreUsuario" name="nombreUsuario" type="hidden" value={{nombreUsuario}}>
+                <input id="idUsuarioCaso" name='idUsuarioCaso' type="hidden">
+                <input id="inicioCaso" name="inicioCaso" type="hidden" value="">
+                <input id="inpIdCurso" name="idCurso" type="hidden" value="">
+                <input id="inpIdCaso" name="idCaso" type="hidden" value="">
                 <div id="divDatosCurso" class="divSubformulario">
                     <b><label class="lblCaptura" >Curso:</label></b>
                     <input id="inpNombreCurso" class="w3-input w3-round" type="text" name="nombreCurso" disabled></input><br>
@@ -30,7 +33,7 @@
             </form>
         </div>
         <div id="divFormularioAsignacion" class="divFormulario">
-            <form method='POST' action='/main/grabarAsignacion'>
+            <form id="formAsignacion" method="POST" action="/main/grabarAsignacion">
                 <input id="nombreUsuarioSesion" type='hidden' name='nombreUsuarioSesion' value={{nombreUsuario}}>
                 <input id="idUsuarioAsignacion" type='hidden' name='idUsuarioAsignacion'>
                 <input id="inicioSesion" type='hidden' name='inicioSesion' value=''>
