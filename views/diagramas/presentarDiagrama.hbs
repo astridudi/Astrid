@@ -137,6 +137,7 @@ Cargue de scripts de inicialización de la vista Diagrama
 -->
 <script src="../javascripts/funcionesVistaDiagrama.js"></script>
 <script src="../javascripts/inicializacionVistaDiagrama.js"></script>
+<script src="../javascripts/dibujarCuadricula.js"></script>
 <script type="text/javascript">inicializacionVistaDiagrama("{{sesion.sesionJson}}","{{sesion.diagrama.diagramaJson}}");</script>
 <script src="../javascripts/{{sesion.diagrama.tipoDiagrama.scriptDibujo}}"></script>
 <script type="text/javascript">dibujarDiagrama("{{sesion.diagrama.diagramaJson}}","/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&perfilUsuario="+document.getElementById("perfilUsuario").innerHTML+"&idObjeto=");</script>

@@ -215,81 +215,9 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
     altoCanvas = y;
 
     /*
-    Reinicio del fondo del diagrama
-     */
-    contexto.strokeStyle = document.getElementById("divPresentacionDiagrama").style.backgroundColor;
-    contexto.fillStyle = document.getElementById("divPresentacionDiagrama").style.backgroundColor;
-    contexto.lineWidth = 1;
-    contexto.fillRect(0,0, anchoCanvas, altoCanvas);
-
-    /*
     Trazado de la cuadrícula de fondo del diagrama
      */
-    contexto.strokeStyle = colorBlancoFondo;
-    contexto.fillStyle = colorBlancoFondo;
-    contexto.lineWidth = 1;
-    contexto.fillRect(0,0, anchoCanvas, altoCanvas);
-
-    p = 0;
-    q = 0;
-    contexto.strokeStyle = colorGrisLibre;
-    contexto.fillStyle = colorGrisResaltado;
-    contexto.setLineDash([2,4]);
-    contexto.font = "10px Arial";
-    while (p<=anchoCanvas) {
-        if (p % 100 == 0) {
-            contexto.strokeStyle = colorGrisResaltado;
-        }
-        if (p>0 && p<anchoCanvas) {
-            contexto.beginPath();
-            contexto.moveTo(p, q);
-            contexto.lineTo(p, y);
-            contexto.closePath();
-            contexto.stroke();
-        }
-        if (p % 100 == 0) {
-            if (p % 1000 > 0) {
-                contexto.fillStyle = colorGrisOscuro;
-                contexto.textBaseline = "top";
-                contexto.fillText(p, p, q, );
-                contexto.textBaseline = "bottom";
-                contexto.fillText(p, p, y, );
-            }
-            contexto.strokeStyle = colorGrisLibre;
-        }
-        p=p+10;
-    }
-    p = 0;
-    q = 0;
-    contexto.textBaseline = "middle";
-    while (q <= y) {
-        if (q % 100 == 0) {
-            contexto.strokeStyle = colorGrisResaltado;
-        }
-        if (q>0 && q<y) {
-            contexto.beginPath();
-            contexto.moveTo(p, q);
-            contexto.lineTo(anchoCanvas, q);
-            contexto.closePath();
-            contexto.stroke();
-        }
-        if (q % 100 == 0) {
-            if (q % 1000 > 0) {
-                contexto.fillStyle = colorGrisOscuro;
-                contexto.textAlign = "left";
-                contexto.fillText(q, p, q, );
-                contexto.textAlign = "right";
-                contexto.fillText(q,anchoCanvas, q, );
-            }
-            contexto.strokeStyle = colorGrisLibre;
-        }
-        q = q + 10;
-    }
-    contexto.setLineDash([]);
-
-    contexto.strokeStyle = colorGrisResaltado;
-    contexto.lineWidth = 1;
-    contexto.strokeRect(0,0,anchoCanvas,altoCanvas);
+    dibujarCuadricula(contexto,anchoCanvas,altoCanvas,colorBlancoFondo,colorGrisLibre,colorGrisOscuro,true);
 
     /*
     Actualización de parámetros gráficos globales para trazado de objetos

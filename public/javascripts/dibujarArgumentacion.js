@@ -183,60 +183,17 @@ function dibujarArgumentacion(pArgumentacionJson) {
     altoCanvas = Math.ceil(yCentro - altoRenglon / 2 + margen)
 
     /*
-    Reinicio del fondo del diagrama
+    Trazado de la cuadrícula de fondo del diagrama
      */
-    contexto.strokeStyle = colorBlancoFondo;
-    contexto.fillStyle = colorBlancoFondo;
-    contexto.lineWidth = 1;
-    contexto.fillRect(0,0, anchoCanvas, altoCanvas);
+    dibujarCuadricula(contexto,anchoCanvas,altoCanvas,colorBlancoFondo,colorGrisLibre,colorGrisOscuro,false);
 
     /*
-    Trazado de la cuadrícula de fondo de la argumentación
+    Actualización de parámetros gráficos globales para trazado de objetos
      */
-    p = 0;
-    q = 0;
-    contexto.strokeStyle = colorGrisLibre;
-    contexto.fillStyle = colorGrisResaltado;
-    contexto.setLineDash([2,4]);
-    while (p<=anchoCanvas) {
-        if (p%100==0) {
-            contexto.strokeStyle = colorGrisResaltado;
-        }
-        if (p>0 && p<anchoCanvas) {
-            contexto.beginPath();
-            contexto.moveTo(p,q);
-            contexto.lineTo(p,yCentro - altoRenglon / 2 + margen);
-            contexto.closePath();
-            contexto.stroke();
-        }
-        if (p%100==0) {
-            contexto.strokeStyle = colorGrisLibre;
-        }
-        p=p+10;
-    }
-    p = 0;
-    q = 0;
-    while (q<=yCentro - altoRenglon / 2 + margen) {
-        if (q%100==0) {
-            contexto.strokeStyle = colorGrisResaltado;
-        }
-        if (q>0 && q<yCentro - altoRenglon / 2 + margen) {
-            contexto.beginPath();
-            contexto.moveTo(p,q);
-            contexto.lineTo(anchoCanvas,q);
-            contexto.closePath();
-            contexto.stroke();
-        }
-        if (q%100==0) {
-            contexto.strokeStyle = colorGrisLibre;
-        }
-        q=q+10;
-    }
-    contexto.setLineDash([]);
-
-    contexto.strokeStyle = colorGrisResaltado;
-    contexto.lineWidth = 1;
-    contexto.strokeRect(0,0,anchoCanvas,altoCanvas);
+    contexto.strokeStyle = strokes[1];
+    contexto.fillStyle = fills[1];
+    contexto.font = "17px Arial";
+    contexto.textBaseline = "top";
 
     /*
     Trazado de cada caja de aporte de la argumentación
