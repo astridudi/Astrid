@@ -20,7 +20,7 @@ function dibujarChat(pChatJson,pNombreUsuario) {
     let colorGrisOscuro = "#808080";
     let colorTextoNormal = "#151515";
     let strokes = [colorModerador,colorTerceraPersona,colorPrimeraPersona];
-    let fills = [colorGrisLibre,colorGrisLibre,colorGrisLibre];
+    let fills = [colorBlancoFondo,colorGrisLibre,colorGrisLibre];
 
     /*
     Inicialización de parámetros numéricos de dibujo

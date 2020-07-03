@@ -1,7 +1,7 @@
 function inicializacionVistaLayout() {
     const urlParametros = new URLSearchParams(window.location.search);
     document.getElementById("urlServidor").innerHTML = "http://34.69.82.100:3000";
-    //document.getElementById("urlServidor").innerHTML = "http://localhost:3000";
+    document.getElementById("urlServidor").innerHTML = "http://localhost:3000";
 
     if (urlParametros.get("nombreUsuario") == undefined) {
         /*

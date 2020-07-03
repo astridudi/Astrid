@@ -44,7 +44,7 @@ Inicialización sección de mensajería
             clickOcultarOpciones();
         });
         socket.on("ubicacion", function (data) {
-            ubicarUsuario(data.usuario,"{{nombreUsuario}}",data.seccion);
+            ubicarUsuario(data.usuario,"{{nombreUsuario}}","{{sesion.nombreModerador}}",data.seccion);
             if (data.usuario != "{{nombreUsuario}}") {
                 if (document.getElementById("banderaReserva").innerHTML != "") {
                     socket.emit("reservaAnterior", {msg:"{{nombreUsuario}} continúa preparando un mensaje en el chat", sesion:"{{sesion.id}}", seccion:"Chat", usuario:"{{nombreUsuario}}"});
@@ -56,12 +56,12 @@ Inicialización sección de mensajería
         });
         socket.on("confirmacionUbicacion", function (data) {
             if (data.usuario != "{{nombreUsuario}}") {
-                ubicarUsuario(data.usuario,"{{nombreUsuario}}",data.seccion);
+                ubicarUsuario(data.usuario,"{{nombreUsuario}}","{{sesion.nombreModerador}}",data.seccion);
             }
         });
         socket.on("confirmacionAccion", function (data) {
             if (data.usuario != "{{nombreUsuario}}") {
-                ubicarUsuario(data.usuario,"{{nombreUsuario}}",data.seccion, true);
+                ubicarUsuario(data.usuario,"{{nombreUsuario}}","{{sesion.nombreModerador}}",data.seccion, true);
             }
         });
         socket.on("reunion", function (data) {
@@ -72,22 +72,22 @@ Inicialización sección de mensajería
         socket.on("reserva", function (data) {
             if (data.usuario != "{{nombreUsuario}}") {
                 if (document.getElementById("banderaReserva").innerHTML == "") {
-                    ubicarUsuario(data.usuario,"{{nombreUsuario}}",data.seccion,true);
+                    ubicarUsuario(data.usuario,"{{nombreUsuario}}","{{sesion.nombreModerador}}",data.seccion,true);
                     document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
                 } else {
                     socket.emit("reservaAnterior", {msg:"{{nombreUsuario}} continúa preparando un mensaje en el chat", sesion:"{{sesion.id}}", seccion:"Chat", usuario:"{{nombreUsuario}}"});
                 }
             } else {
                 document.getElementById("banderaReserva").innerHTML="X";
-                ubicarUsuario(data.usuario,"{{nombreUsuario}}",data.seccion,true);
+                ubicarUsuario(data.usuario,"{{nombreUsuario}}","{{sesion.nombreModerador}}",data.seccion,true);
             }
         });
         socket.on("reservaAnterior", function (data) {
             if (data.usuario != "{{nombreUsuario}}") {
                 document.getElementById("btnDesplegarOpcionesSesion").style.display = "none";
                 document.getElementById("banderaReserva").innerHTML = "";
-                ubicarUsuario("{{nombreUsuario}}","{{nombreUsuario}}","Chat");
-                ubicarUsuario(data.usuario,"{{nombreUsuario}}",data.seccion,true);
+                ubicarUsuario("{{nombreUsuario}}","{{nombreUsuario}}","{{sesion.nombreModerador}}","Chat");
+                ubicarUsuario(data.usuario,"{{nombreUsuario}}","{{sesion.nombreModerador}}",data.seccion,true);
             }
         });
         socket.on("levantamientoReserva", function (data) {
@@ -95,7 +95,7 @@ Inicialización sección de mensajería
                 document.getElementById("btnDesplegarOpcionesSesion").style.display = "inline-block";
                 document.getElementById("banderaReserva").innerHTML="";
             }
-            ubicarUsuario(data.usuario,"{{nombreUsuario}}",data.seccion);
+            ubicarUsuario(data.usuario,"{{nombreUsuario}}","{{sesion.nombreModerador}}",data.seccion);
         });
         socket.on("connection", function (data) {
             console.log(data);

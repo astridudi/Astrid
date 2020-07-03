@@ -246,6 +246,7 @@
       <workItem from="1591894090346" duration="151000" />
       <workItem from="1592329378955" duration="149000" />
       <workItem from="1593626369977" duration="1189000" />
+      <workItem from="1593695453962" duration="35000" />
     </task>
     <task id="LOCAL-00001" summary="SE agrega la carpeta bin y el archivo www">
       <created>1583438963937</created>
@@ -541,7 +542,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593626953796</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Se actualiza a la versión 6-01">
+      <created>1593695465542</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1593695465542</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -596,15 +604,15 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="634" y="242" width="642" height="620" key="#watch-ts/0.27.1920.1053@0.27.1920.1053" timestamp="1585092736405" />
-    <state x="2175" y="27" width="912" height="911" key="CommitChangelistDialog2" timestamp="1593626953438">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="1535" y="27" width="912" height="911" key="CommitChangelistDialog2" timestamp="1593695465140">
+      <screen x="1280" y="0" width="1920" height="1080" />
     </state>
     <state x="255" y="51" width="912" height="911" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1280.720@0.27.1920.1053" timestamp="1590684741974" />
     <state x="2090" y="16" width="912" height="623" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1280.720@1920.0.1280.720" timestamp="1591302045628" />
     <state x="255" y="27" width="912" height="911" key="CommitChangelistDialog2/0.27.1920.1053/1920.198.1280.720@0.27.1920.1053" timestamp="1591894152649" />
     <state x="2090" y="198" width="912" height="720" key="CommitChangelistDialog2/0.27.1920.1053/1920.198.1280.720@1920.198.1280.720" timestamp="1591744947902" />
     <state x="0" y="144" width="958" height="912" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1588025865845" />
-    <state x="1535" y="27" key="CommitChangelistDialog2/1280.0.1920.1080/0.27.1280.693@1280.0.1920.1080" timestamp="1592329436037" />
+    <state x="1535" y="27" width="912" height="911" key="CommitChangelistDialog2/1280.0.1920.1080/0.27.1280.693@1280.0.1920.1080" timestamp="1593695465140" />
     <state x="2175" y="27" width="912" height="911" key="CommitChangelistDialog2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1593626953438" />
     <state width="1897" height="344" key="GridCell.Tab.0.bottom" timestamp="1585094836388">
       <screen x="0" y="27" width="1920" height="1053" />
@@ -678,15 +686,15 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="449" y="187" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1585092614932" />
-    <state x="2475" y="269" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1593626970540">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="1835" y="269" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1593695469273">
+      <screen x="1280" y="0" width="1920" height="1080" />
     </state>
     <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1280.720@0.27.1920.1053" timestamp="1590684744777" />
     <state x="2290" y="179" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1280.720@1920.0.1280.720" timestamp="1591302048926" />
     <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.198.1280.720@0.27.1920.1053" timestamp="1591894156201" />
     <state x="2290" y="377" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.198.1280.720@1920.198.1280.720" timestamp="1591744953002" />
     <state x="555" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1588025878204" />
-    <state x="1835" y="269" key="Vcs.Push.Dialog.v2/1280.0.1920.1080/0.27.1280.693@1280.0.1920.1080" timestamp="1592329491952" />
+    <state x="1835" y="269" width="800" height="535" key="Vcs.Push.Dialog.v2/1280.0.1920.1080/0.27.1280.693@1280.0.1920.1080" timestamp="1593695469273" />
     <state x="2475" y="269" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1593626970540" />
     <state x="608" y="292" width="704" height="520" key="find.popup" timestamp="1585089276176">
       <screen x="0" y="27" width="1920" height="1053" />

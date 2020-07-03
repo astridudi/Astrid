@@ -1,6 +1,7 @@
 :root {
   --colorVerdePrincipalWeb: #1D8649;
   --colorNaranjaPrincipalWeb: #F7931E;
+  --colorAzulPrincipalWeb: #00689E;
   --colorFondoLibre: #FFFFFF;
   --colorGrisLibre: #F2F2F2;
   --colorGrisResaltado: #BDBDBD;
@@ -182,7 +183,16 @@ div.divCaptura {
 b.bEncabezado {
   alignment: left;
   font-family: var(--tipografiaDestacada);
-  font-size: var(--tamanoTipografiaGrande);
+  font-size: var(--tamanoTipografiaNormal);
+  color: var(--colorTextoNormal);
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+b.bEncabezadoSub {
+  alignment: left;
+  font-family: var(--tipografiaDestacada);
+  font-size: var(--tamanoTipografiaPequena);
   color: var(--colorTextoNormal);
   padding-top: 10px;
   padding-left: 10px;
@@ -236,19 +246,19 @@ table.tblIntegrantes {
 /* Estilos para filas y columnas de tablas */
 
 th.tblSangriaIzquierda {
-  width: 40px;
+  width: 0px;
   background-color: var(--colorFondoLibre);
 }
 
 th.tblMenuSesion {
-  width: 225px;
+  width: 200px;
   background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
   text-align: left;
 }
 
 th.tblMenuSesionVisible {
   display: inline-block;
-  width: 225px;
+  width: 200px;
   background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
   text-align: left;
   border-bottom-style: solid;
@@ -258,7 +268,7 @@ th.tblMenuSesionVisible {
 
 th.tblMenuSesionActiva {
   display: inline-block;
-  width: 225px;
+  width: 200px;
   background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
   text-align: left;
   border-bottom-style: solid;
@@ -411,14 +421,14 @@ b.bCaptura {
 label.lblPresentacion {
   alignment: left;
   font-family: var(--tipografiaNormal);
-  font-size: var(--tamanoTipografiaGrande);
+  font-size: var(--tamanoTipografiaNormal);
   color: var(--colorTextoNormal);
 }
 
 label.lblPresentacionSeleccionado {
   alignment: left;
   font-family: var(--tipografiaNormal);
-  font-size: var(--tamanoTipografiaGrande);
+  font-size: var(--tamanoTipografiaNormal);
   font-weight: bold;
   color: var(--colorNaranjaPrincipalWeb);
 }
@@ -426,7 +436,7 @@ label.lblPresentacionSeleccionado {
 label.lblPresentacionEnumeracion {
   alignment: left;
   font-family: var(--tipografiaNormal);
-  font-size: var(--tamanoTipografiaGrande);
+  font-size: var(--tamanoTipografiaNormal);
   font-weight: bold;
   text-decoration: underline;
   color: var(--colorVerdePrincipalWeb);
@@ -529,6 +539,16 @@ button.btnTerceraPersona {
   border-color: #FFFFFF;
 }
 
+button.btnModerador {
+  color: #FFFFFF;
+  font-family: var(--tipografiaNormal);
+  font-size: var(--tamanoTipografiaPequena);
+  background-color: var(--colorAzulPrincipalWeb);
+  border-style: solid;
+  border-width: 1px;
+  border-color: #FFFFFF;
+}
+
 button.btnPrimeraPersonaReserva {
   color: var(--colorRojoDesistir);
   font-family: var(--tipografiaNormal);
@@ -553,7 +573,7 @@ button.btnControl {
   display: "inline-block";
   color: #FFFFFF;
   font-family: var(--tipografiaNormal);
-  font-size: var(--tamanoTipografiaNormal);
+  font-size: var(--tamanoTipografiaPequena);
   background-color: var(--colorVerdePrincipalWeb);
   border-style: solid;
   border-width: 1px;
@@ -564,7 +584,7 @@ button.btnAdvertir {
   display: "inline-block";
   color: #FFFFFF;
   font-family: var(--tipografiaNormal);
-  font-size: var(--tamanoTipografiaNormal);
+  font-size: var(--tamanoTipografiaPequena);
   background-color: var(--colorNaranjaPrincipalWeb);
   border-style: solid;
   border-width: 1px;
@@ -575,7 +595,7 @@ button.btnDesistir {
   display: inline-block;
   color: #FFFFFF;
   font-family: var(--tipografiaNormal);
-  font-size: var(--tamanoTipografiaNormal);
+  font-size: var(--tamanoTipografiaPequena);
   background-color: var(--colorRojoDesistir);
   border-style: solid;
   border-width: 1px;

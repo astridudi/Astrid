@@ -1,15 +1,15 @@
-function ubicarUsuario(pNombreUsuario,pPrimeraPersona,pUbicacion,pAccion) {
+function ubicarUsuario(pNombreUsuario,pPrimeraPersona,pModerador,pUbicacion,pAccion) {
     if (document.getElementById("btn"+pNombreUsuario) == undefined) {
         var btnUsuario = document.createElement("button");
         btnUsuario.id = "btn"+pNombreUsuario;
         btnUsuario.innerHTML = pNombreUsuario[0].toUpperCase();
         btnUsuario.title = pNombreUsuario;
-        if (pPrimeraPersona != undefined) {
-            if (pNombreUsuario == pPrimeraPersona) {
-                btnUsuario.className = "w3-button w3-circle btnPrimeraPersona";
+        if (pNombreUsuario != pPrimeraPersona) {
+            if (pNombreUsuario == pModerador) {
+                btnUsuario.title = btnUsuario.title + " - Moderador"
             }
             else {
-                btnUsuario.className = "w3-button w3-circle btnTerceraPersona";
+                btnUsuario.title = btnUsuario.title + " - Integrante del equipo"
             }
         }
         btnUsuario.style.display = "inline-block";
@@ -21,18 +21,23 @@ function ubicarUsuario(pNombreUsuario,pPrimeraPersona,pUbicacion,pAccion) {
     }
     if (pAccion != undefined) {
         if (pNombreUsuario == pPrimeraPersona) {
-            document.getElementById("btn"+pNombreUsuario).className = "w3-button w3-circle btnPrimeraPersonaReserva";
+            document.getElementById("btn"+pNombreUsuario).className = "w3-circle btnPrimeraPersonaReserva";
         }
         else {
-            document.getElementById("btn"+pNombreUsuario).className = "w3-button w3-circle btnTerceraPersonaReserva";
+            document.getElementById("btn"+pNombreUsuario).className = "w3-circle btnTerceraPersonaReserva";
         }
     }
     else {
         if (pNombreUsuario == pPrimeraPersona) {
-            document.getElementById("btn"+pNombreUsuario).className = "w3-button w3-circle btnPrimeraPersona";
+            document.getElementById("btn"+pNombreUsuario).className = "w3-circle btnPrimeraPersona";
         }
         else {
-            document.getElementById("btn"+pNombreUsuario).className = "w3-button w3-circle btnTerceraPersona";
+            if (pNombreUsuario == pModerador) {
+                document.getElementById("btn"+pNombreUsuario).className = "w3-circle btnModerador";
+            }
+            else {
+                document.getElementById("btn"+pNombreUsuario).className = "w3-circle btnTerceraPersona";
+            }
         }
     }
 }
