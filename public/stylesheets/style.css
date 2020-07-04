@@ -329,10 +329,10 @@ th.tblSangriaDerechaOculta {
 }
 
 th.tblSangriaDerechaResaltada {
-  background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
+  background-image: linear-gradient(to top right, var(--colorNaranjaPrincipalWeb), var(--colorGrisLibre));
   border-bottom-style: solid;
   border-bottom-width: 3px;
-  border-bottom-color: var(--colorGrisResaltado);
+  border-bottom-color: var(--colorNaranjaPrincipalWeb);
 }
 
 td.tblIntegrantes {
@@ -468,7 +468,7 @@ label.lblPresentacionSubSeleccionado {
 label.lblCaptura {
   alignment: left;
   font-family: var(--tipografiaNormal);
-  font-size: var(--tamanoTipografiaGrande);
+  font-size: var(--tamanoTipografiaNormal);
   color: var(--colorTextoNormal);
 }
 

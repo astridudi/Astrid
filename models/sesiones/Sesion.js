@@ -12,6 +12,7 @@ module.exports = class Sesion {
         this._idTipoDiagrama = '';
         this._nombreTipoDiagrama = '';
         this._nombreUsuario = '';
+        this._nombreModerador = '';
     }
     set id(pId) {
         this._id = pId;
@@ -37,6 +38,9 @@ module.exports = class Sesion {
     set nombreUsuario(pNombreUsuario) {
         this._nombreUsuario = pNombreUsuario;
     }
+    set nombreModerador(pNombreModerador) {
+        this._nombreModerador = pNombreModerador;
+    }
     get id() {
         return this._id;
     }
@@ -61,13 +65,16 @@ module.exports = class Sesion {
     get nombreUsuario() {
         return this._nombreUsuario;
     }
+    get nombreModerador() {
+        return this._nombreModerador;
+    }
     get validez() {
         var rValidez;
         rValidez = (1*this._nombre.length>0);
         return rValidez;
     }
     get sesionJson() {
-        let rSesionJson = JSON.stringify(this, ['_id', '_nombre', '_diagrama', '_tipoDiagrama']);
+        let rSesionJson = JSON.stringify(this, ['_id', '_nombre', '_diagrama', '_tipoDiagrama', '_nombreModerador']);
         return rSesionJson;
     }
     esAnteriorA(pSesion) {

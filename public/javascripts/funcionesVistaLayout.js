@@ -58,7 +58,6 @@ function ocultarOpcionesListadoLayout() {
     document.getElementById("thOcultarOpciones").className = "tblSangriaDerechaOculta";
     document.getElementById("thDesplegarOpciones").className = "tblSangriaDerecha";
     document.getElementById("thDesplegarOpciones").style.width = 40+"px";
-    document.getElementById("lblOpciones").innerHTML = "";
     document.getElementById("lblOpciones").style.display = "none";
     document.getElementById("btnDesplegarOpciones").style.display = "inline-block";
 }
@@ -81,7 +80,6 @@ function ocultarOpcionesSesionLayout() {
     document.getElementById("thOcultarOpcionesSesion").className = "tblSangriaDerechaOculta";
     document.getElementById("thDesplegarOpcionesSesion").className = "tblSangriaDerecha";
     document.getElementById("thDesplegarOpcionesSesion").style.width = 40+"px";
-    document.getElementById("lblOpcionesSesion").innerHTML = "";
     document.getElementById("lblOpcionesSesion").style.display = "none";
     document.getElementById("btnDesplegarOpcionesSesion").style.display = "inline-block";
 }

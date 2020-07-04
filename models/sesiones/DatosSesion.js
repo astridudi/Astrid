@@ -11,6 +11,7 @@ const Curso = require('../instituciones/Curso');
 const Grupo = require('../instituciones/Grupo');
 const Docente = require('../instituciones/Docente');
 const Estudiante = require('../instituciones/Estudiante');
+const DatosInstitucion = require('../instituciones/DatosInstitucion');
 
 module.exports = class DatosSesion extends Conexion {
     constructor() {
@@ -57,6 +58,7 @@ module.exports = class DatosSesion extends Conexion {
                     casoId: pIdCurso,
                     grupoId: pIdGrupo,
                     docenteId: pIdUsuario,
+                    correoModerador: pCorreoModerador,
                     estudiantesId: pEstudiantesId
                 }).then(ref => {
                     pSesion.id = ref.id;
@@ -322,7 +324,6 @@ module.exports = class DatosSesion extends Conexion {
         return rConjuntoSesiones;
     }
     async recuperarSesion(pId) {
-        let datosChat = new DatosChat();
         let rSesion = new Sesion('','','');
         let referenciaConsulta = this._firebase.firestore().collection(this._coleccionSesiones).doc(pId);
         let consulta = await referenciaConsulta.get()
@@ -333,6 +334,7 @@ module.exports = class DatosSesion extends Conexion {
                         documentSnapshot.data().nombre,
                         documentSnapshot.data().inicio);
                     rSesion.idTipoDiagrama = documentSnapshot.data().idTipoDiagrama;
+                    rSesion.nombreModerador = documentSnapshot.data().correoModerador;
                     rSesion.nombreTipoDiagrama = documentSnapshot.data().nombreTipoDiagrama;
                 };
             })
