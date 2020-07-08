@@ -113,10 +113,7 @@ function inicializacionVistaLayout() {
             document.getElementById("mapBtnArgumentacion").appendChild(areaBtnArgumentacion);
             document.getElementById("lblArgumentacion").href = "#";
 
-            document.getElementById("btnLlamar").setAttribute(
-                "onclick",
-                "llamarReunion()"
-            );
+            document.getElementById("btnLlamar").setAttribute("onclick","llamarReunion()");
         }
         document.getElementById("imgBtnInicio").style.display = "inline-block";
         document.getElementById("imgBtnSalir").style.display = "inline-block";

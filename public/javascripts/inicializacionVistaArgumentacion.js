@@ -15,29 +15,11 @@ function inicializacionVistaArgumentacion(pSesionJson) {
     clickOcultarOpciones();
     clickPresentarArgumentacion();
 
-    document.getElementById("btnDesplegarOpcionesSesion").setAttribute(
-        "onclick",
-        "clickDesplegarOpciones()"
-    );
-    document.getElementById("btnOcultarOpcionesSesion").setAttribute(
-        "onclick",
-        "desistimientoAporte()"
-    );
-    document.getElementById("btnGrabarAporte").setAttribute(
-        "onclick",
-        "inclusionAporte()"
-    );
-    document.getElementById("imgBtnProposicion").setAttribute(
-        "onclick",
-        "clickCapturaContenido(0)"
-    );
-    document.getElementById("imgBtnApoyo").setAttribute(
-        "onclick",
-        "clickCapturaContenido(1)"
-    );
-    document.getElementById("imgBtnRefutacion").setAttribute(
-        "onclick",
-        "clickCapturaContenido(2)"
-    );
+    document.getElementById("btnDesplegarOpcionesSesion").setAttribute("onclick","clickDesplegarOpciones()");
+    document.getElementById("btnOcultarOpcionesSesion").setAttribute("onclick","desistimientoAporte()");
+    document.getElementById("btnGrabarAporte").setAttribute("onclick","inclusionAporte()");
+    document.getElementById("imgBtnProposicion").setAttribute("onclick","clickCapturaContenido(0)");
+    document.getElementById("imgBtnApoyo").setAttribute("onclick","clickCapturaContenido(1)");
+    document.getElementById("imgBtnRefutacion").setAttribute("onclick","clickCapturaContenido(2)");
 
 }

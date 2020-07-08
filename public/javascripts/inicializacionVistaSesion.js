@@ -14,9 +14,6 @@ function inicializacionVistaSesion(pSesionJson) {
         clickOcultarOpciones();
         clickPresentarPlanteamiento();
 
-        document.getElementById("btnDesplegarOpcionesSesion").setAttribute(
-            "onclick",
-            ""
-        );
+        document.getElementById("btnDesplegarOpcionesSesion").setAttribute("onclick","");
     }
 }

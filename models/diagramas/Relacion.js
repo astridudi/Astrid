@@ -20,6 +20,7 @@ module.exports = class Relacion {
             this._tiempo = tiempo;
         }
         this._nombreUsuario = nombreUsuario;
+        this._habilitado = true;
         this._contador = 0;
     }
     set id(pId) {
@@ -52,6 +53,9 @@ module.exports = class Relacion {
     set nombreUsuario(pNombreUsuario) {
         this._nombreUsuario = pNombreUsuario;
     }
+    set habilitado(pHabilitado) {
+        this._habilitado = pHabilitado;
+    }
     get id() {
         return this._id;
     }
@@ -81,6 +85,9 @@ module.exports = class Relacion {
     }
     get nombreUsuario() {
         return this._nombreUsuario;
+    }
+    get habilitado() {
+        return this._habilitado;
     }
     get validez() {
         return true;

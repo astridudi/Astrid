@@ -512,6 +512,36 @@ router.post("/grabarObjetoDiagramaSesion", async (req, res, next) => {
     res.redirect("back");
 });
 /*
+Recibe la petición de actualización de un objeto
+ */
+router.post('/actualizarObjetoDiagramaSesion', async (req, res, next) => {
+    var datosDiagrama = new DatosDiagrama();
+    objeto = new Objeto(req.body.idObjetoSeleccionado, req.body.idTipoDiagrama, req.body.idTipoObjeto, "", req.body.nombreUsuarioObjeto);
+    for (i=0; i<objeto.tipoObjeto.tiposPropiedad.length; i++) {
+        indice = "valorPropiedadObjeto"+i;
+        objeto.incluirValorPropiedad(req.body[indice]);
+    }
+    await datosDiagrama.actualizarPropiedadesObjeto(objeto);
+    let diagramaRecuperado = await datosDiagrama.recuperarDiagramaPorSesion(req.body.idSesionObjeto);
+    eventEmitter.emit("confirmacionElemento", {mensaje: req.body.nombreUsuarioObjeto+" agregó un nuevo elemento en el diagrama", diagramaRecuperado: diagramaRecuperado.diagramaJson, sesion: req.body.idSesionObjeto});
+    res.redirect("back");
+});
+/*
+Recibe la petición de inhabilitación de un objeto de diagrama
+ */
+router.post('/eliminarObjetoDiagramaSesion', async (req, res, next) => {
+    var datosDiagrama = new DatosDiagrama();
+    objeto = new Objeto(req.body.idObjetoSeleccionado, req.body.idTipoDiagrama, req.body.idTipoObjeto, "", req.body.nombreUsuarioObjeto);
+    for (i=0; i<objeto.tipoObjeto.tiposPropiedad.length; i++) {
+        indice = "valorPropiedadObjeto"+i;
+        objeto.incluirValorPropiedad(req.body[indice]);
+    }
+    await datosDiagrama.eliminarObjeto(objeto);
+    let diagramaRecuperado = await datosDiagrama.recuperarDiagramaPorSesion(req.body.idSesionObjeto);
+    eventEmitter.emit("confirmacionElemento", {mensaje: req.body.nombreUsuarioObjeto+" agregó un nuevo elemento en el diagrama", diagramaRecuperado: diagramaRecuperado.diagramaJson, sesion: req.body.idSesionObjeto});
+    res.redirect("back");
+});
+/*
 Recibe la petición de grabación de una relación de diagrama
  */
 router.post("/grabarRelacionDiagramaSesion", async (req, res, next) => {
@@ -524,6 +554,38 @@ router.post("/grabarRelacionDiagramaSesion", async (req, res, next) => {
         relacion.incluirValorPropiedad(req.body[indice]);
     }
     await datosDiagrama.grabarRelacion(req.body.idDiagramaRelacion,relacion,req.body.idObjetoInicial,req.body.numeroPuertoObjetoInicial,req.body.idObjetoFinal,req.body.numeroPuertoObjetoFinal);
+    let diagramaRecuperado = await datosDiagrama.recuperarDiagramaPorSesion(req.body.idSesionRelacion);
+    eventEmitter.emit("confirmacionElemento", {mensaje: req.body.nombreUsuarioRelacion+" agregó un nuevo elemento en el diagrama", diagramaRecuperado: diagramaRecuperado.diagramaJson, sesion: req.body.idSesionRelacion});
+    res.redirect("back");
+});
+/*
+Recibe la petición de actualización de una relación de diagrama
+ */
+router.post("/actualizarRelacionDiagramaSesion", async (req, res, next) => {
+    var datosDiagrama = new DatosDiagrama();
+    relacion = new Relacion(req.body.idRelacionSeleccionada, req.body.idTipoDiagramaRelacion, req.body.idTipoRelacion, "", req.body.nombreUsuarioRelacion);
+    for (i=0; i<relacion.tipoRelacion.tiposPropiedad.length; i++) {
+        indice = "valorPropiedadRelacion"+i;
+        relacion.incluirValorPropiedad(req.body[indice]);
+    }
+    relacion.numeroPuertoObjetoInicial = req.body.numeroPuertoObjetoInicial;
+    relacion.numeroPuertoObjetoFinal = req.body.numeroPuertoObjetoFinal;
+    await datosDiagrama.actualizarPropiedadesRelacion(relacion);
+    let diagramaRecuperado = await datosDiagrama.recuperarDiagramaPorSesion(req.body.idSesionRelacion);
+    eventEmitter.emit("confirmacionElemento", {mensaje: req.body.nombreUsuarioRelacion+" agregó un nuevo elemento en el diagrama", diagramaRecuperado: diagramaRecuperado.diagramaJson, sesion: req.body.idSesionRelacion});
+    res.redirect("back");
+});
+/*
+Recibe la petición de inhabilitación de una relación de diagrama
+ */
+router.post('/eliminarRelacionDiagramaSesion', async (req, res, next) => {
+    var datosDiagrama = new DatosDiagrama();
+    relacion = new Relacion(req.body.idRelacionSeleccionada, req.body.idTipoDiagramaRelacion, req.body.idTipoRelacion, "", req.body.nombreUsuarioRelacion);
+    for (i=0; i<relacion.tipoRelacion.tiposPropiedad.length; i++) {
+        indice = "valorPropiedadRelacion"+i;
+        relacion.incluirValorPropiedad(req.body[indice]);
+    }
+    await datosDiagrama.eliminarRelacion(relacion);
     let diagramaRecuperado = await datosDiagrama.recuperarDiagramaPorSesion(req.body.idSesionRelacion);
     eventEmitter.emit("confirmacionElemento", {mensaje: req.body.nombreUsuarioRelacion+" agregó un nuevo elemento en el diagrama", diagramaRecuperado: diagramaRecuperado.diagramaJson, sesion: req.body.idSesionRelacion});
     res.redirect("back");

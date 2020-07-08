@@ -5,10 +5,19 @@
         <canvas id="canvasDiagrama" width="1000" height="2000"></canvas>
     </div>
     <div id="divCapturaElemento" class="divEmergente">
+        <div id="divBtnAccionElemento" class="divSubformulario">
+            <button id="btnAgregarElemento" class="w3-button w3-round btnControl">Agregar elemento</button>
+            <button id="btnEditarElemento" class="w3-button w3-round btnAdvertir">Editar elemento</button>
+            <button id="btnEliminarElemento" class="w3-button w3-round btnDesistir">Eliminar elemento</button>
+        </div>
         <div id="divBtnCapturaElemento" class="divSubformulario">
             <b><label id="lblTipoElemento" class="lblGuiaCaptura">Tipo de elemento</label></b><br><br>
-            <button id="btnCapturaObjeto" class="w3-button w3-round btnControl">Objeto</button>
-            <button id="btnCapturaRelacion" class="w3-button w3-round btnControl">Vínculo</button>
+            <button id="btnCapturaObjeto" class="w3-button w3-round btnControl">Agregar objeto</button>
+            <button id="btnCapturaRelacion" class="w3-button w3-round btnControl">Agregar vínculo</button>
+            <button id="btnEditarObjeto" class="w3-button w3-round btnAdvertir">Editar objeto</button>
+            <button id="btnEditarRelacion" class="w3-button w3-round btnAdvertir">Editar vínculo</button>
+            <button id="btnEliminarObjeto" class="w3-button w3-round btnDesistir">Eliminar objeto</button>
+            <button id="btnEliminarRelacion" class="w3-button w3-round btnDesistir">Eliminar vínculo</button>
         </div>
         <div id="divBtnCapturaObjeto" class="divSubformulario">
             <b><label id="lblTipoObjeto" class="lblGuiaCaptura">Tipo de objeto</label></b><br><br>
@@ -18,6 +27,8 @@
         </div>
         <div id="divFormularioObjeto" class="divFormulario">
             <form id="formGrabarObjetoDiagramaSesion" method="POST" action="/main/grabarObjetoDiagramaSesion">
+                <input id="inpIndiceObjetoSeleccionado" name="indiceObjetoSeleccionado" type="hidden" >
+                <input id="inpIdObjetoSeleccionado" name="idObjetoSeleccionado" type="hidden" >
                 <input id="inpIdTipoDiagrama" name="idTipoDiagrama" type="hidden" value="{{sesion.diagrama.tipoDiagrama.id}}">
                 <input id="inpIdTipoObjeto" name="idTipoObjeto" type="hidden">
                 <input id="inpNombreUsuarioObjeto" name="nombreUsuarioObjeto" type="hidden" value="{{nombreUsuario}}">
@@ -51,6 +62,8 @@
         </div>
         <div id="divFormularioRelacion" class="divFormulario">
             <form id="formGrabarRelacionDiagramaSesion" method="POST" action="/main/grabarRelacionDiagramaSesion">
+                <input id="inpIndiceRelacionSeleccionada" name="indiceRelacionSeleccionada" type="hidden" >
+                <input id="inpIdRelacionSeleccionada" name="idRelacionSeleccionada" type="hidden" >
                 <input id="inpIdTipoDiagramaRelacion" name="idTipoDiagramaRelacion" type="hidden" value="{{sesion.diagrama.tipoDiagrama.id}}">
                 <input id="inpIdTipoRelacion" name="idTipoRelacion" type="hidden" >
                 <input id="inpNombreUsuarioRelacion" name="nombreUsuarioRelacion" type="hidden" value="{{nombreUsuario}}">
@@ -95,11 +108,6 @@
                 <input id="inpNombreUsuarioEdicion" name="nombreUsuarioEdicion" type="hidden" value="{{nombreUsuario}}">
                 <input id="pIdSesionEdicion" name="idSesionEdicion" type="hidden" value="{{sesion.id}}">
                 <input id="inpPasoCaptura" name="pasoCaptura" type="hidden" value="0">
-                <!--
-                <input id="pIdDiagramaEdicion" name="idDiagramaEdicion" type="hidden" value="{{sesion.diagrama.id}}">
-                <input name="tipoDiagrama" type="hidden" value="{{sesion.diagrama.tipoDiagrama.id}}">
-                <input id="pasoCaptura" name="pasoCaptura" type="hidden" value="0">
-                -->
                 <input id="inpIndiceObjeto" name="indiceObjeto" type="hidden" value="">
                 <input id="inpXInicioMovimiento" name="xInicioMovimiento" type="hidden">
                 <input id="inpYInicioMovimiento" name="yInicioMovimiento" type="hidden">
@@ -239,6 +247,7 @@ Inicialización sección de mensajería
     }
     function desistimientoElemento(pTipoElemento){
         clickOcultarOpciones();
+        document.getElementById("inpDiagramaJson").value = document.getElementById("inpDiagramaJsonCopia").value;
         dibujarDiagrama(document.getElementById("inpDiagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&perfilUsuario="+document.getElementById("perfilUsuario").innerHTML+"&idObjeto=");
         socket.emit("levantamientoReserva", {msg:"{{nombreUsuario}} desistió de incluir un elemento en el diagrama", sesion:"{{sesion.id}}", seccion:"Diagrama", usuario:"{{nombreUsuario}}"});
         document.getElementById("banderaReserva").innerHTML="";
@@ -272,11 +281,16 @@ Inicialización sección de mensajería
     function llamarReunion() {
         socket.emit("reunionEquipo", {msg:"{{nombreUsuario}} solicita reunirse en el {{sesion.nombreTipoDiagrama}}", sesion:"{{sesion.id}}", usuario:"{{nombreUsuario}}"});
     }
+    function downObjetoSeleccionado(ev,pIndice,pId,pNombre) {
+        document.getElementById("inpIndiceObjetoSeleccionado").value = pIndice;
+        document.getElementById("inpIdObjetoSeleccionado").value = pId;
+        document.getElementById("divPropiedadesObjeto").style.display = "inline-block";
+    }
     function down(ev) {
         document.getElementById("inpXObjeto").value=Math.round((ev.clientX-document.getElementById("divPresentacionDiagrama").offsetLeft-document.getElementById("canvasDiagrama").offsetLeft+document.getElementById("divPresentacionDiagrama").scrollLeft)/10)*10;
         document.getElementById("inpYObjeto").value=Math.round((ev.clientY-document.getElementById("divPresentacionDiagrama").offsetTop-document.getElementById("canvasDiagrama").offsetTop+document.getElementById("divPresentacionDiagrama").scrollTop)/10)*10;
     }
-    function downObjetoInicial(ev,pIndice,pId,pNombre) {
+    function downObjetoInicial(ev,pIndice,pId) {
         document.getElementById("inpIndiceObjetoInicial").value = pIndice;
         document.getElementById("inpIdObjetoInicial").value = pId;
         dibujarDiagrama(document.getElementById("inpDiagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&perfilUsuario="+document.getElementById("perfilUsuario").innerHTML+"&idObjeto=",2);
@@ -304,19 +318,23 @@ Inicialización sección de mensajería
         ev.preventDefault();
     }
     function drag(ev) {
-        ev.dataTransfer.setData("text", ev.target.id);
-        document.getElementById("inpXInicioMovimiento").value=ev.clientX-document.getElementById("divPresentacionDiagrama").offsetLeft-document.getElementById("canvasDiagrama").offsetLeft+document.getElementById("divPresentacionDiagrama").scrollLeft;
-        document.getElementById("inpYInicioMovimiento").value=ev.clientY-document.getElementById("divPresentacionDiagrama").offsetTop-document.getElementById("canvasDiagrama").offsetTop+document.getElementById("divPresentacionDiagrama").scrollTop;
+        if (document.getElementById("btnDesplegarOpcionesSesion").style.display == "none") {
+            ev.dataTransfer.setData("text", ev.target.id);
+            document.getElementById("inpXInicioMovimiento").value=ev.clientX-document.getElementById("divPresentacionDiagrama").offsetLeft-document.getElementById("canvasDiagrama").offsetLeft+document.getElementById("divPresentacionDiagrama").scrollLeft;
+            document.getElementById("inpYInicioMovimiento").value=ev.clientY-document.getElementById("divPresentacionDiagrama").offsetTop-document.getElementById("canvasDiagrama").offsetTop+document.getElementById("divPresentacionDiagrama").scrollTop;
+        }
     }
     function drop(ev) {
-        ev.preventDefault();
-        var data = ev.dataTransfer.getData("text");
-        document.getElementById("inpXFinMovimiento").value=Math.round((ev.clientX-document.getElementById("divPresentacionDiagrama").offsetLeft-document.getElementById("canvasDiagrama").offsetLeft+document.getElementById("divPresentacionDiagrama").scrollLeft)/10)*10;
-        document.getElementById("inpYFinMovimiento").value=Math.round((ev.clientY-document.getElementById("divPresentacionDiagrama").offsetTop-document.getElementById("canvasDiagrama").offsetTop+document.getElementById("divPresentacionDiagrama").scrollTop)/10)*10;
-        alertaEdicion();
-        document.getElementById("inpIndiceObjeto").value = determinarObjeto(document.getElementById("inpDiagramaJson").value,document.getElementById("inpXInicioMovimiento").value,document.getElementById("inpYInicioMovimiento").value);
-        dibujarDiagrama(editarDiagrama(document.getElementById("inpDiagramaJson").value,document.getElementById("inpXInicioMovimiento").value,document.getElementById("inpYInicioMovimiento").value,document.getElementById("inpXFinMovimiento").value,document.getElementById("inpYFinMovimiento").value,document.getElementById("inpIndiceObjeto").value),"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&perfilUsuario="+document.getElementById("perfilUsuario").innerHTML+"&idObjeto=");
-        clickEditarDiagrama();
+        if (document.getElementById("btnDesplegarOpcionesSesion").style.display == "none") {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            document.getElementById("inpXFinMovimiento").value=Math.round((ev.clientX-document.getElementById("divPresentacionDiagrama").offsetLeft-document.getElementById("canvasDiagrama").offsetLeft+document.getElementById("divPresentacionDiagrama").scrollLeft)/10)*10;
+            document.getElementById("inpYFinMovimiento").value=Math.round((ev.clientY-document.getElementById("divPresentacionDiagrama").offsetTop-document.getElementById("canvasDiagrama").offsetTop+document.getElementById("divPresentacionDiagrama").scrollTop)/10)*10;
+            alertaEdicion();
+            document.getElementById("inpIndiceObjeto").value = determinarObjeto(document.getElementById("inpDiagramaJson").value,document.getElementById("inpXInicioMovimiento").value,document.getElementById("inpYInicioMovimiento").value);
+            dibujarDiagrama(editarDiagrama(document.getElementById("inpDiagramaJson").value,document.getElementById("inpXInicioMovimiento").value,document.getElementById("inpYInicioMovimiento").value,document.getElementById("inpXFinMovimiento").value,document.getElementById("inpYFinMovimiento").value,document.getElementById("inpIndiceObjeto").value),"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&perfilUsuario="+document.getElementById("perfilUsuario").innerHTML+"&idObjeto=");
+            clickEditarDiagrama();
+        }
     }
     function probarDiagrama() {
         dibujarDiagrama(editarDiagrama(document.getElementById("inpDiagramaJson").value,document.getElementById("inpXInicioMovimiento").value,document.getElementById("inpYInicioMovimiento").value,document.getElementById("inpXFinMovimiento").value,document.getElementById("inpYFinMovimiento").value,document.getElementById("inpIndiceObjeto").value),"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&perfilUsuario="+document.getElementById("perfilUsuario").innerHTML+"&idObjeto=");

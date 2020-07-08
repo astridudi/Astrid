@@ -40,21 +40,16 @@ function inicializacionVistaDiagrama(pSesionJson,pDiagramaJson) {
         clickOcultarOpciones();
         clickPresentarDiagrama();
 
-        document.getElementById("btnDesplegarOpcionesSesion").setAttribute(
-            "onclick",
-            "clickDesplegarOpciones()"
-        );
-        document.getElementById("btnCapturaObjeto").setAttribute(
-            "onclick",
-            "clickCapturaObjeto()"
-        );
-        document.getElementById("btnCapturaRelacion").setAttribute(
-            "onclick",
-            "clickCapturaRelacion()"
-        );
-        document.getElementById("btnOcultarOpcionesSesion").setAttribute(
-            "onclick",
-            "desistimientoElemento()"
-        );
+        document.getElementById("btnDesplegarOpcionesSesion").setAttribute("onclick","clickDesplegarOpciones()");
+        document.getElementById("btnAgregarElemento").setAttribute("onclick","clickAgregarElemento()");
+        document.getElementById("btnEditarElemento").setAttribute("onclick","clickEditarElemento()");
+        document.getElementById("btnEliminarElemento").setAttribute("onclick","clickEliminarElemento()");
+        document.getElementById("btnCapturaObjeto").setAttribute("onclick","clickCapturaObjeto()");
+        document.getElementById("btnCapturaRelacion").setAttribute("onclick","clickCapturaRelacion()");
+        document.getElementById("btnEditarObjeto").setAttribute("onclick","clickEditarObjeto()");
+        document.getElementById("btnEditarRelacion").setAttribute("onclick","clickEditarRelacion()");
+        document.getElementById("btnEliminarObjeto").setAttribute("onclick","clickEliminarObjeto()");
+        document.getElementById("btnEliminarRelacion").setAttribute("onclick","clickEliminarRelacion()");
+        document.getElementById("btnOcultarOpcionesSesion").setAttribute("onclick","desistimientoElemento()");
     }
 }

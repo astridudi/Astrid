@@ -17,6 +17,7 @@ module.exports = class Objeto {
             this._tiempo = tiempo;
         }
         this._nombreUsuario = nombreUsuario;
+        this._habilitado = true;
         this._contador = 0;
         this._datoGrafico = new DatoGrafico(0,0,0,0,0);
         this._areasEnlace = [];
@@ -40,6 +41,9 @@ module.exports = class Objeto {
     set nombreUsuario(pNombreUsuario) {
         this._nombreUsuario = pNombreUsuario;
     }
+    set habilitado(pHabilitado) {
+        this._habilitado = pHabilitado;
+    }
     get id() {
         return this._id;
     }
@@ -57,6 +61,9 @@ module.exports = class Objeto {
     }
     get nombreUsuario() {
         return this._nombreUsuario;
+    }
+    get habilitado() {
+        return this._habilitado;
     }
     get areasEnlace() {
         return this._areasEnlace;

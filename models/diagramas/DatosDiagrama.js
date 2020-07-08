@@ -38,6 +38,7 @@ module.exports = class Datos extends Conexion {
                     valoresPropiedades: pObjeto.valoresPropiedades,
                     tiempo: pObjeto.tiempo,
                     nombreUsuario: pObjeto.nombreUsuario,
+                    habilitado: pObjeto.habilitado,
                     x : pObjeto.datoGrafico.x,
                     y : pObjeto.datoGrafico.y,
                 }). then(ref => {
@@ -45,6 +46,28 @@ module.exports = class Datos extends Conexion {
                     nArgumentacion.objeto = pObjeto;
                     datosArgumentacion.grabarArgumentacion(nArgumentacion,nArgumentacion.nombre,pObjeto.nombreUsuario);
                 }) ;
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
+    async actualizarPropiedadesObjeto(pObjeto) {
+        if (pObjeto.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionObjetos).doc(pObjeto.id).set({
+                        valoresPropiedades: pObjeto.valoresPropiedades},
+                    {merge: true});
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
+    async eliminarObjeto(pObjeto) {
+        if (pObjeto.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionObjetos).doc(pObjeto.id).set({
+                        habilitado: false},
+                    {merge: true});
             } catch (e) {
                 console.log(e.message);
             }
@@ -62,8 +85,33 @@ module.exports = class Datos extends Conexion {
                     numeroPuertoObjetoFinal: pNumeroPuertoObjetoFinal,
                     valoresPropiedades: pRelacion.valoresPropiedades,
                     tiempo: pRelacion.tiempo,
-                    nombreUsuario: pRelacion.nombreUsuario
+                    nombreUsuario: pRelacion.nombreUsuario,
+                    habilitado: pRelacion.habilitado
                 });
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
+    async actualizarPropiedadesRelacion(pRelacion) {
+        if (pRelacion.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionRelaciones).doc(pRelacion.id).set({
+                        valoresPropiedades: pRelacion.valoresPropiedades,
+                        numeroPuertoObjetoInicial: pRelacion.numeroPuertoObjetoInicial,
+                        numeroPuertoObjetoFinal: pRelacion.numeroPuertoObjetoFinal},
+                    {merge: true});
+            } catch (e) {
+                console.log(e.message);
+            }
+        }
+    }
+    async eliminarRelacion(pRelacion) {
+        if (pRelacion.validez) {
+            try {
+                this._firebase.firestore().collection(this._coleccionRelaciones).doc(pRelacion.id).set({
+                        habilitado: false},
+                    {merge: true});
             } catch (e) {
                 console.log(e.message);
             }
@@ -119,6 +167,7 @@ module.exports = class Datos extends Conexion {
                     for (i=0; i<document.data().valoresPropiedades.length; i++) {
                         tObjeto.incluirValorPropiedad(document.data().valoresPropiedades[i])
                     }
+                    tObjeto.habilitado = document.data().habilitado;
                     tObjeto.datoGrafico.x = parseInt(document.data().x,10);
                     tObjeto.datoGrafico.y = parseInt(document.data().y,10);
                     tObjeto.diagrama = rDiagrama;
@@ -138,6 +187,7 @@ module.exports = class Datos extends Conexion {
                         document.data().tipoRelacionId,
                         document.data().tiempo,
                         document.data().nombreUsuario);
+                    tRelacion.habilitado = document.data().habilitado;
                     tRelacion.objetoInicial=rDiagrama.objetoPorId(document.data().objetoInicialId);
                     tRelacion.numeroPuertoObjetoInicial = parseInt(document.data().numeroPuertoObjetoInicial,10);
                     tRelacion.objetoFinal=rDiagrama.objetoPorId(document.data().objetoFinalId);
@@ -186,6 +236,7 @@ module.exports = class Datos extends Conexion {
                     for (i=0; i<document.data().valoresPropiedades.length; i++) {
                         tObjeto.incluirValorPropiedad(document.data().valoresPropiedades[i])
                     }
+                    tObjeto.habilitado = document.data().habilitado;
                     tObjeto.datoGrafico.x = parseInt(document.data().x,10);
                     tObjeto.datoGrafico.y = parseInt(document.data().y,10);
                     tObjeto.diagrama = rDiagrama;
@@ -205,6 +256,7 @@ module.exports = class Datos extends Conexion {
                         document.data().tipoRelacionId,
                         document.data().tiempo,
                         document.data().nombreUsuario);
+                    tRelacion.habilitado = document.data().habilitado;
                     tRelacion.objetoInicial=rDiagrama.objetoPorId(document.data().objetoInicialId);
                     tRelacion.numeroPuertoObjetoInicial = parseInt(document.data().numeroPuertoObjetoInicial,10);
                     tRelacion.objetoFinal=rDiagrama.objetoPorId(document.data().objetoFinalId);
@@ -238,21 +290,6 @@ module.exports = class Datos extends Conexion {
             this._firebase.firestore().collection(this._coleccionDiagramas).doc(pId).delete();
         } catch (e) {
             console.log(e.message);
-        }
-    }
-    async actualizarObjeto(pObjeto) {
-        let i = 0;
-        if (pObjeto.validez) {
-            try {
-                this._firebase.firestore().collection(this._coleccionObjetos).doc(pObjeto.id).update({
-                    valoresPropiedades: this._firebase.firestore.FieldValue.delete()});
-                for (i=0; i<pObjeto.valoresPropiedades.length; i++) {
-                    this._firebase.firestore().collection(this._coleccionObjetos).doc(pObjeto.id).update({
-                        valoresPropiedades: this._firebase.firestore.FieldValue.arrayUnion(pObjeto.valorPropiedad)});
-                }
-            } catch (e) {
-                console.log(e.message);
-            }
         }
     }
     async actualizarObjeto(pIdObjeto,pX,pY) {

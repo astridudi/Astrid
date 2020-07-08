@@ -14,13 +14,7 @@ function inicializacionVistaChat(pSesionJson) {
         clickOcultarOpciones();
         clickPresentarChat();
 
-        document.getElementById("btnDesplegarOpcionesSesion").setAttribute(
-            "onclick",
-            "clickDesplegarOpciones()"
-        );
-        document.getElementById("btnOcultarOpcionesSesion").setAttribute(
-            "onclick",
-            "desistimientoMensaje()"
-        );
+        document.getElementById("btnDesplegarOpcionesSesion").setAttribute("onclick","clickDesplegarOpciones()");
+        document.getElementById("btnOcultarOpcionesSesion").setAttribute("onclick","desistimientoMensaje()");
     }
 }

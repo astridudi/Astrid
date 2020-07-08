@@ -475,7 +475,7 @@ label.lblCaptura {
 label.lblGuiaCaptura {
   alignment: left;
   font-family: var(--tipografiaNormal);
-  font-size: var(--tamanoTipografiaGrande);
+  font-size: var(--tamanoTipografiaNormal);
   color: var(--colorVerdePrincipalWeb);
 }
 
@@ -550,10 +550,10 @@ button.btnModerador {
 }
 
 button.btnPrimeraPersonaReserva {
-  color: var(--colorRojoDesistir);
+  color: #FFFFFF;
   font-family: var(--tipografiaNormal);
   font-size: var(--tamanoTipografiaPequena);
-  background-color: var(--colorVerdePrincipalWeb);
+  background-color: var(--colorRojoDesistir);
   border-style: solid;
   border-width: 1px;
   border-color: #FFFFFF;
