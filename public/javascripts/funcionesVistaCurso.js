@@ -122,7 +122,7 @@ function clickIniciarCaptura() {
 function clickCapturarGrupo() {
     document.getElementById("formGrupo").action = "/main/grabarGrupo";
     document.getElementById("lblOpciones").innerHTML = "Registrar grupo";
-    document.getElementById("btnGrabarGrpuo").innerHTML = "Grabar grupo";
+    document.getElementById("btnGrabarGrupo").innerHTML = "Grabar grupo";
     document.getElementById("inpPaso").value = 1;
     clickIniciarCaptura();
 }
