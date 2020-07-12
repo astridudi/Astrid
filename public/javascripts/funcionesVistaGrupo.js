@@ -59,7 +59,9 @@ function clickOcultarOpciones() {
 
 function ocultarSeleccion() {
     let i = 0;
-    document.getElementById("lblDocente").className = "lblPresentacion";
+    if (document.getElementById("lblDocente") != undefined) {
+        document.getElementById("lblDocente").className = "lblPresentacion";
+    }
     while (document.getElementById("lblEstudiante"+i) != undefined) {
         document.getElementById("lblEstudiante"+i).className = "lblPresentacion";
         i = i + 1;
