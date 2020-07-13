@@ -287,8 +287,8 @@ Inicialización sección de mensajería
         document.getElementById("divPropiedadesObjeto").style.display = "inline-block";
     }
     function down(ev) {
-        document.getElementById("inpXObjeto").value=Math.round((ev.clientX-document.getElementById("divPresentacionDiagrama").offsetLeft-document.getElementById("canvasDiagrama").offsetLeft+document.getElementById("divPresentacionDiagrama").scrollLeft)/10)*10;
-        document.getElementById("inpYObjeto").value=Math.round((ev.clientY-document.getElementById("divPresentacionDiagrama").offsetTop-document.getElementById("canvasDiagrama").offsetTop+document.getElementById("divPresentacionDiagrama").scrollTop)/10)*10;
+        document.getElementById("inpXObjeto").value=Math.round((ev.clientX-document.getElementById("divPresentacionDiagrama").offsetLeft-document.getElementById("imgDiagrama").offsetLeft+document.getElementById("divPresentacionDiagrama").scrollLeft)/10)*10;
+        document.getElementById("inpYObjeto").value=Math.round((ev.clientY-document.getElementById("divPresentacionDiagrama").offsetTop-document.getElementById("imgDiagrama").offsetTop+document.getElementById("divPresentacionDiagrama").scrollTop)/10)*10;
     }
     function downObjetoInicial(ev,pIndice,pId) {
         document.getElementById("inpIndiceObjetoInicial").value = pIndice;
@@ -320,16 +320,16 @@ Inicialización sección de mensajería
     function drag(ev) {
         if (document.getElementById("btnDesplegarOpcionesSesion").style.display == "none") {
             ev.dataTransfer.setData("text", ev.target.id);
-            document.getElementById("inpXInicioMovimiento").value=ev.clientX-document.getElementById("divPresentacionDiagrama").offsetLeft-document.getElementById("canvasDiagrama").offsetLeft+document.getElementById("divPresentacionDiagrama").scrollLeft;
-            document.getElementById("inpYInicioMovimiento").value=ev.clientY-document.getElementById("divPresentacionDiagrama").offsetTop-document.getElementById("canvasDiagrama").offsetTop+document.getElementById("divPresentacionDiagrama").scrollTop;
+            document.getElementById("inpXInicioMovimiento").value=ev.clientX-document.getElementById("divPresentacionDiagrama").offsetLeft-document.getElementById("imgDiagrama").offsetLeft+document.getElementById("divPresentacionDiagrama").scrollLeft;
+            document.getElementById("inpYInicioMovimiento").value=ev.clientY-document.getElementById("divPresentacionDiagrama").offsetTop-document.getElementById("imgDiagrama").offsetTop+document.getElementById("divPresentacionDiagrama").scrollTop;
         }
     }
     function drop(ev) {
         if (document.getElementById("btnDesplegarOpcionesSesion").style.display == "none") {
             ev.preventDefault();
             var data = ev.dataTransfer.getData("text");
-            document.getElementById("inpXFinMovimiento").value=Math.round((ev.clientX-document.getElementById("divPresentacionDiagrama").offsetLeft-document.getElementById("canvasDiagrama").offsetLeft+document.getElementById("divPresentacionDiagrama").scrollLeft)/10)*10;
-            document.getElementById("inpYFinMovimiento").value=Math.round((ev.clientY-document.getElementById("divPresentacionDiagrama").offsetTop-document.getElementById("canvasDiagrama").offsetTop+document.getElementById("divPresentacionDiagrama").scrollTop)/10)*10;
+            document.getElementById("inpXFinMovimiento").value=Math.round((ev.clientX-document.getElementById("divPresentacionDiagrama").offsetLeft-document.getElementById("imgDiagrama").offsetLeft+document.getElementById("divPresentacionDiagrama").scrollLeft)/10)*10;
+            document.getElementById("inpYFinMovimiento").value=Math.round((ev.clientY-document.getElementById("divPresentacionDiagrama").offsetTop-document.getElementById("imgDiagrama").offsetTop+document.getElementById("divPresentacionDiagrama").scrollTop)/10)*10;
             alertaEdicion();
             document.getElementById("inpIndiceObjeto").value = determinarObjeto(document.getElementById("inpDiagramaJson").value,document.getElementById("inpXInicioMovimiento").value,document.getElementById("inpYInicioMovimiento").value);
             dibujarDiagrama(editarDiagrama(document.getElementById("inpDiagramaJson").value,document.getElementById("inpXInicioMovimiento").value,document.getElementById("inpYInicioMovimiento").value,document.getElementById("inpXFinMovimiento").value,document.getElementById("inpYFinMovimiento").value,document.getElementById("inpIndiceObjeto").value),"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&perfilUsuario="+document.getElementById("perfilUsuario").innerHTML+"&idObjeto=");
