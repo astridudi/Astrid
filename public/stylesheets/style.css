@@ -403,7 +403,7 @@ b.btnEnumeracion {
 img.imgDibujo {
   width: 1000px;
   height: 2000px;
-  position: absolute;
+  position: relative;
 }
 
 canvas.cnvDibujo {

@@ -403,7 +403,7 @@ router.post("/grabarAsignacion", async (req, res, next) => {
         }
         nombreSesion = req.body.nombreSesion + " ("+i+")";
         await datos.grabarAsignacion(
-            new Sesion('',nombreSesion, req.body.inicioSesion),req.body.idCaso, req.body.idCursoSesion, req.body.idGrupo, req.body.idUsuarioAsignacion, req.body.idTipoDiagramaSesion, estudiantesId);
+            new Sesion('',nombreSesion, req.body.inicioSesion),req.body.idCaso, req.body.idCursoSesion, req.body.idGrupo, req.body.idUsuarioAsignacion, req.body.idTipoDiagramaSesion, estudiantesId, req.body.nombreUsuarioSesion);
     }
     res.redirect("/main/consultarConjuntoCasos?nombreUsuario="+ req.body.nombreUsuarioSesion+"&perfilUsuario=1");
 });

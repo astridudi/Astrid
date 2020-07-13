@@ -799,6 +799,10 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
     Copiado del canvas definitivo
      */
     document.getElementById("imgDiagrama").src = canvasRecortado.toDataURL();
+    contexto.strokeStyle = colorBlancoFondo;
+    contexto.fillStyle = colorBlancoFondo;
+    contexto.lineWidth = 0;
+    contexto.fillRect(0,0, anchoCanvas, 2*altoCanvas);
 
     /*
     Posicionamiento del scroll
