@@ -7,8 +7,12 @@
             <button id="btnIngresoUsuario" class="w3-button w3-round btnControl" type="submit">Ingresar</button>
         </p>
     </form>
+<!--    Botón autenticación con google-->
+    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 </div>
 
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <script src="../javascripts/funcionesVistaCapturarIngreso.js"></script>
 <script src="../javascripts/inicializacionVistaCapturarIngreso.js"></script>
 <script type="text/javascript">inicializacionVistaCapturarIngreso();</script>
