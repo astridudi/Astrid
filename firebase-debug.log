@@ -1,0 +1,35 @@
+[debug] [2020-03-02T19:28:09.032Z] ----------------------------------------------------------------------
+[debug] [2020-03-02T19:28:09.034Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Owner\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2020-03-02T19:28:09.034Z] CLI Version:   7.14.0
+[debug] [2020-03-02T19:28:09.034Z] Platform:      win32
+[debug] [2020-03-02T19:28:09.034Z] Node Version:  v10.16.3
+[debug] [2020-03-02T19:28:09.036Z] Time:          Mon Mar 02 2020 14:28:09 GMT-0500 (GMT-05:00)
+[debug] [2020-03-02T19:28:09.036Z] ----------------------------------------------------------------------
+[debug] [2020-03-02T19:28:09.036Z] 
+[debug] [2020-03-02T19:28:09.046Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-03-02T19:28:09.047Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  G:\Mi unidad\WebstormProjects\Astrid-5-02
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[info] i  If you want to create a project in a Google Cloud organization or folder, please use "firebase projects:create" instead, and return to this command when you've created the project.
+[debug] [2020-03-02T19:33:52.932Z] Error: kill ENOSYS
+    at process.kill (internal/process/per_thread.js:198:13)
+    at process.listener (C:\Users\Owner\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\signal-exit\index.js:95:15)
+    at process.emit (events.js:198:13)
+[error] 
+[error] Error: An unexpected error has occurred.

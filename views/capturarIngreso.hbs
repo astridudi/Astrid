@@ -1,16 +1,15 @@
 <div id="divCapturaIngreso" class="divCaptura">
     <form method="POST" action="/main/permitirIngreso">
-        <p>
-            <b><label class="lblCaptura">Usuario: </label></b>
-            <input id="inpUsuario" class="w3-input w3-round" name="nombreUsuario" type="email" value=""/>
-            <br>
+        <b id="lblIngresoUsuario" class="bEncabezado">Usuario: </b>
+        <input id="inpUsuario" class="w3-input w3-round" name="nombreUsuario" type="hidden" value=""/>
+        <br><br>
+        <div class="divAplicacion">
+            <button class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></button>
             <button id="btnIngresoUsuario" class="w3-button w3-round btnControl" type="submit">Ingresar</button>
-        </p>
+            <button class="btnDesistir" onclick="signOut();">Sign out</button>
+        </div>
     </form>
-<!--    Botón autenticación con google-->
-    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 </div>
-
 
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <script src="../javascripts/funcionesVistaCapturarIngreso.js"></script>

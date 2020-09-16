@@ -1,7 +1,7 @@
 function inicializacionVistaLayout() {
     const urlParametros = new URLSearchParams(window.location.search);
-    document.getElementById("urlServidor").innerHTML = "http://34.69.82.100:3000";
-    //document.getElementById("urlServidor").innerHTML = "http://localhost:3000";
+    //document.getElementById("urlServidor").innerHTML = "http://34.69.82.100:3000";
+    document.getElementById("urlServidor").innerHTML = "http://localhost:3000";
 
     if (urlParametros.get("nombreUsuario") == undefined) {
         /*
@@ -30,7 +30,7 @@ function inicializacionVistaLayout() {
         var areaBtnSalir = document.createElement("area");
         areaBtnSalir.shape = "rect";
         areaBtnSalir.coords = "0,0,40,40";
-        areaBtnSalir.href = "/";
+        areaBtnSalir.href = "/main/ingresar";
         areaBtnSalir.title = "Salir";
         document.getElementById("mapBtnSalir").appendChild(areaBtnSalir);
         /*
