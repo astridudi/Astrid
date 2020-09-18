@@ -96,11 +96,11 @@ function inicioCapturaAporte(pIdAportePredecesor,pAportePredecesorTipoId,pAporte
                 document.getElementById("divBtnAportes").style.display = "inline-block";
                 document.getElementById("imgBtnEvidencia").setAttribute(
                     "onclick",
-                    "clickCapturaContenido(9)"
+                    "clickCapturaContenido(7)"
                 );
                 document.getElementById("imgBtnPregunta").setAttribute(
                     "onclick",
-                    "clickCapturaContenido(7)"
+                    "clickCapturaContenido(9)"
                 );
                 document.getElementById("divRedactarAporte").style.display = "none";
                 document.getElementById("txtAporteContenido").value = "";
@@ -163,7 +163,7 @@ function clickCapturaContenido(pIdTipoAporte) {
             break;
         }
         case 7 : {
-            document.getElementById("lblAporteTipo").innerHTML = "Pregunta:";
+            document.getElementById("lblAporteTipo").innerHTML = "Evidencia:";
             break;
         }
         case 8 : {
@@ -171,7 +171,7 @@ function clickCapturaContenido(pIdTipoAporte) {
             break;
         }
         case 9 : {
-            document.getElementById("lblAporteTipo").innerHTML = "Evidencia:";
+            document.getElementById("lblAporteTipo").innerHTML = "Pregunta:";
             break;
         }
         case 10 : {

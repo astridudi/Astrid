@@ -143,6 +143,7 @@ Inicialización sección de mensajería
         socket.emit("reserva", {msg:'{{nombreUsuario}} prepara un aporte en la argumentación', sesion:'{{sesion.id}}', seccion:'Argumentacion', usuario:"{{nombreUsuario}}"});
     }
     function continuacionAporte(){
+        document.getElementById("txtAporteContenido").value = removerCaracteresNoAceptados(document.getElementById("txtAporteContenido").value);
         socket.emit("reserva", {msg:'{{nombreUsuario}} continúa preparando un mensaje en el chat', sesion:'{{sesion.id}}', usuario:"{{nombreUsuario}}"});
         document.getElementById("btnGrabarAporte").style.display="inline-block";
         document.getElementById("btnGrabarAporte").focus();

@@ -238,6 +238,16 @@ Inicialización sección de mensajería
     }
     function inclusionElemento(){
         clickOcultarOpciones();
+        let i=0;
+        while (document.getElementById("valorPropiedadObjeto"+i) != undefined) {
+            document.getElementById("valorPropiedadObjeto"+i).value = removerCaracteresNoAceptados(document.getElementById("valorPropiedadObjeto"+i).value);
+            i = i+1;
+        }
+        i=0;
+        while (document.getElementById("valorPropiedadRelacion"+i) != undefined) {
+            document.getElementById("valorPropiedadRelacion"+i).value = removerCaracteresNoAceptados(document.getElementById("valorPropiedadRelacion"+i).value);
+            i = i+1;
+        }
         document.getElementById("divBtnCapturaElemento").style.display = "inline-block";
         document.getElementById("btnDesplegarOpcionesSesion").style.display = "inline-block";
         document.getElementById("divFormularioObjeto").style.display = "none";

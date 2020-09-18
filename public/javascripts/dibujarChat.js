@@ -49,6 +49,12 @@ function dibujarChat(pChatJson,pNombreUsuario) {
     let r = 0;
 
     /*
+    Restauración de caracteres en los campos de tipo cadena que se muestran en el diagrama.
+     */
+    for (i=0; i<pChat._arreglo.length; i++) {
+        pChat._arreglo[i]._contenido = restaurarCaracteresNoAceptados(pChat._arreglo[i]._contenido);
+    }
+    /*
     Determinación de dimensiones y coordenadas de cada caja de mensaje en el chat y en la interfaz.
      */
     for (i=0; i<pChat._arreglo.length; i++) {

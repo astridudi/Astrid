@@ -103,6 +103,14 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
     let saeta = 20;
 
     /*
+    Restauración de caracteres en los campos de tipo cadena que se muestran en el diagrama.
+     */
+    for (i=0; i<pDiagrama._objetos.length; i++) {
+        for (j=0; j<pDiagrama._objetos[i]._valoresPropiedades.lenth; j++) {
+            pDiagrama._objetos[i]._valoresPropiedades[j] = restaurarCaracteresNoAceptados(pDiagrama._objetos[i]._valoresPropiedades[j]);
+        }
+    }
+    /*
     Determinación de dimensiones y coordenadas de cada objeto en el diagrama y en la interfaz.
      */
     for (i=0; i<pDiagrama._objetos.length; i++) {

@@ -84,6 +84,36 @@ function ocultarOpcionesSesionLayout() {
     document.getElementById("btnDesplegarOpcionesSesion").style.display = "inline-block";
 }
 
+function removerCaracteresNoAceptados(pCadena) {
+    let caracteresNoAceptados = [];
+    let caracteresSiAceptados = [];
+    let i;
+    let j;
+    caracteresNoAceptados[caracteresNoAceptados.length] = '"';
+    caracteresNoAceptados[caracteresNoAceptados.length] = "'";
+    caracteresSiAceptados[caracteresSiAceptados.length] = "_";
+    caracteresSiAceptados[caracteresSiAceptados.length] = "_";
+    for (i=0; i<caracteresNoAceptados.length; i++) {
+        j = pCadena.indexOf(caracteresNoAceptados[i]);
+        while (j>-1) {
+            pCadena = pCadena.substr(0,j) + caracteresSiAceptados[i] + pCadena.substr(j+1,pCadena.length-j);
+            j = pCadena.indexOf(caracteresNoAceptados[i]);
+        }
+    }
+    pCadena = pCadena.replace(/\n|\r/g, ' ');
+    return pCadena;
+}
+
+function restaurarCaracteresNoAceptados(pCadena) {
+    pCadena = pCadena.replace(/&#x27;/g, "'");
+    pCadena = pCadena.replace(/&#x3D;/g, "=");
+    pCadena = pCadena.replace(/&#x60;/g, "`");
+    pCadena = pCadena.replace(/&amp;/g, "&");
+    pCadena = pCadena.replace(/&lt;/g, "<");
+    pCadena = pCadena.replace(/&gt;/g, ">");
+    return pCadena;
+}
+
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {

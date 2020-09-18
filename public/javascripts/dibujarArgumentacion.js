@@ -63,6 +63,12 @@ function dibujarArgumentacion(pArgumentacionJson) {
     let r = 0;
 
     /*
+    Restauración de caracteres en los campos de tipo cadena que se muestran en el diagrama.
+     */
+    for (i=0; i<pArgumentacion._aportes.length; i++) {
+        pArgumentacion._aportes[i]._contenido = restaurarCaracteresNoAceptados(pArgumentacion._aportes[i]._contenido);
+    }
+    /*
     Determinación de dimensiones y coordenadas de cada caja de aporte en la argumentación y en la interfaz.
      */
     for (i = 0; i < pArgumentacion._aportes.length; i++) {

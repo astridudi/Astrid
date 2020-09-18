@@ -106,6 +106,7 @@ Inicialización sección de mensajería
         socket.emit("reserva", {msg:"{{nombreUsuario}} prepara un mensaje en el chat", sesion:"{{sesion.id}}", seccion:"Chat", usuario:"{{nombreUsuario}}"});
     }
     function continuacionMensaje(){
+        document.getElementById("inpMensajeContenido").value = removerCaracteresNoAceptados(document.getElementById("inpMensajeContenido").value);
         socket.emit("reserva", {msg:"{{nombreUsuario}} continúa preparando un mensaje en el chat", sesion:"{{sesion.id}}", usuario:"{{nombreUsuario}}"});
         document.getElementById("btnEnviarMensaje").style.display="inline-block";
         document.getElementById("btnEnviarMensaje").focus();
