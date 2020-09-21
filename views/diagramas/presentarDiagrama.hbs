@@ -1,6 +1,6 @@
 <div id="divPrincipal" class="divContenedorPrincipal">
     <div id="divPresentacionDiagrama" class="divDibujo">
-        <img id="imgDiagrama" class="imgDibujo" usemap="#mapaDiagrama" onmousedown="down(event)" ondrop="drop(event)" ondragover="allowDrop(event)"/>
+        <img id="imgDiagrama" class="imgDibujo" usemap="#mapaDiagrama" onmousedown="down(event)"/>
         <map id="mapaDiagrama" name="mapaDiagrama"></map>
         <canvas id="canvasDiagrama" width="1000" height="2000"></canvas>
     </div>
@@ -9,9 +9,9 @@
             <button id="btnAgregarElemento" class="w3-button w3-round btnControl">Agregar elemento</button>
             <button id="btnEditarElemento" class="w3-button w3-round btnAdvertir">Editar elemento</button>
             <button id="btnEliminarElemento" class="w3-button w3-round btnDesistir">Eliminar elemento</button>
+            <button id="btnEditarDiagrama" class="w3-button w3-round btnAdvertir">Editar diagrama</button>
         </div>
         <div id="divBtnCapturaElemento" class="divSubformulario">
-            <b><label id="lblTipoElemento" class="lblGuiaCaptura">Tipo de elemento</label></b><br><br>
             <button id="btnCapturaObjeto" class="w3-button w3-round btnControl">Agregar objeto</button>
             <button id="btnCapturaRelacion" class="w3-button w3-round btnControl">Agregar vínculo</button>
             <button id="btnEditarObjeto" class="w3-button w3-round btnAdvertir">Editar objeto</button>
@@ -20,10 +20,8 @@
             <button id="btnEliminarRelacion" class="w3-button w3-round btnDesistir">Eliminar vínculo</button>
         </div>
         <div id="divBtnCapturaObjeto" class="divSubformulario">
-            <b><label id="lblTipoObjeto" class="lblGuiaCaptura">Tipo de objeto</label></b><br><br>
         </div>
         <div id="divBtnCapturaRelacion" class="divSubformulario">
-            <b><label id="lblTipoObjeto" class="lblGuiaCaptura">Tipo de vínculo</label></b><br><br>
         </div>
         <div id="divFormularioObjeto" class="divFormulario">
             <form id="formGrabarObjetoDiagramaSesion" method="POST" action="/main/grabarObjetoDiagramaSesion">
@@ -36,7 +34,6 @@
                 <input id="inpIdSesionObjeto" name="idSesionObjeto" type="hidden" value="{{sesion.id}}">
                 <div id="divPropiedadesObjeto" class="divSubformulario">
                     <b><label id="lblObjetoTipo" class="lblGuiaCaptura">Objeto</label></b><br><br>
-                    <b><label id="lblPropiedadesObjeto" class="lblGuiaCaptura">Propiedades</label></b><br><br>
                 </div>
                 <div id="divCoordenadasObjeto" class="divSubformulario">
                     <b><label class="lblCaptura">Coordenadas:</label></b>
@@ -342,11 +339,10 @@ Inicialización sección de mensajería
             document.getElementById("inpYFinMovimiento").value=Math.round((ev.clientY-document.getElementById("divPresentacionDiagrama").offsetTop-document.getElementById("imgDiagrama").offsetTop+document.getElementById("divPresentacionDiagrama").scrollTop)/10)*10;
             alertaEdicion();
             document.getElementById("inpIndiceObjeto").value = determinarObjeto(document.getElementById("inpDiagramaJson").value,document.getElementById("inpXInicioMovimiento").value,document.getElementById("inpYInicioMovimiento").value);
-            dibujarDiagrama(editarDiagrama(document.getElementById("inpDiagramaJson").value,document.getElementById("inpXInicioMovimiento").value,document.getElementById("inpYInicioMovimiento").value,document.getElementById("inpXFinMovimiento").value,document.getElementById("inpYFinMovimiento").value,document.getElementById("inpIndiceObjeto").value),"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&perfilUsuario="+document.getElementById("perfilUsuario").innerHTML+"&idObjeto=");
-            clickEditarDiagrama();
+            clickContinuarEditarDiagrama();
         }
     }
     function probarDiagrama() {
-        dibujarDiagrama(editarDiagrama(document.getElementById("inpDiagramaJson").value,document.getElementById("inpXInicioMovimiento").value,document.getElementById("inpYInicioMovimiento").value,document.getElementById("inpXFinMovimiento").value,document.getElementById("inpYFinMovimiento").value,document.getElementById("inpIndiceObjeto").value),"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&perfilUsuario="+document.getElementById("perfilUsuario").innerHTML+"&idObjeto=");
+        dibujarDiagrama(editarDiagrama(document.getElementById("inpDiagramaJson").value,document.getElementById("inpXInicioMovimiento").value,document.getElementById("inpYInicioMovimiento").value,document.getElementById("inpXFinMovimiento").value,document.getElementById("inpYFinMovimiento").value,document.getElementById("inpIndiceObjeto").value),"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&perfilUsuario="+document.getElementById("perfilUsuario").innerHTML+"&idObjeto=",12);
     }
 </script>

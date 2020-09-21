@@ -454,6 +454,7 @@ function clickDistribucionIndividual(pCantidadEstudiantes) {
 
 function validarCapturaCaso() {
     let rValidacion = true;
+    document.getElementById("inpNombreCaso").value = removerCaracteresNoAceptados(document.getElementById("inpNombreCaso").value);
     rValidacion = rValidacion && document.getElementById("inpNombreCurso").value.length > 0;
     rValidacion = rValidacion && document.getElementById("inpNombreCaso").value.length > 0;
     rValidacion = rValidacion && document.getElementById("selTipoDiagrama").value.length > 0;

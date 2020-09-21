@@ -44,6 +44,7 @@ function inicializacionVistaDiagrama(pSesionJson,pDiagramaJson) {
         document.getElementById("btnAgregarElemento").setAttribute("onclick","clickAgregarElemento()");
         document.getElementById("btnEditarElemento").setAttribute("onclick","clickEditarElemento()");
         document.getElementById("btnEliminarElemento").setAttribute("onclick","clickEliminarElemento()");
+        document.getElementById("btnEditarDiagrama").setAttribute("onclick","clickIniciarEditarDiagrama()");
         document.getElementById("btnCapturaObjeto").setAttribute("onclick","clickCapturaObjeto()");
         document.getElementById("btnCapturaRelacion").setAttribute("onclick","clickCapturaRelacion()");
         document.getElementById("btnEditarObjeto").setAttribute("onclick","clickEditarObjeto()");

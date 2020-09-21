@@ -256,6 +256,13 @@ th.tblMenuSesion {
   text-align: left;
 }
 
+th.tblMenuSesionOculta {
+  width: 200px;
+  background-image: linear-gradient(to top right, var(--colorGrisResaltado), var(--colorGrisLibre));
+  text-align: left;
+  display: none;
+}
+
 th.tblMenuSesionVisible {
   display: inline-block;
   width: 200px;

@@ -10,6 +10,7 @@ function clickDesplegarOpciones() {
     document.getElementById("divFormularioObjeto").style.display = "none";
     document.getElementById("divFormularioRelacion").style.display = "none";
     document.getElementById("divFormularioMovimiento").style.display = "none";
+    dibujarDiagrama(document.getElementById("inpDiagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",11);
     // Notificación a usuarios
     alertaElemento();
 }
@@ -37,7 +38,8 @@ function clickPresentarDiagrama() {
     document.getElementById("imgBtnChatActiva").style.display = "none";
     document.getElementById("imgBtnDiagramaActiva").style.display = "inline-block";
     document.getElementById("imgBtnArgumentacionActiva").style.display = "none";
-    document.getElementById("thPlanteamiento").className = "w3-round tblMenuSesionVisible";
+    //document.getElementById("thPlanteamiento").className = "w3-round tblMenuSesionVisible";
+    document.getElementById("thPlanteamiento").className = "w3-round tblMenuSesionOculta";
     document.getElementById("thChat").className = "w3-round tblMenuSesionVisible";
     document.getElementById("thDiagrama").className = "w3-round tblMenuSesionActiva";
     document.getElementById("thArgumentacion").className = "w3-round tblMenuSesionVisible";
@@ -166,6 +168,28 @@ function clickConfirmarEliminarElemento(pIndiceObjetoSeleccionado) {
     }
     document.getElementById("divGrabacionObjeto").style.display = "block";
     document.getElementById("btnGrabarObjeto").innerHTML = "Eliminar objeto";
+}
+
+function clickIniciarEditarDiagrama() {
+    document.getElementById("formGrabarObjetoDiagramaSesion").action = "/main/actualizarObjetoDiagramaSesion";
+    document.getElementById("lblOpcionesSesion").innerHTML = "2. Arrastrar los elementos a cambiar de posición";
+    document.getElementById("divBtnAccionElemento").style.display = "none";
+    document.getElementById("divBtnCapturaElemento").style.display = "none";
+    document.getElementById("btnCapturaObjeto").style.display = "none";
+    document.getElementById("btnCapturaRelacion").style.display = "none";
+    document.getElementById("divFormularioObjeto").style.display = "none";
+    document.getElementById("divFormularioRelacion").style.display = "none";
+    document.getElementById("divFormularioMovimiento").style.display = "none";
+    dibujarDiagrama(document.getElementById("inpDiagramaJson").value, "/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&idObjeto=",12);
+}
+
+function clickContinuarEditarDiagrama() {
+    document.getElementById("divPresentacionDiagrama").style.width = document.getElementById("anchoPresentacion").value+"px";
+    document.getElementById("divCapturaElemento").style.width = document.getElementById("anchoEmergente").value+"px";
+    document.getElementById("divFormularioMovimiento").style.display = "block";
+    document.getElementById("divCoordenadasEdicion").style.display = "block"
+    document.getElementById("divGrabacionMovimiento").style.display = "block"
+    dibujarDiagrama(editarDiagrama(document.getElementById("inpDiagramaJson").value,document.getElementById("inpXInicioMovimiento").value,document.getElementById("inpYInicioMovimiento").value,document.getElementById("inpXFinMovimiento").value,document.getElementById("inpYFinMovimiento").value,document.getElementById("inpIndiceObjeto").value),"/main/presentarArgumentacionSesion?idSesion={{sesion.id}}&nombreUsuario={{nombreUsuario}}&perfilUsuario="+document.getElementById("perfilUsuario").innerHTML+"&idObjeto=",12);
 }
 
 function clickEditarRelacion() {

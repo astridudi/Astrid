@@ -39,7 +39,8 @@ function clickPresentarArgumentacion() {
     document.getElementById("imgBtnChatActiva").style.display = "none";
     document.getElementById("imgBtnDiagramaActiva").style.display = "none";
     document.getElementById("imgBtnArgumentacionActiva").style.display = "inline-block";
-    document.getElementById("thPlanteamiento").className = "w3-round tblMenuSesionVisible";
+    //document.getElementById("thPlanteamiento").className = "w3-round tblMenuSesionVisible";
+    document.getElementById("thPlanteamiento").className = "w3-round tblMenuSesionOculta";
     document.getElementById("thChat").className = "w3-round tblMenuSesionVisible";
     document.getElementById("thDiagrama").className = "w3-round tblMenuSesionVisible";
     document.getElementById("thArgumentacion").className = "w3-round tblMenuSesionActiva";

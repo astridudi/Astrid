@@ -20,7 +20,7 @@ function inicializacionVistaConjuntoSesiones(pSesionesJson) {
             botones[botones.length-1].id = "btnSesion"+i;
             botones[botones.length-1].innerHTML = (i+1)+".";
             botones[botones.length-1].className = "w3-button w3-round aEnumeracion";
-            botones[botones.length-1].href = "/main/presentarSesion?idSesion="+pSesiones._arreglo[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
+            botones[botones.length-1].href = "/main/presentarDiagramaSesion?idSesion="+pSesiones._arreglo[i]._id+"&nombreUsuario="+urlParametros.get("nombreUsuario")+"&perfilUsuario="+urlParametros.get("perfilUsuario");
             rotulos[rotulos.length] = document.createElement("label");
             rotulos[rotulos.length-1].id = "bSesion"+i;
             rotulos[rotulos.length-1].innerHTML = pSesiones._arreglo[i]._nombre;

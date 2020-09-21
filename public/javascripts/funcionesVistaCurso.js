@@ -156,6 +156,8 @@ function clickSeleccionarGrupo(pId,pNombre,pIdentificacion,pIndice) {
 
 function validarCapturaGrupo() {
     let rValidacion = true;
+    document.getElementById("inpNombreGrupo").value = removerCaracteresNoAceptados(document.getElementById("inpNombreGrupo").value);
+    document.getElementById("inpIdentificacionGrupo").value = removerCaracteresNoAceptados(document.getElementById("inpIdentificacionGrupo").value);
     rValidacion = rValidacion && document.getElementById("inpNombreGrupo").value.length > 0;
     rValidacion = rValidacion && document.getElementById("inpIdentificacionGrupo").value.length > 0;
     if (rValidacion) {

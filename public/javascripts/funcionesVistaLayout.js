@@ -1,6 +1,6 @@
 function ubicarUsuario(pNombreUsuario,pPrimeraPersona,pModerador,pUbicacion,pAccion) {
     if (document.getElementById("btn"+pNombreUsuario) == undefined) {
-        var btnUsuario = document.createElement("button");
+        let btnUsuario = document.createElement("button");
         btnUsuario.id = "btn"+pNombreUsuario;
         btnUsuario.innerHTML = pNombreUsuario[0].toUpperCase();
         btnUsuario.title = pNombreUsuario;
@@ -115,7 +115,7 @@ function restaurarCaracteresNoAceptados(pCadena) {
 }
 
 function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
+    let auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
         console.log('User signed out.');
     });

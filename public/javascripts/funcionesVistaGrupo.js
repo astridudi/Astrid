@@ -140,6 +140,7 @@ function clickSeleccionarEstudiante(pId,pIdentificacion,pIndice) {
 
 function validarCapturaDocente() {
     let rValidacion = true;
+    document.getElementById("inpIdentificacionDocente").value = removerCaracteresNoAceptados(document.getElementById("inpIdentificacionDocente").value);
     rValidacion = rValidacion && document.getElementById("inpIdentificacionDocente").value.length > 0;
     if (rValidacion) {
         document.getElementById("btnGrabarDocente").style.display = "inline-block";
@@ -151,6 +152,7 @@ function validarCapturaDocente() {
 
 function validarCapturaEstudiante() {
     let rValidacion = true;
+    document.getElementById("inpIdentificacionEstudiante").value = removerCaracteresNoAceptados(document.getElementById("inpIdentificacionEstudiante").value);
     rValidacion = rValidacion && document.getElementById("inpIdentificacionEstudiante").value.length > 0;
     if (rValidacion) {
         document.getElementById("btnGrabarEstudiante").style.display = "inline-block";

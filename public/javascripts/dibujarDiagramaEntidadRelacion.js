@@ -22,6 +22,8 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
         Habilitará las áreas sensibles para los puertos que puedan iniciar la relación requerida.
     10: Dibujado del diagrama para captura de un nuevo puerto para la relación en edición.
         Habilitará las áreas sensibles para los puertos que puedan iniciar la relación requerida.
+    11 : Dibujado del diagrama con áreas sensibles inhabilitadas.
+    12 : Dibujado del diagrama con áreas sensibles habilitadas para arrastrar objetos.
      */
 
     var divPresentacionDiagrama = document.getElementById("divPresentacionDiagrama");
@@ -51,6 +53,7 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
     let colorTextoNormal = "#151515";
     let strokes = [colorRelacion,colorObjeto,colorPuerto];
     let fills = [colorGrisLibre,colorGrisLibre,colorGrisLibre];
+    let fills2 = [colorPuerto,colorPuerto,colorPuerto];
 
     /*
     Inicialización de parámetros numéricos de dibujo
@@ -240,10 +243,43 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
     contexto.textBaseline = "middle";
 
     /*
+    Inhabilitación de las funciones de drag and drop en la imagen básica
+     */
+    if (pTipoDibujo == 12) {
+        document.getElementById('imgDiagrama').setAttribute("ondrop","drop(event)");
+        document.getElementById('imgDiagrama').setAttribute("ondragover","allowDrop(event)");
+    }
+    else {
+        document.getElementById('imgDiagrama').setAttribute("ondrop","");
+        document.getElementById('imgDiagrama').setAttribute("ondragover","");
+    }
+
+    /*
     Trazado de cada objeto del diagrama
      */
     for (i = 0; i < pDiagrama._objetos.length; i++) {
         if (pDiagrama._objetos[i]._habilitado) {
+            contexto.fillStyle = fills[1];
+            if (pTipoDibujo == 1) {
+                j = 0;
+                while (j<pDiagrama._objetos[i]._tipoObjeto._puertos.length) {
+                    if (pDiagrama._objetos[i]._tipoObjeto._puertos[j]._tipoPuerto._id == pDiagrama._tipoDiagrama._tiposRelacion[document.getElementById("inpIdTipoRelacion").value]._tipoRolInicio._id) {
+                        contexto.fillStyle = fills2[1];
+                        j = pDiagrama._objetos[i]._tipoObjeto._puertos.length;
+                    }
+                    j = j + 1;
+                }
+            }
+            if (pTipoDibujo == 3) {
+                j = 0;
+                while (j<pDiagrama._objetos[i]._tipoObjeto._puertos.length) {
+                    if (pDiagrama._objetos[i]._tipoObjeto._puertos[j]._tipoPuerto._id == pDiagrama._tipoDiagrama._tiposRelacion[document.getElementById("inpIdTipoRelacion").value]._tipoRolFinal._id) {
+                        contexto.fillStyle = fills2[1];
+                        j = pDiagrama._objetos[i]._tipoObjeto._puertos.length;
+                    }
+                    j = j + 1;
+                }
+            }
             switch (pDiagrama._objetos[i]._tipoObjeto._id) {
                 case 0: {
                     contexto.lineWidth = 3;
@@ -289,48 +325,35 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
             } else {
                 document.getElementById('area'+i).coords=pDiagrama._objetos[i]._areasEnlace[0]._x+","+pDiagrama._objetos[i]._areasEnlace[0]._y+","+(pDiagrama._objetos[i]._areasEnlace[0]._x+pDiagrama._objetos[i]._areasEnlace[0]._ancho)+","+(pDiagrama._objetos[i]._areasEnlace[0]._y+pDiagrama._objetos[i]._areasEnlace[0]._alto);
             }
-            if (pTipoDibujo == 0) {
-                document.getElementById('area'+i).draggable=true;
-                document.getElementById('area'+i).setAttribute("ondragstart","drag(event)");
-                document.getElementById('area'+i).setAttribute("onmousedown","");
-                document.getElementById('area'+i).href=pHRef+pDiagrama._objetos[i]._id;
-            }
-            if (pTipoDibujo == 1) {
-                document.getElementById('area'+i).draggable=false;
-                document.getElementById('area'+i).setAttribute("ondragstart","");
-                document.getElementById('area'+i).setAttribute("onmousedown","downObjetoInicial(event,"+i+",'"+pDiagrama._objetos[i]._id+"','"+pDiagrama._objetos[i]._valoresPropiedades[0]+"')");
-                document.getElementById('area'+i).href="#";
-            }
-            if (pTipoDibujo == 2) {
+            document.getElementById('area'+i).draggable=false;
+            document.getElementById('area'+i).setAttribute("ondragstart","");
+            document.getElementById('area'+i).setAttribute("onmousedown","");
+            document.getElementById('area'+i).href="#";
+            if (pTipoDibujo == 2 || pTipoDibujo == 4 || pTipoDibujo == 8 || pTipoDibujo == 9 || pTipoDibujo == 10 || pTipoDibujo == 11) {
                 document.getElementById('area'+i).coords = '0,0,0,0';
             }
-            if (pTipoDibujo == 3) {
-                document.getElementById('area'+i).draggable=false;
-                document.getElementById('area'+i).setAttribute("ondragstart","");
-                document.getElementById('area'+i).setAttribute("onmousedown","downObjetoFinal(event,"+i+",'"+pDiagrama._objetos[i]._id+"','"+pDiagrama._objetos[i]._valoresPropiedades[0]+"')");
-                document.getElementById('area'+i).href="#";
-            }
-            if (pTipoDibujo == 4) {
-                document.getElementById('area'+i).coords = '0,0,0,0';
-            }
-            if (pTipoDibujo == 6) {
-                document.getElementById('area'+i).draggable=false;
-                document.getElementById('area'+i).setAttribute("ondragstart","");
-                document.getElementById('area'+i).setAttribute("onmousedown","clickConfirmarEliminarElemento("+i+")");
-                document.getElementById('area'+i).href="#";
-            }
-            if (pTipoDibujo == 7) {
-                document.getElementById('area'+i).draggable=false;
-                document.getElementById('area'+i).setAttribute("ondragstart","");
-                document.getElementById('area'+i).setAttribute("onmousedown","clickConfirmarEditarElemento("+i+")");
-                document.getElementById('area'+i).href="#";
-            }
-            if (pTipoDibujo == 8 || pTipoDibujo == 9 || pTipoDibujo == 10) {
-                document.getElementById('area'+i).coords = '0,0,0,0';
-                document.getElementById('area'+i).draggable=false;
-                document.getElementById('area'+i).setAttribute("ondragstart","");
-                document.getElementById('area'+i).setAttribute("onmousedown","");
-                document.getElementById('area'+i).href="#";
+            else {
+                if (pTipoDibujo == 0) {
+                    document.getElementById('area'+i).href=pHRef+pDiagrama._objetos[i]._id;
+                }
+                if (pTipoDibujo == 1) {
+                    document.getElementById('area'+i).setAttribute("onmousedown","downObjetoInicial(event,"+i+",'"+pDiagrama._objetos[i]._id+"','"+pDiagrama._objetos[i]._valoresPropiedades[0]+"')");
+                }
+                if (pTipoDibujo == 3) {
+                    document.getElementById('area'+i).setAttribute("onmousedown","downObjetoFinal(event,"+i+",'"+pDiagrama._objetos[i]._id+"','"+pDiagrama._objetos[i]._valoresPropiedades[0]+"')");
+                }
+                if (pTipoDibujo == 6) {
+                    document.getElementById('area'+i).setAttribute("onmousedown","clickConfirmarEliminarElemento("+i+")");
+                }
+                if (pTipoDibujo == 7) {
+                    document.getElementById('area'+i).setAttribute("onmousedown","clickConfirmarEditarElemento("+i+")");
+                }
+                if (pTipoDibujo == 12) {
+                    document.getElementById('area'+i).draggable=true;
+                    document.getElementById('area'+i).setAttribute("ondragstart","drag(event)");
+                    document.getElementById('area'+i).setAttribute("onmousedown","");
+                    document.getElementById('area'+i).href=pHRef+pDiagrama._objetos[i]._id;
+                }
             }
 
             /*
@@ -382,6 +405,13 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
                             document.getElementById('area'+i+'-'+j).setAttribute("onmousedown","downPuertoFinal(event,"+j+", '"+pDiagrama._objetos[i]._valoresPropiedades[0]+"')");
                             document.getElementById('area'+i+'-'+j).style.display="inline-block";
                         }
+                    }
+                }
+            }
+            if ((pTipoDibujo == 11) || (pTipoDibujo == 12)) {
+                if (i == document.getElementById('inpIndiceObjetoFinal').value) {
+                    for (j = 0; j < pDiagrama._objetos[i]._tipoObjeto._puertos.length; j++) {
+                        document.getElementById('area'+i+'-'+j).setAttribute("onmousedown","");
                     }
                 }
             }

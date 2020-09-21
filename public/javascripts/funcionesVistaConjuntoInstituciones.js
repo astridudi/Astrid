@@ -97,6 +97,9 @@ function clickSeleccionarInstitucion(pId,pNombre,pSigla,pSnies,pIndice) {
 
 function validarCapturaInstitucion() {
     let rValidacion = true;
+    document.getElementById("inpNombreInstitucion").value = removerCaracteresNoAceptados(document.getElementById("inpNombreInstitucion").value);
+    document.getElementById("inpSiglaInstitucion").value = removerCaracteresNoAceptados(document.getElementById("inpSiglaInstitucion").value);
+    document.getElementById("inpSniesInstitucion").value = removerCaracteresNoAceptados(document.getElementById("inpSniesInstitucion").value);
     rValidacion = rValidacion && document.getElementById("inpNombreInstitucion").value.length > 0;
     rValidacion = rValidacion && document.getElementById("inpSniesInstitucion").value.length > 0;
     if (rValidacion) {

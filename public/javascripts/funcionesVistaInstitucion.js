@@ -95,6 +95,8 @@ function clickSeleccionarPrograma(pId,pNombre,pSnies,pIndice) {
 
 function validarCapturaPrograma() {
     let rValidacion = true;
+    document.getElementById("inpNombrePrograma").value = removerCaracteresNoAceptados(document.getElementById("inpNombrePrograma").value);
+    document.getElementById("inpSniesPrograma").value = removerCaracteresNoAceptados(document.getElementById("inpSniesPrograma").value);
     rValidacion = rValidacion && document.getElementById("inpNombrePrograma").value.length > 0;
     rValidacion = rValidacion && document.getElementById("inpSniesPrograma").value.length > 0;
     if (rValidacion) {

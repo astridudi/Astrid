@@ -346,6 +346,8 @@ function clickSeleccionarEstudiante(pId,pApellidos,pNombres,pIdentificacion,pCor
 
 function validarCapturaCurso() {
     let rValidacion = true;
+    document.getElementById("inpNombreCurso").value = removerCaracteresNoAceptados(document.getElementById("inpNombreCurso").value);
+    document.getElementById("inpIdentificacionCurso").value = removerCaracteresNoAceptados(document.getElementById("inpIdentificacionCurso").value);
     rValidacion = rValidacion && document.getElementById("inpNombreCurso").value.length > 0;
     rValidacion = rValidacion && document.getElementById("inpIdentificacionCurso").value.length > 0;
     if (rValidacion) {
@@ -358,6 +360,10 @@ function validarCapturaCurso() {
 
 function validarCapturaDocente() {
     let rValidacion = true;
+    document.getElementById("inpApellidosDocente").value = removerCaracteresNoAceptados(document.getElementById("inpApellidosDocente").value);
+    document.getElementById("inpNombresDocente").value = removerCaracteresNoAceptados(document.getElementById("inpNombresDocente").value);
+    document.getElementById("inpIdentificacionDocente").value = removerCaracteresNoAceptados(document.getElementById("inpIdentificacionDocente").value);
+    document.getElementById("inpCorreoElectronicoDocente").value = removerCaracteresNoAceptados(document.getElementById("inpCorreoElectronicoDocente").value);
     rValidacion = rValidacion && document.getElementById("inpApellidosDocente").value.length > 0;
     rValidacion = rValidacion && document.getElementById("inpNombresDocente").value.length > 0;
     rValidacion = rValidacion && document.getElementById("inpIdentificacionDocente").value.length > 0;
@@ -372,6 +378,10 @@ function validarCapturaDocente() {
 
 function validarCapturaEstudiante() {
     let rValidacion = true;
+    document.getElementById("inpApellidosEstudiante").value = removerCaracteresNoAceptados(document.getElementById("inpApellidosEstudiante").value);
+    document.getElementById("inpNombresEstudiante").value = removerCaracteresNoAceptados(document.getElementById("inpNombresEstudiante").value);
+    document.getElementById("inpIdentificacionEstudiante").value = removerCaracteresNoAceptados(document.getElementById("inpIdentificacionEstudiante").value);
+    document.getElementById("inpCorreoElectronicoEstudiante").value = removerCaracteresNoAceptados(document.getElementById("inpCorreoElectronicoEstudiante").value);
     rValidacion = rValidacion && document.getElementById("inpApellidosEstudiante").value.length > 0;
     rValidacion = rValidacion && document.getElementById("inpNombresEstudiante").value.length > 0;
     rValidacion = rValidacion && document.getElementById("inpIdentificacionEstudiante").value.length > 0;
