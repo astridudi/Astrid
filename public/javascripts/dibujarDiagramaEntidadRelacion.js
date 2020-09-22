@@ -4,33 +4,24 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
     pTipoDibujo es un parámetro numérico para determinar que:
     0 : Dibujado del diagrama por defecto. No requiere el parámetro.
     1 : Dibujado del diagrama para captura del objeto de inicio de una relación.
-        Habilitará las áreas sensibles para los puertos que puedan iniciar la relación requerida.
     2 : Dibujado del diagrama para captura del puerto inicial de una relación.
-        Habilitará las áreas sensibles para los puertos que puedan iniciar la relación requerida.
     3 : Dibujado del diagrama para captura del objeto final de una relación.
-        Habilitará las áreas sensibles para los puertos que puedan iniciar la relación requerida.
     4 : Dibujado del diagrama para captura del puerto final de una relación.
-        Habilitará las áreas sensibles para los puertos que puedan terminar la relación requerida.
     5 : Dibujado del diagrama para presentación de la relación en construcción.
     6 : Dibujado del diagrama para captura del objeto seleccionado para edición.
-        Habilitará las áreas sensibles para los puertos que puedan iniciar la relación requerida.
     7 : Dibujado del diagrama para captura del objeto seleccionado para eliminación.
-        Habilitará las áreas sensibles para los puertos que puedan iniciar la relación requerida.
     8 : Dibujado del diagrama para captura de la relación seleccionada para edición.
-        Habilitará las áreas sensibles para los puertos que puedan iniciar la relación requerida.
     9 : Dibujado del diagrama para captura de la relación seleccionada para edición.
-        Habilitará las áreas sensibles para los puertos que puedan iniciar la relación requerida.
     10: Dibujado del diagrama para captura de un nuevo puerto para la relación en edición.
-        Habilitará las áreas sensibles para los puertos que puedan iniciar la relación requerida.
     11 : Dibujado del diagrama con áreas sensibles inhabilitadas.
     12 : Dibujado del diagrama con áreas sensibles habilitadas para arrastrar objetos.
      */
 
-    var divPresentacionDiagrama = document.getElementById("divPresentacionDiagrama");
-    var mapaDiagrama = document.getElementById("mapaDiagrama");
-    var canvasDiagrama = document.getElementById("canvasDiagrama");
-    var contexto = canvasDiagrama.getContext("2d");
-    var areas = [];
+    let divPresentacionDiagrama = document.getElementById("divPresentacionDiagrama");
+    let mapaDiagrama = document.getElementById("mapaDiagrama");
+    let canvasDiagrama = document.getElementById("canvasDiagrama");
+    let contexto = canvasDiagrama.getContext("2d");
+    let areas = [];
     let pDiagrama = cadenaJson(pDiagramaJson);
 
     if (pTipoDibujo == undefined) {
@@ -95,6 +86,8 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
     let y4 = 0;
     let y5 = 0;
     let y6 = 0;
+    let di = 0;
+    let qi = 0;
 
     /*
     Restauración de caracteres en los campos de tipo cadena que se muestran en el diagrama.
@@ -260,6 +253,9 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
     for (i = 0; i < pDiagrama._objetos.length; i++) {
         if (pDiagrama._objetos[i]._habilitado) {
             contexto.fillStyle = fills[1];
+            /*
+            Selección del color de relleno para destacar elementos candidatos a ser seleccionados
+             */
             if (pTipoDibujo == 1) {
                 j = 0;
                 while (j<pDiagrama._objetos[i]._tipoObjeto._puertos.length) {
@@ -280,6 +276,10 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
                     j = j + 1;
                 }
             }
+
+            /*
+            Trazado de cada objeto del diagrama
+             */
             switch (pDiagrama._objetos[i]._tipoObjeto._id) {
                 case 0: {
                     contexto.lineWidth = 3;
@@ -312,7 +312,7 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
             }
 
             /*
-            Creación de las áreas sensibles de la interfaz asociadas a los objetos del diagrama, sólo si se dibuja por
+            Creación de las áreas sensibles de la interfaz asociadas a los objetos del diagrama, si se dibuja por
             primera vez. Si es un redibujo del diagrama sólo se actualizan los href y las coordenadas.
              */
             if (document.getElementById('area'+i) == undefined) {
@@ -329,6 +329,10 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
             document.getElementById('area'+i).setAttribute("ondragstart","");
             document.getElementById('area'+i).setAttribute("onmousedown","");
             document.getElementById('area'+i).href="#";
+
+            /*
+            Ocultamiento de áreas sensibles o asignación de eventos.
+             */
             if (pTipoDibujo == 2 || pTipoDibujo == 4 || pTipoDibujo == 8 || pTipoDibujo == 9 || pTipoDibujo == 10 || pTipoDibujo == 11) {
                 document.getElementById('area'+i).coords = '0,0,0,0';
             }
@@ -485,10 +489,15 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
                 y1 = pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._y;
                 x6 = pDiagrama._objetos[p]._tipoObjeto._puertos[q]._datoGrafico._x;
                 y6 = pDiagrama._objetos[p]._tipoObjeto._puertos[q]._datoGrafico._y;
+
+                /*
+                Determinación del primer tramo según puerto en el objeto Entidad
+                 */
                 switch (y) {
                     case 0 : {
                         x2 = x1;
                         y2 = y1 - solapa;
+                        di = 0;
                         break;
                     }
                     case 2 :
@@ -496,6 +505,7 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
                     case 4 : {
                         x2 = x1 + solapa;
                         y2 = y1;
+                        di = 10;
                         break;
                     }
                     case 5 :
@@ -503,6 +513,7 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
                     case 7 : {
                         x2 = x1;
                         y2 = y1 + solapa;
+                        di = 20;
                         break;
                     }
                     case 8 :
@@ -510,48 +521,95 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
                     case 10 : {
                         x2 = x1 - solapa;
                         y2 = y1;
+                        di = 30;
                         break;
                     }
                 }
+
+                /*
+                Determinación del último tramo según puerto en el objeto Relación
+                 */
                 switch (q) {
                     case 0 : {
                         x5 = x6;
                         y5 = y6 - solapa;
+                        di = di + 0;
                         break;
                     }
                     case 2 : {
                         x5 = x6 + solapa;
                         y5 = y6;
+                        di = di + 1;
                         break;
                     }
                     case 4 : {
                         x5 = x6;
                         y5 = y6 + solapa;
+                        di = di + 2;
                         break;
                     }
                     case 6 : {
                         x5 = x6 - solapa;
                         y5 = y6;
+                        di = di + 3;
                         break;
                     }
                 }
-                switch (q) {
-                    case 0 :
-                    case 4 : {
-                        x3 = x2;
-                        y3 = y5;
-                        x4 = x2;
-                        y4 = y5;
-                        break;
+                x3 = x2;
+                y3 = y2;
+                x4 = x5;
+                y4 = y5;
+
+                /*
+                Determinación del cuadrante de elemento inicial con respecto a objeto final
+                 */
+                if (x2 <= x5) {
+                    if (y2 <= y5) {
+                        qi = 1;
                     }
-                    case 2 :
-                    case 6 : {
-                        x3 = Math.ceil((x5 + x2)/2);
-                        y3 = y2;
-                        y4 = y5;
-                        x4 = Math.ceil((x5 + x2)/2);
-                        break;
+                    else {
+                        qi = 4;
                     }
+                }
+                else {
+                    if (y2 <= y5) {
+                        qi = 2;
+                    }
+                    else {
+                        qi = 3;
+                    }
+                }
+
+                /*
+                Determinación de tramos intermedios
+                 */
+                if (((qi==1) && ((di== 0) || (di== 1) || (di==10) || (di==11))) ||
+                    ((qi==2) && ((di== 0) || (di== 3) || (di==30) || (di==33))) ||
+                    ((qi==3) && ((di==22) || (di==23) || (di==32) || (di==33))) ||
+                    ((qi==4) && ((di==11) || (di==12) || (di==21) || (di==22)))) {
+                    x3 = x4;
+                    y4 = y3;
+                }
+                else if (((qi==1) && ((di==20) || (di==21) || (di==30) || (di==31))) ||
+                    ((qi==2) && ((di==10) || (di==13) || (di==20) || (di==23))) ||
+                    ((qi==3) && ((di== 2) || (di== 3) || (di==12) || (di==13))) ||
+                    ((qi==4) && ((di== 1) || (di== 2) || (di==31) || (di==32)))) {
+                    y3 = Math.ceil((y3 + y4) / 2);
+                    y4 = y3;
+                }
+                else if (((qi==1) && ((di==2) || (di==3) || (di==12) || (di==13))) ||
+                    ((qi==2) && ((di==1) || (di==2) || (di==31) || (di==32))) ||
+                    ((qi==3) && ((di==20) || (di==21) || (di==30) || (di==31))) ||
+                    ((qi==4) && ((di==10) || (di==13) || (di==20) || (di==23)))) {
+                    x3 = Math.ceil((x3 + x4) / 2);
+                    x4 = x3;
+                }
+                else if (((qi==1) && ((di==22) || (di==23) || (di==32) || (di==33))) ||
+                    ((qi==2) && ((di==11) || (di==12) || (di==21) || (di==22))) ||
+                    ((qi==3) && ((di==0) || (di==1) || (di==10) || (di==11))) ||
+                    ((qi==4) && ((di==0) || (di==3) || (di==30) || (di==33)))) {
+                    y3 = y4;
+                    x4 = x3;
                 }
                 contexto.moveTo(x1,y1);
                 contexto.lineTo(x2,y2);
@@ -559,6 +617,34 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
                 contexto.lineTo(x4,y4);
                 contexto.lineTo(x5,y5);
                 contexto.lineTo(x6,y6);
+
+                /*
+                Terminación de segmentos para cardinalidad muchos
+                 */
+                if (pDiagrama._relaciones[i]._valoresPropiedades[1] == "M") {
+                    di = Math.floor(di / 10) % 2;
+                    switch (di) {
+                        case 0 : {
+                            y3 = Math.ceil((y1 + y2) / 2);
+                            x3 = x1;
+                            x1 = x1 - Math.ceil(solapa / 4);
+                            x2 = x1 + 2 * Math.ceil(solapa / 4);
+                            y2 = y1;
+                            break;
+                        }
+                        case 1 : {
+                            x3 = Math.ceil((x1 + x2) / 2);
+                            y3 = y1;
+                            y1 = y1 - Math.ceil(solapa / 4);
+                            y2 = y1 + 2 * Math.ceil(solapa / 4);
+                            x2 = x1;
+                            break;
+                        }
+                    }
+                    contexto.moveTo(x1,y1);
+                    contexto.lineTo(x3,y3);
+                    contexto.lineTo(x2,y2);
+                }
             }
             if ((pDiagrama._relaciones[i]._tipoRelacion._id == 1) || (pDiagrama._relaciones[i]._tipoRelacion._id == 2)) {
                 contexto.moveTo(pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._x, pDiagrama._objetos[x]._tipoObjeto._puertos[y]._datoGrafico._y);
