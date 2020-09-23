@@ -241,10 +241,12 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
     if (pTipoDibujo == 12) {
         document.getElementById('imgDiagrama').setAttribute("ondrop","drop(event)");
         document.getElementById('imgDiagrama').setAttribute("ondragover","allowDrop(event)");
+        document.getElementById('imgDiagrama').setAttribute("onmousedown","");
     }
     else {
         document.getElementById('imgDiagrama').setAttribute("ondrop","");
         document.getElementById('imgDiagrama').setAttribute("ondragover","");
+        document.getElementById('imgDiagrama').setAttribute("onmousedown","down(event)");
     }
 
     /*
@@ -356,7 +358,7 @@ function dibujarDiagrama(pDiagramaJson,pHRef,pTipoDibujo) {
                     document.getElementById('area'+i).draggable=true;
                     document.getElementById('area'+i).setAttribute("ondragstart","drag(event)");
                     document.getElementById('area'+i).setAttribute("onmousedown","");
-                    document.getElementById('area'+i).href=pHRef+pDiagrama._objetos[i]._id;
+                    document.getElementById('area'+i).href="#";
                 }
             }
 
